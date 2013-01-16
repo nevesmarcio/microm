@@ -1,0 +1,80 @@
+package pt.me.microm.model.stuff;
+
+import pt.me.microm.infrastructure.events.GameTickEvent;
+import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.AbstractModel.EventType;
+import pt.me.microm.model.base.WorldModel;
+import pt.me.microm.model.events.SimpleEvent;
+
+import aurelienribon.bodyeditor.BodyEditorLoader;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+
+public class CoisaModel extends AbstractModel {
+	private static final String TAG = CoisaModel.class.getSimpleName();
+	
+	private Color color = new Color(0.5f,0.5f,0.5f,0.5f);
+	
+	public Body coisaBody;	
+	public Vector2 coisaModelOrigin;
+	
+	private CoisaModel(WorldModel wm, BoardModel bm, float offset) {
+		// 0. Create a loader for the file saved from the editor.
+		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("data/textures/1st_example.json"));
+
+		// 1. Create a BodyDef, as usual.
+		BodyDef bd = new BodyDef();
+		bd.type = BodyType.DynamicBody;
+
+		// 2. Create a FixtureDef, as usual.
+		FixtureDef fd = new FixtureDef();
+		fd.density = 1;
+		fd.friction = 0.5f;
+		fd.restitution = 0.3f;
+
+		// 3. Create a Body, as usual.
+		coisaBody = WorldModel.getSingletonInstance().getPhysicsWorld().createBody(bd);
+
+		// 4. Create the body fixture automatically by using the loader.
+		loader.attachFixture(coisaBody, "thing", fd, 5.0f);
+		coisaModelOrigin = loader.getOrigin("thing", 5.0f).cpy();
+		
+
+		// Sinaliza os subscritores de que a construção do modelo terminou.
+		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
+	}
+
+	public static CoisaModel getNewInstance(WorldModel wm, BoardModel bm, float offset){
+		return new CoisaModel(wm, bm, offset);
+	}
+	
+	@Override
+	public void handleGameTick(GameTickEvent e) {
+//		long elapsedNanoTime = e.getElapsedNanoTime();
+//
+//		Gdx.app.debug("[Physics-ball]"," :"+ballBody.getLinearVelocity().len() + " ::" + ballBody.getPosition().x + "--" +ballBody.getPosition().y);
+//		
+//		Gdx.app.debug("[Physics-ball]", 		  "Pos.x:" + String.format("%.2f", ballBody.getPosition().x)
+//				+ " Pos.y:" + String.format("%.2f", ballBody.getPosition().y) 
+//				+ " Angle:" + String.format("%.2f", ballBody.getAngle())
+//				+ " Mass:" + ballBody.getMass()
+//				+ " Type:" + ballBody.getType());			
+		
+	}
+
+	public Color getColor() {
+		return color;
+	}
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	
+}
