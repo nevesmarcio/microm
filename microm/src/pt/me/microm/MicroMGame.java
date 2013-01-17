@@ -43,23 +43,18 @@ public class MicroMGame implements ApplicationListener {
 		// MODELS ///////////////////////////////////////////////////////////////
 		camModel = new CameraModel();
 		worldModel = WorldModel.getSingletonInstance();
-//		worldModel.PopulateWorld(); //FIXME: não gosto mesmo nada destas funções de inicialização... Dá para manter tudo nos construtores?
-		
 		
 		// VIEWS  ///////////////////////////////////////////////////////////////
 		// Todas as views são instanciadas por "reflection"
 
-		
 		// CONTROLLERS - The GLUE ///////////////////////////////////////////////////////////////
 		// Lança o controller dos ticks temporais : x second tick
 		GameTickGenerator.getInstance(); //responsavel pela actualizacao dos modelos
 		ScreenTickManager.getInstance(); //responsavel pela actualizacao das views
 
-		
 		//FIXME: for development purposes only
 //		RemoteInput receiver = new RemoteInput(7777);
 //		Gdx.input = receiver;
-		
 		
 		// Cria o controller dos gestos e regista-o --> este pode actuar quer ao nivel do modelo quer ao nivel da view
 		myGestureListener = new MyGestureListener(camModel, worldModel);

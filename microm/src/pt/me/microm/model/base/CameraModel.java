@@ -283,6 +283,7 @@ public class CameraModel extends AbstractModel{
 			camera.translate(temp);
 		}
 
+		//n posso meter isto aqui senão o ecrã faz um "flick"
 		camera.update(); // faz update às matrizes da camera após os movimentos
 		
 	}

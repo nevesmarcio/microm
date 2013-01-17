@@ -43,59 +43,64 @@ public class UIView  extends AbstractView {
 		renderer = new ShapeRenderer();
 	}
 	
+	Vector3 v;
 	@Override
 	public void draw(ScreenTickEvent e) {
 		
-		Vector3 v = new Vector3();
-		if (uiSrc.getOriginalTestPoint()[0]!=null) {
-			Ray rr = e.getCamera().getPickRay(uiSrc.getOriginalTestPoint()[0].x, uiSrc.getOriginalTestPoint()[0].y);
-			Gdx.app.log(TAG, "PickingTest - ray: " + rr);
-			
-			Intersector.intersectRayPlane(rr, new Plane(new Vector3(0f,0f,1f), 0.0f), v);
-			Gdx.app.log(TAG, "Intersect: " + v);
-		}
+		v= new Vector3();
+		
+		for (int i=0; i<GAME_CONSTANTS.MAX_TOUCH_POINTS; i++) {		
 
+			if (uiSrc.getOriginalTestPoint()[i]!=null) {
+				Ray rr = e.getCamera().getPickRay(uiSrc.getOriginalTestPoint()[i].x, uiSrc.getOriginalTestPoint()[i].y);
+				Gdx.app.log(TAG, "PickingTest - ray: " + rr);
+				
+				Intersector.intersectRayPlane(rr, new Plane(new Vector3(0f,0f,1f), 0.0f), v);
+				Gdx.app.log(TAG, "Intersect: " + v);
+	
+	
+				/* RED : intersecção calculada pelo RAY */ 
+				renderer.setProjectionMatrix(e.getCamera().combined);
+		//        renderer.setProjectionMatrix(e.getCamera().projection.cpy().setToOrtho2D(0.0f, 0.0f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+				
+				renderer.begin(ShapeType.Circle);
+				renderer.identity();
+				renderer.translate(v.x, v.y, v.z);
+				renderer.setColor(Color.RED);
+				renderer.circle(0.0f, 0.0f, 0.300f, 20);
+				renderer.circle(0.0f, 0.0f, 0.280f, 20);
+				renderer.end();
+			}		
+		}		
+		/* BLUE: uso do unproject em perspectiva - obriga a mudar a câmara - dont!! */
+//        renderer.begin(ShapeType.Circle);
+//		for (int i=0; i<GAME_CONSTANTS.MAX_TOUCH_POINTS; i++) {
+//			if (uiSrc.getTestPoint()[i]!=null){
+//					renderer.identity();
+//
+//					
+//					Vector3 vec = uiSrc.getOriginalTestPoint()[i].cpy();
+//					//Gdx.app.log(TAG, vec.toString());
+//					vec.z = 0.0f;
+//					e.getCamera().near = e.getCamera().position.len();//10f;
+//					e.getCamera().update();
+//					e.getCamera().unproject(vec);
+//					//Gdx.app.log(TAG, vec.toString());
+//					vec.z = 0.0f; // força a renderização ao plano certo.
+//					
+//					e.getCamera().near = 0.10f;
+//					e.getCamera().update();
+//					
+//					renderer.translate(uiSrc.getTestPoint()[i].x, uiSrc.getTestPoint()[i].y, 0.0f);
+//					renderer.setColor(Color.BLUE);			
+//					renderer.circle(0.0f, 0.0f, 0.150f, 20);
+//					renderer.circle(0.0f, 0.0f, 0.140f, 20);
+//				}
+//		}
+//		renderer.end();			
+//		
 		
-		renderer.setProjectionMatrix(e.getCamera().combined);
-//        renderer.setProjectionMatrix(e.getCamera().projection.cpy().setToOrtho2D(0.0f, 0.0f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-		
-		renderer.begin(ShapeType.Circle);
-		renderer.identity();
-		renderer.translate(v.x, v.y, v.z);
-		renderer.setColor(Color.RED);
-		renderer.circle(0.0f, 0.0f, 0.300f, 20);
-		renderer.circle(0.0f, 0.0f, 0.280f, 20);
-		renderer.end();
-		
-        renderer.begin(ShapeType.Circle);
-		for (int i=0; i<GAME_CONSTANTS.MAX_TOUCH_POINTS; i++) {
-			if (uiSrc.getTestPoint()[i]!=null){
-					renderer.identity();
-
-					
-					Vector3 vec = uiSrc.getOriginalTestPoint()[i].cpy();
-					//Gdx.app.log(TAG, vec.toString());
-					vec.z = 0.0f;
-					e.getCamera().near = e.getCamera().position.len();//10f;
-					e.getCamera().update();
-					e.getCamera().unproject(vec);
-					//Gdx.app.log(TAG, vec.toString());
-					vec.z = 0.0f; // força a renderização ao plano certo.
-					
-					e.getCamera().near = 0.10f;
-					e.getCamera().update();
-					
-					renderer.translate(uiSrc.getTestPoint()[i].x, uiSrc.getTestPoint()[i].y, 0.0f);
-					renderer.setColor(Color.BLUE);			
-					renderer.circle(0.0f, 0.0f, 0.150f, 20);
-					renderer.circle(0.0f, 0.0f, 0.140f, 20);
-				}
-		}
-		renderer.end();			
-		
-		
-		
-		
+		/* GREEN : renderização do local onde o rato está a apontar - 2D */
 		OrthographicCamera c = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
 		//renderer.setProjectionMatrix(e.getCamera().combined);

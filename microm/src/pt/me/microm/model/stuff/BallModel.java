@@ -2,6 +2,7 @@ package pt.me.microm.model.stuff;
 
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.PointerModel;
 import pt.me.microm.model.AbstractModel.EventType;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
@@ -26,40 +27,54 @@ public class BallModel extends AbstractModel {
 	public Body ballBody;	
 	
 
-	private BallModel(WorldModel wm, BoardModel bm, float offset) {
-		ballBodyDef.type = BodyType.DynamicBody;
-		ballBodyDef.position.set(	offset,
-									14.0f // altura da largada
-									);
-
-		//ballBodyDef.bullet =  true;
-		
-		ballBody = wm.getPhysicsWorld().createBody(ballBodyDef);
-		ballShape.setRadius(radius);
-		/*fixture*/
-		FixtureDef fixDef = new FixtureDef();
-		fixDef.shape = ballShape;
-		fixDef.density = 1.0f;
-		fixDef.friction = 1.0f;
-		fixDef.restitution = 0.75f;
-		ballBody.createFixture(fixDef);
-		
-		ballBody.setUserData(this); // relacionar com o modelo
-		
-		// É necessário escalar as forças mediante o timestep 
-		//float force_to_apply = -10.0f / (float)GAME_CONSTANTS.GAME_TICK_MILI * (float)GAME_CONSTANTS.ONE_SECOND_TO_MILI;
-		//wDynamicBox.applyForceToCenter(0.0f, force_to_apply);
-		
-//		ballBody.setLinearVelocity(200.0f, 0.0f);//13 devido ao diametro (14-1)
-
-		ballBody.setSleepingAllowed(false);
-		ballBody.setBullet(true);
-
-		//wDynamicBox.applyTorque(50.0f);
+	private BallModel(final WorldModel wm, BoardModel bm, final float offset) {
+		wm.toAdd.add(new PointerModel() {
+			
+			@Override
+			public void Foo() {
+				// TODO Auto-generated method stub
 				
+				ballBodyDef.type = BodyType.DynamicBody;
+				ballBodyDef.position.set(	offset,
+											14.0f // altura da largada
+											);
+
+				//ballBodyDef.bullet =  true;
+				
+				ballBody = wm.getPhysicsWorld().createBody(ballBodyDef);
+
+				ballShape.setRadius(radius);
+				/*fixture*/
+				FixtureDef fixDef = new FixtureDef();
+				fixDef.shape = ballShape;
+				fixDef.density = 1.0f;
+				fixDef.friction = 1.0f;
+				fixDef.restitution = 0.75f;
+				ballBody.createFixture(fixDef);
+				
+				ballBody.setUserData(this); // relacionar com o modelo
+				
+				// É necessário escalar as forças mediante o timestep 
+				//float force_to_apply = -10.0f / (float)GAME_CONSTANTS.GAME_TICK_MILI * (float)GAME_CONSTANTS.ONE_SECOND_TO_MILI;
+				//wDynamicBox.applyForceToCenter(0.0f, force_to_apply);
+				
+//				ballBody.setLinearVelocity(200.0f, 0.0f);//13 devido ao diametro (14-1)
+
+				ballBody.setSleepingAllowed(false);
+				ballBody.setBullet(true);
+				
+				//wDynamicBox.applyTorque(50.0f);
+						
+				// Sinaliza os subscritores de que a construção do modelo terminou.
+				BallModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));				
+				
+				
+				
+			}
+		});
 		
-		// Sinaliza os subscritores de que a construção do modelo terminou.
-		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
+		
+
 	}
 
 	public static BallModel getNewInstance(WorldModel wm, BoardModel bm, float offset){

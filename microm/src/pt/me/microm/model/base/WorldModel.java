@@ -1,16 +1,27 @@
 package pt.me.microm.model.base;
 
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
+
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.infrastructure.interfaces.GameTickInterface;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.AbstractModel.EventType;
+import pt.me.microm.model.PointerModel;
 import pt.me.microm.model.dev.GridModel;
 import pt.me.microm.model.events.SimpleEvent;
 import pt.me.microm.model.stuff.BallModel;
 import pt.me.microm.model.stuff.BoardModel;
 import pt.me.microm.model.stuff.CoisaModel;
 import pt.me.microm.model.ui.UIModel;
+
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -53,6 +64,11 @@ public class WorldModel extends AbstractModel {
 	
 	private boolean pauseSim = false;
 
+	private Thread t = Thread.currentThread();
+	private TweenManager tweenManager = new TweenManager();
+	
+	public ArrayList<PointerModel> toAdd = new ArrayList<PointerModel>();
+	
 	private WorldModel() {
 		
 //		bgMusic.setLooping(true);
@@ -79,13 +95,35 @@ public class WorldModel extends AbstractModel {
 		grid = new GridModel(); // constroi a grid sobre a qual estão renderizados os objectos - debug purposes		
 		ui = new UIModel(this); // constroi o painel informativo?
 		board = BoardModel.getNewInstance(this); // constroi o tabuleiro num mundo
-		ball1 = BallModel.getNewInstance(this, board, 6.0f); // larga a bola num mundo num tabuleiro
-		ball2 = BallModel.getNewInstance(this, board, 1.0f);
+//		ball1 = BallModel.getNewInstance(this, board, 6.0f); // larga a bola num mundo num tabuleiro
+//		ball2 = BallModel.getNewInstance(this, board, 1.0f);
 		coisa = CoisaModel.getNewInstance(this, board, 0.0f);
+//		ball1.ballBody.setActive(false);
+//		ball2.ballBody.setActive(true);
+//		ball1.ballBody.setActive(!ball1.ballBody.isActive());
+//		ball2.ballBody.setActive(!ball2.ballBody.isActive());		
+		
+		
+		
+		Tween.call(new TweenCallback() {
+			@Override public void onEvent(int type, BaseTween<?> source) {
+				Gdx.app.postRunnable(new Runnable() {
+					
+					@Override
+					public void run() {
+						BallModel.getNewInstance(WorldModel.this, board, (new Random().nextFloat())*14.0f);
+						
+					}
+				});
+			}
+		}).repeat(10, 0.1f).start(tweenManager);
+
+		
 		
 		// regista o contactListener para que este notifique os objectos quando há choques 
 		getPhysicsWorld().setContactListener(this); //new ContactListenerImpl() 
 	
+		
 		// treshold de velocidade para considerar colisões inelásticas
 		//World.setVelocityThreshold(1.0f);//0.001f
 		
@@ -120,7 +158,22 @@ public class WorldModel extends AbstractModel {
 			//TODO: Não entendo pq é que o elapsed nanotime escavaca o esquema todo... :: não é o elapsednanotime. é o cálculo da força a aplicar. com velocidade constante já n se verifica?!?
 			//physicsWorld.step(elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO, 12, 6);
 			Gdx.app.debug("[physics-step]","step: " + elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO);
+		
+			//TODO: é só neste ponto que posso adicionar/ remover objectos em runtime
+			Iterator<PointerModel> it = toAdd.iterator();
+			while (it.hasNext()) {
+				PointerModel pm = it.next();
+				it.remove();
+				pm.Foo();
+			}
+
+			
+			
+			
+			tweenManager.update(elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO);
 		}
+		
+		
 	}
 
 	
