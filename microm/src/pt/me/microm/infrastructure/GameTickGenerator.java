@@ -56,6 +56,7 @@ public class GameTickGenerator implements Disposable{
 			}
 		} catch (ConcurrentModificationException ex) {
 			Gdx.app.log(TAG, "[TickGen-EXCEPTION]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
+			ex.printStackTrace();
 			throw ex;
 		}
 	}

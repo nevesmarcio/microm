@@ -3,6 +3,7 @@ package pt.me.microm.model.base;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
@@ -10,13 +11,15 @@ import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.infrastructure.interfaces.GameTickInterface;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.AbstractModel.EventType;
-import pt.me.microm.model.PointerModel;
+import pt.me.microm.model.PointerToFunction;
+import pt.me.microm.model.dev.DebugModel;
 import pt.me.microm.model.dev.GridModel;
 import pt.me.microm.model.events.SimpleEvent;
 import pt.me.microm.model.stuff.BallModel;
 import pt.me.microm.model.stuff.BoardModel;
 import pt.me.microm.model.stuff.CoisaModel;
 import pt.me.microm.model.ui.UIModel;
+import pt.me.microm.tools.levelloader.LevelLoader;
 
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
@@ -26,6 +29,7 @@ import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
@@ -67,7 +71,7 @@ public class WorldModel extends AbstractModel {
 	private Thread t = Thread.currentThread();
 	private TweenManager tweenManager = new TweenManager();
 	
-	public ArrayList<PointerModel> toAdd = new ArrayList<PointerModel>();
+	public ArrayList<PointerToFunction> toAdd = new ArrayList<PointerToFunction>();
 	
 	private WorldModel() {
 		
@@ -103,8 +107,6 @@ public class WorldModel extends AbstractModel {
 //		ball1.ballBody.setActive(!ball1.ballBody.isActive());
 //		ball2.ballBody.setActive(!ball2.ballBody.isActive());		
 		
-		
-		
 		Tween.call(new TweenCallback() {
 			@Override public void onEvent(int type, BaseTween<?> source) {
 				Gdx.app.postRunnable(new Runnable() {
@@ -119,16 +121,18 @@ public class WorldModel extends AbstractModel {
 		}).repeat(10, 0.1f).start(tweenManager);
 
 		
+		FileHandle h = Gdx.files.internal("data/levels/level0.svg");
+		Gdx.app.log(TAG, "Nr elements loaded: " + LevelLoader.LoadLevel(h, this));
+		
 		
 		// regista o contactListener para que este notifique os objectos quando há choques 
 		getPhysicsWorld().setContactListener(this); //new ContactListenerImpl() 
 	
-		
 		// treshold de velocidade para considerar colisões inelásticas
 		//World.setVelocityThreshold(1.0f);//0.001f
 		
 		//setPauseSim(false);
-		
+
 	}
 	
 	//there can only be one world
@@ -160,15 +164,18 @@ public class WorldModel extends AbstractModel {
 			Gdx.app.debug("[physics-step]","step: " + elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO);
 		
 			//TODO: é só neste ponto que posso adicionar/ remover objectos em runtime
-			Iterator<PointerModel> it = toAdd.iterator();
+			//FIXME:: Assim dá direito a concurrent exceptions
+			ArrayList<PointerToFunction> tmp = new ArrayList<PointerToFunction>();
+			tmp.addAll(toAdd);
+			toAdd.clear();
+			
+			Iterator<PointerToFunction> it = tmp.iterator();
 			while (it.hasNext()) {
-				PointerModel pm = it.next();
-				it.remove();
-				pm.Foo();
+				PointerToFunction pm = it.next();
+				pm.handler();
 			}
-
-			
-			
+			tmp.clear();
+			tmp = null;
 			
 			tweenManager.update(elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO);
 		}

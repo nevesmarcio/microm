@@ -19,6 +19,9 @@ http://code.google.com/p/libgdx-texturepacker-gui/
   ::implementei uma forma de adicionar/ remover objectos no fim do calculo do step do physics engine.
 
 
+# introduzi o xpath para ler niveis a partir de um svg
+# introduzi as regex para conseguir fazer parse do svg
+
 
 [TODO] 
 # efeito de paralax

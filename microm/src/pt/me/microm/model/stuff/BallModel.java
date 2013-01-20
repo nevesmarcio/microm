@@ -2,7 +2,7 @@ package pt.me.microm.model.stuff;
 
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.PointerModel;
+import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.AbstractModel.EventType;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
@@ -28,10 +28,10 @@ public class BallModel extends AbstractModel {
 	
 
 	private BallModel(final WorldModel wm, BoardModel bm, final float offset) {
-		wm.toAdd.add(new PointerModel() {
+		wm.toAdd.add(new PointerToFunction() {
 			
 			@Override
-			public void Foo() {
+			public void handler() {
 				// TODO Auto-generated method stub
 				
 				ballBodyDef.type = BodyType.DynamicBody;

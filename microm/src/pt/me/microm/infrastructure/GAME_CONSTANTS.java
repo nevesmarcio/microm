@@ -24,7 +24,7 @@ public class GAME_CONSTANTS {
 	public static final Texture TEXTURE_BALL = new Texture(Gdx.files.internal("data/textures/ball.png"));
 	public static final Texture TEXTURE_THING = new Texture(Gdx.files.internal("data/textures/thing.png"));
 	public static final Texture TEXTURE_BG = new Texture(Gdx.files.internal("data/textures/bg.png"));
-	
+
 	// Sounds LOAD
 	public static final Sound SOUND_DROP = Gdx.audio.newSound(Gdx.files.internal("data/sound/Utopia Critical Stop.wav"));
 	
