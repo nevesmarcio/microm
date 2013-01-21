@@ -18,12 +18,19 @@ http://code.google.com/p/libgdx-texturepacker-gui/
   ::" Box2d locks the world while it dispatches events BEGIN_CONTACT, END_CONTACT, PRE_SOLVE and POST_SOLVE. "
   ::implementei uma forma de adicionar/ remover objectos no fim do calculo do step do physics engine.
 
-
 # introduzi o xpath para ler niveis a partir de um svg
 # introduzi as regex para conseguir fazer parse do svg
 
 
+21-01-2013
+# criei novo tipo de modelo para representar o "ground"
+#  
+
+
 [TODO] 
+
+
+
 # efeito de paralax
 # tutorial da relva (usa os tweens ?)
 

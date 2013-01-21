@@ -95,14 +95,14 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70710678"
-     inkscape:cx="-432.81911"
-     inkscape:cy="243.62799"
+     inkscape:zoom="0.5"
+     inkscape:cx="-606.77208"
+     inkscape:cy="285.25587"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1618"
-     inkscape:window-height="1028"
+     inkscape:window-width="1538"
+     inkscape:window-height="1178"
      inkscape:window-x="54"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
@@ -1011,11 +1011,11 @@
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
        id="goal"
-       d="m -107.56867,288.21428 24.716003,-35 -24.716003,-35 z"
+       d="m -107.56867,748.21428 24.716003,-35 -24.716003,-35 z"
        style="fill:#000000;fill-opacity:1;stroke:none" />
     <path
        style="fill:#00ff00;fill-opacity:1;stroke:none"
-       d="m -1362.8528,678.21428 24.716,35 -24.716,35 z"
+       d="m -1362.8528,798.21428 24.716,35 -24.716,35 z"
        id="spawn"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />
@@ -1027,7 +1027,7 @@
        sodipodi:nodetypes="cccc" />
     <path
        style="fill:#0000ff;fill-opacity:1;stroke:none"
-       d="m -107.56867,408.21428 24.716003,-35 -24.716003,-35 z"
+       d="m -107.56867,868.21428 24.716003,-35 -24.716003,-35 z"
        id="portal_entry_1"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />
@@ -1035,7 +1035,7 @@
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
        id="portal_exit_1"
-       d="m -1362.8528,498.21428 24.716,35 -24.716,35 z"
+       d="m -1362.8528,598.21428 24.716,35 -24.716,35 z"
        style="fill:#0000ff;fill-opacity:1;stroke:none" />
   </g>
 </svg>

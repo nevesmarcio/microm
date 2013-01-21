@@ -2,17 +2,19 @@ package pt.me.microm.tools.levelloader.shape;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.math.Vector2;
+
 import pt.me.microm.tools.levelloader.ObjectType;
 
 public class BasicShape {
 	private String d; 
-	private ArrayList<APoint> points;
+	private ArrayList<Vector2> points;
 	private ObjectType type;
 	private float w;
 	private float h;
 
 	public BasicShape() {
-		points = new ArrayList<APoint>();
+		points = new ArrayList<Vector2>();
 	}
 	
 	public String getD() {
@@ -22,10 +24,10 @@ public class BasicShape {
 		this.d = d;
 	}
 
-	public ArrayList<APoint> getPoints() {
+	public ArrayList<Vector2> getPoints() {
 		return points;
 	}
-	public void setPoints(ArrayList<APoint> points) {
+	public void setPoints(ArrayList<Vector2> points) {
 		this.points = points;
 	}	
 
