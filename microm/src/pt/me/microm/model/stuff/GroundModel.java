@@ -4,6 +4,7 @@ import java.util.List;
 
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
 
@@ -18,8 +19,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 public class GroundModel extends AbstractModel {
 	private static final String TAG = GroundModel.class.getSimpleName();
 	
-	private WorldModel wm;
-	
 	private Vector2 groundPosition; // posição do tabuleiro no espaço
 	
 	private Vector2[] silhouetteVertex;
@@ -29,31 +28,40 @@ public class GroundModel extends AbstractModel {
 	private Body playzoneBody;
 	
 	
-	private GroundModel(WorldModel wm, List<Vector2> lst) {
-		this.wm = wm;
-		silhouetteVertex = lst.toArray(new Vector2[]{});
+	private GroundModel(final WorldModel wm, final List<Vector2> lst) {
 		
-		playzoneShape = new ChainShape();
-		playzoneShape.createLoop(silhouetteVertex);
-		
-		playzoneBodyDef.position.set(0.0f, 0.0f); // posição inicial do tabuleiro
-		playzoneBodyDef.type = BodyType.StaticBody;
-		
-		setPlayzoneBody(wm.getPhysicsWorld().createBody(playzoneBodyDef));
-
-		FixtureDef fixDef = new FixtureDef();
-		fixDef.shape = playzoneShape;
-		fixDef.density = 1.0f;
-		fixDef.friction = 0.0f;
-		fixDef.restitution = 0.0f;		
-		playzoneBody.createFixture(fixDef);
-		getPlayzoneBody().createFixture(fixDef);
+		wm.wmManager.add(new PointerToFunction() {
 			
-		getPlayzoneBody().setUserData(this); // relacionar com o modelo
-		
-		
-		// Sinaliza os subscritores de que a construção do modelo terminou.
-		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
+			@Override
+			public void handler() {
+
+				silhouetteVertex = lst.toArray(new Vector2[]{});
+				
+				playzoneShape = new ChainShape();
+				playzoneShape.createLoop(silhouetteVertex);
+				
+				playzoneBodyDef.position.set(0.0f, 0.0f); // posição inicial do tabuleiro
+				playzoneBodyDef.type = BodyType.StaticBody;
+				
+				setPlayzoneBody(wm.getPhysicsWorld().createBody(playzoneBodyDef));
+
+				FixtureDef fixDef = new FixtureDef();
+				fixDef.shape = playzoneShape;
+				fixDef.density = 1.0f;
+				fixDef.friction = 1.0f;
+				fixDef.restitution = 0.0f;		
+				playzoneBody.createFixture(fixDef);
+				getPlayzoneBody().createFixture(fixDef);
+					
+				getPlayzoneBody().setUserData(GroundModel.this); // relacionar com o modelo
+				
+				
+				// Sinaliza os subscritores de que a construção do modelo terminou.
+				GroundModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));	
+				
+			}
+		});
+	
 	}
 	
 	public static GroundModel getNewInstance(WorldModel wm, List<Vector2> pts){

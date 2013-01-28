@@ -95,15 +95,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.50000001"
-     inkscape:cx="-867.83627"
-     inkscape:cy="178.37237"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="-128.27945"
+     inkscape:cy="573.15274"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1618"
+     inkscape:window-width="1680"
      inkscape:window-height="1028"
-     inkscape:window-x="54"
+     inkscape:window-x="1672"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
@@ -1061,15 +1061,5 @@
        id="portal_exit_2"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />
-    <path
-       style="fill:#800000;fill-opacity:1;stroke:none"
-       d="m -800,726.08582 70,0 0,70 -70,0 z"
-       id="wall_1"
-       inkscape:connector-curvature="0" />
-    <path
-       inkscape:connector-curvature="0"
-       id="wall_2"
-       d="m -590,796.08582 70,0 0,70 -70,0 z"
-       style="fill:#800000;fill-opacity:1;stroke:none" />
   </g>
 </svg>

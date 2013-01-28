@@ -1,8 +1,6 @@
 package pt.me.microm.tools.levelloader;
 
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,8 +18,10 @@ import org.xml.sax.SAXException;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.dev.DebugModel;
+import pt.me.microm.model.stuff.GoalModel;
 import pt.me.microm.model.stuff.GroundModel;
-import pt.me.microm.tools.levelloader.shape.BasicShape;
+import pt.me.microm.model.stuff.PortalModel;
+import pt.me.microm.model.stuff.SpawnModel;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -45,46 +45,7 @@ public class LevelLoader {
 	
 	private LevelLoader() {}
 	
-	/**
-	 * This function fetches the points from a SVG 'd' element
-	 * @param d
-	 * @return
-	 */
-	private static BasicShape getPointsFromD(String d) {
-		BasicShape newShape = new BasicShape();
-		newShape.setD(d);
-		
-		//Pattern pattern = Pattern.compile("[-\\d]+[\\.\\d]*");//Detecta numero a numero (x ou y)
-		Pattern pattern = Pattern.compile("[-\\d]+[-\\.\\d,]*");//Detecta coordenada (par x,y)
-		
-		Matcher matcher;		
-		matcher = pattern.matcher(d);
-		
-		String s;
-		String [] ssplit;
-		Vector2 pt;
-		int i = 0;
-		while (matcher.find()) {
-			s = matcher.group();
-			Gdx.app.log(TAG, "val: " + s);
-			ssplit = s.split(",");
-			
-			pt = new Vector2();
-			if (i==0) {			
-				pt.x = Float.parseFloat(ssplit[0]);
-				pt.y = Float.parseFloat(ssplit[1]);
-			}
-			else {
-				pt.x = Float.parseFloat(ssplit[0]) + newShape.getPoints().get(i-1).x;
-				pt.y = Float.parseFloat(ssplit[1]) + newShape.getPoints().get(i-1).y;
-			}
-			
-			newShape.getPoints().add(pt);
-			i+=1;
-		}
-	
-		return newShape;
-	}
+
 	
 	/**
 	 * 
@@ -93,7 +54,9 @@ public class LevelLoader {
 	 */
 	private static void addBoardToWorld(BasicShape board, WorldModel wm) {
 		for (Vector2 ap : board.getPoints()) {
-			DebugModel.getNewInstance(wm, ap.x*scale, (maxHeight - ap.y)*scale);
+			ap.x = ap.x*scale;
+			ap.y = (maxHeight - ap.y)*scale;			
+			DebugModel.getNewInstance(wm, ap.x, ap.y);
 		}
 	}
 	
@@ -104,8 +67,11 @@ public class LevelLoader {
 	 */
 	private static void addSpawnToWorld(BasicShape spawn, WorldModel wm) {
 		for (Vector2 ap : spawn.getPoints()) {
-			DebugModel.getNewInstance(wm, ap.x*scale, (maxHeight - ap.y)*scale);
+			ap.x = ap.x*scale;
+			ap.y = (maxHeight - ap.y)*scale;
+			DebugModel.getNewInstance(wm, ap.x, ap.y);
 		}
+		SpawnModel.getNewInstance(wm, spawn.getPoints());
 	}
 
 	/**
@@ -115,8 +81,11 @@ public class LevelLoader {
 	 */
 	private static void addGoalToWorld(BasicShape goal, WorldModel wm) {
 		for (Vector2 ap : goal.getPoints()) {
-			DebugModel.getNewInstance(wm, ap.x*scale, (maxHeight - ap.y)*scale);
-		}				
+			ap.x = ap.x*scale;
+			ap.y = (maxHeight - ap.y)*scale;			
+			DebugModel.getNewInstance(wm, ap.x, ap.y);
+		}			
+		GoalModel.getNewInstance(wm, goal.getPoints());			
 	}
 	
 	/**
@@ -124,12 +93,19 @@ public class LevelLoader {
 	 * @param portal
 	 * @param wm
 	 */
-	private static void addPortalToWorld(BasicShape portal, WorldModel wm) {
+	private static void addPortalToWorld(BasicShape portal, WorldModel wm, String portal_name) {
 		for (Vector2 ap : portal.getPoints()) {
-			DebugModel.getNewInstance(wm, ap.x*scale, (maxHeight - ap.y)*scale);
+			ap.x = ap.x*scale;
+			ap.y = (maxHeight - ap.y)*scale;	
+			DebugModel.getNewInstance(wm, ap.x, ap.y);
 		}
+		portal.getCentroid().x = portal.getCentroid().x*scale;
+		portal.getCentroid().y = (maxHeight - portal.getCentroid().y)*scale;
+		DebugModel.getNewInstance(wm, portal.getCentroid().x, portal.getCentroid().y);
+		
+		PortalModel.getNewInstance(wm, portal, portal_name);
 	}
-	
+
 	/**
 	 * 
 	 * @param ground
@@ -137,24 +113,29 @@ public class LevelLoader {
 	 */
 	private static void addGroundToWorld(BasicShape ground, WorldModel wm) {
 		for (Vector2 ap : ground.getPoints()) {
-			DebugModel.getNewInstance(wm, ap.x*scale, (maxHeight - ap.y)*scale);
 			ap.x = ap.x*scale;
 			ap.y = (maxHeight - ap.y)*scale;
+			DebugModel.getNewInstance(wm, ap.x, ap.y);
 		}
 		GroundModel.getNewInstance(wm, ground.getPoints());
 	}
 	
 	/**
 	 * 
-	 * @param shape
-	 * @param offset
+	 * @param wall
+	 * @param wm
 	 */
-	private static void offsetShape(BasicShape shape, Vector2 offset) {
-		for (Vector2 p : shape.getPoints()) {
-			p.x = p.x - offset.x;
-			p.y = p.y - offset.y;
+	private static void addWallToWorld(BasicShape wall, WorldModel wm, String wall_name) {
+		for (Vector2 ap : wall.getPoints()) {
+			ap.x = ap.x*scale;
+			ap.y = (maxHeight - ap.y)*scale;
+			DebugModel.getNewInstance(wm, ap.x, ap.y);
 		}
+		
+		
 	}
+	
+	
 	
 	
 	/**
@@ -190,13 +171,13 @@ public class LevelLoader {
 			for (int i = 0; i < board.getLength(); i++) {
 				String d;
 				Gdx.app.log(TAG, d = board.item(i).getNodeValue());
-				BasicShape s = getPointsFromD(d);
-				// O offset do nível é igual ao offset do elemento "board"
+				BasicShape s = new BasicShape(d);
+				// O offset do nível é igual ao offset do 1º ponto da "board"
 				xOffset = s.getPoints().get(0).x;
 				yOffset = s.getPoints().get(0).y;
 
 				// O offset do elemento "board" agora já pode ser zero
-				offsetShape(s, new Vector2(xOffset, yOffset));			
+				s.offsetShape(new Vector2(xOffset, yOffset));			
 				
 				// Largura e Altura limites do nivel para efeitos de scaling
 				for (Vector2 p : s.getPoints()) {
@@ -221,8 +202,8 @@ public class LevelLoader {
 			for (int i = 0; i < spawn.getLength(); i++) {
 				String d;
 				Gdx.app.log(TAG, d = spawn.item(i).getNodeValue());
-				BasicShape s = getPointsFromD(d);
-				offsetShape(s, new Vector2(xOffset, yOffset));
+				BasicShape s = new BasicShape(d);
+				s.offsetShape(new Vector2(xOffset, yOffset));
 				
 				s.setType(ObjectType.SPAWN);
 				Gdx.app.log(TAG, s.toString());
@@ -237,8 +218,8 @@ public class LevelLoader {
 			for (int i = 0; i < goals.getLength(); i++) {
 				String d;
 				Gdx.app.log(TAG, d = goals.item(i).getNodeValue());
-				BasicShape s = getPointsFromD(d);
-				offsetShape(s, new Vector2(xOffset, yOffset));
+				BasicShape s = new BasicShape(d);
+				s.offsetShape(new Vector2(xOffset, yOffset));
 				
 				s.setType(ObjectType.GOAL);
 				Gdx.app.log(TAG, s.toString());
@@ -253,8 +234,8 @@ public class LevelLoader {
 			for (int i = 0; i < grounds.getLength(); i++) {
 				String d;
 				Gdx.app.log(TAG, d = grounds.item(i).getNodeValue());
-				BasicShape s = getPointsFromD(d);
-				offsetShape(s, new Vector2(xOffset, yOffset));
+				BasicShape s = new BasicShape(d);
+				s.offsetShape(new Vector2(xOffset, yOffset));
 				
 				s.setType(ObjectType.GROUND);
 				Gdx.app.log(TAG, s.toString());
@@ -264,19 +245,40 @@ public class LevelLoader {
 
 			// Get portals
 			Gdx.app.log(TAG, "Portals...");
-			expr = xpath.compile("//svg/g/path[contains(@id,'portal')]/@d");
+			//expr = xpath.compile("//svg/g/path[contains(@id,'portal')]/@d");
+			expr = xpath.compile("//svg/g/path[contains(@id,'portal')]");
 			NodeList portals = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < portals.getLength(); i++) {
 				String d;
-				Gdx.app.log(TAG, d = portals.item(i).getNodeValue());
-				BasicShape s = getPointsFromD(d);
-				offsetShape(s, new Vector2(xOffset, yOffset));
+				Gdx.app.log(TAG, d = portals.item(i).getAttributes().getNamedItem("d").getNodeValue());
+				BasicShape s = new BasicShape(d);
+				s.offsetShape(new Vector2(xOffset, yOffset));
 				
 				s.setType(ObjectType.PORTAL);
 				Gdx.app.log(TAG, s.toString());
-				addPortalToWorld(s, wm);
+				String portal_name = portals.item(i).getAttributes().getNamedItem("id").getNodeValue();
+				addPortalToWorld(s, wm, portal_name);
 				nrElements+=1;
 			}
+
+			// Get walls
+			Gdx.app.log(TAG, "Walls...");
+			//expr = xpath.compile("//svg/g/path[contains(@id,'portal')]/@d");
+			expr = xpath.compile("//svg/g/path[contains(@id,'wall')]");
+			NodeList walls = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < walls.getLength(); i++) {
+				String d;
+				Gdx.app.log(TAG, d = walls.item(i).getAttributes().getNamedItem("d").getNodeValue());
+				BasicShape s = new BasicShape(d);
+				s.offsetShape(new Vector2(xOffset, yOffset));
+				
+				s.setType(ObjectType.WALL);
+				Gdx.app.log(TAG, s.toString());
+				String wall_name = walls.item(i).getAttributes().getNamedItem("id").getNodeValue();
+				addWallToWorld(s, wm, wall_name);
+				nrElements+=1;
+			}
+			
 			
 			Gdx.app.log(TAG, "Finished Loading level: " + h.name());
 		

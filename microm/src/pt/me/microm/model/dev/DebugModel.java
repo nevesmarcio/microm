@@ -27,7 +27,7 @@ public class DebugModel extends AbstractModel {
 
 	private DebugModel(final WorldModel wm, final float x, final float y) {
 		
-		wm.toAdd.add(new PointerToFunction() {
+		wm.wmManager.add(new PointerToFunction() {
 			@Override
 			public void handler() {
 				debugBodyDef.type = BodyType.StaticBody;

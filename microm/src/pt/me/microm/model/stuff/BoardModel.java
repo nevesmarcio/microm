@@ -2,6 +2,7 @@ package pt.me.microm.model.stuff;
 
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.AbstractModel.EventType;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
@@ -17,8 +18,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 public class BoardModel extends AbstractModel {
 	private static final String TAG = BoardModel.class.getSimpleName();
 	
-	private WorldModel wm;
-	
 	private Vector2 boardPosition; // posição do tabuleiro no espaço
 	
 	private Vector2 playzoneVertex[] = new Vector2[4]; // Pontos que definem a fronteira do tabuleiro
@@ -28,37 +27,44 @@ public class BoardModel extends AbstractModel {
 	private Body playzoneBody;
 	
 	
-	private BoardModel(WorldModel wm) {
-		this.wm = wm;
-		
-		playzoneVertex[0] = new Vector2(0.0f, 15.0f); // tabuleiro com 10 metros de lado
-		playzoneVertex[1] = new Vector2(0.0f, 0.0f);
-		playzoneVertex[2] = new Vector2(15.0f, 0.0f);
-		playzoneVertex[3] = new Vector2(15.0f, 15.0f);
-		
-		playzoneShape = new ChainShape();
-		playzoneShape.createLoop(playzoneVertex);
-		
-		playzoneBodyDef.position.set(0.0f, 0.0f); // posição inicial do tabuleiro
-		playzoneBodyDef.type = BodyType.StaticBody;
-		
-		
-		setPlayzoneBody(wm.getPhysicsWorld().createBody(playzoneBodyDef));
-
-		FixtureDef fixDef = new FixtureDef();
-		fixDef.shape = playzoneShape;
-		fixDef.density = 1.0f;
-		fixDef.friction = 0.0f;
-		fixDef.restitution = 0.0f;		
-		playzoneBody.createFixture(fixDef);
-		getPlayzoneBody().createFixture(fixDef);
-//		getPlayzoneBody().createFixture(playzoneShape, 0.0f);
+	private BoardModel(final WorldModel wm) {
+		wm.wmManager.add(new PointerToFunction() {
 			
-		getPlayzoneBody().setUserData(this); // relacionar com o modelo
+			@Override
+			public void handler() {
+				playzoneVertex[0] = new Vector2(0.0f, 15.0f); // tabuleiro com 10 metros de lado
+				playzoneVertex[1] = new Vector2(0.0f, 0.0f);
+				playzoneVertex[2] = new Vector2(15.0f, 0.0f);
+				playzoneVertex[3] = new Vector2(15.0f, 15.0f);
+				
+				playzoneShape = new ChainShape();
+				playzoneShape.createLoop(playzoneVertex);
+				
+				playzoneBodyDef.position.set(0.0f, 0.0f); // posição inicial do tabuleiro
+				playzoneBodyDef.type = BodyType.StaticBody;
+				
+				
+				setPlayzoneBody(wm.getPhysicsWorld().createBody(playzoneBodyDef));
+
+				FixtureDef fixDef = new FixtureDef();
+				fixDef.shape = playzoneShape;
+				fixDef.density = 1.0f;
+				fixDef.friction = 0.0f;
+				fixDef.restitution = 0.0f;		
+				playzoneBody.createFixture(fixDef);
+				getPlayzoneBody().createFixture(fixDef);
+//				getPlayzoneBody().createFixture(playzoneShape, 0.0f);
+					
+				getPlayzoneBody().setUserData(BoardModel.this); // relacionar com o modelo
+				
+				
+				// Sinaliza os subscritores de que a construção do modelo terminou.
+				BoardModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
+
+				
+			}
+		});
 		
-		
-		// Sinaliza os subscritores de que a construção do modelo terminou.
-		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
 	}
 	
 	public static BoardModel getNewInstance(WorldModel wm){

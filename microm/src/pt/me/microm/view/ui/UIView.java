@@ -53,10 +53,10 @@ public class UIView  extends AbstractView {
 
 			if (uiSrc.getOriginalTestPoint()[i]!=null) {
 				Ray rr = e.getCamera().getPickRay(uiSrc.getOriginalTestPoint()[i].x, uiSrc.getOriginalTestPoint()[i].y);
-				Gdx.app.log(TAG, "PickingTest - ray: " + rr);
+				Gdx.app.debug(TAG, "PickingTest - ray: " + rr);
 				
 				Intersector.intersectRayPlane(rr, new Plane(new Vector3(0f,0f,1f), 0.0f), v);
-				Gdx.app.log(TAG, "Intersect: " + v);
+				Gdx.app.debug(TAG, "Intersect: " + v);
 	
 	
 				/* RED : intersecção calculada pelo RAY */ 

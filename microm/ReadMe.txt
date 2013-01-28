@@ -21,22 +21,38 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 # introduzi o xpath para ler niveis a partir de um svg
 # introduzi as regex para conseguir fazer parse do svg
 
-
 21-01-2013
 # criei novo tipo de modelo para representar o "ground"
-#  
+
+22-01-2013
+# movimento na "daBox" e mapeamento do Key.SPACE
+
+24-01-2013
+# colision detection com os portais
+
+27-01-2013
+# resolução do problema do level loading e do centro do objecto (box2d)
+
 
 
 [TODO] 
+# implementação das barreiras (walls)
+# falta fazer os handlers para o start e finish
+# counter de vidas e mecanismo de restart no mesmo nivel
 
 
 
+# refactorização do código (os portais p.e. estão vergonhosos)
+
+# lógica do portal para destruir o objecto e fazê-lo aparecer no outro lado (deslocação em "Z")
 # efeito de paralax
 # tutorial da relva (usa os tweens ?)
+
 
 [BUGS]
 # no android o background não aparece...
 
 
 [ideias]
-usar a facilidade de port do libgdx para o browser para fazer hosting de games (network) and bets and stuff
+# sistema de niveis com percentagens e temas tipo o blast the monkey, ou o cut the ropee
+# usar a facilidade de port do libgdx para o browser para fazer hosting de games (network) and bets and stuff

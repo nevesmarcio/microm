@@ -1,4 +1,4 @@
-package pt.me.microm.model.stuff;
+package pt.me.microm.model.dev;
 
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
@@ -6,6 +6,7 @@ import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.AbstractModel.EventType;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
+import pt.me.microm.model.stuff.BoardModel;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -27,17 +28,13 @@ public class BallModel extends AbstractModel {
 	public Body ballBody;	
 	
 
-	private BallModel(final WorldModel wm, BoardModel bm, final float offset) {
-		wm.toAdd.add(new PointerToFunction() {
+	private BallModel(final WorldModel wm, BoardModel bm, final float x, final float y) {
+		wm.wmManager.add(new PointerToFunction() {
 			
 			@Override
 			public void handler() {
-				// TODO Auto-generated method stub
-				
 				ballBodyDef.type = BodyType.DynamicBody;
-				ballBodyDef.position.set(	offset,
-											14.0f // altura da largada
-											);
+				ballBodyDef.position.set(x, y); // coordenada de largada da bola
 
 				//ballBodyDef.bullet =  true;
 				
@@ -52,7 +49,7 @@ public class BallModel extends AbstractModel {
 				fixDef.restitution = 0.75f;
 				ballBody.createFixture(fixDef);
 				
-				ballBody.setUserData(this); // relacionar com o modelo
+				ballBody.setUserData(BallModel.this); // relacionar com o modelo
 				
 				// É necessário escalar as forças mediante o timestep 
 				//float force_to_apply = -10.0f / (float)GAME_CONSTANTS.GAME_TICK_MILI * (float)GAME_CONSTANTS.ONE_SECOND_TO_MILI;
@@ -77,8 +74,8 @@ public class BallModel extends AbstractModel {
 
 	}
 
-	public static BallModel getNewInstance(WorldModel wm, BoardModel bm, float offset){
-		return new BallModel(wm, bm, offset);
+	public static BallModel getNewInstance(WorldModel wm, BoardModel bm, float x, float y){
+		return new BallModel(wm, bm, x, y);
 	}
 	
 	@Override
@@ -105,6 +102,5 @@ public class BallModel extends AbstractModel {
 	public void setColor(Color color) {
 		this.color = color;
 	}
-
 	
 }

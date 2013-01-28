@@ -2,7 +2,6 @@ package pt.me.microm.model.dev;
 
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.AbstractModel.EventType;
 import pt.me.microm.model.events.SimpleEvent;
 
 public class GridModel extends AbstractModel {

@@ -25,6 +25,9 @@ public class MyInputProcessor implements InputProcessor {
 		// TODO Auto-generated method stub
 		Gdx.app.log(TAG, "[KEY]: " + Integer.toString(keycode));
 		
+		if (keycode == Keys.SPACE)
+			worldModel.player.jump();
+		
 		if (keycode == Keys.P)
 			camModel.printCameraValues();
 		

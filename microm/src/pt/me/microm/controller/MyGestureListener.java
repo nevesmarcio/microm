@@ -22,6 +22,8 @@ public class MyGestureListener implements GestureListener {
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		Gdx.app.debug(TAG, "touchDown");
 		
+		worldModel.player.jump();
+		
 		return false;
 	}
 

@@ -1,10 +1,10 @@
-package pt.me.microm.view.stuff;
+package pt.me.microm.view.dev;
 
 import java.util.Iterator;
 
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
-import pt.me.microm.model.stuff.BallModel;
+import pt.me.microm.model.dev.BallModel;
 import pt.me.microm.view.AbstractView;
 
 import com.badlogic.gdx.Gdx;
