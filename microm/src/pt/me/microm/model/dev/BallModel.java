@@ -57,8 +57,8 @@ public class BallModel extends AbstractModel {
 				
 //				ballBody.setLinearVelocity(200.0f, 0.0f);//13 devido ao diametro (14-1)
 
-				ballBody.setSleepingAllowed(false);
-				ballBody.setBullet(true);
+				ballBody.setSleepingAllowed(true);
+				ballBody.setBullet(false);
 				
 				//wDynamicBox.applyTorque(50.0f);
 						

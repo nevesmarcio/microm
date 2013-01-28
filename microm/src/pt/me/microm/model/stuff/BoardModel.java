@@ -1,11 +1,14 @@
 package pt.me.microm.model.stuff;
 
+import java.util.List;
+
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.AbstractModel.EventType;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
+import pt.me.microm.tools.levelloader.BasicShape;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -20,29 +23,31 @@ public class BoardModel extends AbstractModel {
 	
 	private Vector2 boardPosition; // posição do tabuleiro no espaço
 	
-	private Vector2 playzoneVertex[] = new Vector2[4]; // Pontos que definem a fronteira do tabuleiro
+	private Vector2 playzoneVertex[]; // Pontos que definem a fronteira do tabuleiro
 	
 	private BodyDef playzoneBodyDef = new BodyDef();
 	private ChainShape playzoneShape; // Fronteira do tabuleiro
 	private Body playzoneBody;
 	
 	
-	private BoardModel(final WorldModel wm) {
+	private BoardModel(final WorldModel wm, final BasicShape board, final List<Vector2> lst) {
 		wm.wmManager.add(new PointerToFunction() {
 			
 			@Override
 			public void handler() {
-				playzoneVertex[0] = new Vector2(0.0f, 15.0f); // tabuleiro com 10 metros de lado
-				playzoneVertex[1] = new Vector2(0.0f, 0.0f);
-				playzoneVertex[2] = new Vector2(15.0f, 0.0f);
-				playzoneVertex[3] = new Vector2(15.0f, 15.0f);
+				
+				//deslocamento do centroid
+				for (Vector2 v : board.getPoints()) {
+					v.sub(board.getCentroid());
+				}
+				
+				playzoneVertex = lst.toArray(new Vector2[]{});
 				
 				playzoneShape = new ChainShape();
 				playzoneShape.createLoop(playzoneVertex);
 				
-				playzoneBodyDef.position.set(0.0f, 0.0f); // posição inicial do tabuleiro
+				playzoneBodyDef.position.set(board.getCentroid()); // posição inicial do tabuleiro
 				playzoneBodyDef.type = BodyType.StaticBody;
-				
 				
 				setPlayzoneBody(wm.getPhysicsWorld().createBody(playzoneBodyDef));
 
@@ -53,7 +58,6 @@ public class BoardModel extends AbstractModel {
 				fixDef.restitution = 0.0f;		
 				playzoneBody.createFixture(fixDef);
 				getPlayzoneBody().createFixture(fixDef);
-//				getPlayzoneBody().createFixture(playzoneShape, 0.0f);
 					
 				getPlayzoneBody().setUserData(BoardModel.this); // relacionar com o modelo
 				
@@ -67,8 +71,8 @@ public class BoardModel extends AbstractModel {
 		
 	}
 	
-	public static BoardModel getNewInstance(WorldModel wm){
-		return new BoardModel(wm);
+	public static BoardModel getNewInstance(WorldModel wm, BasicShape board, List<Vector2> pts){
+		return new BoardModel(wm, board, pts);
 	}
 
 	

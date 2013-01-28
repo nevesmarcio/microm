@@ -25,12 +25,11 @@ public class DaBoxModel extends AbstractModel {
 	public Body daBoxBody;	
 	
 
-	private DaBoxModel(final WorldModel wm, BoardModel bm, final float x, final float y) {
+	private DaBoxModel(final WorldModel wm, final float scale, final float x, final float y) {
 		wm.wmManager.add(new PointerToFunction() {
 			
 			@Override
 			public void handler() {
-				// TODO Auto-generated method stub
 				
 				daBoxBodyDef.type = BodyType.DynamicBody;
 				daBoxBodyDef.position.set(x, y);
@@ -60,8 +59,8 @@ public class DaBoxModel extends AbstractModel {
 
 	}
 
-	public static DaBoxModel getNewInstance(WorldModel wm, BoardModel bm, float x, float y){
-		return new DaBoxModel(wm, bm, x, y);
+	public static DaBoxModel getNewInstance(WorldModel wm, float scale, float x, float y){
+		return new DaBoxModel(wm, scale, x, y);
 	}
 	
 	@Override

@@ -1,14 +1,11 @@
 package pt.me.microm.model.base;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Random;
 
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.MyContactListener;
-import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.dev.BallModel;
 import pt.me.microm.model.dev.CoisaModel;
 import pt.me.microm.model.dev.GridModel;
@@ -19,6 +16,9 @@ import pt.me.microm.model.stuff.PortalModel;
 import pt.me.microm.model.stuff.PortalModelManager;
 import pt.me.microm.model.ui.UIModel;
 import pt.me.microm.tools.levelloader.LevelLoader;
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
@@ -88,40 +88,37 @@ public class WorldModel extends AbstractModel {
 
 	private void PopulateWorld() {
 
-		//testes de física
-		//TODO: usar a pattern do getNewInstance
+		// Modelos complementares ao WorldModel
 		grid = new GridModel(); // constroi a grid sobre a qual estão renderizados os objectos - debug purposes		
 		ui = new UIModel(this); // constroi o painel informativo?
-		board = BoardModel.getNewInstance(this); // constroi o tabuleiro num mundo
 		portalManager = new PortalModelManager();
 		
 /* exemplos de coisas populadas no mundo */		
-//		ball1 = BallModel.getNewInstance(this, board, 6.0f); // larga a bola num mundo num tabuleiro
-//		ball2 = BallModel.getNewInstance(this, board, 1.0f);
-//		coisa = CoisaModel.getNewInstance(this, board, 0.0f);
+//		ball1 = BallModel.getNewInstance(this, board, 6.0f, 0.0f); // larga a bola num mundo num tabuleiro
+//		ball2 = BallModel.getNewInstance(this, board, 1.0f, 0.0f);
+		coisa = CoisaModel.getNewInstance(this, board, 0.0f);
 //		ball1.ballBody.setActive(false);
 //		ball2.ballBody.setActive(true);
 //		ball1.ballBody.setActive(!ball1.ballBody.isActive());
 //		ball2.ballBody.setActive(!ball2.ballBody.isActive());		
-//		
-//		Tween.call(new TweenCallback() {
-//			@Override public void onEvent(int type, BaseTween<?> source) {
-//				Gdx.app.postRunnable(new Runnable() {
-//					
-//					@Override
-//					public void run() {
-//						BallModel.getNewInstance(WorldModel.this, board, (new Random().nextFloat())*14.0f, (new Random().nextFloat())*14.0f);
-//						
-//					}
-//				});
-//			}
-//		}).repeat(10, 0.1f).start(tweenManager);
+		
+		Tween.call(new TweenCallback() {
+			@Override public void onEvent(int type, BaseTween<?> source) {
+				Gdx.app.postRunnable(new Runnable() {
+					
+					@Override
+					public void run() {
+						BallModel.getNewInstance(WorldModel.this, board, (new Random().nextFloat())*14.0f, (new Random().nextFloat())*14.0f);
+						
+					}
+				});
+			}
+		}).repeat(10, 0.1f).start(tweenManager);
 /* fim dos exemplos */
 		
 		FileHandle h = Gdx.files.internal("data/levels/level0.svg");
 		Gdx.app.log(TAG, "Nr elements loaded: " + LevelLoader.LoadLevel(h, this));
 		
-		player = DaBoxModel.getNewInstance(this, board, 0.75f/2, 12.0f);
 		
 		// regista o contactListener para que este notifique os objectos quando há choques 
 		getPhysicsWorld().setContactListener(myContactListener = new MyContactListener()); //new ContactListenerImpl() 
@@ -175,6 +172,14 @@ public class WorldModel extends AbstractModel {
 	/* 
 	 * Getters + Setters 
 	 */
+	public void setBoard(BoardModel b) {
+		this.board = b;
+	}
+	
+	public void setPlayer(DaBoxModel p) {
+		this.player = p;
+	}
+	
 	public void addPortal(PortalModel pm) {
 		this.portalManager.portals.add(pm);
 	}

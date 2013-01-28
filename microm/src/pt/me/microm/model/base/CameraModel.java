@@ -284,7 +284,7 @@ public class CameraModel extends AbstractModel{
 		}
 
 		//FIXME: n posso meter isto aqui senão o ecrã faz um "flick"
-		camera.update(); // faz update às matrizes da camera após os movimentos
+//		camera.update(); // faz update às matrizes da camera após os movimentos
 		
 	}
 }

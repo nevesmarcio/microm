@@ -7,6 +7,7 @@ import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
+import pt.me.microm.tools.levelloader.BasicShape;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -27,17 +28,23 @@ public class GoalModel extends AbstractModel {
 	private ChainShape goalShape; // Fronteira do tabuleiro
 	private Body goalBody;
 	
-	private GoalModel(final WorldModel wm, final List<Vector2> lst) {
+	private GoalModel(final WorldModel wm, final BasicShape goal, final List<Vector2> lst) {
 		wm.wmManager.add(new PointerToFunction() {
 			
 			@Override
 			public void handler() {
+				
+				//deslocamento do centroid
+				for (Vector2 v : goal.getPoints()) {
+					v.sub(goal.getCentroid());
+				}				
+				
 				silhouetteVertex = lst.toArray(new Vector2[]{});
 				
 				goalShape = new ChainShape();
 				goalShape.createLoop(silhouetteVertex);
 				
-				goalBodyDef.position.set(0.0f, 0.0f); // posição inicial do tabuleiro
+				goalBodyDef.position.set(goal.getCentroid()); // posição inicial do tabuleiro
 				goalBodyDef.type = BodyType.StaticBody;
 				goalBodyDef.active = false;
 				
@@ -62,8 +69,8 @@ public class GoalModel extends AbstractModel {
 		
 	}
 	
-	public static GoalModel getNewInstance(WorldModel wm, List<Vector2> pts){
-		return new GoalModel(wm, pts);
+	public static GoalModel getNewInstance(WorldModel wm, BasicShape goal, List<Vector2> pts){
+		return new GoalModel(wm, goal, pts);
 	}
 
 	

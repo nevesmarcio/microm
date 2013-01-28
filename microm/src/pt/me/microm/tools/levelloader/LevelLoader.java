@@ -18,6 +18,8 @@ import org.xml.sax.SAXException;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.dev.DebugModel;
+import pt.me.microm.model.stuff.BoardModel;
+import pt.me.microm.model.stuff.DaBoxModel;
 import pt.me.microm.model.stuff.GoalModel;
 import pt.me.microm.model.stuff.GroundModel;
 import pt.me.microm.model.stuff.PortalModel;
@@ -25,6 +27,7 @@ import pt.me.microm.model.stuff.SpawnModel;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -53,11 +56,20 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static void addBoardToWorld(BasicShape board, WorldModel wm) {
+		DebugModel m;
 		for (Vector2 ap : board.getPoints()) {
 			ap.x = ap.x*scale;
 			ap.y = (maxHeight - ap.y)*scale;			
-			DebugModel.getNewInstance(wm, ap.x, ap.y);
+			m = DebugModel.getNewInstance(wm, ap.x, ap.y);
+			m.setColor(Color.WHITE);
 		}
+		board.getCentroid().x = board.getCentroid().x*scale;
+		board.getCentroid().y = (maxHeight - board.getCentroid().y)*scale;
+		m = DebugModel.getNewInstance(wm, board.getCentroid().x, board.getCentroid().y);
+		m.setColor(Color.BLACK);
+		
+		wm.setBoard(BoardModel.getNewInstance(wm, board, board.getPoints()));
+		
 	}
 	
 	/**
@@ -66,12 +78,19 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static void addSpawnToWorld(BasicShape spawn, WorldModel wm) {
+		DebugModel m;
 		for (Vector2 ap : spawn.getPoints()) {
 			ap.x = ap.x*scale;
 			ap.y = (maxHeight - ap.y)*scale;
-			DebugModel.getNewInstance(wm, ap.x, ap.y);
+			m = DebugModel.getNewInstance(wm, ap.x, ap.y);
+			m.setColor(Color.BLUE);
 		}
-		SpawnModel.getNewInstance(wm, spawn.getPoints());
+		spawn.getCentroid().x = spawn.getCentroid().x*scale;
+		spawn.getCentroid().y = (maxHeight - spawn.getCentroid().y)*scale;
+		m = DebugModel.getNewInstance(wm, spawn.getCentroid().x, spawn.getCentroid().y);
+		m.setColor(Color.CYAN);
+		
+		SpawnModel.getNewInstance(wm, spawn, spawn.getPoints());
 	}
 
 	/**
@@ -80,12 +99,19 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static void addGoalToWorld(BasicShape goal, WorldModel wm) {
+		DebugModel m;
 		for (Vector2 ap : goal.getPoints()) {
 			ap.x = ap.x*scale;
 			ap.y = (maxHeight - ap.y)*scale;			
-			DebugModel.getNewInstance(wm, ap.x, ap.y);
-		}			
-		GoalModel.getNewInstance(wm, goal.getPoints());			
+			m = DebugModel.getNewInstance(wm, ap.x, ap.y);
+			m.setColor(Color.GREEN);
+		}
+		goal.getCentroid().x = goal.getCentroid().x*scale;
+		goal.getCentroid().y = (maxHeight - goal.getCentroid().y)*scale;
+		m = DebugModel.getNewInstance(wm, goal.getCentroid().x, goal.getCentroid().y);
+		m.setColor(Color.GRAY);		
+		
+		GoalModel.getNewInstance(wm, goal, goal.getPoints());			
 	}
 	
 	/**
@@ -136,6 +162,10 @@ public class LevelLoader {
 	}
 	
 	
+	private static void addDaBoxToWorld(WorldModel wm) {
+		
+		wm.setPlayer(DaBoxModel.getNewInstance(wm, scale, 0.75f/2, 12.0f));
+	}
 	
 	
 	/**
@@ -279,6 +309,7 @@ public class LevelLoader {
 				nrElements+=1;
 			}
 			
+			addDaBoxToWorld(wm);
 			
 			Gdx.app.log(TAG, "Finished Loading level: " + h.name());
 		

@@ -7,6 +7,7 @@ import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
+import pt.me.microm.tools.levelloader.BasicShape;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -28,17 +29,23 @@ public class SpawnModel extends AbstractModel {
 	private Body spawnBody;
 	
 	
-	private SpawnModel(final WorldModel wm, final List<Vector2> lst) {
+	private SpawnModel(final WorldModel wm, final BasicShape spawn, final List<Vector2> lst) {
 		wm.wmManager.add(new PointerToFunction() {
 
 			@Override
 			public void handler() {
+				
+				//deslocamento do centroid
+				for (Vector2 v : spawn.getPoints()) {
+					v.sub(spawn.getCentroid());
+				}				
+				
 				silhouetteVertex = lst.toArray(new Vector2[]{});
 				
 				spawnShape = new ChainShape();
 				spawnShape.createLoop(silhouetteVertex);
 				
-				spawnBodyDef.position.set(0.0f, 0.0f); // posição inicial do tabuleiro
+				spawnBodyDef.position.set(spawn.getCentroid()); // posição inicial do tabuleiro
 				spawnBodyDef.type = BodyType.StaticBody;
 				spawnBodyDef.active = false;
 				
@@ -62,8 +69,8 @@ public class SpawnModel extends AbstractModel {
 		
 	}
 	
-	public static SpawnModel getNewInstance(WorldModel wm, List<Vector2> pts){
-		return new SpawnModel(wm, pts);
+	public static SpawnModel getNewInstance(WorldModel wm, BasicShape spawn, List<Vector2> pts){
+		return new SpawnModel(wm, spawn, pts);
 	}
 
 	

@@ -7,7 +7,14 @@ import java.util.regex.Pattern;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
-
+/**
+ * Esta BasicShape deverá receber as coordenadas do SVG, mas após a construcção
+ * do objecto, deverá manter apenas coordenadas compativeis com o nível e com o
+ * Box2D.
+ * 
+ * @author mneves
+ * 
+ */
 public class BasicShape {
 	private static final String TAG = BasicShape.class.getSimpleName();
 	
@@ -59,6 +66,10 @@ public class BasicShape {
 		}
 	
 		centroid = inscribedPolygonCenter();
+//		//deslocamento do centroid
+//		for (Vector2 v : getPoints()) {
+//			v.sub(getCentroid());
+//		}		
 		
 	}	
 		
