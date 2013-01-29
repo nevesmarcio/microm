@@ -33,27 +33,27 @@ public class BoardView extends AbstractView {
 		
 		renderer.setProjectionMatrix(e.getCamera().combined);
 		
-		Fixture fix = (boardmSrc.getPlayzoneBody().getFixtureList()).get(0);
+		Fixture fix = (boardmSrc.getBody().getFixtureList()).get(0);
 		ChainShape cs = (ChainShape)fix.getShape();
 		
 		Vector2 pointA = new Vector2();
 		Vector2 pointB = new Vector2();
 		
 		renderer.begin(ShapeType.Line);
-		cs.getVertex(0, pointA); pointA.add(boardmSrc.getPlayzoneBody().getPosition());
-		cs.getVertex(1, pointB); pointB.add(boardmSrc.getPlayzoneBody().getPosition());
+		cs.getVertex(0, pointA); pointA.add(boardmSrc.getBody().getPosition());
+		cs.getVertex(1, pointB); pointB.add(boardmSrc.getBody().getPosition());
 		renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
 		
-		cs.getVertex(1, pointA); pointA.add(boardmSrc.getPlayzoneBody().getPosition());	
-		cs.getVertex(2, pointB); pointB.add(boardmSrc.getPlayzoneBody().getPosition());
+		cs.getVertex(1, pointA); pointA.add(boardmSrc.getBody().getPosition());	
+		cs.getVertex(2, pointB); pointB.add(boardmSrc.getBody().getPosition());
 		renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
 		
-		cs.getVertex(2, pointA); pointA.add(boardmSrc.getPlayzoneBody().getPosition());	 
-		cs.getVertex(3, pointB); pointB.add(boardmSrc.getPlayzoneBody().getPosition());
+		cs.getVertex(2, pointA); pointA.add(boardmSrc.getBody().getPosition());	 
+		cs.getVertex(3, pointB); pointB.add(boardmSrc.getBody().getPosition());
 		renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
 		
-		cs.getVertex(3, pointA); pointA.add(boardmSrc.getPlayzoneBody().getPosition());	 
-		cs.getVertex(0, pointB); pointB.add(boardmSrc.getPlayzoneBody().getPosition());
+		cs.getVertex(3, pointA); pointA.add(boardmSrc.getBody().getPosition());	 
+		cs.getVertex(0, pointB); pointB.add(boardmSrc.getBody().getPosition());
 		renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);		
 		
 		renderer.end();

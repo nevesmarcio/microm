@@ -54,18 +54,17 @@ public class WallModel extends AbstractModel {
 				wallBodyDef.position.set(wall.getCentroid()); // aqui devia calcular a posicao do centro de massa
 				wallBodyDef.type = BodyType.StaticBody;
 				
-				setWallBody(wm.getPhysicsWorld().createBody(wallBodyDef));
+				wallBody = wm.getPhysicsWorld().createBody(wallBodyDef);
 
 				FixtureDef fixDef = new FixtureDef();
 				fixDef.shape = wallShape;
-				fixDef.isSensor = true;
 				fixDef.density = 1.0f;
 				fixDef.friction = 0.0f;
 				fixDef.restitution = 0.0f;		
 				wallBody.createFixture(fixDef);
-				getWallBody().createFixture(fixDef);
+				getBody().createFixture(fixDef);
 					
-				getWallBody().setUserData(WallModel.this); // relacionar com o modelo
+				getBody().setUserData(WallModel.this); // relacionar com o modelo
 				
 				// Sinaliza os subscritores de que a construção do modelo terminou.
 				WallModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
@@ -84,45 +83,51 @@ public class WallModel extends AbstractModel {
 	public void handleGameTick(GameTickEvent e) {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
-		if (getWallBody() != null)
-		Gdx.app.debug("[Physics-room]", 		  "Pos.x:" + String.format("%.2f", getWallBody().getPosition().x)
-				+ " Pos.y:" + String.format("%.2f", getWallBody().getPosition().y) 
-				+ " Angle:" + String.format("%.2f", getWallBody().getAngle())
-				+ " Mass:" + getWallBody().getMass()
-				+ " Type:" + getWallBody().getType());
+		if (getBody() != null)
+		Gdx.app.debug("[Physics-room]", 		  "Pos.x:" + String.format("%.2f", getBody().getPosition().x)
+				+ " Pos.y:" + String.format("%.2f", getBody().getPosition().y) 
+				+ " Angle:" + String.format("%.2f", getBody().getAngle())
+				+ " Mass:" + getBody().getMass()
+				+ " Type:" + getBody().getType());
 		
 
+		// Corre a lógica de teleportação
+		if ((boxTouchMyTralala > 0) && (box!=null)) {
+			box.getBody().setTransform(wm.waypoint, box.getBody().getAngle());
+			box = null;
+		}
+		
+		
 		
 	}
 
 	
 	/* Getters - Setters do tabuleiro */
-	// Posição do tabuleiro
-	public Vector2 getWallPosition() {
+	@Override
+	public Vector2 getPosition() {
 		return wallBody.getPosition();
 	}
 
-
-	public Body getWallBody() {
+	@Override
+	public Body getBody() {
 		return wallBody;
 	}
-	public void setWallBody(Body wallBody) {
-		this.wallBody = wallBody;
-	}
 
+
+	
 	private int boxTouchMyTralala = 0;
-	DaBoxModel box = null;
+	AbstractModel box = null;
 	@Override
 	public void beginContactWith(AbstractModel oModel) {
-//		if (boxTouchMyTralala == 0) Gdx.app.log(TAG, "daBox touched my trálálá!! says: " + this.wall_name);
-//		boxTouchMyTralala +=1;
-//		box = (DaBoxModel)oModel;
+		if (boxTouchMyTralala == 0) Gdx.app.log(TAG, "daBox hit da wall!");
+		boxTouchMyTralala +=1;
+		box = (DaBoxModel)oModel;
 	}
 	
 	@Override
 	public void endContactWith(AbstractModel oModel) {
-//		boxTouchMyTralala -=1;
-//		if (boxTouchMyTralala == 0) Gdx.app.log(TAG, "daBox left my trálálá!! says: " + this.wall_name);
+		boxTouchMyTralala -=1;
+		if (boxTouchMyTralala == 0) Gdx.app.log(TAG, "daBox left the wall!");
 	}
 	
 }

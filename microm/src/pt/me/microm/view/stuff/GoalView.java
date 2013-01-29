@@ -34,7 +34,7 @@ public class GoalView extends AbstractView {
 		
 		renderer.setProjectionMatrix(e.getCamera().combined);
 		
-		Fixture fix = (goalmSrc.getGoalBody().getFixtureList()).get(0);
+		Fixture fix = (goalmSrc.getBody().getFixtureList()).get(0);
 		ChainShape cs = (ChainShape)fix.getShape();
 		
 		Vector2 pointA = new Vector2();
@@ -43,8 +43,8 @@ public class GoalView extends AbstractView {
 		renderer.begin(ShapeType.Line);
 			int vCnt = cs.getVertexCount();
 			for (int i = 0; i < vCnt; i++) {
-				cs.getVertex(i, pointA); pointA.add(goalmSrc.getGoalBody().getPosition());
-				cs.getVertex(i==vCnt-1 ? 0 : i + 1, pointB); pointB.add(goalmSrc.getGoalBody().getPosition());
+				cs.getVertex(i, pointA); pointA.add(goalmSrc.getBody().getPosition());
+				cs.getVertex(i==vCnt-1 ? 0 : i + 1, pointB); pointB.add(goalmSrc.getBody().getPosition());
 				renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
 			}
 		renderer.end();

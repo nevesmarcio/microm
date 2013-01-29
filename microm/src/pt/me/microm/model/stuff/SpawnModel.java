@@ -1,13 +1,18 @@
 package pt.me.microm.model.stuff;
 
 import java.util.List;
+import java.util.Random;
 
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.base.WorldModel;
+import pt.me.microm.model.dev.BallModel;
 import pt.me.microm.model.events.SimpleEvent;
 import pt.me.microm.tools.levelloader.BasicShape;
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -19,8 +24,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 public class SpawnModel extends AbstractModel {
 	private static final String TAG = SpawnModel.class.getSimpleName();
-	
-	private Vector2 spawnPosition; // posição do tabuleiro no espaço
 	
 	private Vector2[] silhouetteVertex;
 	
@@ -49,7 +52,7 @@ public class SpawnModel extends AbstractModel {
 				spawnBodyDef.type = BodyType.StaticBody;
 				spawnBodyDef.active = false;
 				
-				setSpawnBody(wm.getPhysicsWorld().createBody(spawnBodyDef));
+				spawnBody = wm.getPhysicsWorld().createBody(spawnBodyDef);
 
 				FixtureDef fixDef = new FixtureDef();
 				fixDef.shape = spawnShape;
@@ -57,12 +60,29 @@ public class SpawnModel extends AbstractModel {
 				fixDef.friction = 0.0f;
 				fixDef.restitution = 0.0f;		
 				spawnBody.createFixture(fixDef);
-				getSpawnBody().createFixture(fixDef);
+				getBody().createFixture(fixDef);
 					
-				getSpawnBody().setUserData(SpawnModel.this); // relacionar com o modelo
+				getBody().setUserData(SpawnModel.this); // relacionar com o modelo
+				
+				wm.waypoint = getBody().getPosition();
 				
 				// Sinaliza os subscritores de que a construção do modelo terminou.
-				SpawnModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
+				SpawnModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
+				
+				
+				/* Logo após a construção */
+				Tween.call(new TweenCallback() {
+				@Override public void onEvent(int type, BaseTween<?> source) {
+					Gdx.app.postRunnable(new Runnable() {
+						
+						@Override
+						public void run() {
+							BallModel.getNewInstance(wm, SpawnModel.this.spawnBody.getPosition().x, SpawnModel.this.spawnBody.getPosition().y);
+							
+						}
+					});
+				}
+			}).repeat(10, 5.0f).start(wm.tweenManager);				
 
 			}
 		});
@@ -78,29 +98,25 @@ public class SpawnModel extends AbstractModel {
 	public void handleGameTick(GameTickEvent e) {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
-		if (getSpawnBody() != null)
-		Gdx.app.debug("[Physics-room]", 		  "Pos.x:" + String.format("%.2f", getSpawnBody().getPosition().x)
-				+ " Pos.y:" + String.format("%.2f", getSpawnBody().getPosition().y) 
-				+ " Angle:" + String.format("%.2f", getSpawnBody().getAngle())
-				+ " Mass:" + getSpawnBody().getMass()
-				+ " Type:" + getSpawnBody().getType());			
+		if (getBody() != null)
+		Gdx.app.debug("[Physics-room]", 		  "Pos.x:" + String.format("%.2f", getBody().getPosition().x)
+				+ " Pos.y:" + String.format("%.2f", getBody().getPosition().y) 
+				+ " Angle:" + String.format("%.2f", getBody().getAngle())
+				+ " Mass:" + getBody().getMass()
+				+ " Type:" + getBody().getType());			
 	}
 
 	
 	/* Getters - Setters do tabuleiro */
 	// Posição do tabuleiro
-	public Vector2 getSpawnPosition() {
-		return spawnPosition;
-	}
-	public void setSpawnPosition(Vector2 spawnPosition) {
-		this.spawnPosition = spawnPosition;
+	@Override
+	public Vector2 getPosition() {
+		return spawnBody.getPosition();
 	}
 
-	public Body getSpawnBody() {
+	@Override
+	public Body getBody() {
 		return spawnBody;
-	}
-	public void setSpawnBody(Body spawnBody) {
-		this.spawnBody = spawnBody;
 	}
 
 }

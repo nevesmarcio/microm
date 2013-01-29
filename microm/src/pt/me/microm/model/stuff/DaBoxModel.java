@@ -7,6 +7,7 @@ import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -90,5 +91,14 @@ public class DaBoxModel extends AbstractModel {
 		daBoxBody.applyTorque(-7.0f); //N.m
 	}
 	
+	@Override
+	public Body getBody() {
+		return daBoxBody;
+	}
+	
+	@Override
+	public Vector2 getPosition() {
+		return daBoxBody.getPosition();
+	}	
 	
 }

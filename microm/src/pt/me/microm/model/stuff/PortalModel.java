@@ -58,7 +58,7 @@ public class PortalModel extends AbstractModel {
 				portalBodyDef.position.set(portal.getCentroid()); // aqui devia calcular a posicao do centro de massa
 				portalBodyDef.type = BodyType.StaticBody;
 				
-				setPortalBody(wm.getPhysicsWorld().createBody(portalBodyDef));
+				portalBody = wm.getPhysicsWorld().createBody(portalBodyDef);
 
 				FixtureDef fixDef = new FixtureDef();
 				fixDef.shape = portalShape;
@@ -67,9 +67,9 @@ public class PortalModel extends AbstractModel {
 				fixDef.friction = 0.0f;
 				fixDef.restitution = 0.0f;		
 				portalBody.createFixture(fixDef);
-				getPortalBody().createFixture(fixDef);
+				getBody().createFixture(fixDef);
 					
-				getPortalBody().setUserData(PortalModel.this); // relacionar com o modelo
+				getBody().setUserData(PortalModel.this); // relacionar com o modelo
 				
 				wm.addPortal(PortalModel.this);
 				
@@ -90,43 +90,43 @@ public class PortalModel extends AbstractModel {
 	public void handleGameTick(GameTickEvent e) {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
-		if (getPortalBody() != null)
-		Gdx.app.debug("[Physics-room]", 		  "Pos.x:" + String.format("%.2f", getPortalBody().getPosition().x)
-				+ " Pos.y:" + String.format("%.2f", getPortalBody().getPosition().y) 
-				+ " Angle:" + String.format("%.2f", getPortalBody().getAngle())
-				+ " Mass:" + getPortalBody().getMass()
-				+ " Type:" + getPortalBody().getType());
+		if (getBody() != null)
+		Gdx.app.debug("[Physics-room]", 		  "Pos.x:" + String.format("%.2f", getBody().getPosition().x)
+				+ " Pos.y:" + String.format("%.2f", getBody().getPosition().y) 
+				+ " Angle:" + String.format("%.2f", getBody().getAngle())
+				+ " Mass:" + getBody().getMass()
+				+ " Type:" + getBody().getType());
 		
-		// Corre a lógica de teleportação
+		// Corre a lógica de teleportação e waypoint
 		if ((boxTouchMyTralala > 0) && (box!=null)) {
-			box.daBoxBody.setTransform(wm.getLinkedPortal(this).getPortalPosition(), box.daBoxBody.getAngle());
+			box.getBody().setTransform(wm.getLinkedPortal(this).getPosition(), box.getBody().getAngle());
 			box = null;
+			wm.waypoint = wm.getLinkedPortal(this).getPosition();
 		}
 		
 	}
 
 	
 	/* Getters - Setters do tabuleiro */
-	// Posição do tabuleiro
-	public Vector2 getPortalPosition() {
-		return portalBody.getPosition();
-	}
 
-
-	public Body getPortalBody() {
+	@Override
+	public Body getBody() {
 		return portalBody;
 	}
-	public void setPortalBody(Body portalBody) {
-		this.portalBody = portalBody;
-	}
 
+	@Override
+	public Vector2 getPosition() {
+		return portalBody.getPosition();
+	}	
+	
+	
 	private int boxTouchMyTralala = 0;
-	DaBoxModel box = null;
+	AbstractModel box = null;
 	@Override
 	public void beginContactWith(AbstractModel oModel) {
 		if (boxTouchMyTralala == 0) Gdx.app.log(TAG, "daBox touched my trálálá!! says: " + this.portal_name + ". Should be teleported to: " + this.portal_name.replace("entry", "exit"));
 		boxTouchMyTralala +=1;
-		box = (DaBoxModel)oModel;
+		box = oModel;
 	}
 	
 	@Override

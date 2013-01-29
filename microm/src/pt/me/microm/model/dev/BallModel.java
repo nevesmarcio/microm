@@ -10,6 +10,7 @@ import pt.me.microm.model.stuff.BoardModel;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -28,7 +29,7 @@ public class BallModel extends AbstractModel {
 	public Body ballBody;	
 	
 
-	private BallModel(final WorldModel wm, BoardModel bm, final float x, final float y) {
+	private BallModel(final WorldModel wm, final float x, final float y) {
 		wm.wmManager.add(new PointerToFunction() {
 			
 			@Override
@@ -45,8 +46,8 @@ public class BallModel extends AbstractModel {
 				FixtureDef fixDef = new FixtureDef();
 				fixDef.shape = ballShape;
 				fixDef.density = 1.0f;
-				fixDef.friction = 1.0f;
-				fixDef.restitution = 0.75f;
+				fixDef.friction = 0.9f;
+				fixDef.restitution = 0.5f;
 				ballBody.createFixture(fixDef);
 				
 				ballBody.setUserData(BallModel.this); // relacionar com o modelo
@@ -65,8 +66,6 @@ public class BallModel extends AbstractModel {
 				// Sinaliza os subscritores de que a construção do modelo terminou.
 				BallModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));				
 				
-				
-				
 			}
 		});
 		
@@ -74,8 +73,8 @@ public class BallModel extends AbstractModel {
 
 	}
 
-	public static BallModel getNewInstance(WorldModel wm, BoardModel bm, float x, float y){
-		return new BallModel(wm, bm, x, y);
+	public static BallModel getNewInstance(WorldModel wm, float x, float y){
+		return new BallModel(wm, x, y);
 	}
 	
 	@Override
@@ -102,5 +101,14 @@ public class BallModel extends AbstractModel {
 	public void setColor(Color color) {
 		this.color = color;
 	}
+
+	@Override
+	public Body getBody() {
+		return ballBody;
+	}
+	@Override
+	public Vector2 getPosition() {
+		return ballBody.getPosition();
+	}	
 	
 }

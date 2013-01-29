@@ -4,40 +4,49 @@ import java.util.Iterator;
 
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
-import pt.me.microm.model.stuff.BoardModel;
-import pt.me.microm.model.stuff.GoalModel;
-import pt.me.microm.model.stuff.PortalModel;
-import pt.me.microm.model.stuff.SpawnModel;
+import pt.me.microm.model.dev.BallModel;
+import pt.me.microm.model.stuff.DaBoxModel;
+import pt.me.microm.model.stuff.WallModel;
 import pt.me.microm.view.AbstractView;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
-public class PortalView extends AbstractView {
-	private static final String TAG = PortalView.class.getSimpleName();
+public class WallView extends AbstractView {
+	private static final String TAG = WallView.class.getSimpleName();
 	
-	private PortalModel portalmSrc;
-	Texture texture = GAME_CONSTANTS.TEXTURE_DROID;
+	private WallModel wallmSrc;
+	
 	ShapeRenderer renderer;
 	
-	public PortalView(PortalModel portalmSrc) {
-		super(portalmSrc);
-		this.portalmSrc = portalmSrc;
+	Texture wallTexture = GAME_CONSTANTS.TEXTURE_BALL;
+	
+	public WallView(WallModel wallmSrc) {
+		super(wallmSrc);
+		this.wallmSrc = wallmSrc;
 		
 		renderer = new ShapeRenderer();
+		
+		wallTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		
 	}
 	
+
 	@Override
 	public void draw(ScreenTickEvent e) {
 		
 		renderer.setProjectionMatrix(e.getCamera().combined);
 		
-		Iterator<Fixture> it = portalmSrc.getBody().getFixtureList().iterator();
+		Iterator<Fixture> it = wallmSrc.getBody().getFixtureList().iterator();
 		
 		while (it.hasNext()) {
 			Fixture aux = it.next();
@@ -59,7 +68,9 @@ public class PortalView extends AbstractView {
 				}
 			renderer.end();
 		}
-		
+
+
 	}
+
 
 }

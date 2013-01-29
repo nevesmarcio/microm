@@ -10,6 +10,8 @@ import pt.me.microm.model.events.listener.EventListener;
 import pt.me.microm.view.AbstractView;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Disposable;
 
 /*
@@ -63,6 +65,8 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 		// this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
 	}
 
+	public abstract Body getBody();
+	public abstract Vector2 getPosition();
 	
 	@Override /* related to Disposable interface */
 	public void dispose() {

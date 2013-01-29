@@ -96,14 +96,14 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.50000001"
-     inkscape:cx="-867.83627"
-     inkscape:cy="178.37237"
+     inkscape:cx="-678.50885"
+     inkscape:cy="353.6518"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1618"
+     inkscape:window-width="1680"
      inkscape:window-height="1028"
-     inkscape:window-x="54"
+     inkscape:window-x="1672"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
@@ -1020,11 +1020,23 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />
     <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="ground_1"
+       d="m -82.852667,442.21427 0,-3.56422 -644.242653,0 -635.75738,0 0,3.56423"
+       style="fill:#d40000;stroke:none" />
+    <path
        style="fill:#d40000;stroke:none"
        d="m -82.852667,870.71427 0,-2.49999 -640.000013,-2.12846 -640.00002,2.12846 0,2.5"
        id="ground_2"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccc" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="ground_3"
+       d="m -82.852667,1295.2143 0,-2.5 -640.000013,-3.5427 -640.00002,3.5427 0,2.5"
+       style="fill:#d40000;stroke:none" />
     <path
        style="fill:#0000ff;fill-opacity:1;stroke:none"
        d="m -107.56867,434.21428 24.716003,-35 -24.716003,-35 z"
@@ -1035,20 +1047,8 @@
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
        id="portal_exit_1"
-       d="m -1362.8528,518.21428 24.716,35 -24.716,35 z"
+       d="m -1362.8528,788.21428 24.716,35 -24.716,35 z"
        style="fill:#0000ff;fill-opacity:1;stroke:none" />
-    <path
-       sodipodi:nodetypes="ccccc"
-       inkscape:connector-curvature="0"
-       id="ground_1"
-       d="m -82.852667,442.21427 0,-3.56422 -644.242653,0 -635.75738,0 0,3.56423"
-       style="fill:#d40000;stroke:none" />
-    <path
-       sodipodi:nodetypes="ccccc"
-       inkscape:connector-curvature="0"
-       id="ground_3"
-       d="m -82.852667,1295.2143 0,-2.5 -640.000013,-3.5427 -640.00002,3.5427 0,2.5"
-       style="fill:#d40000;stroke:none" />
     <path
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
@@ -1057,19 +1057,54 @@
        style="fill:#0000ff;fill-opacity:1;stroke:none" />
     <path
        style="fill:#0000ff;fill-opacity:1;stroke:none"
-       d="m -1362.8528,898.21428 24.716,35 -24.716,35.00002 z"
+       d="m -1362.8528,1214.2143 24.716,35 -24.716,35 z"
        id="portal_exit_2"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />
     <path
        style="fill:#800000;fill-opacity:1;stroke:none"
-       d="m -800,726.08582 70,0 0,70 -70,0 z"
+       d="m -640,726.08582 70,0 0,70 -70,0 z"
        id="wall_1"
        inkscape:connector-curvature="0" />
     <path
        inkscape:connector-curvature="0"
        id="wall_2"
-       d="m -590,796.08582 70,0 0,70 -70,0 z"
+       d="m -850,796.08582 70,0 0,70 -70,0 z"
        style="fill:#800000;fill-opacity:1;stroke:none" />
+    <path
+       inkscape:connector-curvature="0"
+       id="wall_3"
+       d="m -688,298.65005 270,0 0,70 -270,0 z"
+       style="fill:#800000;fill-opacity:1;stroke:none" />
+    <path
+       style="fill:#800000;fill-opacity:1;stroke:none"
+       d="m -914,368.65005 134,0 0,70 -134,0 z"
+       id="wall_4"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="wall_5"
+       d="m -318,368.65005 113,0 0,70 -113,0 z"
+       style="fill:#800000;fill-opacity:1;stroke:none" />
+    <path
+       style="fill:#800000;fill-opacity:1;stroke:none"
+       d="m -1138,1219.1716 138,0 0,70 -138,0 z"
+       id="wall_6"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       id="wall_7"
+       d="m -626,1149.1716 98,0 0,70 -98,0 z"
+       style="fill:#800000;fill-opacity:1;stroke:none" />
+    <path
+       inkscape:connector-curvature="0"
+       id="wall_8"
+       d="m -358,931.1716 138,0 0,70 -138,0 z"
+       style="fill:#800000;fill-opacity:1;stroke:none" />
+    <path
+       style="fill:#800000;fill-opacity:1;stroke:none"
+       d="m -358,1219.1716 138,0 0,70 -138,0 z"
+       id="wall_9"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

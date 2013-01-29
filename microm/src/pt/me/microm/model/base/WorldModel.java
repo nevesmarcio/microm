@@ -14,6 +14,7 @@ import pt.me.microm.model.stuff.BoardModel;
 import pt.me.microm.model.stuff.DaBoxModel;
 import pt.me.microm.model.stuff.PortalModel;
 import pt.me.microm.model.stuff.PortalModelManager;
+import pt.me.microm.model.stuff.SpawnModel;
 import pt.me.microm.model.ui.UIModel;
 import pt.me.microm.tools.levelloader.LevelLoader;
 import aurelienribon.tweenengine.BaseTween;
@@ -26,6 +27,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
 
@@ -45,9 +47,12 @@ public class WorldModel extends AbstractModel {
 	private BallModel ball1;
 	private BallModel ball2;
 	private CoisaModel coisa;
+	
+	public SpawnModel spawnModel;
 	public  DaBoxModel player;
 	public PortalModelManager portalManager;
 	
+	public Vector2 waypoint;
 	
 	private Music bgMusic = GAME_CONSTANTS.MUSIC_BACKGROUND;
 	private Sound exampleSound = GAME_CONSTANTS.SOUND_DROP;
@@ -61,7 +66,7 @@ public class WorldModel extends AbstractModel {
 	
 	private boolean pauseSim = false;
 
-	private TweenManager tweenManager = new TweenManager();
+	public TweenManager tweenManager = new TweenManager();
 	
 	public WorldModelManager wmManager = new WorldModelManager();
 	
@@ -93,28 +98,28 @@ public class WorldModel extends AbstractModel {
 		ui = new UIModel(this); // constroi o painel informativo?
 		portalManager = new PortalModelManager();
 		
-/* exemplos de coisas populadas no mundo */		
-//		ball1 = BallModel.getNewInstance(this, board, 6.0f, 0.0f); // larga a bola num mundo num tabuleiro
-//		ball2 = BallModel.getNewInstance(this, board, 1.0f, 0.0f);
-		coisa = CoisaModel.getNewInstance(this, board, 0.0f);
-//		ball1.ballBody.setActive(false);
-//		ball2.ballBody.setActive(true);
-//		ball1.ballBody.setActive(!ball1.ballBody.isActive());
-//		ball2.ballBody.setActive(!ball2.ballBody.isActive());		
-		
-		Tween.call(new TweenCallback() {
-			@Override public void onEvent(int type, BaseTween<?> source) {
-				Gdx.app.postRunnable(new Runnable() {
-					
-					@Override
-					public void run() {
-						BallModel.getNewInstance(WorldModel.this, board, (new Random().nextFloat())*14.0f, (new Random().nextFloat())*14.0f);
-						
-					}
-				});
-			}
-		}).repeat(10, 0.1f).start(tweenManager);
-/* fim dos exemplos */
+///* exemplos de coisas populadas no mundo */		
+////		ball1 = BallModel.getNewInstance(this, board, 6.0f, 0.0f); // larga a bola num mundo num tabuleiro
+////		ball2 = BallModel.getNewInstance(this, board, 1.0f, 0.0f);
+//		coisa = CoisaModel.getNewInstance(this, board, 0.0f);
+////		ball1.ballBody.setActive(false);
+////		ball2.ballBody.setActive(true);
+////		ball1.ballBody.setActive(!ball1.ballBody.isActive());
+////		ball2.ballBody.setActive(!ball2.ballBody.isActive());		
+//		
+//		Tween.call(new TweenCallback() {
+//			@Override public void onEvent(int type, BaseTween<?> source) {
+//				Gdx.app.postRunnable(new Runnable() {
+//					
+//					@Override
+//					public void run() {
+//						BallModel.getNewInstance(WorldModel.this, board, (new Random().nextFloat())*14.0f, (new Random().nextFloat())*14.0f);
+//						
+//					}
+//				});
+//			}
+//		}).repeat(10, 0.1f).start(tweenManager);
+///* fim dos exemplos */
 		
 		FileHandle h = Gdx.files.internal("data/levels/level0.svg");
 		Gdx.app.log(TAG, "Nr elements loaded: " + LevelLoader.LoadLevel(h, this));
@@ -139,7 +144,7 @@ public class WorldModel extends AbstractModel {
 		}
 		return instance;
 	}
-	
+	 
 	
 	@Override
 	public void handleGameTick(GameTickEvent e) {
@@ -151,8 +156,8 @@ public class WorldModel extends AbstractModel {
 		
 		// testes de física
 		if ((getPhysicsWorld() != null) && !isPauseSim()){
-			getPhysicsWorld().step(elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO, 8, 3);
-//			physicsWorld.step((float)GAME_CONSTANTS.GAME_TICK_MILI/(float)GAME_CONSTANTS.ONE_SECOND_TO_MILI, 8, 3);
+//			getPhysicsWorld().step(elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO, 8, 3);
+			physicsWorld.step((float)GAME_CONSTANTS.GAME_TICK_MILI/(float)GAME_CONSTANTS.ONE_SECOND_TO_MILI, 8, 3);
 			
 			//TODO: Não entendo pq é que o elapsed nanotime escavaca o esquema todo... :: não é o elapsednanotime. é o cálculo da força a aplicar. com velocidade constante já n se verifica?!?
 			//physicsWorld.step(elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO, 12, 6);
@@ -232,5 +237,15 @@ public class WorldModel extends AbstractModel {
 		this.ui.touchUp(cam, positionX, positionY, pointer);
 	}
 
+	@Override
+	public Body getBody() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Vector2 getPosition() {
+		return null;
+	}
+	
 	
 }

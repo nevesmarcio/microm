@@ -23,9 +23,9 @@ public class GroundModel extends AbstractModel {
 	
 	private Vector2[] silhouetteVertex;
 	
-	private BodyDef playzoneBodyDef = new BodyDef();
-	private ChainShape playzoneShape; // Fronteira do tabuleiro
-	private Body playzoneBody;
+	private BodyDef groundBodyDef = new BodyDef();
+	private ChainShape groundShape; // Fronteira do tabuleiro
+	private Body groundBody;
 	
 	
 	private GroundModel(final WorldModel wm, final List<Vector2> lst) {
@@ -37,23 +37,23 @@ public class GroundModel extends AbstractModel {
 
 				silhouetteVertex = lst.toArray(new Vector2[]{});
 				
-				playzoneShape = new ChainShape();
-				playzoneShape.createLoop(silhouetteVertex);
+				groundShape = new ChainShape();
+				groundShape.createLoop(silhouetteVertex);
 				
-				playzoneBodyDef.position.set(0.0f, 0.0f); // posição inicial do tabuleiro
-				playzoneBodyDef.type = BodyType.StaticBody;
+				groundBodyDef.position.set(0.0f, 0.0f); // posição inicial do tabuleiro
+				groundBodyDef.type = BodyType.StaticBody;
 				
-				setPlayzoneBody(wm.getPhysicsWorld().createBody(playzoneBodyDef));
+				groundBody = wm.getPhysicsWorld().createBody(groundBodyDef);
 
 				FixtureDef fixDef = new FixtureDef();
-				fixDef.shape = playzoneShape;
+				fixDef.shape = groundShape;
 				fixDef.density = 1.0f;
-				fixDef.friction = 1.0f;
+				fixDef.friction = 0.9f;
 				fixDef.restitution = 0.0f;		
-				playzoneBody.createFixture(fixDef);
-				getPlayzoneBody().createFixture(fixDef);
+				groundBody.createFixture(fixDef);
+				getBody().createFixture(fixDef);
 					
-				getPlayzoneBody().setUserData(GroundModel.this); // relacionar com o modelo
+				getBody().setUserData(GroundModel.this); // relacionar com o modelo
 				
 				
 				// Sinaliza os subscritores de que a construção do modelo terminou.
@@ -73,29 +73,25 @@ public class GroundModel extends AbstractModel {
 	public void handleGameTick(GameTickEvent e) {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
-		if (getPlayzoneBody() != null)
-		Gdx.app.debug("[Physics-room]", 		  "Pos.x:" + String.format("%.2f", getPlayzoneBody().getPosition().x)
-				+ " Pos.y:" + String.format("%.2f", getPlayzoneBody().getPosition().y) 
-				+ " Angle:" + String.format("%.2f", getPlayzoneBody().getAngle())
-				+ " Mass:" + getPlayzoneBody().getMass()
-				+ " Type:" + getPlayzoneBody().getType());			
+		if (getBody() != null)
+		Gdx.app.debug("[Physics-room]", 		  "Pos.x:" + String.format("%.2f", getBody().getPosition().x)
+				+ " Pos.y:" + String.format("%.2f", getBody().getPosition().y) 
+				+ " Angle:" + String.format("%.2f", getBody().getAngle())
+				+ " Mass:" + getBody().getMass()
+				+ " Type:" + getBody().getType());			
 	}
 
 	
 	/* Getters - Setters do tabuleiro */
 	// Posição do tabuleiro
-	public Vector2 getBoardPosition() {
+	@Override
+	public Vector2 getPosition() {
 		return groundPosition;
 	}
-	public void setBoardPosition(Vector2 boardPosition) {
-		this.groundPosition = boardPosition;
+	@Override
+	public Body getBody() {
+		return groundBody;
 	}
-
-	public Body getPlayzoneBody() {
-		return playzoneBody;
-	}
-	public void setPlayzoneBody(Body playzoneBody) {
-		this.playzoneBody = playzoneBody;
-	}
+	
 
 }

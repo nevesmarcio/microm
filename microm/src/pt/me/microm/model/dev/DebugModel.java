@@ -7,6 +7,7 @@ import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -76,5 +77,16 @@ public class DebugModel extends AbstractModel {
 		this.color = color;
 	}
 
+
+	@Override
+	public Body getBody() {
+		return debugBody;
+	}
+	
+	@Override
+	public Vector2 getPosition() {
+		return null;
+	}	
+	
 	
 }

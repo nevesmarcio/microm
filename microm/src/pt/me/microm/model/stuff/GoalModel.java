@@ -20,8 +20,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 public class GoalModel extends AbstractModel {
 	private static final String TAG = GoalModel.class.getSimpleName();
 	
-	private Vector2 goalPosition; // posição do goal
-	
 	private Vector2[] silhouetteVertex;
 	
 	private BodyDef goalBodyDef = new BodyDef();
@@ -46,19 +44,19 @@ public class GoalModel extends AbstractModel {
 				
 				goalBodyDef.position.set(goal.getCentroid()); // posição inicial do tabuleiro
 				goalBodyDef.type = BodyType.StaticBody;
-				goalBodyDef.active = false;
 				
-				setGoalBody(wm.getPhysicsWorld().createBody(goalBodyDef));
+				goalBody = wm.getPhysicsWorld().createBody(goalBodyDef);
 
 				FixtureDef fixDef = new FixtureDef();
+				fixDef.isSensor = true;
 				fixDef.shape = goalShape;
 				fixDef.density = 1.0f;
 				fixDef.friction = 0.0f;
 				fixDef.restitution = 0.0f;		
 				goalBody.createFixture(fixDef);
-				getGoalBody().createFixture(fixDef);
+				getBody().createFixture(fixDef);
 					
-				getGoalBody().setUserData(GoalModel.this); // relacionar com o modelo
+				getBody().setUserData(GoalModel.this); // relacionar com o modelo
 				
 				
 				// Sinaliza os subscritores de que a construção do modelo terminou.
@@ -78,29 +76,37 @@ public class GoalModel extends AbstractModel {
 	public void handleGameTick(GameTickEvent e) {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
-		if (getGoalBody() != null)
-		Gdx.app.debug("[Physics-room]", 		  "Pos.x:" + String.format("%.2f", getGoalBody().getPosition().x)
-				+ " Pos.y:" + String.format("%.2f", getGoalBody().getPosition().y) 
-				+ " Angle:" + String.format("%.2f", getGoalBody().getAngle())
-				+ " Mass:" + getGoalBody().getMass()
-				+ " Type:" + getGoalBody().getType());			
+		if (getBody() != null)
+		Gdx.app.debug("[Physics-room]", 		  "Pos.x:" + String.format("%.2f", getBody().getPosition().x)
+				+ " Pos.y:" + String.format("%.2f", getBody().getPosition().y) 
+				+ " Angle:" + String.format("%.2f", getBody().getAngle())
+				+ " Mass:" + getBody().getMass()
+				+ " Type:" + getBody().getType());			
 	}
 
 	
 	/* Getters - Setters do tabuleiro */
 	// Posição do tabuleiro
-	public Vector2 getGoalPosition() {
-		return goalPosition;
+	@Override
+	public Vector2 getPosition() {
+		return goalBody.getPosition();
 	}
-	public void setGoalPosition(Vector2 goalPosition) {
-		this.goalPosition = goalPosition;
-	}
-
-	public Body getGoalBody() {
+	@Override
+	public Body getBody() {
 		return goalBody;
 	}
-	public void setGoalBody(Body goalBody) {
-		this.goalBody = goalBody;
+
+	
+	@Override
+	public void beginContactWith(AbstractModel oModel) {
+		Gdx.app.log(TAG, "Oh yeah!!");
 	}
+	
+	@Override
+	public void endContactWith(AbstractModel oModel) {
+		Gdx.app.log(TAG, "Oh nooooooooooooooo!!");
+	}
+	
+	
 
 }

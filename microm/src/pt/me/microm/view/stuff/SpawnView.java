@@ -34,7 +34,7 @@ public class SpawnView extends AbstractView {
 		
 		renderer.setProjectionMatrix(e.getCamera().combined);
 		
-		Fixture fix = (spawnmSrc.getSpawnBody().getFixtureList()).get(0);
+		Fixture fix = (spawnmSrc.getBody().getFixtureList()).get(0);
 		ChainShape cs = (ChainShape)fix.getShape();
 		
 		Vector2 pointA = new Vector2();
@@ -43,8 +43,8 @@ public class SpawnView extends AbstractView {
 		renderer.begin(ShapeType.Line);
 			int vCnt = cs.getVertexCount();
 			for (int i = 0; i < vCnt; i++) {
-				cs.getVertex(i, pointA); pointA.add(spawnmSrc.getSpawnBody().getPosition());
-				cs.getVertex(i==vCnt-1 ? 0 : i + 1, pointB); pointB.add(spawnmSrc.getSpawnBody().getPosition());
+				cs.getVertex(i, pointA); pointA.add(spawnmSrc.getBody().getPosition());
+				cs.getVertex(i==vCnt-1 ? 0 : i + 1, pointB); pointB.add(spawnmSrc.getBody().getPosition());
 				renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
 			}
 		renderer.end();

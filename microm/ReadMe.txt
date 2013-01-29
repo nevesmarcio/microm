@@ -33,25 +33,28 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 27-01-2013
 # resolução do problema do level loading e do centro do objecto (box2d)
 
+28-01-2013
+# implementação parcial das barreiras (walls)
+# refactorizações
 
+29-01-2013
+# implementação parcial do handler de start (spawn de bolas) 
+# implementação das paredes
+# handler para o start
+# handler para o finish
+# handler para a destruição do objecto
 
 [TODO] 
-# implementação das barreiras (walls)
-# falta fazer os handlers para o start e finish
 # counter de vidas e mecanismo de restart no mesmo nivel
 
 
-
-# refactorização do código (os portais p.e. estão vergonhosos)
-
-# lógica do portal para destruir o objecto e fazê-lo aparecer no outro lado (deslocação em "Z")
 # efeito de paralax
 # tutorial da relva (usa os tweens ?)
+# lógica do portal para destruir o objecto e fazê-lo aparecer no outro lado (deslocação em "Z")
 
 
 [BUGS]
 # no android o background não aparece...
-
 
 [ideias]
 # sistema de niveis com percentagens e temas tipo o blast the monkey, ou o cut the ropee

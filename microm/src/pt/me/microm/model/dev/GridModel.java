@@ -1,5 +1,8 @@
 package pt.me.microm.model.dev;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.events.SimpleEvent;
@@ -40,4 +43,15 @@ public class GridModel extends AbstractModel {
 		this.boxSize = boxSize;
 	}
 
+	
+	@Override
+	public Body getBody() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Vector2 getPosition() {
+		return null;
+	}	
+	
 }

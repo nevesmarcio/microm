@@ -24,6 +24,7 @@ import pt.me.microm.model.stuff.GoalModel;
 import pt.me.microm.model.stuff.GroundModel;
 import pt.me.microm.model.stuff.PortalModel;
 import pt.me.microm.model.stuff.SpawnModel;
+import pt.me.microm.model.stuff.WallModel;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -90,7 +91,7 @@ public class LevelLoader {
 		m = DebugModel.getNewInstance(wm, spawn.getCentroid().x, spawn.getCentroid().y);
 		m.setColor(Color.CYAN);
 		
-		SpawnModel.getNewInstance(wm, spawn, spawn.getPoints());
+		wm.spawnModel = SpawnModel.getNewInstance(wm, spawn, spawn.getPoints());
 	}
 
 	/**
@@ -157,7 +158,7 @@ public class LevelLoader {
 			ap.y = (maxHeight - ap.y)*scale;
 			DebugModel.getNewInstance(wm, ap.x, ap.y);
 		}
-		
+		WallModel.getNewInstance(wm, wall);
 		
 	}
 	

@@ -13,7 +13,9 @@ import pt.me.microm.model.events.SimpleEvent;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 
 public class CameraModel extends AbstractModel{
 	private static final String TAG = CameraModel.class.getSimpleName();
@@ -75,6 +77,18 @@ public class CameraModel extends AbstractModel{
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
 	}
+	
+	
+	@Override
+	public Body getBody() {
+		return null;
+	}
+
+	@Override
+	public Vector2 getPosition() {
+		return null;
+	}
+	
 	
 	public void Resize() {
 		//## CAMERA STUFF
@@ -284,7 +298,11 @@ public class CameraModel extends AbstractModel{
 		}
 
 		//FIXME: n posso meter isto aqui senão o ecrã faz um "flick"
-//		camera.update(); // faz update às matrizes da camera após os movimentos
+		camera.update(); // faz update às matrizes da camera após os movimentos
 		
 	}
+
+
+
+
 }

@@ -200,4 +200,14 @@ public class UIModel extends AbstractModel {
 	}
 
 	
+	@Override
+	public Vector2 getPosition() {
+		return null;
+	}
+	@Override
+	public Body getBody() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }

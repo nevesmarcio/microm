@@ -49,7 +49,7 @@ public class BoardModel extends AbstractModel {
 				playzoneBodyDef.position.set(board.getCentroid()); // posição inicial do tabuleiro
 				playzoneBodyDef.type = BodyType.StaticBody;
 				
-				setPlayzoneBody(wm.getPhysicsWorld().createBody(playzoneBodyDef));
+				playzoneBody = wm.getPhysicsWorld().createBody(playzoneBodyDef);
 
 				FixtureDef fixDef = new FixtureDef();
 				fixDef.shape = playzoneShape;
@@ -57,9 +57,9 @@ public class BoardModel extends AbstractModel {
 				fixDef.friction = 0.0f;
 				fixDef.restitution = 0.0f;		
 				playzoneBody.createFixture(fixDef);
-				getPlayzoneBody().createFixture(fixDef);
+				getBody().createFixture(fixDef);
 					
-				getPlayzoneBody().setUserData(BoardModel.this); // relacionar com o modelo
+				getBody().setUserData(BoardModel.this); // relacionar com o modelo
 				
 				
 				// Sinaliza os subscritores de que a construção do modelo terminou.
@@ -80,29 +80,25 @@ public class BoardModel extends AbstractModel {
 	public void handleGameTick(GameTickEvent e) {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
-		if (getPlayzoneBody() != null)
-		Gdx.app.debug("[Physics-room]", 		  "Pos.x:" + String.format("%.2f", getPlayzoneBody().getPosition().x)
-				+ " Pos.y:" + String.format("%.2f", getPlayzoneBody().getPosition().y) 
-				+ " Angle:" + String.format("%.2f", getPlayzoneBody().getAngle())
-				+ " Mass:" + getPlayzoneBody().getMass()
-				+ " Type:" + getPlayzoneBody().getType());			
+		if (getBody() != null)
+		Gdx.app.debug("[Physics-room]", 		  "Pos.x:" + String.format("%.2f", getBody().getPosition().x)
+				+ " Pos.y:" + String.format("%.2f", getBody().getPosition().y) 
+				+ " Angle:" + String.format("%.2f", getBody().getAngle())
+				+ " Mass:" + getBody().getMass()
+				+ " Type:" + getBody().getType());			
 	}
 
 	
 	/* Getters - Setters do tabuleiro */
 	// Posição do tabuleiro
-	public Vector2 getBoardPosition() {
+	@Override
+	public Vector2 getPosition() {
 		return boardPosition;
 	}
-	public void setBoardPosition(Vector2 boardPosition) {
-		this.boardPosition = boardPosition;
-	}
-
-	public Body getPlayzoneBody() {
+	@Override
+	public Body getBody() {
 		return playzoneBody;
 	}
-	public void setPlayzoneBody(Body playzoneBody) {
-		this.playzoneBody = playzoneBody;
-	}
+	
 
 }

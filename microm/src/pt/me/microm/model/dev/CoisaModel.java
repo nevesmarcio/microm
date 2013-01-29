@@ -74,5 +74,13 @@ public class CoisaModel extends AbstractModel {
 		this.color = color;
 	}
 
+	@Override
+	public Body getBody() {
+		return coisaBody;
+	}
+	@Override
+	public Vector2 getPosition() {
+		return null;
+	}
 	
 }

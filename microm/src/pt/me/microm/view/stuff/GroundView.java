@@ -31,7 +31,7 @@ public class GroundView extends AbstractView {
 		
 		renderer.setProjectionMatrix(e.getCamera().combined);
 		
-		Fixture fix = (groundmSrc.getPlayzoneBody().getFixtureList()).get(0);
+		Fixture fix = (groundmSrc.getBody().getFixtureList()).get(0);
 		ChainShape cs = (ChainShape)fix.getShape();
 		
 		Vector2 pointA = new Vector2();
@@ -40,8 +40,8 @@ public class GroundView extends AbstractView {
 		renderer.begin(ShapeType.Line);
 			int vCnt = cs.getVertexCount();
 			for (int i = 0; i < vCnt; i++) {
-				cs.getVertex(i, pointA); pointA.add(groundmSrc.getPlayzoneBody().getPosition());
-				cs.getVertex(i==vCnt-1 ? 0 : i + 1, pointB); pointB.add(groundmSrc.getPlayzoneBody().getPosition());
+				cs.getVertex(i, pointA); pointA.add(groundmSrc.getBody().getPosition());
+				cs.getVertex(i==vCnt-1 ? 0 : i + 1, pointB); pointB.add(groundmSrc.getBody().getPosition());
 				renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
 			}
 		renderer.end();
