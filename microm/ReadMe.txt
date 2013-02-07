@@ -57,6 +57,9 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 07-02-2013
 # mais umas investidas nos tipos de ecrãs e no cálculo dos parâmetros do CameraModel
 
+[BUGS]
+# no android o background não aparece... (parece-me que é dos POTs)
+
 
 [TODO] 
 # como desenhar as texturas para os tamanhos? relação entre dimensões e resoluções
@@ -71,8 +74,6 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 # efeito de paralax
 
 
-[BUGS]
-# no android o background não aparece... (parece-me que é dos POTs)
 
 [ideias]
 # sistema de niveis com percentagens e temas tipo o blast the monkey, ou o cut the ropee
