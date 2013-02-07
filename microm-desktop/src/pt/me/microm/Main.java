@@ -12,9 +12,10 @@ public class Main {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "microm-game";
 		cfg.useGL20 = false;
-		cfg.width = 800;
-		cfg.height = 800;
+		cfg.width = 800;// 240 480 480 800
+		cfg.height = 480;// 320 800 854 1280
 		cfg.vSyncEnabled = true;
+		//cfg.fullscreen = true;
 		
 		
 		new LwjglApplication(new MicroMGame(), cfg);

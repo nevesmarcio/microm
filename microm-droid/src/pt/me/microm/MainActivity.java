@@ -14,6 +14,7 @@ public class MainActivity extends AndroidApplication {
         cfg.useGL20 = false;
         
         initialize(new MicroMGame(), cfg);
+        //initialize(new MyAnimatedGrassApp1(), cfg);
  
     }
 }

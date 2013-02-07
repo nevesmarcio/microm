@@ -48,31 +48,8 @@ public class CameraModel extends AbstractModel{
 	
 	public CameraModel() {
 
-		//## CAMERA STUFF
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
-		
-		float real_w = GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY;
-		float real_h = real_w*h/w;
-		
-		float fovy = 67; // mudando o fov, muda imenso a distância da camera ao viewport - calculo em camRadius
-		theta = 0;
-		phi = (float)Math.PI/2;
-		camCenter = new Vector3(real_w/2, real_h/2, 0.0f);
-		camRadius = (float)( (real_h/2f) / Math.tan(Math.toRadians(fovy/2f)));  // tendo em conta o fov, a que distância está a camara do "near clipping plan" - viewport	
-		
-		camera = new PerspectiveCamera(fovy, real_w, real_h);
-		camera.position.set(camCenter.x + (float)(camRadius*Math.cos(theta)*Math.cos(phi)),
-							camCenter.y + (float)(camRadius*Math.sin(theta)*Math.cos(phi)),
-							camCenter.z + (float)(camRadius*Math.sin(phi)));
-		
-		camera.lookAt(camCenter.x, camCenter.y, camCenter.z);
-	
-		camera.near = 0.1f; //10cm
-		camera.far = 2000.0f;//2km
-
-		printCameraValues();
-		camera.update();
+		//FIXME:: se não colocar isto aqui tenho uma data de excepções. Analisar!!
+		Resize();
 	
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
@@ -95,16 +72,30 @@ public class CameraModel extends AbstractModel{
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
 		
-		float real_w = GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY;
-		float real_h = real_w*h/w;
+		float real_w;// = 1;
+		float real_h;// = real_w*h/w;
+		
+		//quero encaixar da melhor maneira o board 15x15
+		if (w<h) {
+			real_w = GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY;
+			real_h = real_w*h/w;
+		} else {
+			real_h = GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY;
+			real_w = real_h*w/h;
+		}
 		
 		float fovy = 67; // mudando o fov, muda imenso a distância da camera ao viewport - calculo em camRadius
+		camera = new PerspectiveCamera(fovy, real_w, real_h);
+		
 		theta = 0;
 		phi = (float)Math.PI/2;
-//		camCenter = new Vector3(real_w/2, real_h/2, 0.0f);
-//		camRadius = (float)( (real_h/2f) / Math.tan(Math.toRadians(fovy/2f)));  // tendo em conta o fov, a que distância está a camara do "near clipping plan" - viewport	
+		if (real_w < real_h)
+			camCenter = new Vector3(real_w/2, real_w/2, 0.0f);
+		else
+			camCenter = new Vector3(real_h/2, real_h/2, 0.0f);
 		
-		camera = new PerspectiveCamera(fovy, real_w, real_h);
+		camRadius = (float)( (real_h/2f) / Math.tan(Math.toRadians(fovy/2f)));  // tendo em conta o fov, a que distância está a camara do "near clipping plan" - viewport	
+		
 		camera.position.set(camCenter.x + (float)(camRadius*Math.cos(theta)*Math.cos(phi)),
 							camCenter.y + (float)(camRadius*Math.sin(theta)*Math.cos(phi)),
 							camCenter.z + (float)(camRadius*Math.sin(phi)));

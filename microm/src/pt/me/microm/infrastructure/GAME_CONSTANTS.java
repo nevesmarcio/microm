@@ -12,8 +12,7 @@ public class GAME_CONSTANTS {
 	
 	public static final int GAME_TICK_MILI = 16;
 	
-	public static final float MODEL_SCREEN_WIDTH_CAPACITY = 15.0f; // must be able to represent 12 units on full width
-
+	public static final float MODEL_SCREEN_WIDTH_CAPACITY = 15.0f; // must be able to represent 15 units on full width
 //	public static final float MODEL_GAME_ASPECT_RATIO = 4.0f/4.0f; // 4:3 game
 //	public static final float MODEL_MAX_HEIGHT_TO_CONSIDER = MODEL_SCREEN_WIDTH_CAPACITY * MODEL_GAME_ASPECT_RATIO; // 16.0f
 	
@@ -24,16 +23,18 @@ public class GAME_CONSTANTS {
 	public static final Texture TEXTURE_BALL = new Texture(Gdx.files.internal("data/textures/ball.png"));
 	public static final Texture TEXTURE_THING = new Texture(Gdx.files.internal("data/textures/thing.png"));
 	public static final Texture TEXTURE_BG = new Texture(Gdx.files.internal("data/textures/bg.png"));
+	public static final Texture TEXTURE_SQUARE1 = new Texture(Gdx.files.internal("data/textures/square1.png"));
+	public static final Texture TEXTURE_SQUARE2 = new Texture(Gdx.files.internal("data/textures/square2.png"));
 
 	// Sounds LOAD
-	public static final Sound SOUND_DROP = Gdx.audio.newSound(Gdx.files.internal("data/sound/Utopia Critical Stop.wav"));
+	//public static final Sound SOUND_DROP = Gdx.audio.newSound(Gdx.files.internal("data/sound/Utopia Critical Stop.wav"));
 	
 	// Musics LOAD
-	public static final Music MUSIC_BACKGROUND = Gdx.audio.newMusic(Gdx.files.internal("data/music/01 me and my social anxiety.mp3"));
+	//public static final Music MUSIC_BACKGROUND = Gdx.audio.newMusic(Gdx.files.internal("data/music/01 me and my social anxiety.mp3"));
 	
 	public static void DisposeAllObjects() {
 		TEXTURE_DROID.dispose();
-		SOUND_DROP.dispose();
-		MUSIC_BACKGROUND.dispose();
+		//SOUND_DROP.dispose();
+		//MUSIC_BACKGROUND.dispose();
 	}
 }

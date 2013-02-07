@@ -54,8 +54,8 @@ public class WorldModel extends AbstractModel {
 	
 	public Vector2 waypoint;
 	
-	private Music bgMusic = GAME_CONSTANTS.MUSIC_BACKGROUND;
-	private Sound exampleSound = GAME_CONSTANTS.SOUND_DROP;
+//	private Music bgMusic = GAME_CONSTANTS.MUSIC_BACKGROUND;
+//	private Sound exampleSound = GAME_CONSTANTS.SOUND_DROP;
 
 	private float ups;
 	

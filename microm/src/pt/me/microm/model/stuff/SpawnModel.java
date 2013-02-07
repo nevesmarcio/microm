@@ -70,19 +70,19 @@ public class SpawnModel extends AbstractModel {
 				SpawnModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
 				
 				
-				/* Logo após a construção */
-				Tween.call(new TweenCallback() {
-				@Override public void onEvent(int type, BaseTween<?> source) {
-					Gdx.app.postRunnable(new Runnable() {
-						
-						@Override
-						public void run() {
-							BallModel.getNewInstance(wm, SpawnModel.this.spawnBody.getPosition().x, SpawnModel.this.spawnBody.getPosition().y);
-							
-						}
-					});
-				}
-			}).repeat(10, 5.0f).start(wm.tweenManager);				
+//				/* Logo após a construção */
+//				Tween.call(new TweenCallback() {
+//				@Override public void onEvent(int type, BaseTween<?> source) {
+//					Gdx.app.postRunnable(new Runnable() {
+//						
+//						@Override
+//						public void run() {
+//							BallModel.getNewInstance(wm, SpawnModel.this.spawnBody.getPosition().x, SpawnModel.this.spawnBody.getPosition().y);
+//							
+//						}
+//					});
+//				}
+//			}).repeat(10, 5.0f).start(wm.tweenManager);				
 
 			}
 		});

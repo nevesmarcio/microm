@@ -44,17 +44,35 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 # handler para o finish
 # handler para a destruição do objecto
 
-[TODO] 
-# counter de vidas e mecanismo de restart no mesmo nivel
+30-01-2013
+# read about textures meshes and stuff.... fuck!!!!!!!!!! --> tests on PortalView 
 
+01-02-2013
+# textureAtlas (v)
+# tween accessor (v)
+
+05-02-2013
+# filtros sobre as texturas; conceitos: texel vs pixel, linear filter, nearest filter, mipmap(?), pixelperfect
+
+07-02-2013
+# mais umas investidas nos tipos de ecrãs e no cálculo dos parâmetros do CameraModel
+
+
+[TODO] 
+# como desenhar as texturas para os tamanhos? relação entre dimensões e resoluções
+
+# counter de vidas e mecanismo de restart no mesmo nivel
+# zona de texto do UI para contar as vidas/ saltar para o menu, etc.
+
+
+# tutorial da relva (usa os tweens ?)
+# particles na destruição
 
 # efeito de paralax
-# tutorial da relva (usa os tweens ?)
-# lógica do portal para destruir o objecto e fazê-lo aparecer no outro lado (deslocação em "Z")
 
 
 [BUGS]
-# no android o background não aparece...
+# no android o background não aparece... (parece-me que é dos POTs)
 
 [ideias]
 # sistema de niveis com percentagens e temas tipo o blast the monkey, ou o cut the ropee
