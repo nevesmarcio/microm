@@ -7,7 +7,6 @@ http://www.aurelienribon.com/blog/projects/universal-tween-engine/
 http://code.google.com/p/libgdx-texturepacker-gui/
 
 
-
 [DONE]
 # code review - organizar a arquitectura
 # implementados os pickrays para mais do que um ponto de toque no ecrã
@@ -72,9 +71,27 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 11-02-2013
 # implementado o mecanismo de logging como deve ser: a verificar o nivel de logs activo para impedir o string building todo que acontecia
 # o objecto Camera, agora já tem uma camera 2D para o desenho do UI
+# alterado o level loader: o scale foi movido para um local mais apropriado do código (fora dos "add")
+
+12-02-2013
+# refactorizado o rendering de fps/ ups
+
 
 
 [TODO] 
+# Mecanismo de navegação na app
+	- Splash screen 	(arranque da app)
+	- Main screen 		(landing screen)
+	- World select		(onde se selecciona o tema/ schema/ world)
+	- Level Select		(onde se selecciona o nível dentro de um tema)
+	- Pause overlay		(quando o user carrega no back-key)
+	- Level success		(nível superado/ ou não)
+
+# colocar um countdown para a DaBox saltar do spawning point
+# a DaBox também não está a ser construída em função do tamanho declarado pelo svg
+
+# detectar o level success e apresentar o próximo nível
+
 # como desenhar as texturas para os tamanhos? relação entre dimensões e resoluções
 
 # counter de vidas e mecanismo de restart no mesmo nivel
@@ -90,6 +107,7 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 [BUGS]
 # ao fazer rotate o OPENGL parte-se todo. averiguar pq. Para resolver, forçei o layout a landscape na app android
 # BUG?: problema das texturas (enforce POT?)
+# nas colisões há um glitch esquisito
 
 
 [ideias]

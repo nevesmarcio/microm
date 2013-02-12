@@ -6,9 +6,11 @@ import pt.me.microm.model.base.WorldModel;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Logger;
 
 public class MyGestureListener implements GestureListener {
 	private static final String TAG = MyGestureListener.class.getSimpleName();
+	private static final Logger logger = new Logger(TAG);
 	
 	private CameraModel camModel;
 	private WorldModel worldModel;
@@ -20,7 +22,7 @@ public class MyGestureListener implements GestureListener {
 	
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
-		Gdx.app.debug(TAG, "touchDown");
+		if (logger.getLevel() == logger.DEBUG) logger.debug("touchDown");
 		
 		worldModel.player.jump();
 		
@@ -30,7 +32,7 @@ public class MyGestureListener implements GestureListener {
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
-		Gdx.app.debug(TAG, "tap");
+		if (logger.getLevel() == logger.DEBUG) logger.debug("tap");
 		
 		return false;
 	}
@@ -38,7 +40,7 @@ public class MyGestureListener implements GestureListener {
 
 	@Override
 	public boolean longPress(float x, float y) {
-		Gdx.app.debug(TAG, "longPress");
+		if (logger.getLevel() == logger.DEBUG) logger.debug("longPress");
 		
 		return false;
 	}
@@ -46,7 +48,7 @@ public class MyGestureListener implements GestureListener {
 
 	@Override
 	public boolean fling(float velocityX, float velocityY, int button) {
-		Gdx.app.debug(TAG, "fling");
+		if (logger.getLevel() == logger.DEBUG) logger.debug("fling");
 		
 		return false;
 	}
@@ -54,7 +56,7 @@ public class MyGestureListener implements GestureListener {
 
 	@Override
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
-		Gdx.app.debug(TAG, "pan");
+		if (logger.getLevel() == logger.DEBUG) logger.debug("pan");
 		
 		return false;
 	}
@@ -62,7 +64,7 @@ public class MyGestureListener implements GestureListener {
 
 	@Override
 	public boolean zoom(float originalDistance, float currentDistance) {
-		Gdx.app.debug(TAG, "zoom");
+		if (logger.getLevel() == logger.DEBUG) logger.debug("zoom");
 
 		return false;
 	}
@@ -71,7 +73,7 @@ public class MyGestureListener implements GestureListener {
 	public boolean pinch(Vector2 initialFirstPointer,
 			Vector2 initialSecondPointer, Vector2 firstPointer,
 			Vector2 secondPointer) {
-		Gdx.app.debug(TAG,  "pinch");
+		if (logger.getLevel() == logger.DEBUG) logger.debug("pinch");
 
 		return false;
 	}

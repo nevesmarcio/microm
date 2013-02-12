@@ -6,9 +6,11 @@ import pt.me.microm.model.base.WorldModel;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.utils.Logger;
 
 public class MyInputProcessor implements InputProcessor {
 	private static final String TAG = MyInputProcessor.class.getSimpleName();
+	private static final Logger logger = new Logger(TAG);
 	
 	private WorldModel worldModel;
 	private CameraModel camModel;
@@ -22,8 +24,8 @@ public class MyInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
-		Gdx.app.log(TAG, "[KEY]: " + Integer.toString(keycode));
+
+		if (logger.getLevel() == logger.DEBUG) logger.debug("[KEY]: " + Integer.toString(keycode));
 		
 		if (keycode == Keys.SPACE)
 			worldModel.player.jump();

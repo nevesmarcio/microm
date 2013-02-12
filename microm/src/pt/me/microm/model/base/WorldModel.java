@@ -29,6 +29,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Logger;
 
 
 /* 
@@ -38,6 +39,7 @@ import com.badlogic.gdx.physics.box2d.World;
  */
 public class WorldModel extends AbstractModel {
 	private static final String TAG = WorldModel.class.getSimpleName();
+	private static final Logger logger = new Logger(TAG);
 	
 	private static WorldModel instance = null;
 	
@@ -57,8 +59,6 @@ public class WorldModel extends AbstractModel {
 //	private Music bgMusic = GAME_CONSTANTS.MUSIC_BACKGROUND;
 //	private Sound exampleSound = GAME_CONSTANTS.SOUND_DROP;
 
-	private float ups;
-	
 	// testes física
 	private Vector2 gravity = new Vector2(0.0f, -30.0f);//-9.8f
 	private boolean doSleep = true;
@@ -152,9 +152,7 @@ public class WorldModel extends AbstractModel {
 	public void handleGameTick(GameTickEvent e) {
 		float elapsedNanoTime = e.getElapsedNanoTime();
 
-		setUps((float) (1000.0 / (elapsedNanoTime / GAME_CONSTANTS.ONE_MILISECOND_TO_NANO)));
-		
-		Gdx.app.debug("[WorldModel timestep]","time elapsed= " + elapsedNanoTime/GAME_CONSTANTS.ONE_SECOND_TO_NANO + "s");
+		if (logger.getLevel() == logger.DEBUG) logger.debug("[WorldModel timestep]: time elapsed=" + elapsedNanoTime/GAME_CONSTANTS.ONE_SECOND_TO_NANO + "s");
 		
 		// testes de física
 		if ((getPhysicsWorld() != null) && !isPauseSim()){
@@ -163,7 +161,7 @@ public class WorldModel extends AbstractModel {
 			
 			//TODO: Não entendo pq é que o elapsed nanotime escavaca o esquema todo... :: não é o elapsednanotime. é o cálculo da força a aplicar. com velocidade constante já n se verifica?!?
 			//physicsWorld.step(elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO, 12, 6);
-			Gdx.app.debug("[physics-step]","step: " + elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO);
+			if (logger.getLevel() == logger.DEBUG) logger.debug("[physics-step]: step=" + elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO);
 		
 			//É após o step que se pode processar o adicionar/ remover objectos no physicsWorld
 			wmManager.process();
@@ -202,14 +200,6 @@ public class WorldModel extends AbstractModel {
 		return null;
 	}
 	
-	// Updates Per Second (relativo à cadência dos cálculos físicos)
-	public float getUps() {
-		return ups;
-	}
-	public void setUps(float ups) {
-		this.ups = ups;
-	}
-
 	// Objecto que trata dos cálculos físicos
 	public World getPhysicsWorld() {
 		return physicsWorld;

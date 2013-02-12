@@ -23,12 +23,13 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
+import com.badlogic.gdx.utils.Logger;
 
 public class UIModel extends AbstractModel {
 	// Esta classe deverá ter um objecto visual independente da camera sobre o mundo.
 	// O UI deverá permanecer inalterado independentemente do zoom/ pan, etc.
 	private static final String TAG = UIModel.class.getSimpleName();
-	
+	private static final Logger logger = new Logger(TAG);
 	
 	private WorldModel wm;
 	
@@ -42,6 +43,8 @@ public class UIModel extends AbstractModel {
 	protected Body dummyBody = null;
 
 	protected MouseJoint[] mouseJoint = null;
+	
+	private float ups;
 	
 	int pntr;
 
@@ -178,10 +181,21 @@ public class UIModel extends AbstractModel {
 	
 	@Override
 	public void handleGameTick(GameTickEvent e) {
-		// TODO Auto-generated method stub
+		float elapsedNanoTime = e.getElapsedNanoTime();
+		
+		setUps((float) (1000.0 / (elapsedNanoTime / GAME_CONSTANTS.ONE_MILISECOND_TO_NANO)));		
+		
 		
 	}
 
+	// Updates Per Second (relativo à cadência dos cálculos físicos)
+	public float getUps() {
+		return ups;
+	}
+	public void setUps(float ups) {
+		this.ups = ups;
+	}	
+	
 	
 	public String getToaster() {
 		return toaster;

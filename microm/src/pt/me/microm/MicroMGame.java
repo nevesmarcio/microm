@@ -18,7 +18,7 @@ import com.badlogic.gdx.input.RemoteInput;
 import com.badlogic.gdx.math.Vector2;
 
 public class MicroMGame implements ApplicationListener {
-	public static final boolean ISDEV = true; // "pre-compiler" equivalent for branching development-only code
+	public static final boolean ISDEV = false; // "pre-compiler" equivalent for branching development-only code
 	private static final String TAG = MicroMGame.class.getSimpleName();
 	
 	// CONTROLLER RELATED
@@ -27,7 +27,7 @@ public class MicroMGame implements ApplicationListener {
 
 	// MODEL RELATED
 	private WorldModel worldModel;
-	private CameraModel camModel;
+	private CameraModel cameraModel;
 	
 	// VIEW RELATED
 	// Todas as views são instanciadas por "reflection"
@@ -39,7 +39,7 @@ public class MicroMGame implements ApplicationListener {
 				
 
 		// MODELS ///////////////////////////////////////////////////////////////
-		camModel = new CameraModel();
+		cameraModel = new CameraModel();
 		worldModel = WorldModel.getSingletonInstance();
 		
 		// VIEWS  ///////////////////////////////////////////////////////////////
@@ -56,8 +56,8 @@ public class MicroMGame implements ApplicationListener {
 		
 		
 		// Cria o controller dos gestos e regista-o --> este pode actuar quer ao nivel do modelo quer ao nivel da view
-		myGestureListener = new MyGestureListener(camModel, worldModel);
-		myInputProcessor = new MyInputProcessor(camModel, worldModel);
+		myGestureListener = new MyGestureListener(cameraModel, worldModel);
+		myInputProcessor = new MyInputProcessor(cameraModel, worldModel);
 
 		InputMultiplexer multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(new GestureDetector(1, 1.0f, 1.0f, 1.0f, myGestureListener));
@@ -92,13 +92,13 @@ public class MicroMGame implements ApplicationListener {
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
-		ScreenTickManager.getInstance().fireEvent(camModel, elapsedNanoTime);		
+		ScreenTickManager.getInstance().fireEvent(cameraModel, elapsedNanoTime);		
 	}
 	
 
 	@Override
 	public void resize(int width, int height) {
-		camModel.Resize();
+		cameraModel.Resize();
 		
 	}
 

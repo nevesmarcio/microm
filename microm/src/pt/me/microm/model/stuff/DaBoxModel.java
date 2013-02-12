@@ -6,6 +6,11 @@ import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -27,34 +32,59 @@ public class DaBoxModel extends AbstractModel {
 	
 
 	private DaBoxModel(final WorldModel wm, final float scale, final float x, final float y) {
-		wm.wmManager.add(new PointerToFunction() {
-			
+		
+		Tween.call(new TweenCallback() {
 			@Override
-			public void handler() {
-				
-				daBoxBodyDef.type = BodyType.DynamicBody;
-				daBoxBodyDef.position.set(x, y);
+			public void onEvent(int type, BaseTween<?> source) {
+				Gdx.app.postRunnable(new Runnable() {
 
-				daBoxBody = wm.getPhysicsWorld().createBody(daBoxBodyDef);
+					@Override
+					public void run() {
 
-				daBoxShape.setAsBox(side/2, side/2);
-				/*fixture*/
-				FixtureDef fixDef = new FixtureDef();
-				fixDef.shape = daBoxShape;
-				fixDef.density = 1.0f;
-				fixDef.friction = 0.0f;
-				fixDef.restitution = 0.0f;
-				daBoxBody.createFixture(fixDef);
-				
-				daBoxBody.setUserData(DaBoxModel.this); // relacionar com o modelo
-				
-				daBoxBody.setSleepingAllowed(false);
+					
+						
+						
+						wm.wmManager.add(new PointerToFunction() {
 							
-				// Sinaliza os subscritores de que a construção do modelo terminou.
-				DaBoxModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));				
-				
+							@Override
+							public void handler() {
+								
+								daBoxBodyDef.type = BodyType.DynamicBody;
+								daBoxBodyDef.position.set(x, y);
+
+								daBoxBody = wm.getPhysicsWorld().createBody(daBoxBodyDef);
+
+								daBoxShape.setAsBox(side/2, side/2);
+								/*fixture*/
+								FixtureDef fixDef = new FixtureDef();
+								fixDef.shape = daBoxShape;
+								fixDef.density = 1.0f;
+								fixDef.friction = 0.0f;
+								fixDef.restitution = 0.0f;
+								daBoxBody.createFixture(fixDef);
+								
+								daBoxBody.setUserData(DaBoxModel.this); // relacionar com o modelo
+								
+								daBoxBody.setSleepingAllowed(false);
+											
+								// Sinaliza os subscritores de que a construção do modelo terminou.
+								DaBoxModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));				
+								
+							}
+						});						
+						
+						
+						
+						
+
+					}
+				});
+
 			}
-		});
+
+		}).delay(2.0f).start(wm.tweenManager);		
+		
+
 		
 		
 

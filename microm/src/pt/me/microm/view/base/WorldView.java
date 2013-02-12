@@ -26,20 +26,8 @@ import com.badlogic.gdx.utils.Logger;
 
 public class WorldView extends AbstractView {
 	private static final String TAG = WorldView.class.getSimpleName();
-	
-	private float fps;
-	
-	private BitmapFont font1;
-	private Vector2 textPosition1 = new Vector2(0, 60);
-	
-	private BitmapFont font2;
-	private Vector2 textPosition2 = new Vector2(0, 40);	
-	
-	private BitmapFont font3;
-	private Vector2 textPosition3 = new Vector2(0, 20);
-	
-	private boolean direction = true;
-	
+	private static final Logger logger = new Logger(TAG);
+
 	private WorldModel wmSrc;
 	
 	ShapeRenderer renderer;
@@ -52,15 +40,6 @@ public class WorldView extends AbstractView {
 	public WorldView(WorldModel wmSrc) {  
 		super(wmSrc);
 		this.wmSrc = wmSrc;
-		
-		font1 = new BitmapFont();
-		font1.setColor(Color.RED);
-		
-		font2 = new BitmapFont();
-		font2.setColor(Color.BLUE);
-		
-		font3 = new BitmapFont();
-		font3.setColor(Color.WHITE);
 		
 		renderer = new ShapeRenderer();
 		
@@ -120,27 +99,6 @@ public class WorldView extends AbstractView {
 			}
 		}
 
-		/* renderização dos status fps + ups */
-		long elapsedNanoTime = e.getElapsedNanoTime();
-		
-
-//		batch.setProjectionMatrix(e.getCamera().combined.cpy().scl(1f/Gdx.graphics.getWidth()*GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY)); //.cpy().scl(1f/Gdx.graphics.getWidth()*GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY)
-		batch.getProjectionMatrix().setToOrtho2D(0.0f, 0.0f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-				
-		fps = (float) (1000.0f / (elapsedNanoTime / (float)GAME_CONSTANTS.ONE_MILISECOND_TO_NANO));
-		
-		batch.begin();
-			font1.draw(batch, "fps: " + fps, (int)textPosition1.x, (int)textPosition1.y);
-			
-			font2.draw(batch, "gameupdate (ups): " + wmSrc.getUps(), (int)textPosition2.x, (int)textPosition2.y);
-			
-			// só para demonstrar que a renderização está a ocorrer ao ritmo dos fps's.
-			if (font3.getScaleX()>1.5f || font3.getScaleX()<0.5f)
-				direction =!direction;
-			font3.setScale(font3.getScaleX()+(direction?0.1f:-0.1f));
-			font3.draw(batch, "X--X", (int)textPosition3.x, (int)textPosition3.y);
-
-		batch.end();
 
 	}
 

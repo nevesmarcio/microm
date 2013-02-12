@@ -147,7 +147,7 @@ public class PortalView extends AbstractView {
 		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 		
 		batch.begin();
-			batch.draw(texture, portalmSrc.getPosition().x, portalmSrc.getPosition().y, 1/GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY, 1/GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY);
+			batch.draw(texture, portalmSrc.getPosition().x, portalmSrc.getPosition().y, (float)1/(float)5, (float)1/(float)5);
 		batch.end();
 
 		
