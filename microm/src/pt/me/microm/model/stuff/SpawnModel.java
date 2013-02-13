@@ -114,7 +114,7 @@ public class SpawnModel extends AbstractModel {
 
 			}
 
-		}).delay(3.0f).start(wm.tweenManager);
+		}).delay(1.0f).start(wm.tweenManager);
 
 
 	}

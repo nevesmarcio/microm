@@ -1,5 +1,10 @@
 package pt.me.microm.model.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
+
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
@@ -8,9 +13,17 @@ import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
 
+import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenAccessor;
+import aurelienribon.tweenengine.TweenCallback;
+
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector2;
@@ -29,12 +42,9 @@ public class UIModel extends AbstractModel {
 	// Esta classe deverá ter um objecto visual independente da camera sobre o mundo.
 	// O UI deverá permanecer inalterado independentemente do zoom/ pan, etc.
 	private static final String TAG = UIModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private WorldModel wm;
-	
-	private String toaster;
-	private int score;
 	
 	////////// protected devido à innerclass do QueryCallback
 	protected Body[] hitBody = null;
@@ -58,7 +68,10 @@ public class UIModel extends AbstractModel {
 		
 		
 		// Sinaliza os subscritores de que a construção do modelo terminou.
-		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
+		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
+		
+		// regista no tween manager o accessor para as FlashMessages
+		Tween.registerAccessor(FlashMessage.class, new FlashMessageAccessor());
 	}
 	
 	
@@ -79,7 +92,26 @@ public class UIModel extends AbstractModel {
 	};
 
 	public void touchDown (CameraModel cam, float positionX, float positionY, int pointer){
+		FlashMessage f = new FlashMessage();
+		f.dataSource = new Accessor<String>() {
 
+			@Override
+			public void set(String obj) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public String get() {
+				// TODO Auto-generated method stub
+				return "Hello World";
+			}
+
+		};
+		f.position = new Vector2(0.0f, 0.0f);
+		f.scale = 1.0f;
+		addFlashMessage(f);
+		
 		
 		getTestPoint()[pointer] = new Vector3(positionX, positionY, 0);
 		getOriginalTestPoint()[pointer] = new Vector3(positionX, positionY, 0);
@@ -185,7 +217,6 @@ public class UIModel extends AbstractModel {
 		
 		setUps((float) (1000.0 / (elapsedNanoTime / GAME_CONSTANTS.ONE_MILISECOND_TO_NANO)));		
 		
-		
 	}
 
 	// Updates Per Second (relativo à cadência dos cálculos físicos)
@@ -196,15 +227,6 @@ public class UIModel extends AbstractModel {
 		this.ups = ups;
 	}	
 	
-	
-	public String getToaster() {
-		return toaster;
-	}
-	public void setToaster(String toaster) {
-		this.toaster = toaster;
-	}
-
-
 	public Vector3[] getTestPoint() {
 		return testPoint;
 	}
@@ -212,7 +234,6 @@ public class UIModel extends AbstractModel {
 	public Vector3[] getOriginalTestPoint() {
 		return originalTestPoint;
 	}
-
 	
 	@Override
 	public Vector2 getPosition() {
@@ -223,5 +244,62 @@ public class UIModel extends AbstractModel {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
+	// este interface deve ser utilizado pelos metodos flashMessage para fazer o fetch das propriedades e ir actualizando à responsabilidade do UI
+	public interface Accessor<OBJECT_TYPE> {
+		public void set(OBJECT_TYPE obj);
+		public OBJECT_TYPE get();
+	}	
+	
+	public class FlashMessage {
+		public float scale;
+		public Accessor<?> dataSource;
+		public Vector2 position;
+
+	}
+	public class FlashMessageAccessor implements TweenAccessor<FlashMessage> {
+		public static final int SCALE = 1;
+
+		@Override
+		public int getValues(FlashMessage target, int tweenType, float[] returnValues) {
+			switch (tweenType) {
+				case SCALE:
+					float scale = target.scale;
+					returnValues[0] = scale;
+					return 1;
+				default:
+					assert false;
+					return -1;					
+			}
+		}
+
+		@Override
+		public void setValues(FlashMessage target, int tweenType, float[] newValues) {
+			switch (tweenType) {				
+				case SCALE:
+					target.scale = newValues[0];
+					break;
+			}
+		}
+		
+	}
+	
+	
+	private static int MAX_FLASH_MESSAGES = 5;
+	public Queue<UIModel.FlashMessage> afm = new ArrayBlockingQueue<UIModel.FlashMessage>(MAX_FLASH_MESSAGES);
+	
+	public void addFlashMessage(final FlashMessage fm) {
+		afm.offer(fm);
+		
+		Tween.to(fm, FlashMessageAccessor.SCALE, 2.0f).target(5.0f)
+				.ease(aurelienribon.tweenengine.equations.Linear.INOUT)
+				.start(wm.tweenManager);
+		
+	}
+
+	
+	// falta fazer idêntico para as static messages (essas tem a naunce dos triggers)
+	
 	
 }

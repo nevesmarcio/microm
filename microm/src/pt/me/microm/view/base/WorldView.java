@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import pt.me.microm.MicroMGame;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.base.WorldModel;
@@ -55,11 +56,13 @@ public class WorldView extends AbstractView {
 	@Override
 	public void draw(ScreenTickEvent e) {
 		
-		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
-		
-		batch.begin();
-			worldSprite.draw(batch);
-		batch.end();		
+		if (MicroMGame.ISDEV) {
+			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+			
+			batch.begin();
+				worldSprite.draw(batch);
+			batch.end();		
+		}
 		
 		renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 

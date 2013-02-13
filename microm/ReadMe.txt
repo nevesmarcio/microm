@@ -81,7 +81,7 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 
 13-02-2013
 # DaBox está agora relacionada com o spawning point: é colocada em jogo por este, e a sua posição inicial é a do spawning point
-# ...
+# Implementado o mecanismo de tweening sobre o UI no que respeita a texto (tenho um tech debt ENORME para pagar!)
 
 
 [TODO] 

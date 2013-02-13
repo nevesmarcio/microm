@@ -29,13 +29,12 @@ public class UIView  extends AbstractView {
 //	private BitmapFont font1;
 //	private Vector2 textPosition1 = new Vector2(0, 80);
 	
-	private BitmapFont font1;
+	private BitmapFont font;
+	private BitmapFont pulsingFont;
+	private BitmapFont tweenFont;
+	
 	private Vector2 textPosition1 = new Vector2(0, 60);
-	
-	private BitmapFont font2;
 	private Vector2 textPosition2 = new Vector2(0, 40);	
-	
-	private BitmapFont font3;
 	private Vector2 textPosition3 = new Vector2(0, 20);
 	
 	private boolean direction = true;
@@ -51,18 +50,10 @@ public class UIView  extends AbstractView {
 		super(uiSrc);
 		this.uiSrc = uiSrc;
 		
-//		font1 = new BitmapFont();
-//		font1.setColor(Color.RED);	
+		font = new BitmapFont();
+		pulsingFont = new BitmapFont();
+		tweenFont = new BitmapFont();		
 		
-		font1 = new BitmapFont();
-		font1.setColor(Color.RED);
-		
-		font2 = new BitmapFont();
-		font2.setColor(Color.BLUE);
-		
-		font3 = new BitmapFont();
-		font3.setColor(Color.WHITE);
-				
 		batch = new SpriteBatch();
 		renderer = new ShapeRenderer();
 	}
@@ -169,20 +160,29 @@ public class UIView  extends AbstractView {
 		fps = (float) (1000.0f / (elapsedNanoTime / (float)GAME_CONSTANTS.ONE_MILISECOND_TO_NANO));
 		
 		batch.begin();
-			font1.draw(batch, "fps: " + fps, (int)textPosition1.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition1.y - e.getCamera().getUiCamera().viewportHeight/2);
+			font.setColor(Color.RED);	
+			font.draw(batch, "fps: " + fps, (int)textPosition1.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition1.y - e.getCamera().getUiCamera().viewportHeight/2);
 			
-			font2.draw(batch, "gameupdate (ups): " + uiSrc.getUps(), (int)textPosition2.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition2.y - e.getCamera().getUiCamera().viewportHeight/2);
+			font.setColor(Color.BLUE);
+			font.draw(batch, "gameupdate (ups): " + uiSrc.getUps(), (int)textPosition2.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition2.y - e.getCamera().getUiCamera().viewportHeight/2);
 			
 			// só para demonstrar que a renderização está a ocorrer ao ritmo dos fps's.
-			if (font3.getScaleX()>1.5f || font3.getScaleX()<0.5f)
+			pulsingFont.setColor(Color.WHITE);
+			if (pulsingFont.getScaleX()>1.5f || pulsingFont.getScaleX()<0.5f)
 				direction =!direction;
-			font3.setScale(font3.getScaleX()+(direction?0.1f:-0.1f));
-			font3.draw(batch, "X--X", (int)textPosition3.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition3.y - e.getCamera().getUiCamera().viewportHeight/2);
-
+			pulsingFont.setScale(pulsingFont.getScaleX()+(direction?0.1f:-0.1f));
+			pulsingFont.draw(batch, "X--X", (int)textPosition3.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition3.y - e.getCamera().getUiCamera().viewportHeight/2);
+			
 		batch.end();
+	
+		batch.begin();
+			for (UIModel.FlashMessage fm : uiSrc.afm) {
+				tweenFont.setScale(fm.scale);
+				tweenFont.draw(batch, fm.dataSource.get().toString(), fm.position.x, fm.position.y);
+
+			}
 		
-		
-		
+		batch.end();
 		
 	}
 
