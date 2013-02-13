@@ -32,7 +32,7 @@ public class GoalModel extends AbstractModel {
 		wm.wmManager.add(new PointerToFunction() {
 			
 			@Override
-			public void handler() {
+			public Object handler(Object ... a) {
 				
 				//deslocamento do centroid
 				for (Vector2 v : goal.getPoints()) {
@@ -64,6 +64,7 @@ public class GoalModel extends AbstractModel {
 				// Sinaliza os subscritores de que a construção do modelo terminou.
 				GoalModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
 				
+				return null;
 			}
 		});
 		

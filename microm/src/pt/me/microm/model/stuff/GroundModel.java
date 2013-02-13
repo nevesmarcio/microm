@@ -35,7 +35,7 @@ public class GroundModel extends AbstractModel {
 		wm.wmManager.add(new PointerToFunction() {
 			
 			@Override
-			public void handler() {
+			public Object handler(Object ... a) {
 
 				silhouetteVertex = lst.toArray(new Vector2[]{});
 				
@@ -61,6 +61,7 @@ public class GroundModel extends AbstractModel {
 				// Sinaliza os subscritores de que a construção do modelo terminou.
 				GroundModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));	
 				
+				return null;
 			}
 		});
 	
@@ -76,7 +77,7 @@ public class GroundModel extends AbstractModel {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
 		if (getBody() != null)
-			if (logger.getLevel() == logger.DEBUG)
+			if (logger.getLevel() >= logger.DEBUG)
 				logger.debug("[Physics-room]: Pos.x:" + String.format("%.2f", getBody().getPosition().x)
 						+ " Pos.y:" + String.format("%.2f", getBody().getPosition().y) 
 						+ " Angle:" + String.format("%.2f", getBody().getAngle())

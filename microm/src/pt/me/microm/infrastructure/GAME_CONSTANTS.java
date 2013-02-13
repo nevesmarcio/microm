@@ -4,8 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Logger;
 
 public class GAME_CONSTANTS {
+	public static final int LOG_LEVEL = Logger.INFO;
+	
 	public static final long ONE_SECOND_TO_NANO = 1000000000L; // 1 second = 1 x 10^9 nanoSeconds
 	public static final long ONE_SECOND_TO_MILI = 1000L; // 1 second = 1x10^3 miliSeconds
 	public static final long ONE_MILISECOND_TO_NANO = 1000000L; // 1 miliSecond = 1x10^6 nanoSeconds

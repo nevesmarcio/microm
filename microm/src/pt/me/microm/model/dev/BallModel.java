@@ -33,7 +33,7 @@ public class BallModel extends AbstractModel {
 		wm.wmManager.add(new PointerToFunction() {
 			
 			@Override
-			public void handler() {
+			public Object handler(Object ... a) {
 				ballBodyDef.type = BodyType.DynamicBody;
 				ballBodyDef.position.set(x, y); // coordenada de largada da bola
 
@@ -64,7 +64,9 @@ public class BallModel extends AbstractModel {
 				//wDynamicBox.applyTorque(50.0f);
 						
 				// Sinaliza os subscritores de que a construção do modelo terminou.
-				BallModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));				
+				BallModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
+				
+				return null;
 				
 			}
 		});

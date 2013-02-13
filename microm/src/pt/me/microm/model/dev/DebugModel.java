@@ -30,7 +30,7 @@ public class DebugModel extends AbstractModel {
 		
 		wm.wmManager.add(new PointerToFunction() {
 			@Override
-			public void handler() {
+			public Object handler(Object ... a) {
 				debugBodyDef.type = BodyType.StaticBody;
 				debugBodyDef.position.set(x, y);
 
@@ -52,7 +52,9 @@ public class DebugModel extends AbstractModel {
 				debugBody.setSleepingAllowed(false);
 				
 				// Sinaliza os subscritores de que a construção do modelo terminou.
-				DebugModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));				
+				DebugModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
+				
+				return null;
 			}
 		});
 

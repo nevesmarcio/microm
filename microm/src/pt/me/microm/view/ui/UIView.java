@@ -169,15 +169,15 @@ public class UIView  extends AbstractView {
 		fps = (float) (1000.0f / (elapsedNanoTime / (float)GAME_CONSTANTS.ONE_MILISECOND_TO_NANO));
 		
 		batch.begin();
-			font1.draw(batch, "fps: " + fps, (int)textPosition1.x, (int)textPosition1.y);
+			font1.draw(batch, "fps: " + fps, (int)textPosition1.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition1.y - e.getCamera().getUiCamera().viewportHeight/2);
 			
-			font2.draw(batch, "gameupdate (ups): " + uiSrc.getUps(), (int)textPosition2.x, (int)textPosition2.y);
+			font2.draw(batch, "gameupdate (ups): " + uiSrc.getUps(), (int)textPosition2.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition2.y - e.getCamera().getUiCamera().viewportHeight/2);
 			
 			// só para demonstrar que a renderização está a ocorrer ao ritmo dos fps's.
 			if (font3.getScaleX()>1.5f || font3.getScaleX()<0.5f)
 				direction =!direction;
 			font3.setScale(font3.getScaleX()+(direction?0.1f:-0.1f));
-			font3.draw(batch, "X--X", (int)textPosition3.x, (int)textPosition3.y);
+			font3.draw(batch, "X--X", (int)textPosition3.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition3.y - e.getCamera().getUiCamera().viewportHeight/2);
 
 		batch.end();
 		

@@ -1,7 +1,6 @@
 package pt.me.microm.model.stuff;
 
-import java.util.List;
-
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.PointerToFunction;
@@ -9,7 +8,6 @@ import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
 import pt.me.microm.tools.levelloader.BasicShape;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -20,7 +18,7 @@ import com.badlogic.gdx.utils.Logger;
 
 public class PortalModel extends AbstractModel {
 	private static final String TAG = PortalModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 
 	public static enum PortalType {PORTAL_ENTRY, PORTAL_EXIT};
 	
@@ -42,7 +40,7 @@ public class PortalModel extends AbstractModel {
 		wm.wmManager.add(new PointerToFunction() {
 			
 			@Override
-			public void handler() {
+			public Object handler(Object ... a) {
 				
 				PortalModel.this.wm = wm;
 				PortalModel.this.portal_name = portal_name;
@@ -78,6 +76,7 @@ public class PortalModel extends AbstractModel {
 				// Sinaliza os subscritores de que a construção do modelo terminou.
 				PortalModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
 
+				return null;
 			}
 		});
 		
@@ -127,7 +126,8 @@ public class PortalModel extends AbstractModel {
 	AbstractModel box = null;
 	@Override
 	public void beginContactWith(AbstractModel oModel) {
-		if (boxTouchMyTralala == 0) Gdx.app.log(TAG, "daBox touched my trálálá!! says: " + this.portal_name + ". Should be teleported to: " + this.portal_name.replace("entry", "exit"));
+		if (boxTouchMyTralala == 0) 
+			if (logger.getLevel() >= logger.INFO) logger.info("daBox touched my trálálá!! says: " + this.portal_name + ". Should be teleported to: " + this.portal_name.replace("entry", "exit"));
 		boxTouchMyTralala +=1;
 		box = oModel;
 	}
@@ -135,7 +135,8 @@ public class PortalModel extends AbstractModel {
 	@Override
 	public void endContactWith(AbstractModel oModel) {
 		boxTouchMyTralala -=1;
-		if (boxTouchMyTralala == 0) Gdx.app.log(TAG, "daBox left my trálálá!! says: " + this.portal_name);
+		if (boxTouchMyTralala == 0) 
+			if (logger.getLevel() >= logger.INFO) logger.info("daBox left my trálálá!! says: " + this.portal_name);
 	}
 	
 }

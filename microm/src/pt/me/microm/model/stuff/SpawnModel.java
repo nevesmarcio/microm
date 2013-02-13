@@ -34,11 +34,11 @@ public class SpawnModel extends AbstractModel {
 	private Body spawnBody;
 	
 	
-	private SpawnModel(final WorldModel wm, final BasicShape spawn, final List<Vector2> lst) {
+	private SpawnModel(final WorldModel wm, final DaBoxModel dbm, final BasicShape spawn, final List<Vector2> lst) {
 		wm.wmManager.add(new PointerToFunction() {
 
 			@Override
-			public void handler() {
+			public Object handler(Object ... a) {
 				
 				//deslocamento do centroid
 				for (Vector2 v : spawn.getPoints()) {
@@ -71,7 +71,6 @@ public class SpawnModel extends AbstractModel {
 				// Sinaliza os subscritores de que a construção do modelo terminou.
 				SpawnModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
 				
-				
 //				/* Logo após a construção */
 //				Tween.call(new TweenCallback() {
 //				@Override public void onEvent(int type, BaseTween<?> source) {
@@ -86,13 +85,42 @@ public class SpawnModel extends AbstractModel {
 //				}
 //			}).repeat(10, 5.0f).start(wm.tweenManager);				
 
+				
+				return null;
 			}
 		});
 		
+		Tween.call(new TweenCallback() {
+			@Override
+			public void onEvent(int type, BaseTween<?> source) {
+				Gdx.app.postRunnable(new Runnable() {
+
+					@Override
+					public void run() {
+
+						wm.wmManager.add(new PointerToFunction() {
+							
+							@Override
+							public Object handler(Object... a) {
+
+								dbm.create(spawn.getCentroid());
+								
+								return null;
+							}
+						});
+
+					}
+				});
+
+			}
+
+		}).delay(3.0f).start(wm.tweenManager);
+
+
 	}
 	
-	public static SpawnModel getNewInstance(WorldModel wm, BasicShape spawn, List<Vector2> pts){
-		return new SpawnModel(wm, spawn, pts);
+	public static SpawnModel getNewInstance(WorldModel wm, DaBoxModel dbm, BasicShape spawn, List<Vector2> pts){
+		return new SpawnModel(wm, dbm, spawn, pts);
 	}
 
 	

@@ -122,7 +122,7 @@ public class MyInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 

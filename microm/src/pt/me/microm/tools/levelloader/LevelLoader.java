@@ -60,7 +60,7 @@ public class LevelLoader {
 	 * @param board
 	 * @param wm
 	 */
-	private static void addBoardToWorld(BasicShape board, WorldModel wm) {
+	private static BoardModel addBoardToWorld(BasicShape board, WorldModel wm) {
 		if (MicroMGame.ISDEV) {
 			DebugModel m;
 			for (Vector2 ap : board.getPoints()) {
@@ -71,15 +71,35 @@ public class LevelLoader {
 			m.setColor(Color.BLACK);
 		}		
 
-		wm.setBoard(BoardModel.getNewInstance(wm, board, board.getPoints()));
+		BoardModel bm = BoardModel.getNewInstance(wm, board, board.getPoints()); 
+		wm.setBoard(bm);
+		return bm;
 	}
+	
+	/**
+	 * 
+	 * @param wm
+	 * @param dabox
+	 * @param dabox_name
+	 * @return
+	 */
+	private static DaBoxModel addDaBoxToWorld(WorldModel wm, BasicShape dabox, String dabox_name) {
+		if (MicroMGame.ISDEV)
+			for (Vector2 ap : dabox.getPoints()) {
+					DebugModel.getNewInstance(wm, ap.x, ap.y);
+			}
+		
+		DaBoxModel dbm = DaBoxModel.getNewInstance(wm, dabox); 
+		wm.setPlayer(dbm);
+		return dbm;
+	}	
 	
 	/**
 	 * 
 	 * @param spawn
 	 * @param wm
 	 */
-	private static void addSpawnToWorld(BasicShape spawn, WorldModel wm) {
+	private static SpawnModel addSpawnToWorld(WorldModel wm, DaBoxModel dbm, BasicShape spawn) {
 
 		if (MicroMGame.ISDEV) {
 			DebugModel m;
@@ -92,7 +112,9 @@ public class LevelLoader {
 			m.setColor(Color.CYAN);
 		}
 
-		wm.spawnModel = SpawnModel.getNewInstance(wm, spawn, spawn.getPoints());
+		SpawnModel sm = SpawnModel.getNewInstance(wm, dbm, spawn, spawn.getPoints());
+		wm.spawnModel = sm;
+		return sm;
 	}
 
 	/**
@@ -100,7 +122,7 @@ public class LevelLoader {
 	 * @param goal
 	 * @param wm
 	 */
-	private static void addGoalToWorld(BasicShape goal, WorldModel wm) {
+	private static GoalModel addGoalToWorld(BasicShape goal, WorldModel wm) {
 		if (MicroMGame.ISDEV) {
 			DebugModel m;
 			for (Vector2 ap : goal.getPoints()) {
@@ -112,7 +134,7 @@ public class LevelLoader {
 
 		}
 		
-		GoalModel.getNewInstance(wm, goal, goal.getPoints());			
+		return GoalModel.getNewInstance(wm, goal, goal.getPoints()); 
 	}
 	
 	/**
@@ -120,13 +142,13 @@ public class LevelLoader {
 	 * @param ground
 	 * @param wm
 	 */
-	private static void addGroundToWorld(BasicShape ground, WorldModel wm) {
+	private static GroundModel addGroundToWorld(BasicShape ground, WorldModel wm) {
 		if (MicroMGame.ISDEV)
 			for (Vector2 ap : ground.getPoints()) {
 				DebugModel.getNewInstance(wm, ap.x, ap.y);
 			}
 		
-		GroundModel.getNewInstance(wm, ground.getPoints());
+		return GroundModel.getNewInstance(wm, ground.getPoints());
 	}	
 	
 	
@@ -135,7 +157,7 @@ public class LevelLoader {
 	 * @param portal
 	 * @param wm
 	 */
-	private static void addPortalToWorld(BasicShape portal, WorldModel wm, String portal_name) {
+	private static PortalModel addPortalToWorld(BasicShape portal, WorldModel wm, String portal_name) {
 		if (MicroMGame.ISDEV) {
 			for (Vector2 ap : portal.getPoints()) {
 				DebugModel.getNewInstance(wm, ap.x, ap.y);
@@ -143,7 +165,7 @@ public class LevelLoader {
 			DebugModel.getNewInstance(wm, portal.getCentroid().x, portal.getCentroid().y);
 		}
 
-		PortalModel.getNewInstance(wm, portal, portal_name);
+		return PortalModel.getNewInstance(wm, portal, portal_name);
 	}
 
 
@@ -153,22 +175,17 @@ public class LevelLoader {
 	 * @param wall
 	 * @param wm
 	 */
-	private static void addWallToWorld(BasicShape wall, WorldModel wm, String wall_name) {
+	private static WallModel addWallToWorld(BasicShape wall, WorldModel wm, String wall_name) {
 		if (MicroMGame.ISDEV)
 		for (Vector2 ap : wall.getPoints()) {
 				DebugModel.getNewInstance(wm, ap.x, ap.y);
 		}
 		
 		
-		WallModel.getNewInstance(wm, wall);
+		return WallModel.getNewInstance(wm, wall);
 		
 	}
 	
-	
-	private static void addDaBoxToWorld(WorldModel wm) {
-		
-		wm.setPlayer(DaBoxModel.getNewInstance(wm, scale, 0.75f/2, 12.0f));
-	}
 	
 	
 	/**
@@ -236,6 +253,33 @@ public class LevelLoader {
 				nrElements+=1;
 			}
 			
+			// Get DaBox
+			DaBoxModel daBoxRef = null;
+			if (logger.getLevel() == logger.INFO) logger.info("DaBox...");
+			expr = xpath.compile("//svg/g/path[contains(@id,'daBox')]");
+			NodeList dabox = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < dabox.getLength(); i++) {
+				String d = dabox.item(i).getAttributes().getNamedItem("d").getNodeValue();
+				if (logger.getLevel() == logger.INFO) logger.info(d);
+				BasicShape s = new BasicShape(d);
+				s.offsetShape(new Vector2(xOffset, yOffset));
+				
+				s.setType(ObjectType.DABOX);
+				if (logger.getLevel() == logger.INFO) logger.info(s.toString());
+				String dabox_name = dabox.item(i).getAttributes().getNamedItem("id").getNodeValue();
+				
+				// scaling				
+				for (Vector2 ap : s.getPoints()) {
+					ap.x = ap.x*scale;
+					ap.y = (maxHeight - ap.y)*scale;
+				}				
+				s.getCentroid().x = s.getCentroid().x*scale;
+				s.getCentroid().y = (maxHeight - s.getCentroid().y)*scale;				
+				
+				daBoxRef = addDaBoxToWorld(wm, s, dabox_name);
+				nrElements+=1;
+			}			
+			
 			// Get Spawn
 			if (logger.getLevel() == logger.INFO) logger.info("Spawn...");
 			expr = xpath.compile("//svg/g/path[contains(@id,'spawn')]/@d");
@@ -257,7 +301,7 @@ public class LevelLoader {
 				s.getCentroid().x = s.getCentroid().x*scale;
 				s.getCentroid().y = (maxHeight - s.getCentroid().y)*scale;
 				
-				addSpawnToWorld(s, wm);
+				addSpawnToWorld(wm, daBoxRef, s);
 				nrElements+=1;
 			}
 			
@@ -365,7 +409,10 @@ public class LevelLoader {
 				nrElements+=1;
 			}
 			
-			addDaBoxToWorld(wm);
+
+			
+			
+			
 			
 			if (logger.getLevel() == logger.INFO) logger.info("Finished Loading level: " + h.name());
 		

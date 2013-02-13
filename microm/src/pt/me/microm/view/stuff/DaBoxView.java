@@ -16,7 +16,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 
 public class DaBoxView extends AbstractView {
 	private static final String TAG = DaBoxView.class.getSimpleName();
@@ -38,27 +41,35 @@ public class DaBoxView extends AbstractView {
 	}
 	
 
+	Vector2 pointA = new Vector2();
+	Vector2 pointB = new Vector2();
 	@Override
 	public void draw(ScreenTickEvent e) {
 		
 		renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 		
-		Iterator<Fixture> it = daBoxmSrc.daBoxBody.getFixtureList().iterator(); 
-		while (it.hasNext()){
+		Iterator<Fixture> it = daBoxmSrc.getBody().getFixtureList().iterator();
+		
+		while (it.hasNext()) {
 			Fixture aux = it.next();
 			
 			renderer.identity();
 			renderer.translate(aux.getBody().getPosition().x, aux.getBody().getPosition().y, 0.0f);
 			renderer.rotate(0.0f, 0.0f, 1.0f, (float)Math.toDegrees(aux.getBody().getAngle()));
 			
-			renderer.begin(ShapeType.FilledRectangle);
-				renderer.setColor(daBoxmSrc.getColor());
-				renderer.filledRect(-daBoxmSrc.getSide()/2, -daBoxmSrc.getSide()/2, daBoxmSrc.getSide(), daBoxmSrc.getSide());
-			renderer.end();
+			PolygonShape cs = (PolygonShape)aux.getShape();
 
 			renderer.begin(ShapeType.Line);
+				int vCnt = cs.getVertexCount();
+				for (int i = 0; i < vCnt; i++) {
+					cs.getVertex(i, pointA); //pointA.add(portalmSrc.getPortalBody().getPosition());
+					cs.getVertex(i==vCnt-1 ? 0 : i + 1, pointB); //pointB.add(portalmSrc.getPortalBody().getPosition());
+					renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
+				}
+			renderer.end();
+			renderer.begin(ShapeType.Line);
 				renderer.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-				renderer.line(0.0f, -daBoxmSrc.getSide()/2, 0.0f, daBoxmSrc.getSide()/2);
+				renderer.line(0.0f, 0.0f, 0.1f, 0.1f);
 			renderer.end();				
 			
 		}

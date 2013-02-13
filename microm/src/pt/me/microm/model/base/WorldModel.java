@@ -2,6 +2,7 @@ package pt.me.microm.model.base;
 
 import java.util.Random;
 
+import pt.me.microm.MicroMGame;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
@@ -94,8 +95,8 @@ public class WorldModel extends AbstractModel {
 	private void PopulateWorld() {
 
 		// Modelos complementares ao WorldModel
-		//FIXME::ENABLE THIS
-		grid = new GridModel(); // constroi a grid sobre a qual estão renderizados os objectos - debug purposes		
+		if (MicroMGame.ISDEV)
+			grid = new GridModel(); // constroi a grid sobre a qual estão renderizados os objectos - debug purposes		
 		ui = new UIModel(this); // constroi o painel informativo?
 		portalManager = new PortalModelManager();
 		
@@ -114,7 +115,7 @@ public class WorldModel extends AbstractModel {
 //					
 //					@Override
 //					public void run() {
-//						BallModel.getNewInstance(WorldModel.this, board, (new Random().nextFloat())*14.0f, (new Random().nextFloat())*14.0f);
+//						BallModel.getNewInstance(WorldModel.this, (new Random().nextFloat())*14.0f, (new Random().nextFloat())*14.0f);
 //						
 //					}
 //				});
@@ -123,10 +124,10 @@ public class WorldModel extends AbstractModel {
 ///* fim dos exemplos */
 		
 		FileHandle h = Gdx.files.internal("data/levels/level0.svg");
-		//FIXME::ENABLE THIS
-		Gdx.app.log(TAG, "Nr elements loaded: " + LevelLoader.LoadLevel(h, this));
-		
-		
+		int nr_elements_loaded = LevelLoader.LoadLevel(h, this);
+		if (logger.getLevel() == logger.INFO) logger.info("Nr elements loaded: " + nr_elements_loaded);
+				
+
 		// regista o contactListener para que este notifique os objectos quando há choques 
 		getPhysicsWorld().setContactListener(myContactListener = new MyContactListener()); //new ContactListenerImpl() 
 	

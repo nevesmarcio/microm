@@ -75,7 +75,13 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 
 12-02-2013
 # refactorizado o rendering de fps/ ups
+# DaBox passou a ser construido de acordo com o svg
+	- atenção que chainshapes não colidem entre si: o dabox é um polygonshape (tem "volume" - é mais tem área, mas pronto)
+	- pequenas alterações na dimensão da caixota fazem com que a força do jump tenha que ser recalculada (isto não está automático)
 
+13-02-2013
+# DaBox está agora relacionada com o spawning point: é colocada em jogo por este, e a sua posição inicial é a do spawning point
+# ...
 
 
 [TODO] 
@@ -88,7 +94,6 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 	- Level success		(nível superado/ ou não)
 
 # colocar um countdown para a DaBox saltar do spawning point
-# a DaBox também não está a ser construída em função do tamanho declarado pelo svg
 
 # detectar o level success e apresentar o próximo nível
 

@@ -37,7 +37,7 @@ public class WallModel extends AbstractModel {
 		wm.wmManager.add(new PointerToFunction() {
 			
 			@Override
-			public void handler() {
+			public Object handler(Object ... a) {
 				
 				WallModel.this.wm = wm;
 				
@@ -64,13 +64,13 @@ public class WallModel extends AbstractModel {
 				fixDef.friction = 0.0f;
 				fixDef.restitution = 0.0f;		
 				wallBody.createFixture(fixDef);
-				getBody().createFixture(fixDef);
 					
 				getBody().setUserData(WallModel.this); // relacionar com o modelo
 				
 				// Sinaliza os subscritores de que a construção do modelo terminou.
 				WallModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
-
+				
+				return null;
 			}
 		});
 		
@@ -122,7 +122,8 @@ public class WallModel extends AbstractModel {
 	AbstractModel box = null;
 	@Override
 	public void beginContactWith(AbstractModel oModel) {
-		if (boxTouchMyTralala == 0) Gdx.app.log(TAG, "daBox hit da wall!");
+		if (boxTouchMyTralala == 0) 
+			if (logger.getLevel() == logger.INFO) logger.info("daBox hit da wall!");
 		boxTouchMyTralala +=1;
 		box = (DaBoxModel)oModel;
 	}
@@ -130,7 +131,8 @@ public class WallModel extends AbstractModel {
 	@Override
 	public void endContactWith(AbstractModel oModel) {
 		boxTouchMyTralala -=1;
-		if (boxTouchMyTralala == 0) Gdx.app.log(TAG, "daBox left the wall!");
+		if (boxTouchMyTralala == 0) 
+			if (logger.getLevel() == logger.INFO) logger.info("daBox left the wall!");
 	}
 	
 }
