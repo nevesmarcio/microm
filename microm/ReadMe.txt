@@ -83,8 +83,15 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 # DaBox está agora relacionada com o spawning point: é colocada em jogo por este, e a sua posição inicial é a do spawning point
 # Implementado o mecanismo de tweening sobre o UI no que respeita a texto (tenho um tech debt ENORME para pagar!)
 
+14-02-2013 (ai jasus o tech debt...)
+# Removidas as instâncias do flashmessage no fim da animação prevista
+# Implementado um countdown para a Dabox saltar do spawning point
+# exemplo de particles integradas 
+
 
 [TODO] 
+# que coordenadas utilizar aquando a escrita das mensagens no UI? (fisicas? relativas ao tamanho do ecrã? outro?)
+
 # Mecanismo de navegação na app
 	- Splash screen 	(arranque da app)
 	- Main screen 		(landing screen)
@@ -92,8 +99,6 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 	- Level Select		(onde se selecciona o nível dentro de um tema)
 	- Pause overlay		(quando o user carrega no back-key)
 	- Level success		(nível superado/ ou não)
-
-# colocar um countdown para a DaBox saltar do spawning point
 
 # detectar o level success e apresentar o próximo nível
 

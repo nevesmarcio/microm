@@ -9,8 +9,10 @@ import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.dev.BallModel;
 import pt.me.microm.model.events.SimpleEvent;
+import pt.me.microm.model.ui.UIModel.Accessor;
 import pt.me.microm.tools.levelloader.BasicShape;
 import aurelienribon.tweenengine.BaseTween;
+import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 
@@ -90,7 +92,8 @@ public class SpawnModel extends AbstractModel {
 			}
 		});
 		
-		Tween.call(new TweenCallback() {
+		
+		TweenCallback endCB = new TweenCallback() {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
 				Gdx.app.postRunnable(new Runnable() {
@@ -114,7 +117,37 @@ public class SpawnModel extends AbstractModel {
 
 			}
 
-		}).delay(1.0f).start(wm.tweenManager);
+		};
+		
+		TweenCallback middleCB = new TweenCallback() {
+			@Override
+			public void onEvent(int type, BaseTween<?> source) {
+				wm.ui.addFlashMessage(new Accessor<String>() {
+
+					@Override
+					public void set(String obj) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public String get() {
+						// TODO Auto-generated method stub
+						return "xxxxxxxxxxxxxxxxxxxxxx";
+					}
+				}, spawn.getCentroid());
+				
+			}
+		};
+		
+		Timeline.createSequence()
+			.beginParallel()
+				.push(Tween.call(middleCB).repeat(2, 1.0f))
+				.push(Tween.call(endCB).delay(3.0f))
+			.end()
+			.start(wm.tweenManager);
+		//Tween.call(endCB).start(wm.tweenManager);
+//		Tween.call(middleCB).repeat(3, 0.0f).setCallback(endCB).start(wm.tweenManager);
 
 
 	}

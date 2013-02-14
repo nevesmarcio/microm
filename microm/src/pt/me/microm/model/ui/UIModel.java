@@ -92,8 +92,9 @@ public class UIModel extends AbstractModel {
 	};
 
 	public void touchDown (CameraModel cam, float positionX, float positionY, int pointer){
-		FlashMessage f = new FlashMessage();
-		f.dataSource = new Accessor<String>() {
+
+		addFlashMessage(
+		new Accessor<String>() {
 
 			@Override
 			public void set(String obj) {
@@ -107,10 +108,10 @@ public class UIModel extends AbstractModel {
 				return "Hello World";
 			}
 
-		};
-		f.position = new Vector2(0.0f, 0.0f);
-		f.scale = 1.0f;
-		addFlashMessage(f);
+		}, 
+		new Vector2(-100.0f, -100.0f));
+
+		
 		
 		
 		getTestPoint()[pointer] = new Vector3(positionX, positionY, 0);
@@ -258,7 +259,7 @@ public class UIModel extends AbstractModel {
 		public Vector2 position;
 
 	}
-	public class FlashMessageAccessor implements TweenAccessor<FlashMessage> {
+	private class FlashMessageAccessor implements TweenAccessor<FlashMessage> {
 		public static final int SCALE = 1;
 
 		@Override
@@ -289,11 +290,22 @@ public class UIModel extends AbstractModel {
 	private static int MAX_FLASH_MESSAGES = 5;
 	public Queue<UIModel.FlashMessage> afm = new ArrayBlockingQueue<UIModel.FlashMessage>(MAX_FLASH_MESSAGES);
 	
-	public void addFlashMessage(final FlashMessage fm) {
+	public void addFlashMessage(Accessor<?> a, Vector2 position) {
+		final FlashMessage fm = new FlashMessage();
+		fm.dataSource = a;
+		fm.position = position;
+		fm.scale = 1.0f;
+		
 		afm.offer(fm);
 		
-		Tween.to(fm, FlashMessageAccessor.SCALE, 2.0f).target(5.0f)
-				.ease(aurelienribon.tweenengine.equations.Linear.INOUT)
+		Tween.to(fm, FlashMessageAccessor.SCALE, 1.0f).target(3.0f)
+				.ease(aurelienribon.tweenengine.equations.Elastic.INOUT)
+				.setCallback(new TweenCallback() {
+					@Override
+					public void onEvent(int type, BaseTween<?> source) {
+						afm.remove(fm);
+					}
+				})
 				.start(wm.tweenManager);
 		
 	}

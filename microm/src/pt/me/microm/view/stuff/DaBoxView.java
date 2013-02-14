@@ -10,6 +10,7 @@ import pt.me.microm.view.AbstractView;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -30,6 +31,8 @@ public class DaBoxView extends AbstractView {
 	
 	Texture daBoxTexture = GAME_CONSTANTS.TEXTURE_BALL;
 	
+	SpriteBatch batch = new SpriteBatch();
+	
 	public DaBoxView(DaBoxModel daBoxmSrc) {
 		super(daBoxmSrc);
 		this.daBoxmSrc = daBoxmSrc;
@@ -45,6 +48,7 @@ public class DaBoxView extends AbstractView {
 	Vector2 pointB = new Vector2();
 	@Override
 	public void draw(ScreenTickEvent e) {
+		long elapsedNanoTime = e.getElapsedNanoTime();
 		
 		renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 		
@@ -72,6 +76,15 @@ public class DaBoxView extends AbstractView {
 				renderer.line(0.0f, 0.0f, 0.1f, 0.1f);
 			renderer.end();				
 			
+			float delta = Gdx.graphics.getDeltaTime();
+//		    GL10 gl = Gdx.app.getGraphics().getGL10();
+//		    gl.glClear(GL10.GL_COLOR_BUFFER_BIT);			
+			
+			batch.setProjectionMatrix(e.getCamera().getUiCamera().combined);
+			batch.begin();
+				daBoxmSrc.particleEffect.setPosition(0.0f, 0.0f);
+				daBoxmSrc.particleEffect.draw(batch, delta);
+			batch.end();
 		}
 
 

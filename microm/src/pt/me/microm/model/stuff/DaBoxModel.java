@@ -13,6 +13,7 @@ import aurelienribon.tweenengine.TweenCallback;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -39,6 +40,8 @@ public class DaBoxModel extends AbstractModel {
 	private WorldModel wm;
 	private BasicShape dabox;
 
+	public ParticleEffect particleEffect;
+	
 	public void create(Vector2 pos) {
 		// deslocamento do centroid
 		for (Vector2 v : dabox.getPoints()) {
@@ -76,12 +79,18 @@ public class DaBoxModel extends AbstractModel {
 		DaBoxModel.this.dispatchEvent(new SimpleEvent(
 				EventType.ON_MODEL_INSTANTIATED));
 
+	
+		
+		
 	}
 	
 	private DaBoxModel(final WorldModel wm, final BasicShape dabox) {
 		this.wm = wm;
 		this.dabox = dabox; 
-		
+
+		particleEffect = new ParticleEffect();
+	    particleEffect.load(Gdx.files.internal("data/fire.p"), Gdx.files.internal("data"));			
+	    particleEffect.start();
 	}
 
 	public static DaBoxModel getNewInstance(WorldModel wm, BasicShape dabox){

@@ -45,7 +45,7 @@ public class WorldModel extends AbstractModel {
 	private static WorldModel instance = null;
 	
 	private GridModel grid;
-	private UIModel ui;
+	public UIModel ui;
 	private BoardModel board;
 	private BallModel ball1;
 	private BallModel ball2;
