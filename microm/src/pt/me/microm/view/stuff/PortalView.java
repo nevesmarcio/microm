@@ -99,14 +99,12 @@ public class PortalView extends AbstractView {
 	        mesh.setIndices(indexes);
 		}
 		
-
-//	    Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		Gdx.graphics.getGL10().glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_S, GL10.GL_REPEAT);
 		Gdx.graphics.getGL10().glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_WRAP_T, GL10.GL_REPEAT);
 		Gdx.graphics.getGL10().glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
 		Gdx.graphics.getGL10().glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
-		Gdx.graphics.getGL10().glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_REPLACE);
-		
+		Gdx.graphics.getGL10().glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_MODULATE); // GL10.GL_REPLACE ou GL10.GL_BLEND n funca bem... (ainda n percebo nada disto de opengl)
+
 		
 		Gdx.graphics.getGL10().glEnable(GL10.GL_TEXTURE_2D);
 	    Gdx.graphics.getGL10().glEnable(GL10.GL_BLEND);

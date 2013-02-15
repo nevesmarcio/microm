@@ -88,6 +88,11 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 # Implementado um countdown para a Dabox saltar do spawning point
 # exemplo de particles integradas 
 
+15-02-2013
+# começar a debulhar o look da coisa (implementar o protótipo do inkscape)
+	- texturas coincidentes / - tecnica do "Coisa"
+	- 9.patches
+	- mesh
 
 [TODO] 
 # que coordenadas utilizar aquando a escrita das mensagens no UI? (fisicas? relativas ao tamanho do ecrã? outro?)

@@ -24,7 +24,8 @@ public class MyGestureListener implements GestureListener {
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		if (logger.getLevel() == logger.DEBUG) logger.debug("touchDown");
 		
-		worldModel.player.jump();
+		if (worldModel.player.daBoxBody != null)
+			worldModel.player.jump();
 		
 		return false;
 	}

@@ -28,7 +28,8 @@ public class MyInputProcessor implements InputProcessor {
 		if (logger.getLevel() == logger.DEBUG) logger.debug("[KEY]: " + Integer.toString(keycode));
 		
 		if (keycode == Keys.SPACE)
-			worldModel.player.jump();
+			if (worldModel.player.daBoxBody != null)
+				worldModel.player.jump();
 		
 		if (keycode == Keys.P)
 			camModel.printCameraValues();

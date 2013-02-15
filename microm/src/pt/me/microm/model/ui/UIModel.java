@@ -93,8 +93,16 @@ public class UIModel extends AbstractModel {
 
 	public void touchDown (CameraModel cam, float positionX, float positionY, int pointer){
 
-		addFlashMessage(
-		new Accessor<String>() {
+
+		
+		
+		
+		getTestPoint()[pointer] = new Vector3(positionX, positionY, 0);
+		getOriginalTestPoint()[pointer] = new Vector3(positionX, positionY, 0);
+
+
+		
+		addFlashMessage(new Accessor<String>() {
 
 			@Override
 			public void set(String obj) {
@@ -108,16 +116,11 @@ public class UIModel extends AbstractModel {
 				return "Hello World";
 			}
 
-		}, 
-		new Vector2(-100.0f, -100.0f));
-
+		}, new Vector2(getTestPoint()[pointer].x - Gdx.graphics.getWidth() / 2,
+				getTestPoint()[pointer].y - Gdx.graphics.getHeight() / 2));
 		
 		
 		
-		getTestPoint()[pointer] = new Vector3(positionX, positionY, 0);
-		getOriginalTestPoint()[pointer] = new Vector3(positionX, positionY, 0);
-
-
 //		Vector3 vec = getTestPoint()[pointer];
 //		vec.z = 0.0f;
 //

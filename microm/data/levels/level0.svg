@@ -217,9 +217,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.50000001"
-     inkscape:cx="-1329.509"
-     inkscape:cy="196.98467"
+     inkscape:zoom="8.0000001"
+     inkscape:cx="-1283.1441"
+     inkscape:cy="860.623"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -236,7 +236,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -244,6 +244,19 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
+    <path
+       style="opacity:0.1;fill:#ffff00;stroke:none"
+       d="m -1362.8527,15.214283 1280.000039,0 0,1280.000017 -1280.000039,0 z"
+       id="board" />
+    <path
+       style="fill:#4d4d4d;fill-opacity:1;stroke:none"
+       d="m -82.852667,868.21428 -1280.000033,0 0,427.00002 1280.000033,0 z"
+       id="path3370"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc"
+       inkscape:export-filename="K:\temp_workspace\microm\microm\data\textures\txr_3_3_board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <rect
        style="opacity:0.69999999999999996;fill:url(#linearGradient3409);fill-opacity:1;stroke:none"
        id="rect3401"
@@ -255,25 +268,21 @@
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       style="opacity:0.1;fill:#ffff00;stroke:none"
-       d="m -1362.8527,15.214283 1280.000039,0 0,1280.000017 -1280.000039,0 z"
-       id="board" />
-    <path
-       style="fill:#4d4d4d;fill-opacity:1;stroke:none"
-       d="m -82.852667,868.21428 -1280.000033,0 0,427.00002 1280.000033,0 z"
-       id="path3370"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccc" />
-    <path
        style="fill:#999999;fill-opacity:1;stroke:none"
        d="m -82.852667,442.21428 -1280.000033,0 0,426 1280.000033,0 0,-426 z"
        id="path3368"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="K:\temp_workspace\microm\microm\data\textures\txr_2_3_board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#4d4d4d;fill-opacity:1;stroke:none"
        d="m -1362.8527,15.214287 0,426.999993 1280.000033,0 0,-426.999993 -1280.000033,0 z"
        id="rect2997"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="K:\temp_workspace\microm\microm\data\textures\txr_1_3_board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <text
        xml:space="preserve"
        style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER'"
@@ -300,7 +309,10 @@
        style="fill:#008080;fill-opacity:1;stroke:none"
        d="m -1322,335.15002 70,0 0,70 -70,0 z"
        id="daBox"
-       inkscape:connector-curvature="0" />
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="K:\temp_workspace\microm\microm\data\textures\daBox.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <g
        transform="translate(585.55043,804.07876)"
        id="g3372">
@@ -1149,6 +1161,16 @@
        id="spawn"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />
+    <rect
+       style="fill:#cccccc;stroke:none"
+       id="rect3427"
+       width="5"
+       height="5"
+       x="-1344.25"
+       y="170.7372"
+       inkscape:export-filename="K:\temp_workspace\microm\microm\data\textures\txr_spawn.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        sodipodi:nodetypes="ccccc"
        inkscape:connector-curvature="0"
@@ -1516,7 +1538,10 @@
        inkscape:connector-curvature="0"
        id="wall_13"
        d="m -880,58.65005 70,0 0,70 -70,0 z"
-       style="fill:#800000;fill-opacity:1;stroke:none" />
+       style="fill:#800000;fill-opacity:1;stroke:none"
+       inkscape:export-filename="K:\temp_workspace\microm\microm\data\textures\txr_wall.9.patch.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <path
        style="fill:#800000;fill-opacity:1;stroke:none"
        d="m -700,58.65005 70,0 0,70 -70,0 z"

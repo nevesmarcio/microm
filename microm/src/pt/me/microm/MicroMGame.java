@@ -18,7 +18,7 @@ import com.badlogic.gdx.input.RemoteInput;
 import com.badlogic.gdx.math.Vector2;
 
 public class MicroMGame implements ApplicationListener {
-	public static final boolean ISDEV = false; // "pre-compiler" equivalent for branching development-only code
+	public static final boolean ISDEV = true; // "pre-compiler" equivalent for branching development-only code
 	private static final String TAG = MicroMGame.class.getSimpleName();
 	
 	// CONTROLLER RELATED
@@ -89,10 +89,11 @@ public class MicroMGame implements ApplicationListener {
 		long elapsedNanoTime = (long)(Gdx.graphics.getDeltaTime()*GAME_CONSTANTS.ONE_SECOND_TO_NANO);
 	
 		// Clean do gl context
-		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1); // cinza
 		
-		ScreenTickManager.getInstance().fireEvent(cameraModel, elapsedNanoTime);		
+		ScreenTickManager.getInstance().fireEvent(cameraModel, elapsedNanoTime);
+		
 	}
 	
 

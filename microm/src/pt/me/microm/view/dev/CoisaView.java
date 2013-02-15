@@ -52,7 +52,7 @@ public class CoisaView extends AbstractView {
 		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 		
 		batch.begin();
-		coisaSprite.draw(batch);
+			coisaSprite.draw(batch);
 		batch.end();
 		
 	}

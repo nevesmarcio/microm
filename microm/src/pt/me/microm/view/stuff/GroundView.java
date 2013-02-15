@@ -36,8 +36,6 @@ public class GroundView extends AbstractView {
 		Fixture fix = (groundmSrc.getBody().getFixtureList()).get(0);
 		ChainShape cs = (ChainShape)fix.getShape();
 		
-
-		
 		renderer.begin(ShapeType.Line);
 			int vCnt = cs.getVertexCount();
 			for (int i = 0; i < vCnt; i++) {

@@ -35,7 +35,7 @@ public class SpawnModel extends AbstractModel {
 	private ChainShape spawnShape; // Fronteira do tabuleiro
 	private Body spawnBody;
 	
-	
+	int countdown = 4;
 	private SpawnModel(final WorldModel wm, final DaBoxModel dbm, final BasicShape spawn, final List<Vector2> lst) {
 		wm.wmManager.add(new PointerToFunction() {
 
@@ -132,11 +132,11 @@ public class SpawnModel extends AbstractModel {
 
 					@Override
 					public String get() {
-						// TODO Auto-generated method stub
-						return "xxxxxxxxxxxxxxxxxxxxxx";
+						
+						return Integer.toString(countdown);
 					}
 				}, spawn.getCentroid());
-				
+				countdown-=1;
 			}
 		};
 		
