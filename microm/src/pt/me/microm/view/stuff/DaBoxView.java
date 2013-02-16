@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -29,7 +30,9 @@ public class DaBoxView extends AbstractView {
 	
 	ShapeRenderer renderer;
 	
-	Texture daBoxTexture = GAME_CONSTANTS.TEXTURE_BALL;
+	Texture daBoxTexture = GAME_CONSTANTS.TEXTURE_DABOX;
+	
+	Sprite daBoxSprite = new Sprite(daBoxTexture);
 	
 	SpriteBatch batch = new SpriteBatch();
 	
@@ -40,6 +43,8 @@ public class DaBoxView extends AbstractView {
 		renderer = new ShapeRenderer();
 		
 		daBoxTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		
+		daBoxSprite.setSize(1f, 1f);
 		
 	}
 	
@@ -54,8 +59,10 @@ public class DaBoxView extends AbstractView {
 		
 		Iterator<Fixture> it = daBoxmSrc.getBody().getFixtureList().iterator();
 		
+		Fixture aux = null;
+		float width = 0;
 		while (it.hasNext()) {
-			Fixture aux = it.next();
+			aux = it.next();
 			
 			renderer.identity();
 			renderer.translate(aux.getBody().getPosition().x, aux.getBody().getPosition().y, 0.0f);
@@ -69,6 +76,7 @@ public class DaBoxView extends AbstractView {
 					cs.getVertex(i, pointA); //pointA.add(portalmSrc.getPortalBody().getPosition());
 					cs.getVertex(i==vCnt-1 ? 0 : i + 1, pointB); //pointB.add(portalmSrc.getPortalBody().getPosition());
 					renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
+					width = pointA.dst(pointB);
 				}
 			renderer.end();
 			renderer.begin(ShapeType.Line);
@@ -77,8 +85,6 @@ public class DaBoxView extends AbstractView {
 			renderer.end();				
 			
 			float delta = Gdx.graphics.getDeltaTime();
-//		    GL10 gl = Gdx.app.getGraphics().getGL10();
-//		    gl.glClear(GL10.GL_COLOR_BUFFER_BIT);			
 			
 			batch.setProjectionMatrix(e.getCamera().getUiCamera().combined);
 			batch.begin();
@@ -86,8 +92,14 @@ public class DaBoxView extends AbstractView {
 				daBoxmSrc.particleEffect.draw(batch, delta);
 			batch.end();
 		}
-
-
+		
+		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+		batch.begin();
+			daBoxSprite.setPosition(aux.getBody().getPosition().x-width/2,  aux.getBody().getPosition().y-width/2);
+			daBoxSprite.setRotation(aux.getBody().getAngle());
+			daBoxSprite.draw(batch);
+		batch.end();
+		
 	}
 
 

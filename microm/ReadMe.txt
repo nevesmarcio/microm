@@ -94,6 +94,9 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 	- 9.patches
 	- mesh
 
+16-02-2013
+#
+
 [TODO] 
 # que coordenadas utilizar aquando a escrita das mensagens no UI? (fisicas? relativas ao tamanho do ecrã? outro?)
 

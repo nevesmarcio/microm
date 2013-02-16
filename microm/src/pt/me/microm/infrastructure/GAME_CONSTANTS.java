@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.utils.Logger;
 
 public class GAME_CONSTANTS {
@@ -28,6 +29,7 @@ public class GAME_CONSTANTS {
 	public static final Texture TEXTURE_BG = new Texture(Gdx.files.internal("data/textures/bg.png"));
 	public static final Texture TEXTURE_SQUARE1 = new Texture(Gdx.files.internal("data/textures/square1.png"));
 	public static final Texture TEXTURE_SQUARE2 = new Texture(Gdx.files.internal("data/textures/square2.png"));
+	public static final Texture TEXTURE_DABOX = new Texture(Gdx.files.internal("data/textures/txr_daBox.png"));
 
 	// Sounds LOAD
 	//public static final Sound SOUND_DROP = Gdx.audio.newSound(Gdx.files.internal("data/sound/Utopia Critical Stop.wav"));
