@@ -24,9 +24,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.utils.Logger;
 
 public class PortalView extends AbstractView {
 	private static final String TAG = PortalView.class.getSimpleName();
+	private static final Logger logger = new Logger(TAG);
 	
 	private PortalModel portalmSrc;
 	ShapeRenderer renderer;
@@ -50,9 +52,10 @@ public class PortalView extends AbstractView {
 		batch = new SpriteBatch();
 		
 		vertexes = new float[] { -0.5f, -0.5f, 0, /*Color.toFloatBits(255, 0, 0, 255),*/ 0, 2,
-                0.5f, -0.5f, 0, /*Color.toFloatBits(0, 255, 0, 255),*/ 2, 2,
-                0, 0.5f, 0, /*Color.toFloatBits(0, 0, 255, 255),*/ 1, 0 };
-		indexes = new short[] { 0, 1, 2 };		
+				                0.5f, -0.5f, 0, /*Color.toFloatBits(0, 255, 0, 255),*/ 2, 2,
+				                1.0f, 0.5f, 0, /*Color.toFloatBits(0, 255, 0, 255),*/ 3, 0,
+				                0.0f, 0.5f, 0, /*Color.toFloatBits(0, 0, 255, 255),*/ 1, 0 };
+		indexes = new short[] { 0, 1, 2, 3 };		
 		
 	}
 	
@@ -66,7 +69,7 @@ public class PortalView extends AbstractView {
 		
 	
 		if (mesh == null) {
-	        mesh = new Mesh(true, 3, 3, 
+	        mesh = new Mesh(true, 4, 4, 
 	                new VertexAttribute(Usage.Position, 3, "a_position"),
 	                /*new VertexAttribute(Usage.ColorPacked, 4, "a_color"),*/
 	                new VertexAttribute(Usage.TextureCoordinates, 2, "a_texCoords"));
@@ -110,7 +113,7 @@ public class PortalView extends AbstractView {
 	    Gdx.graphics.getGL10().glEnable(GL10.GL_BLEND);
 	    Gdx.graphics.getGL10().glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
 	    texture.bind();
-	    mesh.render(GL10.GL_TRIANGLES, 0, 3);
+	    mesh.render(GL10.GL_TRIANGLE_FAN, 0, 4); //GL_TRIAGLES; GL_TRIANGLE_STRIP; GL_TRIANGLE_FAN
 	    Gdx.graphics.getGL10().glDisable(GL10.GL_BLEND);
 	    Gdx.graphics.getGL10().glDisable(GL10.GL_TEXTURE_2D);
 	    
