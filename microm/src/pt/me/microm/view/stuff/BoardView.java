@@ -7,6 +7,9 @@ import pt.me.microm.view.AbstractView;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
@@ -17,7 +20,13 @@ public class BoardView extends AbstractView {
 	private static final String TAG = BoardView.class.getSimpleName();
 	
 	private BoardModel boardmSrc;
-	Texture texture = GAME_CONSTANTS.TEXTURE_DROID;
+	
+	Texture boardTexture = GAME_CONSTANTS.TEXTURE_BOARD;
+	
+	Sprite boardSprite;
+
+	SpriteBatch batch = new SpriteBatch();	
+	
 	ShapeRenderer renderer;
 	
 	public BoardView(BoardModel boardmSrc) {
@@ -25,6 +34,13 @@ public class BoardView extends AbstractView {
 		this.boardmSrc = boardmSrc;
 		
 		renderer = new ShapeRenderer();
+		
+		boardTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		
+		boardSprite = new Sprite(boardTexture);
+		boardSprite.setSize(15.0f, 15.0f);
+		boardSprite.setOrigin(7.5f, 7.5f);		
+		
 	}
 	
 	
@@ -56,6 +72,13 @@ public class BoardView extends AbstractView {
 		renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);		
 		
 		renderer.end();
+		
+		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+		batch.begin();
+			boardSprite.setPosition(fix.getBody().getPosition().x-7.5f,  fix.getBody().getPosition().y-7.5f);
+			boardSprite.setRotation((float)Math.toDegrees(fix.getBody().getAngle()));
+			boardSprite.draw(batch);
+		batch.end();				
 		
 		
 	}

@@ -217,9 +217,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7071068"
-     inkscape:cx="-550.23023"
-     inkscape:cy="403.09249"
+     inkscape:zoom="0.25000001"
+     inkscape:cx="-1474.9938"
+     inkscape:cy="487.2829"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -1567,5 +1567,38 @@
        d="m -244,178.65005 70,0 0,70 -70,0 z"
        id="wall_18"
        inkscape:connector-curvature="0" />
+    <path
+       id="path3429"
+       d="m -2822.8527,15.214283 1280,0 0,1280.000017 -1280,0 z"
+       style="opacity:0.1;fill:#ffff00;stroke:none"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="K:\temp_workspace\microm\microm\data\textures\txr_full_board.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="K:\temp_workspace\microm\microm\data\textures\txr_full_board.png"
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="path3431"
+       d="m -1542.8527,868.21428 -1280,0 0,427.00002 1280,0 z"
+       style="fill:#4d4d4d;fill-opacity:1;stroke:none" />
+    <path
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="K:\temp_workspace\microm\microm\data\textures\txr_full_board.png"
+       inkscape:connector-curvature="0"
+       id="path3433"
+       d="m -1542.8527,442.21428 -1280,0 0,426 1280,0 0,-426 z"
+       style="fill:#999999;fill-opacity:1;stroke:none" />
+    <path
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="K:\temp_workspace\microm\microm\data\textures\txr_full_board.png"
+       inkscape:connector-curvature="0"
+       id="path3435"
+       d="m -2822.8527,15.214287 0,426.999993 1280,0 0,-426.999993 -1280,0 z"
+       style="fill:#4d4d4d;fill-opacity:1;stroke:none" />
   </g>
 </svg>

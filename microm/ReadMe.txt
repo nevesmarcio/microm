@@ -98,7 +98,14 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 	- mesh (preciso de mais valores para o UV map --> svg ?) :: no fundo a técnica do coisa faz isto mas incorporado com o box2d
 	- texturas à medida e scales apropriados
 
-convencionar que as meshes saõ sempre boxes para ser facil texturar?
+convencionar que as meshes são sempre boxes para ser facil texturar?
+
+19-02-2013
+# texturização dos objectos (tech debt...)
+	- Dabox
+	- Walls
+	- Board
+# problema do z-index e da ordem de instanciação (dá para resolver facilzinho ordenando a lista de disparos do render!!) --> resolvido de forma brilhante. Às vezes tenho umas ideias de cagalhão. Assim sim!
 
 
 [TODO] 

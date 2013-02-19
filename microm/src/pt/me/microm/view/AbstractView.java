@@ -13,6 +13,10 @@ public abstract class AbstractView implements Disposable, ScreenTickInterface {
 	
 	private AbstractModel model;
 	public AbstractView(AbstractModel model) {
+		this(model, 0);
+	}
+
+	public AbstractView(AbstractModel model, final int zIndex) {
 		this.model = model;
 		model.addListener(AbstractModel.EventType.ON_MODEL_INSTANTIATED, new EventListener() {
 
@@ -20,11 +24,11 @@ public abstract class AbstractView implements Disposable, ScreenTickInterface {
 			public void onEvent(Event event) {
 				// Regista este objecto para ser informado dos screen ticks
 				// Este registo só pode ser efectuado depois do Modelo instanciado 
-				ScreenTickManager.getInstance().addEventListener(AbstractView.this);
+				ScreenTickManager.getInstance().addEventListener(AbstractView.this, zIndex);
 			}
-		});
+		});		
 	}
-
+	
 	
 	@Override
 	public void dispose() {

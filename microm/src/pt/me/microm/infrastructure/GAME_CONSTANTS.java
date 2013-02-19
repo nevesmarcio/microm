@@ -30,6 +30,8 @@ public class GAME_CONSTANTS {
 	public static final Texture TEXTURE_SQUARE1 = new Texture(Gdx.files.internal("data/textures/square1.png"));
 	public static final Texture TEXTURE_SQUARE2 = new Texture(Gdx.files.internal("data/textures/square2.png"));
 	public static final Texture TEXTURE_DABOX = new Texture(Gdx.files.internal("data/textures/txr_daBox.png"));
+	public static final Texture TEXTURE_WALL = new Texture(Gdx.files.internal("data/textures/txr_wall.png"));
+	public static final Texture TEXTURE_BOARD = new Texture(Gdx.files.internal("data/textures/txr_full_board.png"));
 
 	// Sounds LOAD
 	//public static final Sound SOUND_DROP = Gdx.audio.newSound(Gdx.files.internal("data/sound/Utopia Critical Stop.wav"));

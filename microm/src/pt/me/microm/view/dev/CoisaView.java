@@ -25,7 +25,7 @@ public class CoisaView extends AbstractView {
 	private SpriteBatch batch;
 	
 	public CoisaView(CoisaModel coisamSrc) {
-		super(coisamSrc);
+		super(coisamSrc, 1); // FIXME: arranjar umas constantes para definir o zOrder
 		this.coisamSrc = coisamSrc;
 		
 		renderer = new ShapeRenderer();

@@ -97,13 +97,14 @@ public class WorldModel extends AbstractModel {
 		// Modelos complementares ao WorldModel
 		if (MicroMGame.ISDEV)
 			grid = new GridModel(); // constroi a grid sobre a qual estão renderizados os objectos - debug purposes		
-		ui = new UIModel(this); // constroi o painel informativo?
+		
+		ui = new UIModel(this); // constroi o painel informativo?		
 		portalManager = new PortalModelManager();
 		
 ///* exemplos de coisas populadas no mundo */		
 ////		ball1 = BallModel.getNewInstance(this, board, 6.0f, 0.0f); // larga a bola num mundo num tabuleiro
 ////		ball2 = BallModel.getNewInstance(this, board, 1.0f, 0.0f);
-		coisa = CoisaModel.getNewInstance(this, board, 0.0f);
+			coisa = CoisaModel.getNewInstance(this, board, 0.0f);
 ////		ball1.ballBody.setActive(false);
 ////		ball2.ballBody.setActive(true);
 ////		ball1.ballBody.setActive(!ball1.ballBody.isActive());

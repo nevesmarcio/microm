@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.infrastructure.interfaces.ScreenTickInterface;
@@ -14,19 +16,53 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Logger;
-
+/**
+ * documentar esta merda, senão daqui a uns tempos (horas), não percebo bolha do que escrevi
+ * 
+ * 
+ * @author mneves
+ *
+ */
 public class ScreenTickManager implements Disposable {
 	private static final String TAG = ScreenTickManager.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG);
 	
-	private List<ScreenTickInterface> _listeners = new ArrayList<ScreenTickInterface>();
-
+	private TreeMap<Integer, List<ScreenTickInterface>> _listeners = new TreeMap<Integer, List<ScreenTickInterface>>();
+	
+	/**
+	 * the default zIndex is 0
+	 * @param listener
+	 */
 	public synchronized void addEventListener(ScreenTickInterface listener) {
-		_listeners.add(listener);
+		addEventListener(listener, 0);
+	}
+	
+	/**
+	 * specifies a zIndex
+	 * @param listener
+	 * @param zIndex
+	 */
+	public synchronized void addEventListener(ScreenTickInterface listener, int zIndex) {
+		try {
+			_listeners.get(zIndex).add(listener);
+		} catch (Exception e) { //FIXME: especificar a excepção
+			_listeners.put(zIndex, new ArrayList<ScreenTickInterface>());
+			_listeners.get(zIndex).add(listener);
+		}
+		
+		isTempListenersDirty = true;
 	}
 
 	public synchronized void removeEventListener(ScreenTickInterface listener) {
-		_listeners.remove(listener);
+		for (List<ScreenTickInterface> subList : _listeners.values()) {
+			try {
+				subList.remove(listener);
+				isTempListenersDirty = true;
+			} catch (Exception e) { //FIXME: especificar a excepção
+				if (logger.getLevel() == Logger.DEBUG) logger.debug(e.getMessage());
+			}
+		}
+
 	}
 
 
@@ -37,37 +73,44 @@ public class ScreenTickManager implements Disposable {
 	 * @param camera
 	 * @param elapsedNanoTime
 	 */
-	private ScreenTickEvent event = new ScreenTickEvent(this); 									// reutilização do evento
-	private List<ScreenTickInterface> temp_listeners = new ArrayList<ScreenTickInterface>(); 	// reutilização da lista de listeners
-	private Iterator<ScreenTickInterface> i; 													// reutilização da variável do iterator
+	private ScreenTickEvent event = new ScreenTickEvent(this); 					// reutilização do evento
+	private TreeMap<Integer, List<ScreenTickInterface>> temp_listeners = 
+			new TreeMap<Integer, List<ScreenTickInterface>>(); 					// reutilização da lista de listeners
+	private boolean isTempListenersDirty = true;
+	private Iterator<Map.Entry<Integer, List<ScreenTickInterface>>> i; 			// reutilização da variável do iterator
 	private boolean print = false;
-	private ScreenTickInterface x; 
+	private ArrayList<ScreenTickInterface> x; 
 	public synchronized void fireEvent(CameraModel camModel, long elapsedNanoTime) {
 		event.setCamera(camModel);
 		event.setElapsedNanoTime(elapsedNanoTime);
 		
 		try {
-			//FIXME: implementar heuristica para saber se vale ou não a pena - tradeoff entre memória / cpu :: guardar flag na estrutura
 			/* cria uma copia para iterar */
-			
-			if (_listeners.size() != temp_listeners.size()) {
-				if (logger.getLevel() == logger.DEBUG) logger.debug("[diff] _listeners|temp_listeners: " + _listeners.size() + "|" + temp_listeners.size());
+			if (isTempListenersDirty) {
+				if (logger.getLevel() == Logger.DEBUG) logger.debug("[diff] _listeners|temp_listeners: " + _listeners.size() + "|" + temp_listeners.size());
 				temp_listeners.clear();
-				temp_listeners.addAll(_listeners);
+				for (Map.Entry<Integer, List<ScreenTickInterface>> zGroup : _listeners.entrySet())
+					temp_listeners.put(zGroup.getKey(), zGroup.getValue());
+				
+				isTempListenersDirty = false;
 				print = true;
 			}
 			
-			i = temp_listeners.iterator();
+			i = temp_listeners.entrySet().iterator();
 			while (i.hasNext()) {
-				x = (ScreenTickInterface) i.next();
-				x.draw(event);
-				if (print) {
-					if (logger.getLevel() == logger.DEBUG) logger.debug(x.getClass().getName());
+				x = (ArrayList<ScreenTickInterface>) i.next().getValue();
+				
+				for (ScreenTickInterface it : x) {
+					it.draw(event);
+					if (print) {
+						if (logger.getLevel() == Logger.DEBUG) logger.debug(x.getClass().getName());
+					}					
 				}
+
 			}
 			print = false;
 		} catch (ConcurrentModificationException ex) {
-			if (logger.getLevel() == logger.DEBUG) logger.debug("[ScreenTickGen-EXCEPTION] CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
+			if (logger.getLevel() == Logger.DEBUG) logger.debug("[ScreenTickGen-EXCEPTION] CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 			throw ex;
 		}		
 

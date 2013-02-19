@@ -28,7 +28,11 @@ public class WallView extends AbstractView {
 	
 	ShapeRenderer renderer;
 	
-	Texture wallTexture = GAME_CONSTANTS.TEXTURE_BALL;
+	Texture wallTexture = GAME_CONSTANTS.TEXTURE_WALL;
+	
+	Sprite wallSprite;
+
+	SpriteBatch batch = new SpriteBatch();
 	
 	public WallView(WallModel wallmSrc) {
 		super(wallmSrc);
@@ -38,6 +42,10 @@ public class WallView extends AbstractView {
 		
 		wallTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
+		wallSprite = new Sprite(wallTexture);
+		wallSprite.setSize(0.5f, 0.5f);
+		wallSprite.setOrigin(0.25f, 0.25f);		
+
 	}
 	
 
@@ -49,9 +57,9 @@ public class WallView extends AbstractView {
 		renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 		
 		Iterator<Fixture> it = wallmSrc.getBody().getFixtureList().iterator();
-		
+		Fixture aux = null;
 		while (it.hasNext()) {
-			Fixture aux = it.next();
+			aux = it.next();
 			
 			renderer.identity();
 			renderer.translate(aux.getBody().getPosition().x, aux.getBody().getPosition().y, 0.0f);
@@ -70,6 +78,13 @@ public class WallView extends AbstractView {
 		}
 
 
+		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+		batch.begin();
+			wallSprite.setPosition(aux.getBody().getPosition().x-0.25f,  aux.getBody().getPosition().y-0.25f);
+			wallSprite.setRotation((float)Math.toDegrees(aux.getBody().getAngle()));
+			wallSprite.draw(batch);
+		batch.end();		
+		
 	}
 
 

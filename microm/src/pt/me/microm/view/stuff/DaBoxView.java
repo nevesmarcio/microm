@@ -32,7 +32,7 @@ public class DaBoxView extends AbstractView {
 	
 	Texture daBoxTexture = GAME_CONSTANTS.TEXTURE_DABOX;
 	
-	Sprite daBoxSprite = new Sprite(daBoxTexture);
+	Sprite daBoxSprite;
 	
 	SpriteBatch batch = new SpriteBatch();
 	
@@ -44,7 +44,9 @@ public class DaBoxView extends AbstractView {
 		
 		daBoxTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
-		daBoxSprite.setSize(1f, 1f);
+		daBoxSprite = new Sprite(daBoxTexture);
+		daBoxSprite.setSize(0.8f, 0.5f);
+		daBoxSprite.setOrigin(0.4f, 0.25f);
 		
 	}
 	
@@ -60,7 +62,6 @@ public class DaBoxView extends AbstractView {
 		Iterator<Fixture> it = daBoxmSrc.getBody().getFixtureList().iterator();
 		
 		Fixture aux = null;
-		float width = 0;
 		while (it.hasNext()) {
 			aux = it.next();
 			
@@ -76,7 +77,6 @@ public class DaBoxView extends AbstractView {
 					cs.getVertex(i, pointA); //pointA.add(portalmSrc.getPortalBody().getPosition());
 					cs.getVertex(i==vCnt-1 ? 0 : i + 1, pointB); //pointB.add(portalmSrc.getPortalBody().getPosition());
 					renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
-					width = pointA.dst(pointB);
 				}
 			renderer.end();
 			renderer.begin(ShapeType.Line);
@@ -84,8 +84,8 @@ public class DaBoxView extends AbstractView {
 				renderer.line(0.0f, 0.0f, 0.1f, 0.1f);
 			renderer.end();				
 			
+			// renderização das particles
 			float delta = Gdx.graphics.getDeltaTime();
-			
 			batch.setProjectionMatrix(e.getCamera().getUiCamera().combined);
 			batch.begin();
 				daBoxmSrc.particleEffect.setPosition(0.0f, 0.0f);
@@ -93,13 +93,13 @@ public class DaBoxView extends AbstractView {
 			batch.end();
 		}
 		
-//		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
-//		batch.begin();
-//			daBoxSprite.setPosition(aux.getBody().getPosition().x-width/2,  aux.getBody().getPosition().y-width/2);
-//			daBoxSprite.setRotation(aux.getBody().getAngle());
-//			daBoxSprite.draw(batch);
-//		batch.end();
-//		
+		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+		batch.begin();
+			daBoxSprite.setPosition(aux.getBody().getPosition().x-0.4f,  aux.getBody().getPosition().y-0.25f);
+			daBoxSprite.setRotation((float)Math.toDegrees(aux.getBody().getAngle()));
+			daBoxSprite.draw(batch);
+		batch.end();
+		
 	}
 
 
