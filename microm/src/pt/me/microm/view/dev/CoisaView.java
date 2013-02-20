@@ -19,7 +19,6 @@ public class CoisaView extends AbstractView {
 	
 	ShapeRenderer renderer;
 	
-	Texture coisaTexture = GAME_CONSTANTS.TEXTURE_THING;
 	Sprite coisaSprite;
 	
 	private SpriteBatch batch;
@@ -30,9 +29,7 @@ public class CoisaView extends AbstractView {
 		
 		renderer = new ShapeRenderer();
 		
-		coisaTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-
-		coisaSprite = new Sprite(coisaTexture);
+		coisaSprite = GAME_CONSTANTS.devAtlas.createSprite("thing");
 
 		coisaSprite.setSize(1.0f, 1.0f*coisaSprite.getHeight()/coisaSprite.getWidth());
 		coisaSprite.setOrigin(0.0f, 0.0f);

@@ -35,8 +35,7 @@ public class MicroMGame implements ApplicationListener {
 
 	@Override
 	public void create() {		
-		Texture.setEnforcePotImages(false); // ver o melhor sitio para enfiar isto, dado que as texturas estão nas constantes.
-				
+		Texture.setEnforcePotImages(true); // ver o melhor sitio para enfiar isto, dado que as texturas estão nas constantes.
 
 		// MODELS ///////////////////////////////////////////////////////////////
 		cameraModel = new CameraModel();

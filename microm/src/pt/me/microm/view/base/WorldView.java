@@ -33,7 +33,6 @@ public class WorldView extends AbstractView {
 	
 	ShapeRenderer renderer;
 	
-	Texture worldTexture = GAME_CONSTANTS.TEXTURE_BG;
 	Sprite worldSprite;
 	
 	SpriteBatch batch = new SpriteBatch();
@@ -44,9 +43,7 @@ public class WorldView extends AbstractView {
 		
 		renderer = new ShapeRenderer();
 		
-		worldTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-
-		worldSprite = new Sprite(worldTexture);
+		worldSprite = GAME_CONSTANTS.devAtlas.createSprite("bg");
 		
 		worldSprite.setSize(15.0f, 15.0f);
 		worldSprite.setOrigin(0.0f, 0.0f);

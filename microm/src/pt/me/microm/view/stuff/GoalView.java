@@ -18,7 +18,7 @@ public class GoalView extends AbstractView {
 	private static final String TAG = GoalView.class.getSimpleName();
 	
 	private GoalModel goalmSrc;
-	Texture texture = GAME_CONSTANTS.TEXTURE_DROID;
+
 	ShapeRenderer renderer;
 	
 	public GoalView(GoalModel goalmSrc) {

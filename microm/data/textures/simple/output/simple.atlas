@@ -1,0 +1,75 @@
+
+simple.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+txr_full_board
+  rotate: false
+  xy: 1, 568
+  size: 1280, 1280
+  orig: 1280, 1280
+  offset: 0, 0
+  index: -1
+txr_1_3_board
+  rotate: false
+  xy: 1, 139
+  size: 1280, 427
+  orig: 1280, 427
+  offset: 0, 0
+  index: -1
+txr_3_3_board
+  rotate: false
+  xy: 1, 139
+  size: 1280, 427
+  orig: 1280, 427
+  offset: 0, 0
+  index: -1
+txr_2_3_board
+  rotate: false
+  xy: 1283, 1422
+  size: 1280, 426
+  orig: 1280, 426
+  offset: 0, 0
+  index: -1
+txr_daBox
+  rotate: false
+  xy: 1, 67
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+txr_ground
+  rotate: false
+  xy: 1283, 1350
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+txr_wall
+  rotate: false
+  xy: 2565, 1778
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+square1
+  rotate: false
+  xy: 1, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+square2
+  rotate: false
+  xy: 73, 129
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+txr_spawn
+  rotate: false
+  xy: 1283, 1343
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1

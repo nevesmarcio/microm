@@ -112,11 +112,12 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # Texturização dos grounds
 # particles a seguir a caixa e mais pequenas 
 # coisa model passa a atender ao offset para determinar a coordenada de criação
+# transparecer as exceptions da reflexão das views para ser mais facil o debug de problemas
+# Texture atlas + enforce POT --> fazer o carregamento das texturas com base em atlas
 
-
-
-# Texture atlas + enforce POT
-
+(in progress...)
+# bug da textura da mesh
+# testes no droid
 
 
 [TODO] 

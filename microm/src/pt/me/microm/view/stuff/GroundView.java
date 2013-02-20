@@ -19,7 +19,6 @@ public class GroundView extends AbstractView {
 	private static final String TAG = GroundView.class.getSimpleName();
 	
 	private GroundModel groundmSrc;
-	Texture groundTexture = GAME_CONSTANTS.TEXTURE_GROUND;
 	
 	Sprite groundSprite;
 	SpriteBatch batch = new SpriteBatch();
@@ -32,9 +31,8 @@ public class GroundView extends AbstractView {
 		
 		renderer = new ShapeRenderer();
 		
-		groundTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		
-		groundSprite = new Sprite(groundTexture);
+		groundSprite = GAME_CONSTANTS.simpleAtlas.createSprite("txr_ground");		
+
 		groundSprite.setSize(15.0f, 0.1f);
 		//groundSprite.setOrigin(7.5f, 0.05f);		
 		

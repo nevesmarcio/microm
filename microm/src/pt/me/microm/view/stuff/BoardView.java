@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
@@ -20,8 +21,6 @@ public class BoardView extends AbstractView {
 	private static final String TAG = BoardView.class.getSimpleName();
 	
 	private BoardModel boardmSrc;
-	
-	Texture boardTexture = GAME_CONSTANTS.TEXTURE_BOARD;
 	
 	Sprite boardSprite;
 
@@ -35,9 +34,8 @@ public class BoardView extends AbstractView {
 		
 		renderer = new ShapeRenderer();
 		
-		boardTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		boardSprite = GAME_CONSTANTS.simpleAtlas.createSprite("txr_full_board");		
 		
-		boardSprite = new Sprite(boardTexture);
 		boardSprite.setSize(15.0f, 15.0f);
 		boardSprite.setOrigin(7.5f, 7.5f);		
 		

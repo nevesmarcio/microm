@@ -1,7 +1,9 @@
 package pt.me.microm.model;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
+import pt.me.microm.MicroMGame;
 import pt.me.microm.infrastructure.GameTickGenerator;
 import pt.me.microm.infrastructure.interfaces.GameTickInterface;
 import pt.me.microm.model.events.Event;
@@ -47,8 +49,13 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 		
 			viewRef = (AbstractView) o;
 		}
-		catch (Exception e) {
-			if (logger.getLevel() == logger.ERROR) logger.error("Error \"reflecting\" view: " + e.getMessage());
+		catch (InvocationTargetException ite) {
+			if (logger.getLevel() == logger.ERROR) logger.error("Error \"reflecting\" view: " + ite.getTargetException().getMessage());
+			if (MicroMGame.ISDEV)
+				ite.getTargetException().printStackTrace();
+		}
+		catch (Exception ex) {
+			if (logger.getLevel() == logger.ERROR) logger.error("Serious error \"reflecting\" view: " + ex.getMessage());
 		}
 		
 		// Tanto a abstractView como o abstractModel escutam o ON_MODEL_INSTANTIATED 

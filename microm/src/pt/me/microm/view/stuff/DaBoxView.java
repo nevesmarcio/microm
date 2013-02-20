@@ -30,8 +30,6 @@ public class DaBoxView extends AbstractView {
 	
 	ShapeRenderer renderer;
 	
-	Texture daBoxTexture = GAME_CONSTANTS.TEXTURE_DABOX;
-	
 	Sprite daBoxSprite;
 	
 	SpriteBatch batch = new SpriteBatch();
@@ -42,9 +40,8 @@ public class DaBoxView extends AbstractView {
 		
 		renderer = new ShapeRenderer();
 		
-		daBoxTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		daBoxSprite = GAME_CONSTANTS.simpleAtlas.createSprite("txr_daBox");		
 		
-		daBoxSprite = new Sprite(daBoxTexture);
 		daBoxSprite.setSize(0.8f, 0.5f);
 		daBoxSprite.setOrigin(0.4f, 0.25f);
 		

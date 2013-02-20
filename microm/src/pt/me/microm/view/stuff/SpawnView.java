@@ -19,7 +19,7 @@ public class SpawnView extends AbstractView {
 	private static final String TAG = SpawnView.class.getSimpleName();
 	
 	private SpawnModel spawnmSrc;
-	Texture texture = GAME_CONSTANTS.TEXTURE_DROID;
+
 	ShapeRenderer renderer;
 	
 	public SpawnView(SpawnModel spawnmSrc) {

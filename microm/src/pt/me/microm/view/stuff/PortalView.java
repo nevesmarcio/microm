@@ -37,8 +37,8 @@ public class PortalView extends AbstractView {
 	private PortalModel portalmSrc;
 	ShapeRenderer renderer;
 	
-	Texture texture = GAME_CONSTANTS.TEXTURE_SQUARE1;
-//	Sprite sprite; 
+	Texture texture;
+
 	SpriteBatch batch;
 	Mesh mesh;
 	SubMesh sm;
@@ -51,8 +51,6 @@ public class PortalView extends AbstractView {
 		this.portalmSrc = portalmSrc;
 		
 		renderer = new ShapeRenderer();
-		
-//		sprite = new Sprite(texture);
 		
 		batch = new SpriteBatch();
 		
@@ -76,6 +74,8 @@ public class PortalView extends AbstractView {
 				
                 };
 		indexes = new short[] { 0, 1, 2, 3 };
+		
+		texture = GAME_CONSTANTS.simpleAtlas.findRegion("square1").getTexture();
 		
 		texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 		texture.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);

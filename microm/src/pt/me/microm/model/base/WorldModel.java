@@ -102,7 +102,7 @@ public class WorldModel extends AbstractModel {
 		portalManager = new PortalModelManager();
 		
 ///* exemplos de coisas populadas no mundo */		
-////		ball1 = BallModel.getNewInstance(this, board, 6.0f, 0.0f); // larga a bola num mundo num tabuleiro
+			ball1 = BallModel.getNewInstance(this, 3.0f, 4.0f); // larga a bola num mundo num tabuleiro
 ////		ball2 = BallModel.getNewInstance(this, board, 1.0f, 0.0f);
 			coisa = CoisaModel.getNewInstance(this, board, 1.0f, 4.0f);
 ////		ball1.ballBody.setActive(false);

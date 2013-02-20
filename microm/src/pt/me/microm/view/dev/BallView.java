@@ -24,20 +24,17 @@ public class BallView extends AbstractView {
 	
 	ShapeRenderer renderer;
 	
-	Texture ballTexture = GAME_CONSTANTS.TEXTURE_BALL;
 	Sprite ballSprite;
 	
 	private SpriteBatch batch;
 	
 	public BallView(BallModel ballmSrc) {
-		super(ballmSrc);
+		super(ballmSrc, 1);
 		this.ballmSrc = ballmSrc;
 		
 		renderer = new ShapeRenderer();
 		
-		ballTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-
-		ballSprite = new Sprite(ballTexture);
+		ballSprite = GAME_CONSTANTS.devAtlas.createSprite("ball");
 		
 		ballSprite.setSize(1.0f, 1.0f);
 		ballSprite.setOrigin(0.5f, 0.5f);
