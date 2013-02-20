@@ -107,6 +107,17 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 	- Board
 # problema do z-index e da ordem de instanciação (dá para resolver facilzinho ordenando a lista de disparos do render!!) --> resolvido de forma brilhante. Às vezes tenho umas ideias de cagalhão. Assim sim!
 
+20-02-2013
+# Uniformização dos métodos do level loader para passarem apenas as shapes ao invés da lista de pontos
+# Texturização dos grounds
+# particles a seguir a caixa e mais pequenas 
+# coisa model passa a atender ao offset para determinar a coordenada de criação
+
+
+
+# Texture atlas + enforce POT
+
+
 
 [TODO] 
 # que coordenadas utilizar aquando a escrita das mensagens no UI? (fisicas? relativas ao tamanho do ecrã? outro?)

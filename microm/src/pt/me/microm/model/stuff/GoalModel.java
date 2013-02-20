@@ -28,7 +28,7 @@ public class GoalModel extends AbstractModel {
 	private ChainShape goalShape; // Fronteira do tabuleiro
 	private Body goalBody;
 	
-	private GoalModel(final WorldModel wm, final BasicShape goal, final List<Vector2> lst) {
+	private GoalModel(final WorldModel wm, final BasicShape goal) {
 		wm.wmManager.add(new PointerToFunction() {
 			
 			@Override
@@ -39,7 +39,7 @@ public class GoalModel extends AbstractModel {
 					v.sub(goal.getCentroid());
 				}				
 				
-				silhouetteVertex = lst.toArray(new Vector2[]{});
+				silhouetteVertex = goal.getPoints().toArray(new Vector2[]{});
 				
 				goalShape = new ChainShape();
 				goalShape.createLoop(silhouetteVertex);
@@ -70,8 +70,8 @@ public class GoalModel extends AbstractModel {
 		
 	}
 	
-	public static GoalModel getNewInstance(WorldModel wm, BasicShape goal, List<Vector2> pts){
-		return new GoalModel(wm, goal, pts);
+	public static GoalModel getNewInstance(WorldModel wm, BasicShape goal){
+		return new GoalModel(wm, goal);
 	}
 
 	

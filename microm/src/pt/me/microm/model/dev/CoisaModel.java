@@ -23,9 +23,9 @@ public class CoisaModel extends AbstractModel {
 	public Body coisaBody;	
 	public Vector2 coisaModelOrigin;
 	
-	private CoisaModel(WorldModel wm, BoardModel bm, float offset) {
+	private CoisaModel(WorldModel wm, BoardModel bm, float xOffset, float yOffset) {
 		// 0. Create a loader for the file saved from the editor.
-		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("data/textures/1st_example.json"));
+		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("data/bodies/1st_example/1st_example.json"));
 
 		// 1. Create a BodyDef, as usual.
 		BodyDef bd = new BodyDef();
@@ -42,15 +42,17 @@ public class CoisaModel extends AbstractModel {
 
 		// 4. Create the body fixture automatically by using the loader.
 		loader.attachFixture(coisaBody, "thing", fd, 1.0f);
-		coisaModelOrigin = loader.getOrigin("thing", 1.0f).cpy();
 		
+		// offset
+		coisaModelOrigin = loader.getOrigin("thing", 1.0f).cpy().add(xOffset, yOffset);
+		coisaBody.setTransform(coisaModelOrigin, coisaBody.getAngle());
 
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
 	}
 
-	public static CoisaModel getNewInstance(WorldModel wm, BoardModel bm, float offset){
-		return new CoisaModel(wm, bm, offset);
+	public static CoisaModel getNewInstance(WorldModel wm, BoardModel bm, float xOffset, float yOffset){
+		return new CoisaModel(wm, bm, xOffset, yOffset);
 	}
 	
 	@Override

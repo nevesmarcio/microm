@@ -18,7 +18,7 @@ import com.badlogic.gdx.input.RemoteInput;
 import com.badlogic.gdx.math.Vector2;
 
 public class MicroMGame implements ApplicationListener {
-	public static final boolean ISDEV = true; // "pre-compiler" equivalent for branching development-only code
+	public static final boolean ISDEV = false; // "pre-compiler" equivalent for branching development-only code
 	private static final String TAG = MicroMGame.class.getSimpleName();
 	
 	// CONTROLLER RELATED

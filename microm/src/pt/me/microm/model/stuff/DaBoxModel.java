@@ -89,7 +89,7 @@ public class DaBoxModel extends AbstractModel {
 		this.dabox = dabox; 
 
 		particleEffect = new ParticleEffect();
-	    particleEffect.load(Gdx.files.internal("data/fire.p"), Gdx.files.internal("data"));			
+	    particleEffect.load(Gdx.files.internal("data/particles/fire.p"), Gdx.files.internal("data/particles"));
 	    particleEffect.start();
 	}
 

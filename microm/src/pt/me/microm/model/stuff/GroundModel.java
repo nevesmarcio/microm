@@ -7,6 +7,7 @@ import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
+import pt.me.microm.tools.levelloader.BasicShape;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -30,19 +31,24 @@ public class GroundModel extends AbstractModel {
 	private Body groundBody;
 	
 	
-	private GroundModel(final WorldModel wm, final List<Vector2> lst) {
+	private GroundModel(final WorldModel wm, final BasicShape ground) {
 		
 		wm.wmManager.add(new PointerToFunction() {
 			
 			@Override
 			public Object handler(Object ... a) {
 
-				silhouetteVertex = lst.toArray(new Vector2[]{});
+				//deslocamento do centroid
+				for (Vector2 v : ground.getPoints()) {
+					v.sub(ground.getCentroid());
+				}				
+				
+				silhouetteVertex = ground.getPoints().toArray(new Vector2[]{});
 				
 				groundShape = new ChainShape();
 				groundShape.createLoop(silhouetteVertex);
 				
-				groundBodyDef.position.set(0.0f, 0.0f); // posição inicial do tabuleiro
+				groundBodyDef.position.set(ground.getCentroid()); // posição inicial do tabuleiro
 				groundBodyDef.type = BodyType.StaticBody;
 				
 				groundBody = wm.getPhysicsWorld().createBody(groundBodyDef);
@@ -67,8 +73,8 @@ public class GroundModel extends AbstractModel {
 	
 	}
 	
-	public static GroundModel getNewInstance(WorldModel wm, List<Vector2> pts){
-		return new GroundModel(wm, pts);
+	public static GroundModel getNewInstance(WorldModel wm, BasicShape ground){
+		return new GroundModel(wm, ground);
 	}
 
 	

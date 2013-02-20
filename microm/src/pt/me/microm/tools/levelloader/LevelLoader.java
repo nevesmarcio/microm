@@ -60,7 +60,7 @@ public class LevelLoader {
 	 * @param board
 	 * @param wm
 	 */
-	private static BoardModel addBoardToWorld(BasicShape board, WorldModel wm) {
+	private static BoardModel addBoardToWorld(WorldModel wm, BasicShape board) {
 		if (MicroMGame.ISDEV) {
 			DebugModel m;
 			for (Vector2 ap : board.getPoints()) {
@@ -112,7 +112,7 @@ public class LevelLoader {
 			m.setColor(Color.CYAN);
 		}
 
-		SpawnModel sm = SpawnModel.getNewInstance(wm, dbm, spawn, spawn.getPoints());
+		SpawnModel sm = SpawnModel.getNewInstance(wm, dbm, spawn);
 		wm.spawnModel = sm;
 		return sm;
 	}
@@ -122,7 +122,7 @@ public class LevelLoader {
 	 * @param goal
 	 * @param wm
 	 */
-	private static GoalModel addGoalToWorld(BasicShape goal, WorldModel wm) {
+	private static GoalModel addGoalToWorld(WorldModel wm, BasicShape goal) {
 		if (MicroMGame.ISDEV) {
 			DebugModel m;
 			for (Vector2 ap : goal.getPoints()) {
@@ -134,7 +134,7 @@ public class LevelLoader {
 
 		}
 		
-		return GoalModel.getNewInstance(wm, goal, goal.getPoints()); 
+		return GoalModel.getNewInstance(wm, goal); 
 	}
 	
 	/**
@@ -142,13 +142,13 @@ public class LevelLoader {
 	 * @param ground
 	 * @param wm
 	 */
-	private static GroundModel addGroundToWorld(BasicShape ground, WorldModel wm) {
+	private static GroundModel addGroundToWorld(WorldModel wm, BasicShape ground) {
 		if (MicroMGame.ISDEV)
 			for (Vector2 ap : ground.getPoints()) {
 				DebugModel.getNewInstance(wm, ap.x, ap.y);
 			}
 		
-		return GroundModel.getNewInstance(wm, ground.getPoints());
+		return GroundModel.getNewInstance(wm, ground);
 	}	
 	
 	
@@ -157,7 +157,7 @@ public class LevelLoader {
 	 * @param portal
 	 * @param wm
 	 */
-	private static PortalModel addPortalToWorld(BasicShape portal, WorldModel wm, String portal_name) {
+	private static PortalModel addPortalToWorld(WorldModel wm, BasicShape portal, String portal_name) {
 		if (MicroMGame.ISDEV) {
 			for (Vector2 ap : portal.getPoints()) {
 				DebugModel.getNewInstance(wm, ap.x, ap.y);
@@ -175,7 +175,7 @@ public class LevelLoader {
 	 * @param wall
 	 * @param wm
 	 */
-	private static WallModel addWallToWorld(BasicShape wall, WorldModel wm, String wall_name) {
+	private static WallModel addWallToWorld(WorldModel wm, BasicShape wall, String wall_name) {
 		if (MicroMGame.ISDEV)
 		for (Vector2 ap : wall.getPoints()) {
 				DebugModel.getNewInstance(wm, ap.x, ap.y);
@@ -248,7 +248,7 @@ public class LevelLoader {
 				s.getCentroid().y = (maxHeight - s.getCentroid().y)*scale;
 				
 				if (logger.getLevel() == logger.INFO) logger.info(s.toString());
-				addBoardToWorld(s, wm);
+				addBoardToWorld(wm, s);
 				
 				nrElements+=1;
 			}
@@ -326,7 +326,7 @@ public class LevelLoader {
 				s.getCentroid().x = s.getCentroid().x*scale;
 				s.getCentroid().y = (maxHeight - s.getCentroid().y)*scale;				
 				
-				addGoalToWorld(s, wm);
+				addGoalToWorld(wm, s);
 				nrElements+=1;
 			}
 
@@ -351,7 +351,7 @@ public class LevelLoader {
 				s.getCentroid().x = s.getCentroid().x*scale;
 				s.getCentroid().y = (maxHeight - s.getCentroid().y)*scale;
 				
-				addGroundToWorld(s, wm);
+				addGroundToWorld(wm, s);
 				nrElements+=1;
 			}
 
@@ -378,7 +378,7 @@ public class LevelLoader {
 				s.getCentroid().x = s.getCentroid().x*scale;
 				s.getCentroid().y = (maxHeight - s.getCentroid().y)*scale;				
 				
-				addPortalToWorld(s, wm, portal_name);
+				addPortalToWorld(wm, s, portal_name);
 				nrElements+=1;
 			}
 
@@ -405,7 +405,7 @@ public class LevelLoader {
 				s.getCentroid().x = s.getCentroid().x*scale;
 				s.getCentroid().y = (maxHeight - s.getCentroid().y)*scale;				
 				
-				addWallToWorld(s, wm, wall_name);
+				addWallToWorld(wm, s, wall_name);
 				nrElements+=1;
 			}
 			

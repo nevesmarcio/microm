@@ -6,6 +6,9 @@ import pt.me.microm.model.stuff.GroundModel;
 import pt.me.microm.view.AbstractView;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
@@ -16,7 +19,11 @@ public class GroundView extends AbstractView {
 	private static final String TAG = GroundView.class.getSimpleName();
 	
 	private GroundModel groundmSrc;
-	Texture texture = GAME_CONSTANTS.TEXTURE_DROID;
+	Texture groundTexture = GAME_CONSTANTS.TEXTURE_GROUND;
+	
+	Sprite groundSprite;
+	SpriteBatch batch = new SpriteBatch();
+	
 	ShapeRenderer renderer;
 	
 	public GroundView(GroundModel groundmSrc) {
@@ -24,6 +31,13 @@ public class GroundView extends AbstractView {
 		this.groundmSrc = groundmSrc;
 		
 		renderer = new ShapeRenderer();
+		
+		groundTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		
+		groundSprite = new Sprite(groundTexture);
+		groundSprite.setSize(15.0f, 0.1f);
+		//groundSprite.setOrigin(7.5f, 0.05f);		
+		
 	}
 	
 	private Vector2 pointA = new Vector2();
@@ -45,6 +59,14 @@ public class GroundView extends AbstractView {
 			}
 		renderer.end();
 
+		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+		batch.begin();
+			groundSprite.setPosition(fix.getBody().getPosition().x-7.5f,  fix.getBody().getPosition().y-0.05f);
+			groundSprite.setRotation((float)Math.toDegrees(fix.getBody().getAngle()));
+			groundSprite.draw(batch);
+		batch.end();		
+		
+		
 	}
 
 }

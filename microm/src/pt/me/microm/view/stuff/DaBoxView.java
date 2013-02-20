@@ -86,9 +86,9 @@ public class DaBoxView extends AbstractView {
 			
 			// renderização das particles
 			float delta = Gdx.graphics.getDeltaTime();
-			batch.setProjectionMatrix(e.getCamera().getUiCamera().combined);
+			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 			batch.begin();
-				daBoxmSrc.particleEffect.setPosition(0.0f, 0.0f);
+				daBoxmSrc.particleEffect.setPosition(daBoxmSrc.getPosition().x, daBoxmSrc.getPosition().y);
 				daBoxmSrc.particleEffect.draw(batch, delta);
 			batch.end();
 		}

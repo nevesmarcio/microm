@@ -36,7 +36,7 @@ public class SpawnModel extends AbstractModel {
 	private Body spawnBody;
 	
 	int countdown = 4;
-	private SpawnModel(final WorldModel wm, final DaBoxModel dbm, final BasicShape spawn, final List<Vector2> lst) {
+	private SpawnModel(final WorldModel wm, final DaBoxModel dbm, final BasicShape spawn) {
 		wm.wmManager.add(new PointerToFunction() {
 
 			@Override
@@ -47,7 +47,7 @@ public class SpawnModel extends AbstractModel {
 					v.sub(spawn.getCentroid());
 				}				
 				
-				silhouetteVertex = lst.toArray(new Vector2[]{});
+				silhouetteVertex = spawn.getPoints().toArray(new Vector2[]{});
 				
 				spawnShape = new ChainShape();
 				spawnShape.createLoop(silhouetteVertex);
@@ -152,8 +152,8 @@ public class SpawnModel extends AbstractModel {
 
 	}
 	
-	public static SpawnModel getNewInstance(WorldModel wm, DaBoxModel dbm, BasicShape spawn, List<Vector2> pts){
-		return new SpawnModel(wm, dbm, spawn, pts);
+	public static SpawnModel getNewInstance(WorldModel wm, DaBoxModel dbm, BasicShape spawn){
+		return new SpawnModel(wm, dbm, spawn);
 	}
 
 	
