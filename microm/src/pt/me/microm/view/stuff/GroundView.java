@@ -31,7 +31,7 @@ public class GroundView extends AbstractView {
 		
 		renderer = new ShapeRenderer();
 		
-		groundSprite = GAME_CONSTANTS.simpleAtlas.createSprite("txr_ground");		
+		groundSprite = GAME_CONSTANTS.devAtlas.createSprite("txr_ground");		
 
 		groundSprite.setSize(15.0f, 0.1f);
 		//groundSprite.setOrigin(7.5f, 0.05f);		

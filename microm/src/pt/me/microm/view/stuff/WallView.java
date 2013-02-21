@@ -38,8 +38,7 @@ public class WallView extends AbstractView {
 		
 		renderer = new ShapeRenderer();
 		
-		
-		wallSprite = GAME_CONSTANTS.simpleAtlas.createSprite("txr_wall");
+		wallSprite = GAME_CONSTANTS.devAtlas.createSprite("txr_wall");
 
 		wallSprite.setSize(0.5f, 0.5f);
 		wallSprite.setOrigin(0.25f, 0.25f);		

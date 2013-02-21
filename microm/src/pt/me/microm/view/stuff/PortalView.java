@@ -75,7 +75,7 @@ public class PortalView extends AbstractView {
                 };
 		indexes = new short[] { 0, 1, 2, 3 };
 		
-		texture = GAME_CONSTANTS.simpleAtlas.findRegion("square1").getTexture();
+		texture = GAME_CONSTANTS.devAtlas.findRegion("square1").getTexture();
 		
 		texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 		texture.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);

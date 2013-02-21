@@ -102,9 +102,9 @@ public class WorldModel extends AbstractModel {
 		portalManager = new PortalModelManager();
 		
 ///* exemplos de coisas populadas no mundo */		
-			ball1 = BallModel.getNewInstance(this, 3.0f, 4.0f); // larga a bola num mundo num tabuleiro
-////		ball2 = BallModel.getNewInstance(this, board, 1.0f, 0.0f);
-			coisa = CoisaModel.getNewInstance(this, board, 1.0f, 4.0f);
+////		ball1 = BallModel.getNewInstance(this, board, 1.0f, 1.0f);
+////		ball2 = BallModel.getNewInstance(this, board, 2.0f, 2.0f);
+////		coisa = CoisaModel.getNewInstance(this, 1.0f, 4.0f);
 ////		ball1.ballBody.setActive(false);
 ////		ball2.ballBody.setActive(true);
 ////		ball1.ballBody.setActive(!ball1.ballBody.isActive());
@@ -127,7 +127,6 @@ public class WorldModel extends AbstractModel {
 		FileHandle h = Gdx.files.internal("data/levels/level0.svg");
 		int nr_elements_loaded = LevelLoader.LoadLevel(h, this);
 		if (logger.getLevel() == logger.INFO) logger.info("Nr elements loaded: " + nr_elements_loaded);
-				
 
 		// regista o contactListener para que este notifique os objectos quando há choques 
 		getPhysicsWorld().setContactListener(myContactListener = new MyContactListener()); //new ContactListenerImpl() 

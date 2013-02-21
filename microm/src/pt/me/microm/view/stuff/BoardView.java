@@ -34,7 +34,7 @@ public class BoardView extends AbstractView {
 		
 		renderer = new ShapeRenderer();
 		
-		boardSprite = GAME_CONSTANTS.simpleAtlas.createSprite("txr_full_board");		
+		boardSprite = GAME_CONSTANTS.devAtlas.createSprite("txr_full_board");
 		
 		boardSprite.setSize(15.0f, 15.0f);
 		boardSprite.setOrigin(7.5f, 7.5f);		

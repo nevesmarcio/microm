@@ -40,7 +40,7 @@ public class DaBoxView extends AbstractView {
 		
 		renderer = new ShapeRenderer();
 		
-		daBoxSprite = GAME_CONSTANTS.simpleAtlas.createSprite("txr_daBox");		
+		daBoxSprite = GAME_CONSTANTS.devAtlas.createSprite("txr_daBox");		
 		
 		daBoxSprite.setSize(0.8f, 0.5f);
 		daBoxSprite.setOrigin(0.4f, 0.25f);

@@ -93,7 +93,7 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 17-02-2013
 18-02-2013
 # começar a debulhar o look da coisa (implementar o protótipo do inkscape)
-	- texturas coincidentes / - tecnica do "Coisa"
+	- texturas coincidentes / - tecnica do "thing"
 	- 9.patches ? 
 	- mesh (preciso de mais valores para o UV map --> svg ?) :: no fundo a técnica do coisa faz isto mas incorporado com o box2d
 	- texturas à medida e scales apropriados
@@ -114,13 +114,21 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # coisa model passa a atender ao offset para determinar a coordenada de criação
 # transparecer as exceptions da reflexão das views para ser mais facil o debug de problemas
 # Texture atlas + enforce POT --> fazer o carregamento das texturas com base em atlas
-
-(in progress...)
-# bug da textura da mesh
+# pq é que não aparecem a ball e o thing ??? --> tinha a ver com a ordem de criação dos objectos poder acontecer antes dos limites fisicos do board
 # testes no droid
+
+21-02-2013
+# se tiver o textureAtlas com uma página demasiado larga/ alta, as texturas ficam todas a branco, como que se não fossem POT (n funciona com 8192; funciona com 2048)
+
+
+(in progress)
+# separar as opções de renderização em variaveis globais
+	- com isto espero melhorar significativamente a performance
+
 
 
 [TODO] 
+# bug da textura da mesh depois de a ter enfiado no atlas
 # que coordenadas utilizar aquando a escrita das mensagens no UI? (fisicas? relativas ao tamanho do ecrã? outro?)
 
 # Mecanismo de navegação na app

@@ -8,6 +8,7 @@ import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.dev.BallModel;
+import pt.me.microm.model.dev.CoisaModel;
 import pt.me.microm.model.events.SimpleEvent;
 import pt.me.microm.model.ui.UIModel.Accessor;
 import pt.me.microm.tools.levelloader.BasicShape;
@@ -107,6 +108,10 @@ public class SpawnModel extends AbstractModel {
 							public Object handler(Object... a) {
 
 								dbm.create(spawn.getCentroid());
+								
+								// se não colocar isto depois da leitura do board, os objectos caem no espaço
+								BallModel.getNewInstance(wm, 3.0f, 4.0f); // larga a bola num mundo num tabuleiro
+								CoisaModel.getNewInstance(wm, 1.0f, 4.0f);
 								
 								return null;
 							}

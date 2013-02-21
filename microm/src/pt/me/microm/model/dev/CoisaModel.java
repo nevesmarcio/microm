@@ -23,7 +23,7 @@ public class CoisaModel extends AbstractModel {
 	public Body coisaBody;	
 	public Vector2 coisaModelOrigin;
 	
-	private CoisaModel(WorldModel wm, BoardModel bm, float xOffset, float yOffset) {
+	private CoisaModel(WorldModel wm, float xOffset, float yOffset) {
 		// 0. Create a loader for the file saved from the editor.
 		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("data/bodies/1st_example/1st_example.json"));
 
@@ -51,8 +51,8 @@ public class CoisaModel extends AbstractModel {
 		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
 	}
 
-	public static CoisaModel getNewInstance(WorldModel wm, BoardModel bm, float xOffset, float yOffset){
-		return new CoisaModel(wm, bm, xOffset, yOffset);
+	public static CoisaModel getNewInstance(WorldModel wm, float xOffset, float yOffset){
+		return new CoisaModel(wm, xOffset, yOffset);
 	}
 	
 	@Override
