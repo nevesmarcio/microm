@@ -38,12 +38,7 @@ public class GroundModel extends AbstractModel {
 			@Override
 			public Object handler(Object ... a) {
 
-				//deslocamento do centroid
-				for (Vector2 v : ground.getPoints()) {
-					v.sub(ground.getCentroid());
-				}				
-				
-				silhouetteVertex = ground.getPoints().toArray(new Vector2[]{});
+				silhouetteVertex = ground.getPointsArray();
 				
 				groundShape = new ChainShape();
 				groundShape.createLoop(silhouetteVertex);

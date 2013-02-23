@@ -24,7 +24,10 @@ public class GoalView extends AbstractView {
 	public GoalView(GoalModel goalmSrc) {
 		super(goalmSrc);
 		this.goalmSrc = goalmSrc;
-		
+	}
+
+	@Override
+	public void DelayedInit() {
 		renderer = new ShapeRenderer();
 	}
 	

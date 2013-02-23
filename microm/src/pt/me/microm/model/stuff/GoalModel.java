@@ -34,12 +34,8 @@ public class GoalModel extends AbstractModel {
 			@Override
 			public Object handler(Object ... a) {
 				
-				//deslocamento do centroid
-				for (Vector2 v : goal.getPoints()) {
-					v.sub(goal.getCentroid());
-				}				
-				
-				silhouetteVertex = goal.getPoints().toArray(new Vector2[]{});
+			
+				silhouetteVertex = goal.getPointsArray();
 				
 				goalShape = new ChainShape();
 				goalShape.createLoop(silhouetteVertex);

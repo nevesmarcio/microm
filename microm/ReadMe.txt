@@ -121,14 +121,25 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # se tiver o textureAtlas com uma página demasiado larga/ alta, as texturas ficam todas a branco, como que se não fossem POT (n funciona com 8192; funciona com 2048)
 
 
+22-02-2013
+23-02-2013
+# refactorização de todo o carregamento do nível a partir do SVG e da classe BasicShape (tentativa de problema da abstração dos shapes e propagação dos scalings, etc...)
+# OPENGL CONTEXT:: 
+	os model remetem um handler a ser invocado após o step (pelo wmManager.process()), que corre na thread do Timer0
+	é este handler que avisa a partir de um evento que o construtor está pronto
+	é em resposta a este evento que o DelayedInit das views views são construidas
+	assim, o delayedInit corre na thread do Timer0. É preciso então garantir que o que diz respeito ao OPENGL Context que ocorre no delayedInit é invocado na thread do GUI.
+	(ver exemplo do PortalView onde tem o Gdx.app.postRunnable())
+# Bug da textura da mesh depois de a ter enfiado no atlas (terá a ver com as camaras e a renderização do mesh ?)
+	Já percebi o que se passa. A textura é a inteira. O trabalho de "trim" tem que ser feito no UVMAP de acordo com a region 
+
 (in progress)
 # separar as opções de renderização em variaveis globais
 	- com isto espero melhorar significativamente a performance
-
+ 
 
 
 [TODO] 
-# bug da textura da mesh depois de a ter enfiado no atlas
 # que coordenadas utilizar aquando a escrita das mensagens no UI? (fisicas? relativas ao tamanho do ecrã? outro?)
 
 # Mecanismo de navegação na app

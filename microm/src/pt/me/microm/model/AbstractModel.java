@@ -51,7 +51,7 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 		}
 		catch (InvocationTargetException ite) {
 			if (logger.getLevel() == logger.ERROR) logger.error("Error \"reflecting\" view: " + ite.getTargetException().getMessage());
-			if (MicroMGame.ISDEV)
+			if (MicroMGame.FLAG_DEV_ELEMENTS)
 				ite.getTargetException().printStackTrace();
 		}
 		catch (Exception ex) {

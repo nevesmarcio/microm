@@ -16,22 +16,25 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.utils.Logger;
 
 public class BallView extends AbstractView {
 	private static final String TAG = BallView.class.getSimpleName();
+	private static final Logger logger = new Logger(TAG);
 	
 	private BallModel ballmSrc;
 	
 	ShapeRenderer renderer;
-	
 	Sprite ballSprite;
-	
 	private SpriteBatch batch;
 	
 	public BallView(BallModel ballmSrc) {
 		super(ballmSrc, 1);
 		this.ballmSrc = ballmSrc;
-		
+	}
+	
+	@Override
+	public void DelayedInit() {
 		renderer = new ShapeRenderer();
 		
 		ballSprite = GAME_CONSTANTS.devAtlas.createSprite("ball");
@@ -40,10 +43,9 @@ public class BallView extends AbstractView {
 		ballSprite.setOrigin(0.5f, 0.5f);
 		
 		batch = new SpriteBatch();
-		
 	}
-	
 
+	
 	@Override
 	public void draw(ScreenTickEvent e) {
 		

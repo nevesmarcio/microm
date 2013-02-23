@@ -21,7 +21,10 @@ public class DebugView extends AbstractView {
 	public DebugView(DebugModel debugmSrc) {
 		super(debugmSrc);
 		this.debugmSrc = debugmSrc;
-		
+	}
+	
+	@Override
+	public void DelayedInit() {
 		renderer = new ShapeRenderer();
 	}
 	

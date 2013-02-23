@@ -19,7 +19,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 
-public class CameraModel extends AbstractModel{
+public class CameraModel extends AbstractModel {
 	private static final String TAG = CameraModel.class.getSimpleName();
 	
 	private OrthographicCamera uiCamera; 	// camera dedicada ao UI
@@ -298,7 +298,7 @@ public class CameraModel extends AbstractModel{
 		}
 
 		//FIXME: n posso meter isto aqui senão o ecrã faz um "flick"
-		if (MicroMGame.ISDEV)
+		if (MicroMGame.FLAG_DEV_ELEMENTS)
 			gameCamera.update(); // faz update às matrizes da camera após os movimentos
 		
 	}

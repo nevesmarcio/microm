@@ -53,25 +53,23 @@ public class LevelLoader {
 	
 	private LevelLoader() {}
 	
-
-	
 	/**
 	 * 
 	 * @param board
 	 * @param wm
 	 */
 	private static BoardModel addBoardToWorld(WorldModel wm, BasicShape board) {
-		if (MicroMGame.ISDEV) {
+		if (MicroMGame.FLAG_DEV_ELEMENTS) {
 			DebugModel m;
-			for (Vector2 ap : board.getPoints()) {
-				m = DebugModel.getNewInstance(wm, ap.x, ap.y);
+			for (Vector2 ap : board.getPointsArray()) {
+				m = DebugModel.getNewInstance(wm, ap.x+board.getCentroid().x, ap.y+board.getCentroid().y);
 				m.setColor(Color.WHITE);
 			}
 			m = DebugModel.getNewInstance(wm, board.getCentroid().x, board.getCentroid().y);
 			m.setColor(Color.BLACK);
 		}		
 
-		BoardModel bm = BoardModel.getNewInstance(wm, board, board.getPoints()); 
+		BoardModel bm = BoardModel.getNewInstance(wm, board); 
 		wm.setBoard(bm);
 		return bm;
 	}
@@ -84,9 +82,9 @@ public class LevelLoader {
 	 * @return
 	 */
 	private static DaBoxModel addDaBoxToWorld(WorldModel wm, BasicShape dabox, String dabox_name) {
-		if (MicroMGame.ISDEV)
-			for (Vector2 ap : dabox.getPoints()) {
-					DebugModel.getNewInstance(wm, ap.x, ap.y);
+		if (MicroMGame.FLAG_DEV_ELEMENTS)
+			for (Vector2 ap : dabox.getPointsArray()) {
+					DebugModel.getNewInstance(wm, ap.x+dabox.getCentroid().x, ap.y+dabox.getCentroid().y);
 			}
 		
 		DaBoxModel dbm = DaBoxModel.getNewInstance(wm, dabox); 
@@ -101,10 +99,10 @@ public class LevelLoader {
 	 */
 	private static SpawnModel addSpawnToWorld(WorldModel wm, DaBoxModel dbm, BasicShape spawn) {
 
-		if (MicroMGame.ISDEV) {
+		if (MicroMGame.FLAG_DEV_ELEMENTS) {
 			DebugModel m;
-			for (Vector2 ap : spawn.getPoints()) {
-				m = DebugModel.getNewInstance(wm, ap.x, ap.y);
+			for (Vector2 ap : spawn.getPointsArray()) {
+				m = DebugModel.getNewInstance(wm, ap.x+spawn.getCentroid().x, ap.y+spawn.getCentroid().y);
 				m.setColor(Color.BLUE);
 			}
 
@@ -123,10 +121,10 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static GoalModel addGoalToWorld(WorldModel wm, BasicShape goal) {
-		if (MicroMGame.ISDEV) {
+		if (MicroMGame.FLAG_DEV_ELEMENTS) {
 			DebugModel m;
-			for (Vector2 ap : goal.getPoints()) {
-				m = DebugModel.getNewInstance(wm, ap.x, ap.y);
+			for (Vector2 ap : goal.getPointsArray()) {
+				m = DebugModel.getNewInstance(wm, ap.x+goal.getCentroid().x, ap.y+goal.getCentroid().y);
 				m.setColor(Color.GREEN);
 			}
 			m = DebugModel.getNewInstance(wm, goal.getCentroid().x, goal.getCentroid().y);
@@ -143,9 +141,9 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static GroundModel addGroundToWorld(WorldModel wm, BasicShape ground) {
-		if (MicroMGame.ISDEV)
-			for (Vector2 ap : ground.getPoints()) {
-				DebugModel.getNewInstance(wm, ap.x, ap.y);
+		if (MicroMGame.FLAG_DEV_ELEMENTS)
+			for (Vector2 ap : ground.getPointsArray()) {
+				DebugModel.getNewInstance(wm, ap.x+ground.getCentroid().x, ap.y+ground.getCentroid().y);
 			}
 		
 		return GroundModel.getNewInstance(wm, ground);
@@ -158,9 +156,9 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static PortalModel addPortalToWorld(WorldModel wm, BasicShape portal, String portal_name) {
-		if (MicroMGame.ISDEV) {
-			for (Vector2 ap : portal.getPoints()) {
-				DebugModel.getNewInstance(wm, ap.x, ap.y);
+		if (MicroMGame.FLAG_DEV_ELEMENTS) {
+			for (Vector2 ap : portal.getPointsArray()) {
+				DebugModel.getNewInstance(wm, ap.x+portal.getCentroid().x, ap.y+portal.getCentroid().y);
 			}
 			DebugModel.getNewInstance(wm, portal.getCentroid().x, portal.getCentroid().y);
 		}
@@ -176,9 +174,9 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static WallModel addWallToWorld(WorldModel wm, BasicShape wall, String wall_name) {
-		if (MicroMGame.ISDEV)
-		for (Vector2 ap : wall.getPoints()) {
-				DebugModel.getNewInstance(wm, ap.x, ap.y);
+		if (MicroMGame.FLAG_DEV_ELEMENTS)
+		for (Vector2 ap : wall.getPointsArray()) {
+				DebugModel.getNewInstance(wm, ap.x+wall.getCentroid().x, ap.y+wall.getCentroid().y);
 		}
 		
 		
@@ -214,40 +212,26 @@ public class LevelLoader {
 
 			XPathExpression expr; 
 			// Get Board
-			if (logger.getLevel() == logger.INFO) logger.info("Board...");
+			if (logger.getLevel() == Logger.INFO) logger.info("Board...");
 			expr = xpath.compile("//svg/g/path[contains(@id,'board')]/@d");
 			NodeList board = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < board.getLength(); i++) {
 				String d = board.item(i).getNodeValue();
-				if (logger.getLevel() == logger.INFO) logger.info(d);
-				BasicShape s = new BasicShape(d);
-				// O offset do nível é igual ao offset do 1º ponto da "board"
-				xOffset = s.getPoints().get(0).x;
-				yOffset = s.getPoints().get(0).y;
+				if (logger.getLevel() == Logger.INFO) logger.info(d);
 
-				// O offset do elemento "board" agora já pode ser zero
-				s.offsetShape(new Vector2(xOffset, yOffset));			
-				
-				// Largura e Altura limites do nivel para efeitos de scaling
-				for (Vector2 p : s.getPoints()) {
-					if (p.x > maxWidth) maxWidth = p.x;
-					if (p.y > maxHeight) maxHeight = p.y;
-				}
 
-				// Calculo do scale com base no tamanho do board
-				scale = GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY / maxWidth;
+				//FIXME: these values can/ should be loaded dynamically
+				// Calculo do offset do nível é igual ao offset do 1º ponto da "board"
+				xOffset = -1362.8527f;
+				yOffset = 15.214283f;
+				// Calculo da Largura e Altura limites do nivel para efeitos de scaling
+				maxWidth = 1280.0f;
+				maxHeight = 1280.0f;				
 				
-				s.setType(ObjectType.BOARD);
 				
-				// scaling
-				for (Vector2 ap : s.getPoints()) {
-					ap.x = ap.x*scale;
-					ap.y = (maxHeight - ap.y)*scale;			
-				}
-				s.getCentroid().x = s.getCentroid().x*scale;
-				s.getCentroid().y = (maxHeight - s.getCentroid().y)*scale;
-				
-				if (logger.getLevel() == logger.INFO) logger.info(s.toString());
+				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.BOARD);
+
+				if (logger.getLevel() == Logger.INFO) logger.info(s.toString());
 				addBoardToWorld(wm, s);
 				
 				nrElements+=1;
@@ -255,178 +239,114 @@ public class LevelLoader {
 			
 			// Get DaBox
 			DaBoxModel daBoxRef = null;
-			if (logger.getLevel() == logger.INFO) logger.info("DaBox...");
+			if (logger.getLevel() == Logger.INFO) logger.info("DaBox...");
 			expr = xpath.compile("//svg/g/path[contains(@id,'daBox')]");
 			NodeList dabox = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < dabox.getLength(); i++) {
 				String d = dabox.item(i).getAttributes().getNamedItem("d").getNodeValue();
-				if (logger.getLevel() == logger.INFO) logger.info(d);
-				BasicShape s = new BasicShape(d);
-				s.offsetShape(new Vector2(xOffset, yOffset));
+				if (logger.getLevel() == Logger.INFO) logger.info(d);
+				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.DABOX);
 				
-				s.setType(ObjectType.DABOX);
-				if (logger.getLevel() == logger.INFO) logger.info(s.toString());
+				if (logger.getLevel() == Logger.INFO) logger.info(s.toString());
 				String dabox_name = dabox.item(i).getAttributes().getNamedItem("id").getNodeValue();
-				
-				// scaling				
-				for (Vector2 ap : s.getPoints()) {
-					ap.x = ap.x*scale;
-					ap.y = (maxHeight - ap.y)*scale;
-				}				
-				s.getCentroid().x = s.getCentroid().x*scale;
-				s.getCentroid().y = (maxHeight - s.getCentroid().y)*scale;				
 				
 				daBoxRef = addDaBoxToWorld(wm, s, dabox_name);
 				nrElements+=1;
 			}			
 			
 			// Get Spawn
-			if (logger.getLevel() == logger.INFO) logger.info("Spawn...");
+			if (logger.getLevel() == Logger.INFO) logger.info("Spawn...");
 			expr = xpath.compile("//svg/g/path[contains(@id,'spawn')]/@d");
 			NodeList spawn = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < spawn.getLength(); i++) {
 				String d = spawn.item(i).getNodeValue();
-				if (logger.getLevel() == logger.INFO) logger.info(d);
-				BasicShape s = new BasicShape(d);
-				s.offsetShape(new Vector2(xOffset, yOffset));
-				
-				s.setType(ObjectType.SPAWN);
-				if (logger.getLevel() == logger.INFO) logger.info(s.toString());
+				if (logger.getLevel() == Logger.INFO) logger.info(d);
+				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.SPAWN);
 
-				// scaling
-				for (Vector2 ap : s.getPoints()) {
-					ap.x = ap.x*scale;
-					ap.y = (maxHeight - ap.y)*scale;
-				}
-				s.getCentroid().x = s.getCentroid().x*scale;
-				s.getCentroid().y = (maxHeight - s.getCentroid().y)*scale;
-				
+				if (logger.getLevel() == Logger.INFO) logger.info(s.toString());
+
 				addSpawnToWorld(wm, daBoxRef, s);
 				nrElements+=1;
 			}
 			
 			// Get Goals
-			if (logger.getLevel() == logger.INFO) logger.info("Goals...");
+			if (logger.getLevel() == Logger.INFO) logger.info("Goals...");
 			expr = xpath.compile("//svg/g/path[contains(@id,'goal')]/@d");
 			NodeList goals = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < goals.getLength(); i++) {
 				String d = goals.item(i).getNodeValue();
-				if (logger.getLevel() == logger.INFO) logger.info(d);
-				BasicShape s = new BasicShape(d);
-				s.offsetShape(new Vector2(xOffset, yOffset));
-				
-				s.setType(ObjectType.GOAL);
-				if (logger.getLevel() == logger.INFO) logger.info(s.toString());
+				if (logger.getLevel() == Logger.INFO) logger.info(d);
+				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.GOAL);
 
-				// scaling				
-				for (Vector2 ap : s.getPoints()) {
-					ap.x = ap.x*scale;
-					ap.y = (maxHeight - ap.y)*scale;			
-				}
-				s.getCentroid().x = s.getCentroid().x*scale;
-				s.getCentroid().y = (maxHeight - s.getCentroid().y)*scale;				
+				if (logger.getLevel() == Logger.INFO) logger.info(s.toString());
 				
 				addGoalToWorld(wm, s);
 				nrElements+=1;
 			}
 
 			// Get Grounds
-			if (logger.getLevel() == logger.INFO) logger.info("Grounds...");
+			if (logger.getLevel() == Logger.INFO) logger.info("Grounds...");
 			expr = xpath.compile("//svg/g/path[contains(@id,'ground')]/@d");
 			NodeList grounds = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < grounds.getLength(); i++) {
 				String d = grounds.item(i).getNodeValue();
-				if (logger.getLevel() == logger.INFO) logger.info(d);
-				BasicShape s = new BasicShape(d);
-				s.offsetShape(new Vector2(xOffset, yOffset));
+				if (logger.getLevel() == Logger.INFO) logger.info(d);
+				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.GROUND);
 				
-				s.setType(ObjectType.GROUND);
-				if (logger.getLevel() == logger.INFO) logger.info(s.toString());
-				
-				// scaling				
-				for (Vector2 ap : s.getPoints()) {
-					ap.x = ap.x*scale;
-					ap.y = (maxHeight - ap.y)*scale;
-				}				
-				s.getCentroid().x = s.getCentroid().x*scale;
-				s.getCentroid().y = (maxHeight - s.getCentroid().y)*scale;
+				if (logger.getLevel() == Logger.INFO) logger.info(s.toString());
 				
 				addGroundToWorld(wm, s);
 				nrElements+=1;
 			}
 
 			// Get portals
-			if (logger.getLevel() == logger.INFO) logger.info("Portals...");
+			if (logger.getLevel() == Logger.INFO) logger.info("Portals...");
 			//expr = xpath.compile("//svg/g/path[contains(@id,'portal')]/@d");
 			expr = xpath.compile("//svg/g/path[contains(@id,'portal')]");
 			NodeList portals = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < portals.getLength(); i++) {
 				String d = portals.item(i).getAttributes().getNamedItem("d").getNodeValue();
-				if (logger.getLevel() == logger.INFO) logger.info(d);
-				BasicShape s = new BasicShape(d);
-				s.offsetShape(new Vector2(xOffset, yOffset));
-				
-				s.setType(ObjectType.PORTAL);
-				if (logger.getLevel() == logger.INFO) logger.info(s.toString());
+				if (logger.getLevel() == Logger.INFO) logger.info(d);
+				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.PORTAL);
+
+				if (logger.getLevel() == Logger.INFO) logger.info(s.toString());
 				String portal_name = portals.item(i).getAttributes().getNamedItem("id").getNodeValue();
-				
-				// scaling
-				for (Vector2 ap : s.getPoints()) {
-					ap.x = ap.x*scale;
-					ap.y = (maxHeight - ap.y)*scale;
-				}				
-				s.getCentroid().x = s.getCentroid().x*scale;
-				s.getCentroid().y = (maxHeight - s.getCentroid().y)*scale;				
 				
 				addPortalToWorld(wm, s, portal_name);
 				nrElements+=1;
 			}
 
 			// Get walls
-			if (logger.getLevel() == logger.INFO) logger.info("Walls...");
+			if (logger.getLevel() == Logger.INFO) logger.info("Walls...");
 			//expr = xpath.compile("//svg/g/path[contains(@id,'portal')]/@d");
 			expr = xpath.compile("//svg/g/path[contains(@id,'wall')]");
 			NodeList walls = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < walls.getLength(); i++) {
 				String d = walls.item(i).getAttributes().getNamedItem("d").getNodeValue();
-				if (logger.getLevel() == logger.INFO) logger.info(d);
-				BasicShape s = new BasicShape(d);
-				s.offsetShape(new Vector2(xOffset, yOffset));
-				
-				s.setType(ObjectType.WALL);
-				if (logger.getLevel() == logger.INFO) logger.info(s.toString());
+				if (logger.getLevel() == Logger.INFO) logger.info(d);
+				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.WALL);
+
+				if (logger.getLevel() == Logger.INFO) logger.info(s.toString());
 				String wall_name = walls.item(i).getAttributes().getNamedItem("id").getNodeValue();
-				
-				// scaling				
-				for (Vector2 ap : s.getPoints()) {
-					ap.x = ap.x*scale;
-					ap.y = (maxHeight - ap.y)*scale;
-				}				
-				s.getCentroid().x = s.getCentroid().x*scale;
-				s.getCentroid().y = (maxHeight - s.getCentroid().y)*scale;				
 				
 				addWallToWorld(wm, s, wall_name);
 				nrElements+=1;
 			}
 			
 
-			
-			
-			
-			
-			if (logger.getLevel() == logger.INFO) logger.info("Finished Loading level: " + h.name());
+			if (logger.getLevel() == Logger.INFO) logger.info("Finished Loading level: " + h.name());
 		
 		} catch (ParserConfigurationException e) {
-			if (logger.getLevel() == logger.ERROR) logger.error(e.getMessage());
+			if (logger.getLevel() == Logger.ERROR) logger.error(e.getMessage());
 			e.printStackTrace();
 		} catch (SAXException e) {
-			if (logger.getLevel() == logger.ERROR) logger.error(e.getMessage());
+			if (logger.getLevel() == Logger.ERROR) logger.error(e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
-			if (logger.getLevel() == logger.ERROR) logger.error(e.getMessage());
+			if (logger.getLevel() == Logger.ERROR) logger.error(e.getMessage());
 			e.printStackTrace();
 		} catch (XPathExpressionException e) {
-			if (logger.getLevel() == logger.ERROR) logger.error(e.getMessage());
+			if (logger.getLevel() == Logger.ERROR) logger.error(e.getMessage());
 			e.printStackTrace();
 		}
 		return nrElements;

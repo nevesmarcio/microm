@@ -49,7 +49,10 @@ public class UIView  extends AbstractView {
 	public UIView(UIModel uiSrc) {  
 		super(uiSrc, 2); // FIXME: arranjar umas constantes para definir o zOrder
 		this.uiSrc = uiSrc;
-		
+	}
+	
+	@Override
+	public void DelayedInit() {
 		font = new BitmapFont();
 		pulsingFont = new BitmapFont();
 		tweenFont = new BitmapFont();		
@@ -57,7 +60,6 @@ public class UIView  extends AbstractView {
 		batch = new SpriteBatch();
 		renderer = new ShapeRenderer();
 	}
-	
 	
 	private Vector3 intersection_point = new Vector3();
 	private Plane intersect_plane = new Plane(new Vector3(0.0f,0.0f,1.0f), 0.0f);

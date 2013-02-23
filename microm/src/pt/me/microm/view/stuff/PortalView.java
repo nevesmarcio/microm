@@ -3,6 +3,7 @@ package pt.me.microm.view.stuff;
 import java.util.Iterator;
 
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.ScreenTickManager;
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.stuff.BoardModel;
 import pt.me.microm.model.stuff.GoalModel;
@@ -21,6 +22,8 @@ import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g3d.materials.Material;
 import com.badlogic.gdx.graphics.g3d.materials.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.model.SubMesh;
@@ -38,6 +41,7 @@ public class PortalView extends AbstractView {
 	ShapeRenderer renderer;
 	
 	Texture texture;
+	Sprite sprite;
 
 	SpriteBatch batch;
 	Mesh mesh;
@@ -49,9 +53,11 @@ public class PortalView extends AbstractView {
 	public PortalView(PortalModel portalmSrc) {
 		super(portalmSrc);
 		this.portalmSrc = portalmSrc;
-		
+	}
+
+	@Override
+	public void DelayedInit() {
 		renderer = new ShapeRenderer();
-		
 		batch = new SpriteBatch();
 		
 		vertexes = new float[] { 
@@ -75,16 +81,30 @@ public class PortalView extends AbstractView {
                 };
 		indexes = new short[] { 0, 1, 2, 3 };
 		
-		texture = GAME_CONSTANTS.devAtlas.findRegion("square1").getTexture();
+		AtlasRegion r = GAME_CONSTANTS.devAtlas.findRegion("square1");
+		// Fixme: avaliar 
+		texture = r.getTexture(); // isto devolve sempre a textura inteira e não o quadradinho que pretendo... isto para ficar resolvido tem que se usar o UV MAP!!
 		
-		texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-		texture.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
+		Gdx.app.postRunnable(new Runnable() {
+
+			@Override
+			public void run() {
+				texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+				texture.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
+				
+				Gdx.graphics.getGL10().glEnable(GL10.GL_TEXTURE_2D);
+				Gdx.graphics.getGL10().glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_MODULATE); // GL10.GL_REPLACE ou GL10.GL_BLEND n funca bem... (ainda n percebo nada disto de opengl)
+			    Gdx.graphics.getGL10().glEnable(GL10.GL_BLEND);
+			    Gdx.graphics.getGL10().glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+
+				
+			}
+		});	
 		
-		Gdx.graphics.getGL10().glEnable(GL10.GL_TEXTURE_2D);
-		Gdx.graphics.getGL10().glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_MODULATE); // GL10.GL_REPLACE ou GL10.GL_BLEND n funca bem... (ainda n percebo nada disto de opengl)
-	    Gdx.graphics.getGL10().glEnable(GL10.GL_BLEND);
-	    Gdx.graphics.getGL10().glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+
+		
 	}
+	
 	
 	private Vector2 pointA = new Vector2();
 	private Vector2 pointB = new Vector2();

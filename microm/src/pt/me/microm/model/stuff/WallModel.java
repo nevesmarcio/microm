@@ -41,12 +41,7 @@ public class WallModel extends AbstractModel {
 				
 				WallModel.this.wm = wm;
 				
-				//deslocamento do centroid
-				for (Vector2 v : wall.getPoints()) {
-					v.sub(wall.getCentroid());
-				}
-				
-				silhouetteVertex = wall.getPoints().toArray(new Vector2[]{});
+				silhouetteVertex = wall.getPointsArray();
 				
 				wallShape = new ChainShape();
 				wallShape.createLoop(silhouetteVertex);

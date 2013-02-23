@@ -16,10 +16,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.RemoteInput;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Logger;
 
 public class MicroMGame implements ApplicationListener {
-	public static final boolean ISDEV = false; // "pre-compiler" equivalent for branching development-only code
+	// FLAGS
+	public static final boolean FLAG_DEV_ELEMENTS = false; 				// "pre-compiler" equivalent for branching development-only code
+	public static final boolean FLAG_DISPLAY_ACTOR_SHAPES = true;		// mostra o desenho das shapes dos actores: walls, dabox, etc.
+	public static final boolean FLAG_DISPLAY_ACTOR_TEXTURES = true;		// liga a texturização dos actores
+	public static final boolean FLAG_DISPLAY_PARTICLES = true;			// liga o desenho de particulas
+	
 	private static final String TAG = MicroMGame.class.getSimpleName();
+	private static Logger logger = new Logger(TAG);
 	
 	// CONTROLLER RELATED
 	private MyGestureListener myGestureListener;
@@ -46,8 +53,8 @@ public class MicroMGame implements ApplicationListener {
 
 		// CONTROLLERS - The GLUE ///////////////////////////////////////////////////////////////
 		// Lança o controller dos ticks temporais : x second tick
-		GameTickGenerator.getInstance(); //responsavel pela actualizacao dos modelos
-		ScreenTickManager.getInstance(); //responsavel pela actualizacao das views
+		GameTickGenerator.getInstance(); //responsável pela actualizacao dos modelos
+		ScreenTickManager.getInstance(); //responsável pela actualizacao das views
 
 //		//FIXME: for development purposes only
 //		RemoteInput receiver = new RemoteInput(7777);

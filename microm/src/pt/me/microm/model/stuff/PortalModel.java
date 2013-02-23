@@ -45,12 +45,7 @@ public class PortalModel extends AbstractModel {
 				PortalModel.this.wm = wm;
 				PortalModel.this.portal_name = portal_name;
 				
-				//deslocamento do centroid
-				for (Vector2 v : portal.getPoints()) {
-					v.sub(portal.getCentroid());
-				}
-				
-				silhouetteVertex = portal.getPoints().toArray(new Vector2[]{});
+				silhouetteVertex = portal.getPointsArray();
 				
 				portalShape = new ChainShape();
 				portalShape.createLoop(silhouetteVertex);

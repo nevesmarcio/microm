@@ -32,18 +32,13 @@ public class BoardModel extends AbstractModel {
 	private Body playzoneBody;
 	
 	
-	private BoardModel(final WorldModel wm, final BasicShape board, final List<Vector2> lst) {
+	private BoardModel(final WorldModel wm, final BasicShape board) {
 		wm.wmManager.add(new PointerToFunction() {
 			
 			@Override
 			public Object handler(Object ... a) {
 				
-				//deslocamento do centroid
-				for (Vector2 v : board.getPoints()) {
-					v.sub(board.getCentroid());
-				}
-				
-				playzoneVertex = lst.toArray(new Vector2[]{});
+				playzoneVertex = board.getPointsArray();
 				
 				playzoneShape = new ChainShape();
 				playzoneShape.createLoop(playzoneVertex);
@@ -73,8 +68,8 @@ public class BoardModel extends AbstractModel {
 		
 	}
 	
-	public static BoardModel getNewInstance(WorldModel wm, BasicShape board, List<Vector2> pts){
-		return new BoardModel(wm, board, pts);
+	public static BoardModel getNewInstance(WorldModel wm, BasicShape board){
+		return new BoardModel(wm, board);
 	}
 
 	

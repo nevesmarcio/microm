@@ -35,17 +35,19 @@ public class WallView extends AbstractView {
 	public WallView(WallModel wallmSrc) {
 		super(wallmSrc);
 		this.wallmSrc = wallmSrc;
-		
+	}
+	
+	@Override
+	public void DelayedInit() {
 		renderer = new ShapeRenderer();
 		
 		wallSprite = GAME_CONSTANTS.devAtlas.createSprite("txr_wall");
 
 		wallSprite.setSize(0.5f, 0.5f);
-		wallSprite.setOrigin(0.25f, 0.25f);		
-
+		wallSprite.setOrigin(0.25f, 0.25f);
 	}
-	
 
+	
 	Vector2 pointA = new Vector2();
 	Vector2 pointB = new Vector2();
 	@Override

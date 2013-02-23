@@ -32,28 +32,32 @@ public class WorldView extends AbstractView {
 	private WorldModel wmSrc;
 	
 	ShapeRenderer renderer;
-	
 	Sprite worldSprite;
-	
 	SpriteBatch batch = new SpriteBatch();
 	
 	public WorldView(WorldModel wmSrc) {  
-		super(wmSrc);
+		super(wmSrc, 0);
 		this.wmSrc = wmSrc;
 		
+	}
+	
+	@Override
+	public void DelayedInit() {
 		renderer = new ShapeRenderer();
 		
 		worldSprite = GAME_CONSTANTS.devAtlas.createSprite("bg");
 		
 		worldSprite.setSize(15.0f, 15.0f);
 		worldSprite.setOrigin(0.0f, 0.0f);
+		
 	}
+	
 	
 	private List<Contact> temp = new ArrayList<Contact>();
 	@Override
 	public void draw(ScreenTickEvent e) {
 		
-		if (MicroMGame.ISDEV) {
+		if (MicroMGame.FLAG_DEV_ELEMENTS) {
 			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 			
 			batch.begin();

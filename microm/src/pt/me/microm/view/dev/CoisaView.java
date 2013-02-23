@@ -11,22 +11,25 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Logger;
 
 public class CoisaView extends AbstractView {
 	private static final String TAG = CoisaView.class.getSimpleName();
+	private static Logger logger = new Logger(TAG);
 	
 	private CoisaModel coisamSrc;
 	
 	ShapeRenderer renderer;
-	
 	Sprite coisaSprite;
-	
 	private SpriteBatch batch;
 	
 	public CoisaView(CoisaModel coisamSrc) {
 		super(coisamSrc, 1); // FIXME: arranjar umas constantes para definir o zOrder
 		this.coisamSrc = coisamSrc;
-		
+	}
+
+	@Override
+	public void DelayedInit() {
 		renderer = new ShapeRenderer();
 		
 		coisaSprite = GAME_CONSTANTS.devAtlas.createSprite("thing");
@@ -35,7 +38,7 @@ public class CoisaView extends AbstractView {
 		coisaSprite.setOrigin(0.0f, 0.0f);
 		
 		batch = new SpriteBatch();
-		
+	
 	}
 	
 

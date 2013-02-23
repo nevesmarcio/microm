@@ -43,12 +43,7 @@ public class SpawnModel extends AbstractModel {
 			@Override
 			public Object handler(Object ... a) {
 				
-				//deslocamento do centroid
-				for (Vector2 v : spawn.getPoints()) {
-					v.sub(spawn.getCentroid());
-				}				
-				
-				silhouetteVertex = spawn.getPoints().toArray(new Vector2[]{});
+				silhouetteVertex = spawn.getPointsArray();
 				
 				spawnShape = new ChainShape();
 				spawnShape.createLoop(silhouetteVertex);
@@ -76,18 +71,13 @@ public class SpawnModel extends AbstractModel {
 				
 //				/* Logo após a construção */
 //				Tween.call(new TweenCallback() {
-//				@Override public void onEvent(int type, BaseTween<?> source) {
-//					Gdx.app.postRunnable(new Runnable() {
-//						
-//						@Override
-//						public void run() {
-//							BallModel.getNewInstance(wm, SpawnModel.this.spawnBody.getPosition().x, SpawnModel.this.spawnBody.getPosition().y);
-//							
-//						}
-//					});
-//				}
-//			}).repeat(10, 5.0f).start(wm.tweenManager);				
-
+//					@Override
+//					public void onEvent(int type, BaseTween<?> source) {
+//						BallModel.getNewInstance(wm,
+//								SpawnModel.this.spawnBody.getPosition().x,
+//								SpawnModel.this.spawnBody.getPosition().y);
+//					}
+//				}).repeat(10, 1.0f).start(wm.tweenManager);				
 				
 				return null;
 			}
@@ -97,26 +87,19 @@ public class SpawnModel extends AbstractModel {
 		TweenCallback endCB = new TweenCallback() {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
-				Gdx.app.postRunnable(new Runnable() {
 
+				wm.wmManager.add(new PointerToFunction() {
+					
 					@Override
-					public void run() {
+					public Object handler(Object... a) {
 
-						wm.wmManager.add(new PointerToFunction() {
-							
-							@Override
-							public Object handler(Object... a) {
-
-								dbm.create(spawn.getCentroid());
-								
-								// se não colocar isto depois da leitura do board, os objectos caem no espaço
-								BallModel.getNewInstance(wm, 3.0f, 4.0f); // larga a bola num mundo num tabuleiro
-								CoisaModel.getNewInstance(wm, 1.0f, 4.0f);
-								
-								return null;
-							}
-						});
-
+						dbm.create(spawn.getCentroid());
+						
+						// se não colocar isto depois da leitura do board, os objectos caem no espaço
+						BallModel.getNewInstance(wm, 3.0f, 4.0f); // larga a bola num mundo num tabuleiro
+						CoisaModel.getNewInstance(wm, 1.0f, 4.0f);
+						
+						return null;
 					}
 				});
 

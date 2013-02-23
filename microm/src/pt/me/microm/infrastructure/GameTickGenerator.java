@@ -24,23 +24,23 @@ public class GameTickGenerator implements Disposable{
 
 	public synchronized void addEventListener(GameTickInterface listener) {
 
-		if (logger.getLevel() == logger.DEBUG) logger.debug("[TickGen-addEventListener-begin]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
+		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-addEventListener-begin]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 		_listeners.add(listener);
-		if (logger.getLevel() == logger.DEBUG) logger.debug("[TickGen-addEventListener-end]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
+		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-addEventListener-end]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 	}
 
 	public synchronized void removeEventListener(GameTickInterface listener) {
 
-		if (logger.getLevel() == logger.DEBUG) logger.debug("[TickGen-removeEventListener-begin]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
+		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-removeEventListener-begin]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 		_listeners.remove(listener);
-		if (logger.getLevel() == logger.DEBUG) logger.debug("[TickGen-removeEventListener-end]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
+		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-removeEventListener-end]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 	}
 
 	// call this method whenever you want to notify
 	// the event listeners of the particular event
 	private GameTickEvent event = new GameTickEvent(this);
 	private synchronized void fireEvent(long elapsedNanoTime) {
-		if (logger.getLevel() == logger.DEBUG) logger.debug("[TickGen-fireEvent]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
+		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-fireEvent]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 		
 		event.setElapsedNanoTime(elapsedNanoTime);
 
@@ -52,12 +52,12 @@ public class GameTickGenerator implements Disposable{
 			Iterator<GameTickInterface> i = temp_listeners.iterator();
 			while (i.hasNext()) {
 				GameTickInterface gti = i.next();
-				if (logger.getLevel() == logger.DEBUG) logger.debug("\t[TickGen]" + gti.getClass().getName());
+				if (logger.getLevel() == Logger.DEBUG) logger.debug("\t[TickGen]" + gti.getClass().getName());
 				
 				gti.handleGameTick(event);
 			}
 		} catch (ConcurrentModificationException ex) {
-			if (logger.getLevel() == logger.DEBUG) logger.debug("[TickGen-EXCEPTION]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
+			if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-EXCEPTION]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 			ex.printStackTrace();
 			throw ex;
 		}
@@ -90,10 +90,10 @@ public class GameTickGenerator implements Disposable{
 			try {
 				fireEvent(elapsedNanoTime);
 			} catch (Exception e) {
-				if (logger.getLevel() == logger.ERROR) logger.error("Something fishy is going on here... Ex:" + e.getMessage());
+				if (logger.getLevel() == Logger.ERROR) logger.error("Something fishy is going on here... Ex:" + e.getMessage());
 			}
 
-			if (logger.getLevel() == logger.DEBUG) logger.debug("Time's up (miliseconds)!" + elapsedNanoTime / GAME_CONSTANTS.ONE_MILISECOND_TO_NANO);
+			if (logger.getLevel() == Logger.DEBUG) logger.debug("Time's up (miliseconds)!" + elapsedNanoTime / GAME_CONSTANTS.ONE_MILISECOND_TO_NANO);
 
 			lastTick = thisTick;
 		}

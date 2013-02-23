@@ -25,8 +25,11 @@ public class SpawnView extends AbstractView {
 	public SpawnView(SpawnModel spawnmSrc) {
 		super(spawnmSrc);
 		this.spawnmSrc = spawnmSrc;
-		
-		renderer = new ShapeRenderer();
+	}
+
+	@Override
+	public void DelayedInit() {
+		renderer = new ShapeRenderer();	
 	}
 	
 	private Vector2 pointA = new Vector2();

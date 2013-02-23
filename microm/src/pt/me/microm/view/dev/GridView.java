@@ -22,7 +22,10 @@ public class GridView  extends AbstractView {
 	public GridView(GridModel gridSrc) {
 		super(gridSrc);
 		this.gridSrc = gridSrc;
-		
+	}
+
+	@Override
+	public void DelayedInit() {
 		this.gridSrc.setGridSpacing(1);
 		this.gridSrc.setBoxSize(16);
 		

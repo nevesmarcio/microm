@@ -95,7 +95,7 @@ public class WorldModel extends AbstractModel {
 	private void PopulateWorld() {
 
 		// Modelos complementares ao WorldModel
-		if (MicroMGame.ISDEV)
+		if (MicroMGame.FLAG_DEV_ELEMENTS)
 			grid = new GridModel(); // constroi a grid sobre a qual estão renderizados os objectos - debug purposes		
 		
 		ui = new UIModel(this); // constroi o painel informativo?		

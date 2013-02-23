@@ -31,7 +31,7 @@ public class DaBoxModel extends AbstractModel {
 	private Color color = new Color(0.5f,0.5f,0.5f,0.5f);
 	
 	private Vector2[] silhouetteVertex;
-	
+	 
 	private BodyDef daBoxBodyDef = new BodyDef();
 	private PolygonShape daBoxShape;
 	public Body daBoxBody;	
@@ -43,14 +43,18 @@ public class DaBoxModel extends AbstractModel {
 	public ParticleEffect particleEffect;
 	
 	public void create(Vector2 pos) {
-		// deslocamento do centroid
-		for (Vector2 v : dabox.getPoints()) {
-			v.sub(dabox.getCentroid());
-		}
+		daBoxBody.setTransform(pos, daBoxBody.getAngle());
+		// FIXME:: Activar o daBox!
+		daBoxBody.setActive(true);		
+	}
+	
+	private DaBoxModel(final WorldModel wm, final BasicShape dabox) {
+		this.wm = wm;
+		this.dabox = dabox; 
 
 		// FIXME:: fazer isto sem ser às cegas!
 		// CCW vertices
-		silhouetteVertex = dabox.getPoints().toArray(new Vector2[] {});
+		silhouetteVertex = dabox.getPointsArray();
 		Vector2[] t = new Vector2[silhouetteVertex.length];
 		for (int i = 0; i < silhouetteVertex.length; i++)
 			t[silhouetteVertex.length - 1 - i] = silhouetteVertex[i];
@@ -58,7 +62,7 @@ public class DaBoxModel extends AbstractModel {
 		daBoxShape = new PolygonShape();
 		daBoxShape.set(t);
 
-		daBoxBodyDef.position.set(pos);//dabox.getCentroid()
+		daBoxBodyDef.position.set(dabox.getCentroid());
 		daBoxBodyDef.type = BodyType.DynamicBody;
 
 		daBoxBody = wm.getPhysicsWorld().createBody(daBoxBodyDef);
@@ -73,24 +77,16 @@ public class DaBoxModel extends AbstractModel {
 
 		daBoxBody.setUserData(DaBoxModel.this); // relacionar com o modelo
 
-		daBoxBody.setSleepingAllowed(false);
-
-		// Sinaliza os subscritores de que a construção do modelo terminou.
-		DaBoxModel.this.dispatchEvent(new SimpleEvent(
-				EventType.ON_MODEL_INSTANTIATED));
-
-	
+		daBoxBody.setSleepingAllowed(false);		
 		
+		daBoxBody.setActive(false);
 		
-	}
-	
-	private DaBoxModel(final WorldModel wm, final BasicShape dabox) {
-		this.wm = wm;
-		this.dabox = dabox; 
-
 		particleEffect = new ParticleEffect();
 	    particleEffect.load(Gdx.files.internal("data/particles/fire.p"), Gdx.files.internal("data/particles"));
 	    particleEffect.start();
+	    
+		// Sinaliza os subscritores de que a construção do modelo terminou.
+		DaBoxModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));	    
 	}
 
 	public static DaBoxModel getNewInstance(WorldModel wm, BasicShape dabox){
@@ -101,12 +97,8 @@ public class DaBoxModel extends AbstractModel {
 	public void handleGameTick(GameTickEvent e) {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
-		//FIXME temporarily disabled
+		// internal engine
 		daBoxBody.setLinearVelocity(4.0f, daBoxBody.getLinearVelocity().y);
-	}
-
-	public float getSide() {
-		return side;
 	}
 
 	public Color getColor() {
@@ -117,11 +109,14 @@ public class DaBoxModel extends AbstractModel {
 	}
 
 	public void jump() {
-
-		// É necessário escalar as forças mediante o timestep 
+		//FIXME: É necessário escalar as forças mediante o timestep 
 		float force_to_apply = 500f; //N
 		daBoxBody.applyForceToCenter(0.0f, force_to_apply);
 		daBoxBody.applyTorque(-10.0f); //N.m
+	}
+
+	public BasicShape getBasicShape() {
+		return dabox;
 	}
 	
 	@Override
