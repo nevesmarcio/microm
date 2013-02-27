@@ -31,8 +31,13 @@ public class BoardModel extends AbstractModel {
 	private ChainShape playzoneShape; // Fronteira do tabuleiro
 	private Body playzoneBody;
 	
+	private WorldModel wm;
+	private BasicShape board;
 	
 	private BoardModel(final WorldModel wm, final BasicShape board) {
+		this.wm = wm;
+		this.board = board;
+		
 		wm.wmManager.add(new PointerToFunction() {
 			
 			@Override
@@ -98,5 +103,8 @@ public class BoardModel extends AbstractModel {
 		return playzoneBody;
 	}
 	
+	public BasicShape getBasicShape() {
+		return board;
+	}
 
 }

@@ -131,12 +131,20 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 	assim, o delayedInit corre na thread do Timer0. É preciso então garantir que o que diz respeito ao OPENGL Context que ocorre no delayedInit é invocado na thread do GUI.
 	(ver exemplo do PortalView onde tem o Gdx.app.postRunnable())
 # Bug da textura da mesh depois de a ter enfiado no atlas (terá a ver com as camaras e a renderização do mesh ?)
-	Já percebi o que se passa. A textura é a inteira. O trabalho de "trim" tem que ser feito no UVMAP de acordo com a region 
+	Já percebi o que se passa. A textura é a inteira. O trabalho de "trim" tem que ser feito no UVMAP de acordo com a region (o que faz todo o sentido, né...) 
+
+
+27-02-2013
+# trabalho na forma de texturização mais "low-level" (UV-MAPS, OPENGL, PROJECTION/ MODEL matrices)
+	-- checked: não é possível repetir uma sub-textura (http://stackoverflow.com/questions/662107/how-to-use-gl-repeat-to-repeat-only-a-selection-of-a-texture-atlas-opengl)
+
 
 (in progress)
 # separar as opções de renderização em variaveis globais
-	- com isto espero melhorar significativamente a performance
- 
+	- com isto espero melhorar significativamente a performance aquando uma build de produção
+
+# todos os allocations que acontecem em pleno funcionamento da APP, não deverão acontecer!! (certo'??)
+(acho que descobri uma forma fixe de olhar para a APP do ponto de vista da optimização: em pleno funcionamento a app não deverá fazer alocações, pelo que essa análise a partir de um profiler é mto importante!!!
 
 
 [TODO] 

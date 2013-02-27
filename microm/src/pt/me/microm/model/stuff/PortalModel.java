@@ -22,8 +22,6 @@ public class PortalModel extends AbstractModel {
 
 	public static enum PortalType {PORTAL_ENTRY, PORTAL_EXIT};
 	
-	private Vector2 portalPosition; // posição do tabuleiro no espaço
-	
 	private Vector2[] silhouetteVertex;
 	
 	private BodyDef portalBodyDef = new BodyDef();
@@ -31,19 +29,20 @@ public class PortalModel extends AbstractModel {
 	private Body portalBody;
 	
 	private WorldModel wm;
+	private BasicShape portal;
 	
 	public String portal_name;
 	private PortalType portal_type;
 	
 	private PortalModel(final WorldModel wm, final BasicShape portal, final String portal_name) {
-
+		this.wm = wm;
+		this.portal = portal;
+		this.portal_name = portal_name;
+		
 		wm.wmManager.add(new PointerToFunction() {
 			
 			@Override
 			public Object handler(Object ... a) {
-				
-				PortalModel.this.wm = wm;
-				PortalModel.this.portal_name = portal_name;
 				
 				silhouetteVertex = portal.getPointsArray();
 				
@@ -62,7 +61,6 @@ public class PortalModel extends AbstractModel {
 				fixDef.friction = 0.0f;
 				fixDef.restitution = 0.0f;		
 				portalBody.createFixture(fixDef);
-				getBody().createFixture(fixDef);
 					
 				getBody().setUserData(PortalModel.this); // relacionar com o modelo
 				
@@ -115,6 +113,10 @@ public class PortalModel extends AbstractModel {
 	public Vector2 getPosition() {
 		return portalBody.getPosition();
 	}	
+	
+	public BasicShape getBasicShape() {
+		return portal;
+	}
 	
 	
 	private int boxTouchMyTralala = 0;

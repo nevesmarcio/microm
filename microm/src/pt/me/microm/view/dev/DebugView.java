@@ -19,7 +19,7 @@ public class DebugView extends AbstractView {
 	ShapeRenderer renderer;
 	
 	public DebugView(DebugModel debugmSrc) {
-		super(debugmSrc);
+		super(debugmSrc, 2);
 		this.debugmSrc = debugmSrc;
 	}
 	

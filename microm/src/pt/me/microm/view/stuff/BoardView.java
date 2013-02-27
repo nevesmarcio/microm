@@ -1,5 +1,6 @@
 package pt.me.microm.view.stuff;
 
+import pt.me.microm.MicroMGame;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.stuff.BoardModel;
@@ -39,8 +40,8 @@ public class BoardView extends AbstractView {
 		
 		boardSprite = GAME_CONSTANTS.devAtlas.createSprite("txr_full_board");
 		
-		boardSprite.setSize(15.0f, 15.0f);
-		boardSprite.setOrigin(7.5f, 7.5f);
+		boardSprite.setSize(boardmSrc.getBasicShape().getWidth(), boardmSrc.getBasicShape().getHeight());
+		boardSprite.setOrigin(boardmSrc.getBasicShape().getWidth()/2, boardmSrc.getBasicShape().getHeight()/2);
 		
 	}
 	
@@ -50,37 +51,41 @@ public class BoardView extends AbstractView {
 	@Override
 	public void draw(ScreenTickEvent e) {
 		
-		renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 		
-		Fixture fix = (boardmSrc.getBody().getFixtureList()).get(0);
-		ChainShape cs = (ChainShape)fix.getShape();
+		if (MicroMGame.FLAG_DISPLAY_ACTOR_SHAPES) {
+			renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+			
+			Fixture fix = (boardmSrc.getBody().getFixtureList()).get(0);
+			ChainShape cs = (ChainShape)fix.getShape();
+			
+			renderer.begin(ShapeType.Line);
+			cs.getVertex(0, pointA); pointA.add(boardmSrc.getBody().getPosition());
+			cs.getVertex(1, pointB); pointB.add(boardmSrc.getBody().getPosition());
+			renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
+			
+			cs.getVertex(1, pointA); pointA.add(boardmSrc.getBody().getPosition());	
+			cs.getVertex(2, pointB); pointB.add(boardmSrc.getBody().getPosition());
+			renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
+			
+			cs.getVertex(2, pointA); pointA.add(boardmSrc.getBody().getPosition());	 
+			cs.getVertex(3, pointB); pointB.add(boardmSrc.getBody().getPosition());
+			renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
+			
+			cs.getVertex(3, pointA); pointA.add(boardmSrc.getBody().getPosition());	 
+			cs.getVertex(0, pointB); pointB.add(boardmSrc.getBody().getPosition());
+			renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);		
+			
+			renderer.end();
+		}
 		
-		renderer.begin(ShapeType.Line);
-		cs.getVertex(0, pointA); pointA.add(boardmSrc.getBody().getPosition());
-		cs.getVertex(1, pointB); pointB.add(boardmSrc.getBody().getPosition());
-		renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
-		
-		cs.getVertex(1, pointA); pointA.add(boardmSrc.getBody().getPosition());	
-		cs.getVertex(2, pointB); pointB.add(boardmSrc.getBody().getPosition());
-		renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
-		
-		cs.getVertex(2, pointA); pointA.add(boardmSrc.getBody().getPosition());	 
-		cs.getVertex(3, pointB); pointB.add(boardmSrc.getBody().getPosition());
-		renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
-		
-		cs.getVertex(3, pointA); pointA.add(boardmSrc.getBody().getPosition());	 
-		cs.getVertex(0, pointB); pointB.add(boardmSrc.getBody().getPosition());
-		renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);		
-		
-		renderer.end();
-		
-		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
-		batch.begin();
-			boardSprite.setPosition(fix.getBody().getPosition().x-7.5f,  fix.getBody().getPosition().y-7.5f);
-			boardSprite.setRotation((float)Math.toDegrees(fix.getBody().getAngle()));
-			boardSprite.draw(batch);
-		batch.end();				
-		
+		if (MicroMGame.FLAG_DISPLAY_ACTOR_TEXTURES) {
+			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+			batch.begin();
+				boardSprite.setPosition(boardmSrc.getBody().getPosition().x-boardmSrc.getBasicShape().getWidth()/2,  boardmSrc.getBody().getPosition().y-boardmSrc.getBasicShape().getHeight()/2);
+				boardSprite.setRotation((float)Math.toDegrees(boardmSrc.getBody().getAngle()));
+				boardSprite.draw(batch);
+			batch.end();				
+		}
 		
 	}
 

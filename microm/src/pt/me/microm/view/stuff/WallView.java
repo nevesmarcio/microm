@@ -2,6 +2,7 @@ package pt.me.microm.view.stuff;
 
 import java.util.Iterator;
 
+import pt.me.microm.MicroMGame;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.dev.BallModel;
@@ -43,8 +44,9 @@ public class WallView extends AbstractView {
 		
 		wallSprite = GAME_CONSTANTS.devAtlas.createSprite("txr_wall");
 
-		wallSprite.setSize(0.5f, 0.5f);
-		wallSprite.setOrigin(0.25f, 0.25f);
+		wallSprite.setSize(wallmSrc.getBasicShape().getWidth(), wallmSrc.getBasicShape().getHeight());
+		wallSprite.setOrigin(wallmSrc.getBasicShape().getWidth()/2, wallmSrc.getBasicShape().getHeight()/2);		
+		
 	}
 
 	
@@ -53,37 +55,39 @@ public class WallView extends AbstractView {
 	@Override
 	public void draw(ScreenTickEvent e) {
 		
-		renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
-		
-		Iterator<Fixture> it = wallmSrc.getBody().getFixtureList().iterator();
-		Fixture aux = null;
-		while (it.hasNext()) {
-			aux = it.next();
+		if (MicroMGame.FLAG_DISPLAY_ACTOR_SHAPES) {
+			renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 			
-			renderer.identity();
-			renderer.translate(aux.getBody().getPosition().x, aux.getBody().getPosition().y, 0.0f);
-			renderer.rotate(0.0f, 0.0f, 1.0f, (float)Math.toDegrees(aux.getBody().getAngle()));
-			
-			ChainShape cs = (ChainShape)aux.getShape();
-
-			renderer.begin(ShapeType.Line);
-				int vCnt = cs.getVertexCount();
-				for (int i = 0; i < vCnt; i++) {
-					cs.getVertex(i, pointA); //pointA.add(portalmSrc.getPortalBody().getPosition());
-					cs.getVertex(i==vCnt-1 ? 0 : i + 1, pointB); //pointB.add(portalmSrc.getPortalBody().getPosition());
-					renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
-				}
-			renderer.end();
+			Iterator<Fixture> it = wallmSrc.getBody().getFixtureList().iterator();
+			Fixture aux = null;
+			while (it.hasNext()) {
+				aux = it.next();
+				
+				renderer.identity();
+				renderer.translate(aux.getBody().getPosition().x, aux.getBody().getPosition().y, 0.0f);
+				renderer.rotate(0.0f, 0.0f, 1.0f, (float)Math.toDegrees(aux.getBody().getAngle()));
+				
+				ChainShape cs = (ChainShape)aux.getShape();
+	
+				renderer.begin(ShapeType.Line);
+					int vCnt = cs.getVertexCount();
+					for (int i = 0; i < vCnt; i++) {
+						cs.getVertex(i, pointA); //pointA.add(portalmSrc.getPortalBody().getPosition());
+						cs.getVertex(i==vCnt-1 ? 0 : i + 1, pointB); //pointB.add(portalmSrc.getPortalBody().getPosition());
+						renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
+					}
+				renderer.end();
+			}
 		}
-
-
-		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
-		batch.begin();
-			wallSprite.setPosition(aux.getBody().getPosition().x-0.25f,  aux.getBody().getPosition().y-0.25f);
-			wallSprite.setRotation((float)Math.toDegrees(aux.getBody().getAngle()));
-			wallSprite.draw(batch);
-		batch.end();		
 		
+		if (MicroMGame.FLAG_DISPLAY_ACTOR_TEXTURES) {
+			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+			batch.begin();
+				wallSprite.setPosition(wallmSrc.getBody().getPosition().x-wallmSrc.getBasicShape().getWidth()/2,  wallmSrc.getBody().getPosition().y-wallmSrc.getBasicShape().getHeight()/2);
+				wallSprite.setRotation((float)Math.toDegrees(wallmSrc.getBody().getAngle()));
+				wallSprite.draw(batch);
+			batch.end();		
+		}
 	}
 
 

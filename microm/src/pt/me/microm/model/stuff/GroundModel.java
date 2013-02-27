@@ -30,8 +30,12 @@ public class GroundModel extends AbstractModel {
 	private ChainShape groundShape; // Fronteira do tabuleiro
 	private Body groundBody;
 	
+	private WorldModel wm;
+	private BasicShape ground;
 	
 	private GroundModel(final WorldModel wm, final BasicShape ground) {
+		this.wm = wm;
+		this.ground = ground;
 		
 		wm.wmManager.add(new PointerToFunction() {
 			
@@ -98,5 +102,8 @@ public class GroundModel extends AbstractModel {
 		return groundBody;
 	}
 	
+	public BasicShape getBasicShape() {
+		return ground;
+	}
 
 }

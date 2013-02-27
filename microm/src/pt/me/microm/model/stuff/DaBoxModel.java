@@ -22,11 +22,11 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.utils.Logger;
 
 public class DaBoxModel extends AbstractModel {
 	private static final String TAG = DaBoxModel.class.getSimpleName();
-	
-	private float side = 0.75f;
+	private static final Logger logger = new Logger(TAG);
 	
 	private Color color = new Color(0.5f,0.5f,0.5f,0.5f);
 	

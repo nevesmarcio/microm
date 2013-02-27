@@ -1,5 +1,6 @@
 package pt.me.microm.view.stuff;
 
+import pt.me.microm.MicroMGame;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.stuff.GroundModel;
@@ -36,9 +37,8 @@ public class GroundView extends AbstractView {
 		
 		groundSprite = GAME_CONSTANTS.devAtlas.createSprite("txr_ground");		
 
-		groundSprite.setSize(15.0f, 0.1f);
-		//groundSprite.setOrigin(7.5f, 0.05f);		
-		
+		groundSprite.setSize(groundmSrc.getBasicShape().getWidth(), groundmSrc.getBasicShape().getHeight());
+		groundSprite.setOrigin(groundmSrc.getBasicShape().getWidth()/2, groundmSrc.getBasicShape().getHeight()/2);		
 		
 	}
 	
@@ -47,27 +47,30 @@ public class GroundView extends AbstractView {
 	@Override
 	public void draw(ScreenTickEvent e) {
 		
-		renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+		if (MicroMGame.FLAG_DISPLAY_ACTOR_SHAPES) {
+			renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+			
+			Fixture fix = (groundmSrc.getBody().getFixtureList()).get(0);
+			ChainShape cs = (ChainShape)fix.getShape();
+			
+			renderer.begin(ShapeType.Line);
+				int vCnt = cs.getVertexCount();
+				for (int i = 0; i < vCnt; i++) {
+					cs.getVertex(i, pointA); pointA.add(groundmSrc.getBody().getPosition());
+					cs.getVertex(i==vCnt-1 ? 0 : i + 1, pointB); pointB.add(groundmSrc.getBody().getPosition());
+					renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
+				}
+			renderer.end();
+		}
 		
-		Fixture fix = (groundmSrc.getBody().getFixtureList()).get(0);
-		ChainShape cs = (ChainShape)fix.getShape();
-		
-		renderer.begin(ShapeType.Line);
-			int vCnt = cs.getVertexCount();
-			for (int i = 0; i < vCnt; i++) {
-				cs.getVertex(i, pointA); pointA.add(groundmSrc.getBody().getPosition());
-				cs.getVertex(i==vCnt-1 ? 0 : i + 1, pointB); pointB.add(groundmSrc.getBody().getPosition());
-				renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
-			}
-		renderer.end();
-
-		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
-		batch.begin();
-			groundSprite.setPosition(fix.getBody().getPosition().x-7.5f,  fix.getBody().getPosition().y-0.05f);
-			groundSprite.setRotation((float)Math.toDegrees(fix.getBody().getAngle()));
-			groundSprite.draw(batch);
-		batch.end();		
-		
+		if (MicroMGame.FLAG_DISPLAY_ACTOR_TEXTURES) {		
+			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+			batch.begin();
+				groundSprite.setPosition(groundmSrc.getBody().getPosition().x-groundmSrc.getBasicShape().getWidth()/2,  groundmSrc.getBody().getPosition().y-groundmSrc.getBasicShape().getHeight()/2);
+				groundSprite.setRotation((float)Math.toDegrees(groundmSrc.getBody().getAngle()));
+				groundSprite.draw(batch);
+			batch.end();		
+		}
 		
 	}
 

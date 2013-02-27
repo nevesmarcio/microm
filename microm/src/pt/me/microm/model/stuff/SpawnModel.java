@@ -3,6 +3,7 @@ package pt.me.microm.model.stuff;
 import java.util.List;
 import java.util.Random;
 
+import pt.me.microm.MicroMGame;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.PointerToFunction;
@@ -96,8 +97,10 @@ public class SpawnModel extends AbstractModel {
 						dbm.create(spawn.getCentroid());
 						
 						// se não colocar isto depois da leitura do board, os objectos caem no espaço
-						BallModel.getNewInstance(wm, 3.0f, 4.0f); // larga a bola num mundo num tabuleiro
-						CoisaModel.getNewInstance(wm, 1.0f, 4.0f);
+						if (MicroMGame.FLAG_DEV_ELEMENTS) {
+							BallModel.getNewInstance(wm, 3.0f, 4.0f); // larga a bola num mundo num tabuleiro
+							CoisaModel.getNewInstance(wm, 1.0f, 4.0f);
+						}
 						
 						return null;
 					}

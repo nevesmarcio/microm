@@ -31,15 +31,16 @@ public class WallModel extends AbstractModel {
 	private Body wallBody;
 	
 	private WorldModel wm;
+	private BasicShape wall;
 	
 	private WallModel(final WorldModel wm, final BasicShape wall) {
-
+		this.wm = wm;
+		this.wall = wall;
+		
 		wm.wmManager.add(new PointerToFunction() {
 			
 			@Override
 			public Object handler(Object ... a) {
-				
-				WallModel.this.wm = wm;
 				
 				silhouetteVertex = wall.getPointsArray();
 				
@@ -111,6 +112,10 @@ public class WallModel extends AbstractModel {
 		return wallBody;
 	}
 
+	public BasicShape getBasicShape() {
+		return wall;
+	}
+	
 
 	
 	private int boxTouchMyTralala = 0;

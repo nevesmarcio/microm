@@ -45,8 +45,6 @@ public class DaBoxView extends AbstractView {
 		renderer = new ShapeRenderer();
 		
 		daBoxSprite = GAME_CONSTANTS.devAtlas.createSprite("txr_daBox");		
-//		daBoxSprite.setSize(0.8f, 0.5f);
-//		daBoxSprite.setOrigin(0.4f, 0.25f);
 		daBoxSprite.setSize(daBoxmSrc.getBasicShape().getWidth(), daBoxmSrc.getBasicShape().getHeight());
 		daBoxSprite.setOrigin(daBoxmSrc.getBasicShape().getWidth()/2, daBoxmSrc.getBasicShape().getHeight()/2);	
 	}
@@ -90,7 +88,6 @@ public class DaBoxView extends AbstractView {
 		if (MicroMGame.FLAG_DISPLAY_ACTOR_TEXTURES) {
 			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 			batch.begin();
-//				daBoxSprite.setPosition(daBoxmSrc.getBody().getPosition().x-0.4f, daBoxmSrc.getBody().getPosition().y-0.25f);
 				daBoxSprite.setPosition(daBoxmSrc.getBody().getPosition().x-daBoxmSrc.getBasicShape().getWidth()/2, daBoxmSrc.getBody().getPosition().y-daBoxmSrc.getBasicShape().getHeight()/2);
 				daBoxSprite.setRotation((float)Math.toDegrees(daBoxmSrc.getBody().getAngle()));
 				daBoxSprite.draw(batch);
