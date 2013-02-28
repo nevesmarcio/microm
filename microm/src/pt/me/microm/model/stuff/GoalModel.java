@@ -28,7 +28,13 @@ public class GoalModel extends AbstractModel {
 	private ChainShape goalShape; // Fronteira do tabuleiro
 	private Body goalBody;
 	
+	private WorldModel wm;
+	private BasicShape goal;
+	
 	private GoalModel(final WorldModel wm, final BasicShape goal) {
+		this.wm = wm;
+		this.goal = goal;
+		
 		wm.wmManager.add(new PointerToFunction() {
 			
 			@Override
@@ -96,6 +102,10 @@ public class GoalModel extends AbstractModel {
 		return goalBody;
 	}
 
+	public BasicShape getBasicShape() {
+		return goal;
+	}
+	
 	
 	@Override
 	public void beginContactWith(AbstractModel oModel) {

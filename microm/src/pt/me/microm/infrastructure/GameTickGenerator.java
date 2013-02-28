@@ -26,6 +26,7 @@ public class GameTickGenerator implements Disposable{
 
 		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-addEventListener-begin]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 		_listeners.add(listener);
+		isTempListenersDirty = true;
 		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-addEventListener-end]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 	}
 
@@ -33,12 +34,21 @@ public class GameTickGenerator implements Disposable{
 
 		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-removeEventListener-begin]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 		_listeners.remove(listener);
+		isTempListenersDirty = true;
 		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-removeEventListener-end]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 	}
 
-	// call this method whenever you want to notify
-	// the event listeners of the particular event
-	private GameTickEvent event = new GameTickEvent(this);
+	/**
+	 * Call this method whenever you want to notify
+	 * the event listeners of the particular event
+	 * @param elapsedNanoTime
+	 */
+	private GameTickEvent event = new GameTickEvent(this); 				// reutilização do evento
+	private Iterator<GameTickInterface> i; 								// reutilização da variável para iteração sobre a lista
+	private GameTickInterface gti; 										// reutilização do GameTickInterface
+	private List<GameTickInterface> temp_listeners =
+			new ArrayList<GameTickInterface>();							// reutilização da lista de listeners
+	private boolean isTempListenersDirty = true;						// variável de controlo para saber se a lista de listeners mudou
 	private synchronized void fireEvent(long elapsedNanoTime) {
 		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-fireEvent]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 		
@@ -46,12 +56,15 @@ public class GameTickGenerator implements Disposable{
 
 		try {
 			/* cria uma copia para iterar */
-			List<GameTickInterface> temp_listeners = new ArrayList<GameTickInterface>();
-			temp_listeners.addAll(_listeners);
+			if (isTempListenersDirty) {
+				temp_listeners.clear();
+				temp_listeners.addAll(_listeners);
+				isTempListenersDirty = false;
+			}
 			
-			Iterator<GameTickInterface> i = temp_listeners.iterator();
+			i = temp_listeners.iterator();
 			while (i.hasNext()) {
-				GameTickInterface gti = i.next();
+				gti = i.next();
 				if (logger.getLevel() == Logger.DEBUG) logger.debug("\t[TickGen]" + gti.getClass().getName());
 				
 				gti.handleGameTick(event);

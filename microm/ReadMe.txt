@@ -135,16 +135,26 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 
 
 27-02-2013
+# separar as opções de renderização em variaveis globais (dev elements, shapes, textures and particle system)
 # trabalho na forma de texturização mais "low-level" (UV-MAPS, OPENGL, PROJECTION/ MODEL matrices)
 	-- checked: não é possível repetir uma sub-textura (http://stackoverflow.com/questions/662107/how-to-use-gl-repeat-to-repeat-only-a-selection-of-a-texture-atlas-opengl)
+# todos os allocations que acontecem em pleno funcionamento da APP, não deverão acontecer!! (certo??)
+	(acho que descobri uma forma fixe de olhar para a APP do ponto de vista da optimização: em pleno funcionamento a app não deverá fazer alocações, pelo que essa análise a partir de um profiler é mto importante!!!
 
+
+28-02-2013
+# Texturização do Spawn e do Goal
+# Diversas optimizações na alocação de memória (GameTickGenerator p.e.)
+	:: passei os seguintes blocos para a categoria "DEV ELEMENTS"
+		-Renderização de contactor: WorldView --> addAll 
+		-FPS/ UPS: UiView --> StringBuilder
 
 (in progress)
-# separar as opções de renderização em variaveis globais
-	- com isto espero melhorar significativamente a performance aquando uma build de produção
+# A cópia das matrizes no portalView aloca memoria de embarda...
 
-# todos os allocations que acontecem em pleno funcionamento da APP, não deverão acontecer!! (certo'??)
-(acho que descobri uma forma fixe de olhar para a APP do ponto de vista da optimização: em pleno funcionamento a app não deverá fazer alocações, pelo que essa análise a partir de um profiler é mto importante!!!
+
+
+	
 
 
 [TODO] 

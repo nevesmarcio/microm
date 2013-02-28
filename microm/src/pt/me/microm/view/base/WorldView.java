@@ -58,15 +58,37 @@ public class WorldView extends AbstractView {
 	public void draw(ScreenTickEvent e) {
 		
 		if (MicroMGame.FLAG_DEV_ELEMENTS) {
+			/* renderização do world sprite... nem faz mto sentido isto, mas pronto */
 			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
-			
 			batch.begin();
 				worldSprite.draw(batch);
 			batch.end();		
+		
+			/* renderização dos contactos */ 
+			temp.clear();
+			temp.addAll(wmSrc.getPhysicsWorld().getContactList());
+			for (int i=0; i < temp.size(); i++) {
+			
+				Contact aux = temp.get(i);
+				
+				WorldManifold wmfold = aux.getWorldManifold();
+
+				for (int j = 0; j<wmfold.getNumberOfContactPoints(); j++) {
+					Vector2 cpt = wmfold.getPoints()[j];
+					
+					renderer.identity();
+					renderer.translate(cpt.x, cpt.y, 0.0f);
+
+					renderer.begin(ShapeType.FilledCircle);
+					renderer.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+					renderer.filledCircle(0.0f, 0.0f, 0.1f, 10);
+					renderer.end();
+				}
+			}		
+		
 		}
 		
 		renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
-
 		/* renderização dos joints */
 		Iterator<Joint> it = wmSrc.getPhysicsWorld().getJoints(); 
 		while (it.hasNext()){
@@ -81,32 +103,8 @@ public class WorldView extends AbstractView {
 			renderer.end();
 		}
 		
-		/* renderização dos contactos */ 
-		temp.clear();
-		temp.addAll(wmSrc.getPhysicsWorld().getContactList());
-		for (int i=0; i < temp.size(); i++) {
-		
-			Contact aux = temp.get(i);
-			
-			WorldManifold wmfold = aux.getWorldManifold();
-
-			for (int j = 0; j<wmfold.getNumberOfContactPoints(); j++) {
-				Vector2 cpt = wmfold.getPoints()[j];
-				
-				renderer.identity();
-				renderer.translate(cpt.x, cpt.y, 0.0f);
-
-				renderer.begin(ShapeType.FilledCircle);
-				renderer.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-				renderer.filledCircle(0.0f, 0.0f, 0.1f, 10);
-				renderer.end();
-			}
-		}
 
 
 	}
-
-
-
 	
 }

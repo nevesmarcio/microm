@@ -37,8 +37,14 @@ public class SpawnModel extends AbstractModel {
 	private ChainShape spawnShape; // Fronteira do tabuleiro
 	private Body spawnBody;
 	
-	int countdown = 4;
+	private WorldModel wm;
+	private BasicShape spawn;
+	
+	private int countdown = 4;
 	private SpawnModel(final WorldModel wm, final DaBoxModel dbm, final BasicShape spawn) {
+		this.wm = wm;
+		this.spawn = spawn;
+		
 		wm.wmManager.add(new PointerToFunction() {
 
 			@Override
@@ -153,7 +159,7 @@ public class SpawnModel extends AbstractModel {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
 		if (getBody() != null)
-			if (logger.getLevel() == logger.DEBUG)
+			if (logger.getLevel() == Logger.DEBUG)
 				logger.debug("[Physics-room]: Pos.x:" + String.format("%.2f", getBody().getPosition().x)
 						+ " Pos.y:" + String.format("%.2f", getBody().getPosition().y) 
 						+ " Angle:" + String.format("%.2f", getBody().getAngle())
@@ -174,4 +180,8 @@ public class SpawnModel extends AbstractModel {
 		return spawnBody;
 	}
 
+	public BasicShape getBasicShape() {
+		return spawn;
+	}
+	
 }

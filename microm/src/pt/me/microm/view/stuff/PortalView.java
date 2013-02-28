@@ -63,7 +63,7 @@ public class PortalView extends AbstractView {
 		renderer = new ShapeRenderer();
 		batch = new SpriteBatch();
 		
-		AtlasRegion r = GAME_CONSTANTS.devAtlas.findRegion("square2");
+		final AtlasRegion r = GAME_CONSTANTS.devAtlas.findRegion("square2");
 		// Fixme: avaliar 
 		texture = r.getTexture(); // isto devolve sempre a textura inteira e não o quadradinho que pretendo... isto para ficar resolvido tem que se usar o UV MAP!!
 		
@@ -123,10 +123,13 @@ public class PortalView extends AbstractView {
 					ChainShape cs = (ChainShape)aux.getShape();
 					int vCnt = cs.getVertexCount();
 					
+					float[] uvmap = new float[vCnt*2];
 					Vector2 temp = new Vector2();
 					for (int i = 0; i<vCnt; i++) {
 						cs.getVertex(i, temp);	
 						logger.info(">>" + temp.toString());
+						uvmap[2*i] = temp.x;
+						uvmap[2*i+1] = temp.y;
 					}
 
 					vertexes = new float[vCnt*5];
@@ -137,8 +140,27 @@ public class PortalView extends AbstractView {
 							vertexes[i*5+0] = temp.x;
 							vertexes[i*5+1] = temp.y;
 							vertexes[i*5+2] = 0;
-							vertexes[i*5+3] = temp.x; //0,0 ; 1,0; 1,1; 0,1
-							vertexes[i*5+4] = temp.y;
+							switch (i) {
+							case 0:
+								vertexes[i*5+3] = r.getU(); //0,0 ; 1,0; 1,1; 0,1
+								vertexes[i*5+4] = r.getV();								
+								break;
+							case 1:
+								vertexes[i*5+3] = r.getU2(); //0,0 ; 1,0; 1,1; 0,1
+								vertexes[i*5+4] = r.getV();
+								break;
+							case 2:
+								vertexes[i*5+3] = r.getU2(); //0,0 ; 1,0; 1,1; 0,1
+								vertexes[i*5+4] = r.getV2();
+								break;
+							case 3:
+								vertexes[i*5+3] = r.getU(); //0,0 ; 1,0; 1,1; 0,1
+								vertexes[i*5+4] = r.getV2();
+								break;
+							default:
+								break;
+							}
+
 							indexes[i] = (short)i;
 						}
 				}	        
@@ -174,11 +196,12 @@ public class PortalView extends AbstractView {
 		
 		Gdx.gl10.glPushMatrix();
 		Gdx.gl10.glMatrixMode(GL10.GL_PROJECTION);
-		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().projection.cpy().translate(0.0f, 0.0f, 0.0f).val, 0);		
+//		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().projection.cpy().translate(0.0f, 0.0f, 0.0f).val, 0); // poupa umas alocaçoes e memória
+		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().projection.translate(0.0f, 0.0f, 0.0f).val, 0);
 		
 		Gdx.gl10.glPushMatrix();
 		Gdx.gl10.glMatrixMode(GL10.GL_MODELVIEW);
-		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().view.cpy().translate(portalmSrc.getBody().getPosition().x, portalmSrc.getBody().getPosition().y, 0.0f).val, 0);		
+		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().view.cpy().translate(portalmSrc.getBody().getPosition().x, portalmSrc.getBody().getPosition().y, 0.0f).val, 0);
 		
 	    texture.bind();
 	    //mesh.render(GL10.GL_TRIANGLES, 0, 3);
@@ -219,11 +242,11 @@ public class PortalView extends AbstractView {
 		}
 
 		// BATCH STYLE 			-- desenha a texturazinha prequenina centrada no portal
-		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
-		
-		batch.begin();
-			batch.draw(texture, portalmSrc.getPosition().x, portalmSrc.getPosition().y, (float)1/(float)5, (float)1/(float)5);
-		batch.end();
+//		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+//		
+//		batch.begin();
+//			batch.draw(texture, portalmSrc.getPosition().x, portalmSrc.getPosition().y, (float)1/(float)5, (float)1/(float)5);
+//		batch.end();
 
 		
 	}

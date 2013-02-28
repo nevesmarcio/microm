@@ -23,7 +23,7 @@ public class MicroMGame implements ApplicationListener {
 	public static final boolean FLAG_DEV_ELEMENTS = false; 				// "pre-compiler" equivalent for branching development-only code
 	public static final boolean FLAG_DISPLAY_ACTOR_SHAPES = false;		// mostra o desenho das shapes dos actores: walls, dabox, etc.
 	public static final boolean FLAG_DISPLAY_ACTOR_TEXTURES = true;		// liga a texturização dos actores
-	public static final boolean FLAG_DISPLAY_PARTICLES = false;			// liga o desenho de particulas
+	public static final boolean FLAG_DISPLAY_PARTICLES = true;			// liga o desenho de particulas
 	
 	private static final String TAG = MicroMGame.class.getSimpleName();
 	private static Logger logger = new Logger(TAG);

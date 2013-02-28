@@ -30,6 +30,9 @@ public class BasicShape {
 	private ObjectType type;
 	private Vector2 centroid;
 
+	private float width;
+	private float height;
+	
 	public BasicShape() {
 		points = new ArrayList<Vector2>();
 	}
@@ -88,6 +91,10 @@ public class BasicShape {
 		scaleAndYInvertShape(scale, maxSize.y);
 
 		this.type = type;
+		
+		// calc width and height
+		width = calcWidth();
+		height = calcHeight();
 	}	
 		
 	
@@ -100,35 +107,13 @@ public class BasicShape {
 	}
 
 	
+	public float getWidth() {
+		return width;
+	}
 
-
-   /**
-    * 
-    * @return the width of the smallest rectangle that can be used to inscribe the polygon into
-    */
-    public float getWidth() {
-    	Float minX = null, maxX = null;
-    	
-    	for (Vector2 point : getPoints()) {
-			if ((minX == null) || (point.x < minX)) minX = point.x;
-			if ((maxX == null) || (point.x > maxX)) maxX = point.x;
-		}
-    	return maxX - minX;
-   }
-    
-    /**
-     * 
-     * @return the height of the smallest rectangle that can be used to inscribe the polygon into
-     */
-    public float getHeight() {
-    	Float minY = null, maxY = null;
-    	
-    	for (Vector2 point : getPoints()) {
-			if ((minY == null) || (point.y < minY)) minY = point.y;
-			if ((maxY == null) || (point.y > maxY)) maxY = point.y;			
-		}
-    	return maxY - minY;
-    }
+	public float getHeight() {
+		return height;
+	}
     	
 	
 	public Vector2[] getPointsArray() {
@@ -182,9 +167,35 @@ public class BasicShape {
 		}
 		getCentroid().x = getCentroid().x*scale;
 		getCentroid().y = (maxHeight - getCentroid().y)*scale;
-	
-		
 	}
 
+   /**
+    * 
+    * @return the width of the smallest rectangle that can be used to inscribe the polygon into
+    */
+    private float calcWidth() {
+    	Float minX = null, maxX = null;
+    	
+    	for (Vector2 point : getPoints()) {
+			if ((minX == null) || (point.x < minX)) minX = point.x;
+			if ((maxX == null) || (point.x > maxX)) maxX = point.x;
+		}
+    	return maxX - minX;
+   }
+    
+    /**
+     * 
+     * @return the height of the smallest rectangle that can be used to inscribe the polygon into
+     */
+    private float calcHeight() {
+    	Float minY = null, maxY = null;
+    	
+    	for (Vector2 point : getPoints()) {
+			if ((minY == null) || (point.y < minY)) minY = point.y;
+			if ((maxY == null) || (point.y > maxY)) maxY = point.y;			
+		}
+    	return maxY - minY;
+    }	
+	
 	
 }

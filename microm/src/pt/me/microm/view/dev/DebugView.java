@@ -45,7 +45,6 @@ public class DebugView extends AbstractView {
 			renderer.rotate(0.0f, 0.0f, 1.0f, (float)Math.toDegrees(aux.getBody().getAngle()));			
 				
 			renderer.begin(ShapeType.FilledCircle);
-				
 				renderer.setColor(debugmSrc.getColor());
 				renderer.filledCircle(0.0f, 0.0f, debugmSrc.getRadius(), 50);
 			renderer.end();

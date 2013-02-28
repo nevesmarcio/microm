@@ -1,5 +1,6 @@
 package pt.me.microm.view.ui;
 
+import pt.me.microm.MicroMGame;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.ui.UIModel;
@@ -64,6 +65,7 @@ public class UIView  extends AbstractView {
 	private Vector3 intersection_point = new Vector3();
 	private Plane intersect_plane = new Plane(new Vector3(0.0f,0.0f,1.0f), 0.0f);
 	private Ray rr;
+	private String xx = "X--X";
 	@Override
 	public void draw(ScreenTickEvent e) {
 		
@@ -72,10 +74,10 @@ public class UIView  extends AbstractView {
 
 			if (uiSrc.getOriginalTestPoint()[i]!=null) {
 				rr = e.getCamera().getGameCamera().getPickRay(uiSrc.getOriginalTestPoint()[i].x, uiSrc.getOriginalTestPoint()[i].y);
-				if (logger.getLevel() == logger.DEBUG) logger.debug("PickingTest - ray: " + rr);
+				if (logger.getLevel() == Logger.DEBUG) logger.debug("PickingTest - ray: " + rr);
 				
 				Intersector.intersectRayPlane(rr, intersect_plane, intersection_point);
-				if (logger.getLevel() == logger.DEBUG) logger.debug("Intersect: " + intersection_point);
+				if (logger.getLevel() == Logger.DEBUG) logger.debug("Intersect: " + intersection_point);
 	
 				renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 				
@@ -152,36 +154,40 @@ public class UIView  extends AbstractView {
 //		renderer.end();			
 //			
 		
-		/* renderização dos status fps + ups */
-		long elapsedNanoTime = e.getElapsedNanoTime();
-		
-//		batch.setProjectionMatrix(e.getCamera().combined.cpy().scl(1f/Gdx.graphics.getWidth()*GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY)); //.cpy().scl(1f/Gdx.graphics.getWidth()*GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY)
-//		batch.getProjectionMatrix().setToOrtho2D(0.0f, 0.0f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		batch.setProjectionMatrix(e.getCamera().getUiCamera().combined);
+		if (MicroMGame.FLAG_DEV_ELEMENTS) {
+			/* renderização dos status fps + ups */
+			long elapsedNanoTime = e.getElapsedNanoTime();
+			
+//			batch.setProjectionMatrix(e.getCamera().combined.cpy().scl(1f/Gdx.graphics.getWidth()*GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY)); //.cpy().scl(1f/Gdx.graphics.getWidth()*GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY)
+//			batch.getProjectionMatrix().setToOrtho2D(0.0f, 0.0f, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			batch.setProjectionMatrix(e.getCamera().getUiCamera().combined);
+					
+			fps = (float) (1000.0f / (elapsedNanoTime / (float)GAME_CONSTANTS.ONE_MILISECOND_TO_NANO));
+			
+			batch.begin();
+				font.setColor(Color.RED);	
+				font.draw(batch, "fps: " + fps, (int)textPosition1.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition1.y - e.getCamera().getUiCamera().viewportHeight/2);
 				
-		fps = (float) (1000.0f / (elapsedNanoTime / (float)GAME_CONSTANTS.ONE_MILISECOND_TO_NANO));
+				font.setColor(Color.BLUE);
+				font.draw(batch, "gameupdate (ups): " + uiSrc.getUps(), (int)textPosition2.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition2.y - e.getCamera().getUiCamera().viewportHeight/2);
+				
+				// só para demonstrar que a renderização está a ocorrer ao ritmo dos fps's.
+				pulsingFont.setColor(Color.WHITE);
+				if (pulsingFont.getScaleX()>1.5f || pulsingFont.getScaleX()<0.5f)
+					direction =!direction;
+				pulsingFont.setScale(pulsingFont.getScaleX()+(direction?0.1f:-0.1f));
+				pulsingFont.draw(batch, xx, (int)textPosition3.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition3.y - e.getCamera().getUiCamera().viewportHeight/2);
+				
+			batch.end();
+		}
 		
+		/* renderização das flashmessages */
 		batch.begin();
-			font.setColor(Color.RED);	
-			font.draw(batch, "fps: " + fps, (int)textPosition1.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition1.y - e.getCamera().getUiCamera().viewportHeight/2);
+			batch.setProjectionMatrix(e.getCamera().getUiCamera().combined);	
 			
-			font.setColor(Color.BLUE);
-			font.draw(batch, "gameupdate (ups): " + uiSrc.getUps(), (int)textPosition2.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition2.y - e.getCamera().getUiCamera().viewportHeight/2);
-			
-			// só para demonstrar que a renderização está a ocorrer ao ritmo dos fps's.
-			pulsingFont.setColor(Color.WHITE);
-			if (pulsingFont.getScaleX()>1.5f || pulsingFont.getScaleX()<0.5f)
-				direction =!direction;
-			pulsingFont.setScale(pulsingFont.getScaleX()+(direction?0.1f:-0.1f));
-			pulsingFont.draw(batch, "X--X", (int)textPosition3.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition3.y - e.getCamera().getUiCamera().viewportHeight/2);
-			
-		batch.end();
-	
-		batch.begin();
 			for (UIModel.FlashMessage fm : uiSrc.afm) {
 				tweenFont.setScale(fm.scale);
 				tweenFont.draw(batch, fm.dataSource.get().toString(), fm.position.x, fm.position.y);
-
 			}
 		
 		batch.end();
