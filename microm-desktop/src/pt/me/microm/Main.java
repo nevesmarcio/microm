@@ -17,7 +17,7 @@ public class Main {
 		cfg.vSyncEnabled = true;
 		//cfg.fullscreen = true;
 		
-		new LwjglApplication(new MicroMGame(), cfg);
+		new LwjglApplication(new GameMicroM(), cfg);
 		
 		Gdx.app.setLogLevel(Application.LOG_INFO);
 	}

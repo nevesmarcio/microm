@@ -2,7 +2,7 @@ package pt.me.microm.view.stuff;
 
 import java.util.Iterator;
 
-import pt.me.microm.MicroMGame;
+import pt.me.microm.GameMicroM;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.dev.BallModel;
@@ -55,7 +55,7 @@ public class WallView extends AbstractView {
 	@Override
 	public void draw(ScreenTickEvent e) {
 		
-		if (MicroMGame.FLAG_DISPLAY_ACTOR_SHAPES) {
+		if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
 			renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 			
 			Iterator<Fixture> it = wallmSrc.getBody().getFixtureList().iterator();
@@ -80,7 +80,7 @@ public class WallView extends AbstractView {
 			}
 		}
 		
-		if (MicroMGame.FLAG_DISPLAY_ACTOR_TEXTURES) {
+		if (GameMicroM.FLAG_DISPLAY_ACTOR_TEXTURES) {
 			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 			batch.begin();
 				wallSprite.setPosition(wallmSrc.getBody().getPosition().x-wallmSrc.getBasicShape().getWidth()/2,  wallmSrc.getBody().getPosition().y-wallmSrc.getBasicShape().getHeight()/2);

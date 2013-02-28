@@ -5,7 +5,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 import java.util.logging.SimpleFormatter;
 
-import pt.me.microm.MicroMGame;
+import pt.me.microm.GameMicroM;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
@@ -50,10 +50,9 @@ public class CameraModel extends AbstractModel {
 	float camRadius;
 	
 	public CameraModel() {
-
 		//FIXME:: se não colocar isto aqui tenho uma data de excepções. Analisar!!
 		Resize();
-	
+		
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
 	}
@@ -298,7 +297,7 @@ public class CameraModel extends AbstractModel {
 		}
 
 		//FIXME: n posso meter isto aqui senão o ecrã faz um "flick"
-		if (MicroMGame.FLAG_DEV_ELEMENTS)
+		if (GameMicroM.FLAG_DEV_ELEMENTS)
 			gameCamera.update(); // faz update às matrizes da camera após os movimentos
 		
 	}

@@ -16,7 +16,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import pt.me.microm.MicroMGame;
+import pt.me.microm.GameMicroM;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.dev.DebugModel;
@@ -59,7 +59,7 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static BoardModel addBoardToWorld(WorldModel wm, BasicShape board) {
-		if (MicroMGame.FLAG_DEV_ELEMENTS) {
+		if (GameMicroM.FLAG_DEV_ELEMENTS) {
 			DebugModel m;
 			for (Vector2 ap : board.getPointsArray()) {
 				m = DebugModel.getNewInstance(wm, ap.x+board.getCentroid().x, ap.y+board.getCentroid().y);
@@ -82,7 +82,7 @@ public class LevelLoader {
 	 * @return
 	 */
 	private static DaBoxModel addDaBoxToWorld(WorldModel wm, BasicShape dabox, String dabox_name) {
-		if (MicroMGame.FLAG_DEV_ELEMENTS)
+		if (GameMicroM.FLAG_DEV_ELEMENTS)
 			for (Vector2 ap : dabox.getPointsArray()) {
 					DebugModel.getNewInstance(wm, ap.x+dabox.getCentroid().x, ap.y+dabox.getCentroid().y);
 			}
@@ -99,7 +99,7 @@ public class LevelLoader {
 	 */
 	private static SpawnModel addSpawnToWorld(WorldModel wm, DaBoxModel dbm, BasicShape spawn) {
 
-		if (MicroMGame.FLAG_DEV_ELEMENTS) {
+		if (GameMicroM.FLAG_DEV_ELEMENTS) {
 			DebugModel m;
 			for (Vector2 ap : spawn.getPointsArray()) {
 				m = DebugModel.getNewInstance(wm, ap.x+spawn.getCentroid().x, ap.y+spawn.getCentroid().y);
@@ -121,7 +121,7 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static GoalModel addGoalToWorld(WorldModel wm, BasicShape goal) {
-		if (MicroMGame.FLAG_DEV_ELEMENTS) {
+		if (GameMicroM.FLAG_DEV_ELEMENTS) {
 			DebugModel m;
 			for (Vector2 ap : goal.getPointsArray()) {
 				m = DebugModel.getNewInstance(wm, ap.x+goal.getCentroid().x, ap.y+goal.getCentroid().y);
@@ -141,7 +141,7 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static GroundModel addGroundToWorld(WorldModel wm, BasicShape ground) {
-		if (MicroMGame.FLAG_DEV_ELEMENTS)
+		if (GameMicroM.FLAG_DEV_ELEMENTS)
 			for (Vector2 ap : ground.getPointsArray()) {
 				DebugModel.getNewInstance(wm, ap.x+ground.getCentroid().x, ap.y+ground.getCentroid().y);
 			}
@@ -156,7 +156,7 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static PortalModel addPortalToWorld(WorldModel wm, BasicShape portal, String portal_name) {
-		if (MicroMGame.FLAG_DEV_ELEMENTS) {
+		if (GameMicroM.FLAG_DEV_ELEMENTS) {
 			for (Vector2 ap : portal.getPointsArray()) {
 				DebugModel.getNewInstance(wm, ap.x+portal.getCentroid().x, ap.y+portal.getCentroid().y);
 			}
@@ -174,7 +174,7 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static WallModel addWallToWorld(WorldModel wm, BasicShape wall, String wall_name) {
-		if (MicroMGame.FLAG_DEV_ELEMENTS)
+		if (GameMicroM.FLAG_DEV_ELEMENTS)
 		for (Vector2 ap : wall.getPointsArray()) {
 				DebugModel.getNewInstance(wm, ap.x+wall.getCentroid().x, ap.y+wall.getCentroid().y);
 		}

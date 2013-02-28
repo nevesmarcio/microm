@@ -1,6 +1,6 @@
 package pt.me.microm.view.stuff;
 
-import pt.me.microm.MicroMGame;
+import pt.me.microm.GameMicroM;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.stuff.BoardModel;
@@ -49,7 +49,7 @@ public class GoalView extends AbstractView {
 	@Override
 	public void draw(ScreenTickEvent e) {
 		
-		if (MicroMGame.FLAG_DISPLAY_ACTOR_SHAPES) {
+		if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
 			renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 			
 			Fixture fix = (goalmSrc.getBody().getFixtureList()).get(0);
@@ -65,7 +65,7 @@ public class GoalView extends AbstractView {
 			renderer.end();
 		}
 		
-		if (MicroMGame.FLAG_DISPLAY_ACTOR_TEXTURES) {
+		if (GameMicroM.FLAG_DISPLAY_ACTOR_TEXTURES) {
 			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 			batch.begin();
 				goalSprite.setPosition(goalmSrc.getBody().getPosition().x-goalmSrc.getBasicShape().getWidth()/2,  goalmSrc.getBody().getPosition().y-goalmSrc.getBasicShape().getHeight()/2);

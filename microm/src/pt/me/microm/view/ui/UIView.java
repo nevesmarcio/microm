@@ -1,6 +1,6 @@
 package pt.me.microm.view.ui;
 
-import pt.me.microm.MicroMGame;
+import pt.me.microm.GameMicroM;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.ui.UIModel;
@@ -154,7 +154,7 @@ public class UIView  extends AbstractView {
 //		renderer.end();			
 //			
 		
-		if (MicroMGame.FLAG_DEV_ELEMENTS) {
+		if (GameMicroM.FLAG_DEV_ELEMENTS) {
 			/* renderização dos status fps + ups */
 			long elapsedNanoTime = e.getElapsedNanoTime();
 			

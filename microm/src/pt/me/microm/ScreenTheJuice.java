@@ -8,25 +8,20 @@ import pt.me.microm.infrastructure.ScreenTickManager;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
 
-import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.input.RemoteInput;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Logger;
 
-public class MicroMGame implements ApplicationListener {
-	// FLAGS
-	public static final boolean FLAG_DEV_ELEMENTS = false; 				// "pre-compiler" equivalent for branching development-only code
-	public static final boolean FLAG_DISPLAY_ACTOR_SHAPES = false;		// mostra o desenho das shapes dos actores: walls, dabox, etc.
-	public static final boolean FLAG_DISPLAY_ACTOR_TEXTURES = true;		// liga a texturização dos actores
-	public static final boolean FLAG_DISPLAY_PARTICLES = true;			// liga o desenho de particulas
-	
-	private static final String TAG = MicroMGame.class.getSimpleName();
-	private static Logger logger = new Logger(TAG);
+public class ScreenTheJuice extends ScreenAbstract {
+
+	private static final String TAG = ScreenTheJuice.class.getSimpleName();
+	private static final Logger logger = new Logger(TAG);
 	
 	// CONTROLLER RELATED
 	private MyGestureListener myGestureListener;
@@ -39,11 +34,12 @@ public class MicroMGame implements ApplicationListener {
 	// VIEW RELATED
 	// Todas as views são instanciadas por "reflection"
 
+	
+	public ScreenTheJuice(Game g) {
+		super(g);
 
-	@Override
-	public void create() {		
 		Texture.setEnforcePotImages(true); // ver o melhor sitio para enfiar isto, dado que as texturas estão nas constantes.
-
+		
 		// MODELS ///////////////////////////////////////////////////////////////
 		cameraModel = new CameraModel();
 		worldModel = WorldModel.getSingletonInstance();
@@ -72,28 +68,19 @@ public class MicroMGame implements ApplicationListener {
 		//Gdx.input.setCatchBackKey(true);
 		//Gdx.input.setCatchMenuKey(true);
 		
-		
+	}
 
-		
-	}
-	
-	@Override
-	public void dispose() {
-		//## ASSETS UNLOAD
-		
-		GAME_CONSTANTS.DisposeAllObjects();
-		
-		GameTickGenerator.getInstance().dispose();
-		ScreenTickManager.getInstance().dispose();
-		
-	}
 	
 	
+
 	@Override
 	// the main loop - maximum fps possible (Update rate para a View)
-	public void render() {
+	public void render(float delta) {
 		long elapsedNanoTime = (long)(Gdx.graphics.getDeltaTime()*GAME_CONSTANTS.ONE_SECOND_TO_NANO);
-	
+		
+        if (Gdx.input.isKeyPressed(Keys.ESCAPE)) // use your own criterion here
+            g.setScreen(((GameMicroM)g).splash);
+		
 		// Clean do gl context
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1); // cinza
@@ -101,7 +88,6 @@ public class MicroMGame implements ApplicationListener {
 		ScreenTickManager.getInstance().fireEvent(cameraModel, elapsedNanoTime);
 		
 	}
-	
 
 	@Override
 	public void resize(int width, int height) {
@@ -110,12 +96,38 @@ public class MicroMGame implements ApplicationListener {
 	}
 
 	@Override
+	public void show() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public void pause() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void resume() {
+		// TODO Auto-generated method stub
+		
 	}
 
+	@Override
+	public void dispose() {
+		//## ASSETS UNLOAD
+		
+		GAME_CONSTANTS.DisposeAllObjects();
+		
+		GameTickGenerator.getInstance().dispose();
+		ScreenTickManager.getInstance().dispose();
+	}
 
+	
 }

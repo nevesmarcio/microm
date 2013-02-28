@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import pt.me.microm.MicroMGame;
+import pt.me.microm.GameMicroM;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.base.WorldModel;
@@ -57,7 +57,7 @@ public class WorldView extends AbstractView {
 	@Override
 	public void draw(ScreenTickEvent e) {
 		
-		if (MicroMGame.FLAG_DEV_ELEMENTS) {
+		if (GameMicroM.FLAG_DEV_ELEMENTS) {
 			/* renderização do world sprite... nem faz mto sentido isto, mas pronto */
 			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 			batch.begin();

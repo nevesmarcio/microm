@@ -148,16 +148,20 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 	:: passei os seguintes blocos para a categoria "DEV ELEMENTS"
 		-Renderização de contactor: WorldView --> addAll 
 		-FPS/ UPS: UiView --> StringBuilder
+# Adicionado o mecanismo de "Screens" e refactorização necessária
+
+
+
 
 (in progress)
-# A cópia das matrizes no portalView aloca memoria de embarda...
 
-
-
-	
 
 
 [TODO] 
+# ao fazer "resume" das apps recentes, as texturas ficam todas paridas.
+	
+# use a chipin like feature to raise money for more levels (fundraising web sites:: http://www.squidoo.com/fundraising-websites)
+
 # que coordenadas utilizar aquando a escrita das mensagens no UI? (fisicas? relativas ao tamanho do ecrã? outro?)
 
 # Mecanismo de navegação na app
@@ -184,8 +188,7 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 
 [BUGS]
 # ao fazer rotate o OPENGL parte-se todo. averiguar pq. Para resolver, forçei o layout a landscape na app android
-# BUG?: problema das texturas (enforce POT?)
-# nas colisões há um glitch esquisito
+# A cópia das matrizes ".cpy()" no portalView aloca memoria de embarda...
 
 
 [ideias]

@@ -1,6 +1,6 @@
 package pt.me.microm.view.stuff;
 
-import pt.me.microm.MicroMGame;
+import pt.me.microm.GameMicroM;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.stuff.BoardModel;
@@ -49,7 +49,7 @@ public class SpawnView extends AbstractView {
 	@Override
 	public void draw(ScreenTickEvent e) {
 		
-		if (MicroMGame.FLAG_DISPLAY_ACTOR_SHAPES) {
+		if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
 			renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 			
 			Fixture fix = (spawnmSrc.getBody().getFixtureList()).get(0);
@@ -65,7 +65,7 @@ public class SpawnView extends AbstractView {
 			renderer.end();
 		}
 		
-		if (MicroMGame.FLAG_DISPLAY_ACTOR_TEXTURES) {
+		if (GameMicroM.FLAG_DISPLAY_ACTOR_TEXTURES) {
 			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 			batch.begin();
 				spawnSprite.setPosition(spawnmSrc.getBody().getPosition().x-spawnmSrc.getBasicShape().getWidth()/2,  spawnmSrc.getBody().getPosition().y-spawnmSrc.getBasicShape().getHeight()/2);

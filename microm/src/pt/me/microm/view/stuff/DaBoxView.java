@@ -2,7 +2,7 @@ package pt.me.microm.view.stuff;
 
 import java.util.Iterator;
 
-import pt.me.microm.MicroMGame;
+import pt.me.microm.GameMicroM;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.dev.BallModel;
@@ -56,7 +56,7 @@ public class DaBoxView extends AbstractView {
 	public void draw(ScreenTickEvent e) {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
-		if (MicroMGame.FLAG_DISPLAY_ACTOR_SHAPES) {
+		if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
 			renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 
 			renderer.identity();
@@ -85,7 +85,7 @@ public class DaBoxView extends AbstractView {
 			}
 		}
 			
-		if (MicroMGame.FLAG_DISPLAY_ACTOR_TEXTURES) {
+		if (GameMicroM.FLAG_DISPLAY_ACTOR_TEXTURES) {
 			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 			batch.begin();
 				daBoxSprite.setPosition(daBoxmSrc.getBody().getPosition().x-daBoxmSrc.getBasicShape().getWidth()/2, daBoxmSrc.getBody().getPosition().y-daBoxmSrc.getBasicShape().getHeight()/2);
@@ -94,7 +94,7 @@ public class DaBoxView extends AbstractView {
 			batch.end();
 		}
 		
-		if (MicroMGame.FLAG_DISPLAY_PARTICLES) {
+		if (GameMicroM.FLAG_DISPLAY_PARTICLES) {
 			// renderização das particles
 			float delta = Gdx.graphics.getDeltaTime();
 			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);

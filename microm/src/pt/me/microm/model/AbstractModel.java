@@ -3,7 +3,7 @@ package pt.me.microm.model;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import pt.me.microm.MicroMGame;
+import pt.me.microm.GameMicroM;
 import pt.me.microm.infrastructure.GameTickGenerator;
 import pt.me.microm.infrastructure.interfaces.GameTickInterface;
 import pt.me.microm.model.events.Event;
@@ -51,7 +51,7 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 		}
 		catch (InvocationTargetException ite) {
 			if (logger.getLevel() == logger.ERROR) logger.error("Error \"reflecting\" view: " + ite.getTargetException().getMessage());
-			if (MicroMGame.FLAG_DEV_ELEMENTS)
+			if (GameMicroM.FLAG_DEV_ELEMENTS)
 				ite.getTargetException().printStackTrace();
 		}
 		catch (Exception ex) {

@@ -2,7 +2,7 @@ package pt.me.microm.view.stuff;
 
 import java.util.Iterator;
 
-import pt.me.microm.MicroMGame;
+import pt.me.microm.GameMicroM;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ScreenTickManager;
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
@@ -215,7 +215,7 @@ public class PortalView extends AbstractView {
 	    
 	    
 	    //DEBUG STYLE 			-- desenha a "Shape" do portal
-		if (MicroMGame.FLAG_DISPLAY_ACTOR_SHAPES) {
+		if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
 		    renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 			
 			Iterator<Fixture> it2 = portalmSrc.getBody().getFixtureList().iterator();
