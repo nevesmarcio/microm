@@ -151,6 +151,8 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # Adicionado o mecanismo de "Screens" e refactorização necessária
 
 
+01-03-2013
+# integrado o scene2d.ui
 
 
 (in progress)

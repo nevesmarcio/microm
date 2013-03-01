@@ -61,12 +61,15 @@ public class ScreenTheJuice extends ScreenAbstract {
 		myGestureListener = new MyGestureListener(cameraModel, worldModel);
 		myInputProcessor = new MyInputProcessor(cameraModel, worldModel);
 
-		InputMultiplexer multiplexer = new InputMultiplexer();
+		InputMultiplexer multiplexer = (InputMultiplexer) Gdx.input.getInputProcessor();
+		if (multiplexer == null) multiplexer = new InputMultiplexer();
+		//InputMultiplexer multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(new GestureDetector(1, 1.0f, 1.0f, 1.0f, myGestureListener));
 		multiplexer.addProcessor(myInputProcessor);
 		Gdx.input.setInputProcessor(multiplexer);		
-		//Gdx.input.setCatchBackKey(true);
-		//Gdx.input.setCatchMenuKey(true);
+		
+		Gdx.input.setCatchBackKey(true);
+		Gdx.input.setCatchMenuKey(true);
 		
 	}
 
@@ -78,7 +81,9 @@ public class ScreenTheJuice extends ScreenAbstract {
 	public void render(float delta) {
 		long elapsedNanoTime = (long)(Gdx.graphics.getDeltaTime()*GAME_CONSTANTS.ONE_SECOND_TO_NANO);
 		
-        if (Gdx.input.isKeyPressed(Keys.ESCAPE)) // use your own criterion here
+        // use your own criterion here
+    	if (Gdx.input.isKeyPressed(Keys.ESCAPE) || 
+    			Gdx.input.isKeyPressed(Keys.BACK))
             g.setScreen(((GameMicroM)g).splash);
 		
 		// Clean do gl context
