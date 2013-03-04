@@ -155,6 +155,12 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # integrado o scene2d.ui
 
 
+04-03-2013
+# Level Design: diminuido o tamanho da Box e modificada a força do impulso e velocidade constante
+# Criadas classes para o Splash, Menu, World Select e GamePause e implementado o fluxo básico entre os ecrãns
+# ...
+
+
 (in progress)
 
 

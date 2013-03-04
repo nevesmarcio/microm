@@ -21,7 +21,7 @@ import com.badlogic.gdx.utils.Logger;
 public class ScreenTheJuice extends ScreenAbstract {
 
 	private static final String TAG = ScreenTheJuice.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	// CONTROLLER RELATED
 	private MyGestureListener myGestureListener;
@@ -61,15 +61,7 @@ public class ScreenTheJuice extends ScreenAbstract {
 		myGestureListener = new MyGestureListener(cameraModel, worldModel);
 		myInputProcessor = new MyInputProcessor(cameraModel, worldModel);
 
-		InputMultiplexer multiplexer = (InputMultiplexer) Gdx.input.getInputProcessor();
-		if (multiplexer == null) multiplexer = new InputMultiplexer();
-		//InputMultiplexer multiplexer = new InputMultiplexer();
-		multiplexer.addProcessor(new GestureDetector(1, 1.0f, 1.0f, 1.0f, myGestureListener));
-		multiplexer.addProcessor(myInputProcessor);
-		Gdx.input.setInputProcessor(multiplexer);		
-		
-		Gdx.input.setCatchBackKey(true);
-		Gdx.input.setCatchMenuKey(true);
+
 		
 	}
 
@@ -84,7 +76,10 @@ public class ScreenTheJuice extends ScreenAbstract {
         // use your own criterion here
     	if (Gdx.input.isKeyPressed(Keys.ESCAPE) || 
     			Gdx.input.isKeyPressed(Keys.BACK))
-            g.setScreen(((GameMicroM)g).splash);
+            g.setScreen(((GameMicroM)g).menu);
+    	
+    	if (Gdx.input.isKeyPressed(Keys.PLUS))
+    		g.setScreen(((GameMicroM)g).pausePopUp);
 		
 		// Clean do gl context
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
@@ -102,25 +97,35 @@ public class ScreenTheJuice extends ScreenAbstract {
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
+		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->show()");
 		
+		
+		InputMultiplexer multiplexer = (InputMultiplexer) Gdx.input.getInputProcessor();
+		if (multiplexer == null) multiplexer = new InputMultiplexer();
+		//InputMultiplexer multiplexer = new InputMultiplexer();
+		multiplexer.addProcessor(new GestureDetector(1, 1.0f, 1.0f, 1.0f, myGestureListener));
+		multiplexer.addProcessor(myInputProcessor);
+		Gdx.input.setInputProcessor(multiplexer);		
+		
+		Gdx.input.setCatchBackKey(true);
+		Gdx.input.setCatchMenuKey(true);		
 	}
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
+		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->hide()");
 		
 	}
 
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
+		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->pause()");
 		
 	}
 
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
+		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->resume()");
 		
 	}
 

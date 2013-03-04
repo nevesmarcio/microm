@@ -98,7 +98,7 @@ public class DaBoxModel extends AbstractModel {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
 		// internal engine
-		daBoxBody.setLinearVelocity(4.0f, daBoxBody.getLinearVelocity().y);
+		daBoxBody.setLinearVelocity(4.6f, daBoxBody.getLinearVelocity().y);
 	}
 
 	public Color getColor() {
@@ -110,9 +110,9 @@ public class DaBoxModel extends AbstractModel {
 
 	public void jump() {
 		//FIXME: É necessário escalar as forças mediante o timestep 
-		float force_to_apply = 500f; //N
+		float force_to_apply = 235f; //N
 		daBoxBody.applyForceToCenter(0.0f, force_to_apply);
-		daBoxBody.applyTorque(-10.0f); //N.m
+		daBoxBody.applyTorque(10.0f); //N.m
 	}
 
 	public BasicShape getBasicShape() {

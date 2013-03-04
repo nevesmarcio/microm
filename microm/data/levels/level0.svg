@@ -217,9 +217,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.25000001"
-     inkscape:cx="-1474.9938"
-     inkscape:cy="487.2829"
+     inkscape:zoom="1"
+     inkscape:cx="-1027.7047"
+     inkscape:cy="672.87081"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -236,7 +236,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -307,7 +307,7 @@
          sodipodi:role="line">GO</tspan></text>
     <path
        style="fill:#008080;fill-opacity:1;stroke:none"
-       d="m -1322,335.15002 70,0 0,70 -70,0 z"
+       d="m -1322,335.15002 51,0 0,51 -51,0 z"
        id="daBox"
        inkscape:connector-curvature="0"
        inkscape:export-filename="K:\temp_workspace\microm\microm\data\textures\daBox.png"

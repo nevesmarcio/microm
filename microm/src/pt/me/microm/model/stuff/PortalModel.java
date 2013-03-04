@@ -84,13 +84,13 @@ public class PortalModel extends AbstractModel {
 	public void handleGameTick(GameTickEvent e) {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
-		if (getBody() != null)
-			if (logger.getLevel()==logger.DEBUG)
-				logger.debug("[Physics-room]: Pos.x:" + String.format("%.2f", getBody().getPosition().x)
-					+ " Pos.y:" + String.format("%.2f", getBody().getPosition().y) 
-					+ " Angle:" + String.format("%.2f", getBody().getAngle())
-					+ " Mass:" + getBody().getMass()
-					+ " Type:" + getBody().getType());
+//		if (getBody() != null)
+//			if (logger.getLevel()==Logger.DEBUG)
+//				logger.debug("[Physics-room]: Pos.x:" + String.format("%.2f", getBody().getPosition().x)
+//					+ " Pos.y:" + String.format("%.2f", getBody().getPosition().y) 
+//					+ " Angle:" + String.format("%.2f", getBody().getAngle())
+//					+ " Mass:" + getBody().getMass()
+//					+ " Type:" + getBody().getType());
 		
 		// Corre a lógica de teleportação e waypoint
 		if ((boxTouchMyTralala > 0) && (box!=null)) {
