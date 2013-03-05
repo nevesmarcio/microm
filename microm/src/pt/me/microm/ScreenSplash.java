@@ -56,7 +56,7 @@ public class ScreenSplash extends ScreenAbstract {
 	public void render(float delta) {
 
         // use your own criterion here
-    	if (Gdx.input.isKeyPressed(Keys.ENTER))
+    	if (Gdx.input.isKeyPressed(Keys.ENTER) || Gdx.input.isTouched())
             g.setScreen(((GameMicroM)g).menu);		
 		
 		// Clean do gl context

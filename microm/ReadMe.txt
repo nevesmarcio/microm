@@ -158,7 +158,10 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 04-03-2013
 # Level Design: diminuido o tamanho da Box e modificada a força do impulso e velocidade constante
 # Criadas classes para o Splash, Menu, World Select e GamePause e implementado o fluxo básico entre os ecrãns
-# ...
+
+05-03-2013
+# desenho... procura de inspiração para 1 tema coerente
+
 
 
 (in progress)
