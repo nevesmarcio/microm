@@ -59,7 +59,7 @@ public class ScreenWorldSelect extends ScreenAbstract {
 			public boolean handle(Event event) {
 //				Gdx.app.log(TAG, event.getClass().getSimpleName() + " >> " + event.toString());
 				if (event instanceof ChangeEvent)
-					 ScreenWorldSelect.this.g.setScreen(((GameMicroM)ScreenWorldSelect.this.g).theJuice);
+					 ScreenWorldSelect.this.g.setScreen(((GameMicroM)ScreenWorldSelect.this.g).levelSelect);
 				return false;
 			}
 		});

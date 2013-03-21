@@ -33,6 +33,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 	public ScreenAbstract splash;
 	public ScreenAbstract menu;
 	public ScreenAbstract worldSelect;
+	public ScreenAbstract levelSelect;
 	public ScreenTheJuice theJuice;
 	public ScreenAbstract pausePopUp;
 	
@@ -41,6 +42,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 		splash = new ScreenSplash(this);
 		menu = new ScreenMenu(this);
 		worldSelect = new ScreenWorldSelect(this);
+		levelSelect = new ScreenLevelSelect(this);
 		theJuice = new ScreenTheJuice(this);
 		pausePopUp = new ScreenPause(this);
 		

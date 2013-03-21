@@ -152,8 +152,13 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 
 
 01-03-2013
-# integrado o scene2d.ui
-
+# integrado o scene2d.ui - mecanismo de navegação na app
+	- Splash screen 	(arranque da app)
+	- Main screen 		(landing screen)
+	- World select		(onde se selecciona o tema/ schema/ world)
+	- Level Select		(onde se selecciona o nível dentro de um tema)
+	- Pause overlay		(quando o user carrega no back-key)
+	- Level success		(nível superado/ ou não)
 
 04-03-2013
 # Level Design: diminuido o tamanho da Box e modificada a força do impulso e velocidade constante
@@ -162,30 +167,20 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 05-03-2013
 # desenho... procura de inspiração para 1 tema coerente
 
+20-03-2013
+# spritesheet implementada no loading screen com uma exportação válida do flash cs6 :) -- cool!!
 
+21-03-2013
+# 
 
 (in progress)
+Assumir uma resolução e partir daí, com downscale/ upscale
+
 
 
 
 [TODO] 
-# ao fazer "resume" das apps recentes, as texturas ficam todas paridas.
-	
-# use a chipin like feature to raise money for more levels (fundraising web sites:: http://www.squidoo.com/fundraising-websites)
-
-# que coordenadas utilizar aquando a escrita das mensagens no UI? (fisicas? relativas ao tamanho do ecrã? outro?)
-
-# Mecanismo de navegação na app
-	- Splash screen 	(arranque da app)
-	- Main screen 		(landing screen)
-	- World select		(onde se selecciona o tema/ schema/ world)
-	- Level Select		(onde se selecciona o nível dentro de um tema)
-	- Pause overlay		(quando o user carrega no back-key)
-	- Level success		(nível superado/ ou não)
-
-# detectar o level success e apresentar o próximo nível
-
-# como desenhar as texturas para os tamanhos? relação entre dimensões e resoluções
+# como faço o level design quando for um horizontal scroller ?
 
 # counter de vidas e mecanismo de restart no mesmo nivel
 # zona de texto do UI para contar as vidas/ saltar para o menu, etc.
@@ -195,6 +190,20 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # particles na destruição
 
 # efeito de paralax
+
+
+# ao fazer "resume" das apps recentes, as texturas ficam todas paridas.
+	
+# use a chipin like feature to raise money for more levels (fundraising web sites:: http://www.squidoo.com/fundraising-websites)
+
+# que coordenadas utilizar aquando a escrita das mensagens no UI? (fisicas? relativas ao tamanho do ecrã? outro?)
+
+
+
+# detectar o level success e apresentar o próximo nível
+
+# como desenhar as texturas para os tamanhos? relação entre dimensões e resoluções
+
 
 
 [BUGS]
