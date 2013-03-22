@@ -168,13 +168,23 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # desenho... procura de inspiração para 1 tema coerente
 
 20-03-2013
-# spritesheet implementada no loading screen com uma exportação válida do flash cs6 :) -- cool!!
+# Técnica de animação 1 - spritesheet: spritesheet implementada no loading screen com uma exportação válida do flash cs6 :) -- cool!!
 
-21-03-2013
-# 
+22-03-2013
+# Técnica de animação 2 - tweens: relvinha ...
+
 
 (in progress)
+# Construir o splashscreen!!
+
 Assumir uma resolução e partir daí, com downscale/ upscale
+
+
+
+
+
+
+
 
 
 

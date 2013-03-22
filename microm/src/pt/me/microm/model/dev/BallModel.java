@@ -16,9 +16,11 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.utils.Logger;
 
 public class BallModel extends AbstractModel {
 	private static final String TAG = BallModel.class.getSimpleName();
+	private static final Logger logger = new Logger(TAG);
 	
 	private float radius = 0.5f;
 	
@@ -83,13 +85,15 @@ public class BallModel extends AbstractModel {
 	public void handleGameTick(GameTickEvent e) {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 
-		Gdx.app.debug("[Physics-ball]"," :"+ballBody.getLinearVelocity().len() + " ::" + ballBody.getPosition().x + "--" +ballBody.getPosition().y);
-		
-		Gdx.app.debug("[Physics-ball]", 		  "Pos.x:" + String.format("%.2f", ballBody.getPosition().x)
-				+ " Pos.y:" + String.format("%.2f", ballBody.getPosition().y) 
-				+ " Angle:" + String.format("%.2f", ballBody.getAngle())
-				+ " Mass:" + ballBody.getMass()
-				+ " Type:" + ballBody.getType());			
+		if (logger.getLevel() <= Logger.DEBUG) {
+			logger.debug("[Physics-ball] :"+ballBody.getLinearVelocity().len() + " ::" + ballBody.getPosition().x + "--" +ballBody.getPosition().y);
+			logger.debug("[Physics-ball] : Pos.x:" + String.format("%.2f", ballBody.getPosition().x)
+					+ " Pos.y:" + String.format("%.2f", ballBody.getPosition().y) 
+					+ " Angle:" + String.format("%.2f", ballBody.getAngle())
+					+ " Mass:" + ballBody.getMass()
+					+ " Type:" + ballBody.getType());			
+
+		}
 		
 	}
 
