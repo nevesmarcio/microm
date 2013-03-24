@@ -20,8 +20,8 @@ public class CoisaModel extends AbstractModel {
 	
 	private Color color = new Color(0.5f,0.5f,0.5f,0.5f);
 	
-	public Body coisaBody;	
-	public Vector2 coisaModelOrigin;
+	private Body coisaBody;	
+	private Vector2 coisaModelOrigin;
 	
 	private CoisaModel(WorldModel wm, float xOffset, float yOffset) {
 		// 0. Create a loader for the file saved from the editor.

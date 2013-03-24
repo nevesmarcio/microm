@@ -28,7 +28,7 @@ public class BallModel extends AbstractModel {
 	
 	private BodyDef ballBodyDef = new BodyDef();
 	private CircleShape ballShape = new CircleShape();// PolygonShape();
-	public Body ballBody;	
+	private Body ballBody;	
 	
 
 	private BallModel(final WorldModel wm, final float x, final float y) {
@@ -85,7 +85,7 @@ public class BallModel extends AbstractModel {
 	public void handleGameTick(GameTickEvent e) {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 
-		if (logger.getLevel() <= Logger.DEBUG) {
+		if (logger.getLevel() >= Logger.DEBUG) {
 			logger.debug("[Physics-ball] :"+ballBody.getLinearVelocity().len() + " ::" + ballBody.getPosition().x + "--" +ballBody.getPosition().y);
 			logger.debug("[Physics-ball] : Pos.x:" + String.format("%.2f", ballBody.getPosition().x)
 					+ " Pos.y:" + String.format("%.2f", ballBody.getPosition().y) 
@@ -108,11 +108,12 @@ public class BallModel extends AbstractModel {
 		this.color = color;
 	}
 
-//	@Override
+	
+	//@Override
 	public Body getBody() {
 		return ballBody;
 	}
-//	@Override
+	//@Override
 	public Vector2 getPosition() {
 		return ballBody.getPosition();
 	}	

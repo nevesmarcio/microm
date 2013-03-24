@@ -18,7 +18,6 @@ public class GridModel extends AbstractModel {
 
 	public GridModel() {
 
-		
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED)); 
 	}

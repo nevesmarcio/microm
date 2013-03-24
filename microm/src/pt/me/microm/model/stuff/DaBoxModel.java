@@ -34,8 +34,8 @@ public class DaBoxModel extends AbstractModel {
 	 
 	private BodyDef daBoxBodyDef = new BodyDef();
 	private PolygonShape daBoxShape;
-	public Body daBoxBody;	
-	public PointerToFunction handler; 
+	private Body daBoxBody;	
+	private PointerToFunction handler; 
 
 	private WorldModel wm;
 	private BasicShape dabox;

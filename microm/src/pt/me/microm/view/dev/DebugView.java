@@ -36,7 +36,7 @@ public class DebugView extends AbstractView {
 		
 		renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 		
-		it = debugmSrc.debugBody.getFixtureList().iterator(); 
+		it = debugmSrc.getBody().getFixtureList().iterator(); 
 		while (it.hasNext()){
 			aux = it.next();
 			

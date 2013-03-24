@@ -17,13 +17,13 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 public class DebugModel extends AbstractModel {
 	private static final String TAG = DebugModel.class.getSimpleName();
 	
-	private float radius = 0.025f;
+	private float radius = 0.075f;
 	
 	private Color color = new Color(1.0f,0.0f,0.0f,1.0f);
 	
 	private BodyDef debugBodyDef = new BodyDef();
 	private CircleShape debugShape = new CircleShape();// PolygonShape();
-	public Body debugBody;	
+	private Body debugBody;	
 	
 	private DebugModel(final WorldModel wm, final float x, final float y) {
 		

@@ -46,8 +46,8 @@ public class CoisaView extends AbstractView {
 	public void draw(ScreenTickEvent e) {
 
 		/* isto n faz parte deste método. só está aqui devido à ordem dos ctors +*/
-		coisaSprite.setPosition(coisamSrc.coisaBody.getPosition().x, coisamSrc.coisaBody.getPosition().y);
-		coisaSprite.setRotation((float)Math.toDegrees(coisamSrc.coisaBody.getAngle()));
+		coisaSprite.setPosition(coisamSrc.getBody().getPosition().x, coisamSrc.getBody().getPosition().y);
+		coisaSprite.setRotation((float)Math.toDegrees(coisamSrc.getBody().getAngle()));
 		
 		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 		

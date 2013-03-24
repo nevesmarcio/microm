@@ -52,7 +52,7 @@ public class BallView extends AbstractView {
 		renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 		
-		Iterator<Fixture> it = ballmSrc.ballBody.getFixtureList().iterator(); 
+		Iterator<Fixture> it = ballmSrc.getBody().getFixtureList().iterator(); 
 		while (it.hasNext()){
 			Fixture aux = it.next();
 			
