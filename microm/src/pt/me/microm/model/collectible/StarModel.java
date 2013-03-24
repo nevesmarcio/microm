@@ -6,6 +6,7 @@ import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
 import pt.me.microm.model.stuff.BoardModel;
+import pt.me.microm.tools.levelloader.BasicShape;
 import aurelienribon.bodyeditor.BodyEditorLoader;
 
 import com.badlogic.gdx.Gdx;
@@ -26,9 +27,11 @@ public class StarModel extends AbstractModel {
 	public Body starBody;	
 	public Vector2 starModelOrigin;
 	
-	private StarModel(WorldModel wm, float xOffset, float yOffset) {
-		super();
-
+	public BasicShape star;
+	
+	private StarModel(WorldModel wm, final BasicShape star) {
+		this.star = star;
+		
 		// 0. Create a loader for the file saved from the editor.
 		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("data/bodies/collectibles/collectibles.json"));
 
@@ -45,19 +48,25 @@ public class StarModel extends AbstractModel {
 		// 3. Create a Body, as usual.
 		starBody = WorldModel.getSingletonInstance().getPhysicsWorld().createBody(bd);
 
+		
+		float SCALE = star.getWidth(); // the width returned by the loader is normalized to allways = 1 
+		
 		// 4. Create the body fixture automatically by using the loader.
-		loader.attachFixture(starBody, "star", fd, 1.0f);
+		loader.attachFixture(starBody, "star", fd, SCALE);
+		
+		float xOffset = star.getCentroid().x;
+		float yOffset = star.getCentroid().y;
 		
 		// offset
-		starModelOrigin = loader.getOrigin("star", 1.0f).cpy().add(xOffset, yOffset);
+		starModelOrigin = loader.getOrigin("star", SCALE).cpy().add(xOffset-star.getWidth()/2, yOffset-star.getHeight()/2);
 		starBody.setTransform(starModelOrigin, starBody.getAngle());
 
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
 	}
 
-	public static StarModel getNewInstance(WorldModel wm, float xOffset, float yOffset){
-		return new StarModel(wm, xOffset, yOffset);
+	public static StarModel getNewInstance(WorldModel wm, BasicShape star){
+		return new StarModel(wm, star);
 	}
 	
 	@Override

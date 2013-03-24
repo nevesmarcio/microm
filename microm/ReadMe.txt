@@ -178,15 +178,19 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # Lore design
 # Level design: world 1 (s1.0 s1.1 s1.2 s1.3 s1.4 s1.5 s1.6 s1.10)  }} falta o s1.7 s1.8 e s1.9
 
+
+
+24-03-2013
+(in progress)
+
+implementar a leitura do offset!!
+
 s1.0
 	# implementação da star
 	# implementação das particulas da star
 
 
 
-(in progress)
-# Construir o splashscreen!!
-Assumir uma resolução e partir daí, com downscale/ upscale
 
 
 
@@ -199,6 +203,10 @@ Assumir uma resolução e partir daí, com downscale/ upscale
 
 
 [TODO] 
+# Construir o splashscreen!!
+Assumir uma resolução e partir daí, com downscale/ upscale
+
+
 # como faço o level design quando for um horizontal scroller ?
 
 # counter de vidas e mecanismo de restart no mesmo nivel

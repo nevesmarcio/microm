@@ -2,6 +2,7 @@ package pt.me.microm.model.stuff;
 
 import java.util.List;
 
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.PointerToFunction;
@@ -20,7 +21,7 @@ import com.badlogic.gdx.utils.Logger;
 
 public class WallModel extends AbstractModel {
 	private static final String TAG = WallModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 
 	private Vector2 wallPosition; // posição da barreira
 	
@@ -82,7 +83,7 @@ public class WallModel extends AbstractModel {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
 		if (getBody() != null)
-			if (logger.getLevel() == logger.DEBUG)
+			if (logger.getLevel() >= Logger.DEBUG)
 				logger.debug("[Physics-room]: Pos.x:" + String.format("%.2f", getBody().getPosition().x)
 					+ " Pos.y:" + String.format("%.2f", getBody().getPosition().y) 
 					+ " Angle:" + String.format("%.2f", getBody().getAngle())
@@ -115,7 +116,6 @@ public class WallModel extends AbstractModel {
 	public BasicShape getBasicShape() {
 		return wall;
 	}
-	
 
 	
 	private int boxTouchMyTralala = 0;
@@ -123,7 +123,7 @@ public class WallModel extends AbstractModel {
 	@Override
 	public void beginContactWith(AbstractModel oModel) {
 		if (boxTouchMyTralala == 0) 
-			if (logger.getLevel() == logger.INFO) logger.info("daBox hit da wall!");
+			if (logger.getLevel() >= Logger.INFO) logger.info("daBox hit da wall!");
 		boxTouchMyTralala +=1;
 		box = (DaBoxModel)oModel;
 	}
@@ -132,7 +132,7 @@ public class WallModel extends AbstractModel {
 	public void endContactWith(AbstractModel oModel) {
 		boxTouchMyTralala -=1;
 		if (boxTouchMyTralala == 0) 
-			if (logger.getLevel() == logger.INFO) logger.info("daBox left the wall!");
+			if (logger.getLevel() >= Logger.INFO) logger.info("daBox left the wall!");
 	}
 	
 }
