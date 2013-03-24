@@ -130,7 +130,7 @@ public class ScreenLevelSelect extends ScreenAbstract {
         //batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 
-			grassSprite.setPosition(0-grassSprite.getWidth()/2, 0-grassSprite.getHeight()/2);	
+			grassSprite.setPosition(0, 0); //grassSprite.getWidth()/2, grassSprite.getHeight()/2	
 			grassSprite.draw(batch);
 
 		batch.end();

@@ -169,14 +169,23 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 
 20-03-2013
 # Técnica de animação 1 - spritesheet: spritesheet implementada no loading screen com uma exportação válida do flash cs6 :) -- cool!!
-
-22-03-2013
 # Técnica de animação 2 - tweens: relvinha ...
+
+
+
+
+23-03-2013
+# Lore design
+# Level design: world 1 (s1.0 s1.1 s1.2 s1.3 s1.4 s1.5 s1.6 s1.10)  }} falta o s1.7 s1.8 e s1.9
+
+s1.0
+	# implementação da star
+	# implementação das particulas da star
+
 
 
 (in progress)
 # Construir o splashscreen!!
-
 Assumir uma resolução e partir daí, com downscale/ upscale
 
 

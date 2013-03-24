@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import pt.me.microm.GameMicroM;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.GameTickGenerator;
 import pt.me.microm.infrastructure.interfaces.GameTickInterface;
 import pt.me.microm.model.events.Event;
@@ -11,7 +12,6 @@ import pt.me.microm.model.events.dispatcher.EventDispatcher;
 import pt.me.microm.model.events.listener.EventListener;
 import pt.me.microm.view.AbstractView;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Disposable;
@@ -24,7 +24,7 @@ import com.badlogic.gdx.utils.Logger;
  */
 public abstract class AbstractModel extends EventDispatcher implements Disposable, GameTickInterface, ContactInterface {
 	private static final String TAG = AbstractModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	public static enum EventType {
 		ON_MODEL_INSTANTIATED // Event raised when model finishes its instantiation
@@ -33,11 +33,11 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	private AbstractView viewRef;
 	
 	public AbstractModel() {
-		if (logger.getLevel() == logger.DEBUG) logger.debug("++abstract ctor!");
-
 		//Notifica terceiros da criação deste objecto
 		//+++++
 		String model = this.getClass().getName();
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("++abstract ctor! - " + model);
+		
 		model = model.replaceAll("model", "view"); //package part
 		model = model.replaceAll("Model", "View"); //ClassName part
 
@@ -50,12 +50,12 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 			viewRef = (AbstractView) o;
 		}
 		catch (InvocationTargetException ite) {
-			if (logger.getLevel() == logger.ERROR) logger.error("Error \"reflecting\" view: " + ite.getTargetException().getMessage());
+			if (logger.getLevel() >= Logger.ERROR) logger.error("Error \"reflecting\" view: " + ite.getTargetException().getMessage());
 			if (GameMicroM.FLAG_DEV_ELEMENTS)
 				ite.getTargetException().printStackTrace();
 		}
 		catch (Exception ex) {
-			if (logger.getLevel() == logger.ERROR) logger.error("Serious error \"reflecting\" view: " + ex.getMessage());
+			if (logger.getLevel() >= Logger.ERROR) logger.error("Serious error \"reflecting\" view: " + ex.getMessage());
 		}
 		
 		// Tanto a abstractView como o abstractModel escutam o ON_MODEL_INSTANTIATED 
@@ -79,7 +79,7 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	
 	@Override /* related to Disposable interface */
 	public void dispose() {
-		if (logger.getLevel() == logger.DEBUG) logger.debug("--abstract dispose!");
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("--abstract dispose!");
 
 		//Notifica terceiros da remoção deste objecto
 		//-----

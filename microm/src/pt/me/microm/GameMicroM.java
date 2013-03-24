@@ -1,22 +1,8 @@
 package pt.me.microm;
 
-import pt.me.microm.controller.MyGestureListener;
-import pt.me.microm.controller.MyInputProcessor;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.GameTickGenerator;
-import pt.me.microm.infrastructure.ScreenTickManager;
-import pt.me.microm.model.base.CameraModel;
-import pt.me.microm.model.base.WorldModel;
 
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.input.RemoteInput;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Logger;
 
 public class GameMicroM extends Game/*implements ApplicationListener*/ { // it extends the Game so it can handle Screens
@@ -46,7 +32,8 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 		theJuice = new ScreenTheJuice(this);
 		pausePopUp = new ScreenPause(this);
 		
-		setScreen(splash);
+		//setScreen(splash);
+		setScreen(theJuice);
 		
 	}
 	

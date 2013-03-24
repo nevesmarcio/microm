@@ -59,16 +59,23 @@ square1
   orig: 64, 64
   offset: 0, 0
   index: -1
+star
+  rotate: false
+  xy: 73, 88
+  size: 49, 49
+  orig: 49, 49
+  offset: 0, 0
+  index: -1
 square2
   rotate: false
-  xy: 73, 129
+  xy: 259, 315
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
 txr_spawn
   rotate: false
-  xy: 259, 318
+  xy: 331, 390
   size: 5, 5
   orig: 5, 5
   offset: 0, 0

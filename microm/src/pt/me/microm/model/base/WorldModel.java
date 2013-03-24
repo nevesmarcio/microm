@@ -124,7 +124,7 @@ public class WorldModel extends AbstractModel {
 //		}).repeat(10, 0.1f).start(tweenManager);
 ///* fim dos exemplos */
 		
-		FileHandle h = Gdx.files.internal("data/levels/level0.svg");
+		FileHandle h = Gdx.files.internal("data/levels/level1.0.svg");
 		int nr_elements_loaded = LevelLoader.LoadLevel(h, this);
 		if (logger.getLevel() == logger.INFO) logger.info("Nr elements loaded: " + nr_elements_loaded);
 

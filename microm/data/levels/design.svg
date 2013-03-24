@@ -24,8 +24,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.125"
-     inkscape:cx="5636.8324"
-     inkscape:cy="5116.533"
+     inkscape:cx="2775.4307"
+     inkscape:cy="349.87498"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -410,7 +410,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -6256,5 +6256,44 @@
          id="tspan5142"
          x="6663.1685"
          y="-4508.6128">the box</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:144px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Roboto;-inkscape-font-specification:Roboto"
+       x="2256"
+       y="380.36218"
+       id="text3717"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3719"
+         x="2256"
+         y="380.36218">game mechanics ideas::</tspan><tspan
+         sodipodi:role="line"
+         x="2256"
+         y="560.36218"
+         id="tspan3721"># flash light : niveis às escuras e token flashlight</tspan><tspan
+         sodipodi:role="line"
+         x="2256"
+         y="740.36218"
+         id="tspan3723"># ropes : a corda auto agarra o daBox e o space é o trigger para a largar</tspan><tspan
+         sodipodi:role="line"
+         x="2256"
+         y="920.36218"
+         id="tspan3725"># timmings para passar os portais que influenciam o stage abaixo</tspan><tspan
+         sodipodi:role="line"
+         x="2256"
+         y="1100.3622"
+         id="tspan6981"># inversão do sentido do movimento</tspan><tspan
+         sodipodi:role="line"
+         x="2256"
+         y="1280.3622"
+         id="tspan6983"># gravidade</tspan><tspan
+         sodipodi:role="line"
+         x="2256"
+         y="1460.3622"
+         id="tspan6985"># diminuição do tamanho/ aumento do tamanho do  daBox</tspan><tspan
+         sodipodi:role="line"
+         x="2256"
+         y="1640.3622"
+         id="tspan3727" /></text>
   </g>
 </svg>

@@ -30,7 +30,7 @@ import com.badlogic.gdx.utils.Logger;
 
 public class DaBoxView extends AbstractView {
 	private static final String TAG = DaBoxView.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private DaBoxModel daBoxmSrc;
 	
@@ -78,8 +78,8 @@ public class DaBoxView extends AbstractView {
 		
 //		racioW = daBoxmSrc.getBasicShape().getWidth()/(FRAME_WIDTH*2);   // estes racios tem a ver com o tamanho da imagem  (512 x 2048). porque?...
 //		racioH = daBoxmSrc.getBasicShape().getHeight()/(FRAME_HEIGHT*8);
-		racioW = daBoxmSrc.getBasicShape().getWidth()/(FRAME_WIDTH); 
-		racioH = daBoxmSrc.getBasicShape().getHeight()/(FRAME_HEIGHT);
+		racioW = daBoxmSrc.getBasicShape().getWidth()/(FRAME_WIDTH*3); 
+		racioH = daBoxmSrc.getBasicShape().getHeight()/(FRAME_HEIGHT*3);
 		
 		animatedSprite = new Sprite(walkSheet);
 		
@@ -98,7 +98,7 @@ public class DaBoxView extends AbstractView {
 		stateTime = 0f;		
 
 		// estes racios tem a ver com o tamanho da imagem  (512 x 2048). porque?...
-		animatedSprite.setSize(animatedSprite.getWidth(), animatedSprite.getHeight()/4);
+		animatedSprite.setSize(animatedSprite.getWidth()/1, animatedSprite.getHeight()/4);
 		animatedSprite.setOrigin(animatedSprite.getOriginX(), animatedSprite.getOriginY()/4);
 		
 	}
@@ -158,8 +158,8 @@ public class DaBoxView extends AbstractView {
         batch.setProjectionMatrix(e.getCamera().getGameCamera().combined.cpy().scale(racioW, racioH, 1)); // .cpy().scale(0.01f, 0.01f, 0.01f)
         batch.begin();
         	animatedSprite.setRegion(currentFrame);
-        	animatedSprite.setPosition(	daBoxmSrc.getBody().getPosition().x/racioW/* - currentFrame.getRegionWidth()*2*/,
-        								daBoxmSrc.getBody().getPosition().y/racioH/* - currentFrame.getRegionHeight()*8*/);
+        	animatedSprite.setPosition(	daBoxmSrc.getBody().getPosition().x/racioW - animatedSprite.getWidth()/2,
+        								daBoxmSrc.getBody().getPosition().y/racioH - animatedSprite.getHeight()/2);
         	animatedSprite.setRotation((float)Math.toDegrees(daBoxmSrc.getBody().getAngle()));
         	animatedSprite.draw(batch);
         batch.end();
