@@ -94,11 +94,11 @@ public class BoardModel extends AbstractModel {
 	
 	/* Getters - Setters do tabuleiro */
 	// Posição do tabuleiro
-	@Override
+//	@Override
 	public Vector2 getPosition() {
 		return boardPosition;
 	}
-	@Override
+//	@Override
 	public Body getBody() {
 		return playzoneBody;
 	}

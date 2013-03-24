@@ -170,12 +170,12 @@ public class SpawnModel extends AbstractModel {
 	
 	/* Getters - Setters do tabuleiro */
 	// Posição do tabuleiro
-	@Override
+//	@Override
 	public Vector2 getPosition() {
 		return spawnBody.getPosition();
 	}
 
-	@Override
+//	@Override
 	public Body getBody() {
 		return spawnBody;
 	}

@@ -74,8 +74,9 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 		// this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
 	}
 
-	public abstract Body getBody();
-	public abstract Vector2 getPosition();
+	//public abstract Body getBody();
+	//public abstract Vector2 getPosition();
+	//public abstract float getAngle();
 	
 	@Override /* related to Disposable interface */
 	public void dispose() {
@@ -91,13 +92,13 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	
 	
 	@Override /* related to ContactInterface */
-	public void beginContactWith(AbstractModel oModel) {
+	public void beginContactWith(BodyInterface oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
 	}
 
 	@Override /* related to ContactInterface */
-	public void endContactWith(AbstractModel oModel) {
+	public void endContactWith(BodyInterface oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
 	}	

@@ -58,15 +58,15 @@ public class CameraModel extends AbstractModel {
 	}
 	
 	
-	@Override
-	public Body getBody() {
-		return null;
-	}
-
-	@Override
-	public Vector2 getPosition() {
-		return null;
-	}
+//	@Override
+//	public Body getBody() {
+//		return null;
+//	}
+//
+//	@Override
+//	public Vector2 getPosition() {
+//		return null;
+//	}
 	
 	
 	public void Resize() {

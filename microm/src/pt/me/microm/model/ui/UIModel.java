@@ -239,17 +239,6 @@ public class UIModel extends AbstractModel {
 		return originalTestPoint;
 	}
 	
-	@Override
-	public Vector2 getPosition() {
-		return null;
-	}
-	@Override
-	public Body getBody() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
 	// este interface deve ser utilizado pelos metodos flashMessage para fazer o fetch das propriedades e ir actualizando à responsabilidade do UI
 	public interface Accessor<OBJECT_TYPE> {
 		public void set(OBJECT_TYPE obj);

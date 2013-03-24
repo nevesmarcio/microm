@@ -119,12 +119,12 @@ public class DaBoxModel extends AbstractModel {
 		return dabox;
 	}
 	
-	@Override
+//	@Override
 	public Body getBody() {
 		return daBoxBody;
 	}
 	
-	@Override
+//	@Override
 	public Vector2 getPosition() {
 		return daBoxBody.getPosition();
 	}	

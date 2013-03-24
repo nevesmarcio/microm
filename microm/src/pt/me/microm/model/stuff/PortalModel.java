@@ -3,6 +3,7 @@ package pt.me.microm.model.stuff;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.BodyInterface;
 import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
@@ -16,7 +17,7 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class PortalModel extends AbstractModel {
+public class PortalModel extends AbstractModel implements BodyInterface {
 	private static final String TAG = PortalModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 
@@ -102,27 +103,30 @@ public class PortalModel extends AbstractModel {
 	}
 
 	
-	/* Getters - Setters do tabuleiro */
-
+	// BodyInterface implementation
 	@Override
-	public Body getBody() {
-		return portalBody;
+	public BasicShape getBasicShape() {
+		return portal;
 	}
-
 	@Override
 	public Vector2 getPosition() {
 		return portalBody.getPosition();
 	}	
-	
-	public BasicShape getBasicShape() {
-		return portal;
+	@Override
+	public float getAngle() {
+		return portalBody.getAngle();
+	}
+	@Override
+	public Body getBody() {
+		return portalBody;
 	}
 	
 	
+	// ContactInterface implementation
 	private int boxTouchMyTralala = 0;
-	AbstractModel box = null;
+	BodyInterface box = null;
 	@Override
-	public void beginContactWith(AbstractModel oModel) {
+	public void beginContactWith(BodyInterface oModel) {
 		if (boxTouchMyTralala == 0) 
 			if (logger.getLevel() >= logger.INFO) logger.info("daBox touched my trálálá!! says: " + this.portal_name + ". Should be teleported to: " + this.portal_name.replace("entry", "exit"));
 		boxTouchMyTralala +=1;
@@ -130,7 +134,7 @@ public class PortalModel extends AbstractModel {
 	}
 	
 	@Override
-	public void endContactWith(AbstractModel oModel) {
+	public void endContactWith(BodyInterface oModel) {
 		boxTouchMyTralala -=1;
 		if (boxTouchMyTralala == 0) 
 			if (logger.getLevel() >= logger.INFO) logger.info("daBox left my trálálá!! says: " + this.portal_name);

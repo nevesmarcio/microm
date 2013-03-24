@@ -5,6 +5,7 @@ import java.util.List;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.BodyInterface;
 import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
@@ -19,7 +20,7 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class WallModel extends AbstractModel {
+public class WallModel extends AbstractModel implements BodyInterface {
 	private static final String TAG = WallModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 
@@ -62,7 +63,7 @@ public class WallModel extends AbstractModel {
 				fixDef.restitution = 0.0f;		
 				wallBody.createFixture(fixDef);
 					
-				getBody().setUserData(WallModel.this); // relacionar com o modelo
+				wallBody.setUserData(WallModel.this); // relacionar com o modelo
 				
 				// Sinaliza os subscritores de que a construção do modelo terminou.
 				WallModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
@@ -82,7 +83,7 @@ public class WallModel extends AbstractModel {
 	public void handleGameTick(GameTickEvent e) {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
-		if (getBody() != null)
+		if (wallBody != null)
 			if (logger.getLevel() >= Logger.DEBUG)
 				logger.debug("[Physics-room]: Pos.x:" + String.format("%.2f", getBody().getPosition().x)
 					+ " Pos.y:" + String.format("%.2f", getBody().getPosition().y) 
@@ -102,34 +103,38 @@ public class WallModel extends AbstractModel {
 	}
 
 	
-	/* Getters - Setters do tabuleiro */
+	// BodyInterface implementation
+	@Override
+	public BasicShape getBasicShape() {
+		return wall;
+	}
 	@Override
 	public Vector2 getPosition() {
 		return wallBody.getPosition();
 	}
-
+	@Override
+	public float getAngle() {
+		return wallBody.getAngle();
+	}
 	@Override
 	public Body getBody() {
 		return wallBody;
 	}
 
-	public BasicShape getBasicShape() {
-		return wall;
-	}
 
 	
 	private int boxTouchMyTralala = 0;
-	AbstractModel box = null;
+	BodyInterface box = null;
 	@Override
-	public void beginContactWith(AbstractModel oModel) {
+	public void beginContactWith(BodyInterface oModel) {
 		if (boxTouchMyTralala == 0) 
 			if (logger.getLevel() >= Logger.INFO) logger.info("daBox hit da wall!");
 		boxTouchMyTralala +=1;
-		box = (DaBoxModel)oModel;
+		box = oModel;
 	}
 	
 	@Override
-	public void endContactWith(AbstractModel oModel) {
+	public void endContactWith(BodyInterface oModel) {
 		boxTouchMyTralala -=1;
 		if (boxTouchMyTralala == 0) 
 			if (logger.getLevel() >= Logger.INFO) logger.info("daBox left the wall!");

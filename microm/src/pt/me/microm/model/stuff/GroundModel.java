@@ -93,11 +93,11 @@ public class GroundModel extends AbstractModel {
 	
 	/* Getters - Setters do tabuleiro */
 	// Posição do tabuleiro
-	@Override
+//	@Override
 	public Vector2 getPosition() {
 		return groundPosition;
 	}
-	@Override
+//	@Override
 	public Body getBody() {
 		return groundBody;
 	}

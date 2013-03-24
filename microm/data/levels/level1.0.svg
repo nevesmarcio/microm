@@ -96,15 +96,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.5"
-     inkscape:cx="617.55683"
-     inkscape:cy="599.35877"
+     inkscape:cx="333.46975"
+     inkscape:cy="603.39718"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1164"
      inkscape:window-height="895"
-     inkscape:window-x="1653"
-     inkscape:window-y="44"
+     inkscape:window-x="1664"
+     inkscape:window-y="20"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
@@ -125,44 +125,44 @@
      transform="translate(0,227.63782)">
     <path
        style="opacity:0.1;fill:#ffff00;stroke:none"
-       d="m 1.1473004,-228.78572 1279.9999996,0 0,1280.00002 -1279.9999996,0 z"
+       d="m 1.1473,-226.78572 1280,0 0,1280.00002 -1280,0 z"
        id="board"
        inkscape:connector-curvature="0" />
     <path
        style="fill:#4d4d4d;fill-opacity:1;stroke:none"
-       d="m 1281.1473,624.21428 -1279.9999996,0 0,427.00002 1279.9999996,0 z"
+       d="m 1281.1473,626.21428 -1280,0 0,427.00002 1280,0 z"
        id="path3370"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccc" />
     <path
        style="fill:#999999;fill-opacity:1;stroke:none"
-       d="m 1281.1473,198.21428 -1279.9999996,0 0,426 1279.9999996,0 0,-426 z"
+       d="m 1281.1473,200.21428 -1280,0 0,426 1280,0 0,-426 z"
        id="path3368"
        inkscape:connector-curvature="0" />
     <path
        style="fill:#4d4d4d;fill-opacity:1;stroke:none"
-       d="m 1.1473004,-228.78571 0,426.99999 1279.9999996,0 0,-426.99999 -1279.9999996,0 z"
+       d="m 1.1473,-226.78571 0,426.99999 1280,0 0,-426.99999 -1280,0 z"
        id="rect2997"
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
        style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER'"
        x="25.817139"
-       y="267.30066"
+       y="269.30066"
        id="text2989"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan2991"
          x="25.817139"
-         y="267.30066">Get ready!</tspan></text>
+         y="269.30066">Get ready!</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text2993"
-       y="261.23975"
+       y="263.23975"
        x="870.26379"
        style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER'"
        xml:space="preserve"><tspan
-         y="261.23975"
+         y="263.23975"
          x="870.26379"
          id="tspan2995"
          sodipodi:role="line">Go rescue her!</tspan></text>
@@ -170,32 +170,32 @@
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
        id="goal"
-       d="m 1256.4313,626.21428 24.716,-35 -24.716,-35 z"
+       d="m 1256.4313,628.21428 24.716,-35 -24.716,-35 z"
        style="fill:#000000;fill-opacity:1;stroke:none" />
     <path
        style="fill:#00ff00;fill-opacity:1;stroke:none"
-       d="m 1.1472004,554.21428 24.7159996,35 -24.7159996,35 z"
+       d="m 1.1472,556.21428 24.716,35 -24.716,35 z"
        id="spawn"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />
     <path
        style="fill:#d40000;stroke:none"
-       d="m 1281.1473,626.71427 0,-2.49999 -1279.9999996,0 0,2.5"
+       d="m 1281.1473,628.71427 0,-2.49999 -1280,0 0,2.5"
        id="ground_1"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />
     <path
-       style="fill:#ffff00;fill-opacity:1;stroke:none"
-       d="m 662.95646,589.7741 -7.59081,20.64106 -8.35278,-20.34466 -21.97651,-0.84087 16.76777,-14.2308 -5.99141,-21.16074 18.71584,11.54955 18.27361,-12.23721 -5.20076,21.36882 17.28512,13.59774 z"
-       id="star"
-       inkscape:connector-curvature="0" />
-    <path
        style="fill:#008080;fill-opacity:1;stroke:none"
-       d="m 98.5,542.86218 51,0 0,51 -51,0 z"
+       d="m 98.5,544.86218 51,0 0,51 -51,0 z"
        id="daBox"
        inkscape:connector-curvature="0"
        inkscape:export-filename="K:\temp_workspace\microm\microm\data\textures\daBox.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
+    <path
+       style="fill:#ffff00;fill-opacity:1;stroke:none"
+       d="m 1059.1599,487.13387 -23.7486,44.15153 -12.3296,-48.59349 -49.32929,-8.94268 42.40509,-26.74237 -6.7387,-49.67835 38.5375,32.0658 45.1646,-21.76033 -18.5877,46.5602 34.6519,36.22973 z"
+       id="star"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>

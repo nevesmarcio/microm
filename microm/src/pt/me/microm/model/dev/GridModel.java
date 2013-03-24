@@ -44,14 +44,4 @@ public class GridModel extends AbstractModel {
 	}
 
 	
-	@Override
-	public Body getBody() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public Vector2 getPosition() {
-		return null;
-	}	
-	
 }

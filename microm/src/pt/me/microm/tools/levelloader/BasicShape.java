@@ -23,7 +23,7 @@ import com.badlogic.gdx.utils.Logger;
  */
 public class BasicShape {
 	private static final String TAG = BasicShape.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private String d; 
 	private ArrayList<Vector2> points;
@@ -58,7 +58,7 @@ public class BasicShape {
 		int i = 0;
 		while (matcher.find()) {
 			s = matcher.group();
-			if (logger.getLevel() == Logger.DEBUG) logger.debug("val: " + s);
+			if (logger.getLevel() >= Logger.DEBUG) logger.debug("val: " + s);
 			ssplit = s.split(",");
 			
 			pt = new Vector2();

@@ -108,11 +108,11 @@ public class BallModel extends AbstractModel {
 		this.color = color;
 	}
 
-	@Override
+//	@Override
 	public Body getBody() {
 		return ballBody;
 	}
-	@Override
+//	@Override
 	public Vector2 getPosition() {
 		return ballBody.getPosition();
 	}	

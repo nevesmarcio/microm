@@ -81,12 +81,12 @@ public class DebugModel extends AbstractModel {
 	}
 
 
-	@Override
+//	@Override
 	public Body getBody() {
 		return debugBody;
 	}
 	
-	@Override
+//	@Override
 	public Vector2 getPosition() {
 		return null;
 	}	

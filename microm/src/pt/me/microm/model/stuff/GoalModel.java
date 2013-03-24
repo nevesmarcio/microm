@@ -4,6 +4,7 @@ import java.util.List;
 
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.BodyInterface;
 import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
@@ -18,7 +19,7 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class GoalModel extends AbstractModel {
+public class GoalModel extends AbstractModel implements BodyInterface{
 	private static final String TAG = GoalModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG);
 	
@@ -91,29 +92,32 @@ public class GoalModel extends AbstractModel {
 	}
 
 	
-	/* Getters - Setters do tabuleiro */
-	// Posição do tabuleiro
+	// BodyInterface implementation
+	@Override
+	public BasicShape getBasicShape() {
+		return goal;
+	}
 	@Override
 	public Vector2 getPosition() {
 		return goalBody.getPosition();
+	}
+	@Override
+	public float getAngle() {
+		return goalBody.getAngle();
 	}
 	@Override
 	public Body getBody() {
 		return goalBody;
 	}
 
-	public BasicShape getBasicShape() {
-		return goal;
-	}
 	
-	
+	// ContactInterface implementation
 	@Override
-	public void beginContactWith(AbstractModel oModel) {
+	public void beginContactWith(BodyInterface oModel) {
 		Gdx.app.log(TAG, "Oh yeah!!");
 	}
-	
 	@Override
-	public void endContactWith(AbstractModel oModel) {
+	public void endContactWith(BodyInterface oModel) {
 		Gdx.app.log(TAG, "Oh nooooooooooooooo!!");
 	}
 	

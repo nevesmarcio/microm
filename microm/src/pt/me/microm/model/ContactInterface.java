@@ -1,6 +1,6 @@
 package pt.me.microm.model;
 
 public interface ContactInterface {
-	public void beginContactWith(AbstractModel oModel);
-	public void endContactWith(AbstractModel oModel);
+	public void beginContactWith(BodyInterface oModel);
+	public void endContactWith(BodyInterface oModel);
 }

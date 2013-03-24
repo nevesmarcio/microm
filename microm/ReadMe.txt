@@ -181,28 +181,29 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 
 
 24-03-2013
-(in progress)
-
-implementar a leitura do offset!!
-
 s1.0
 	# implementação da star
+# Implementada a leitura do offset (meia ranhosa, mas safa para já)
+# Refactorizada a estrutura de classes Model, no entanto ainda não tenho a estrutura estabilizada... o BodyInterface está a expôr as fixtures e a BasicShape... Uma das exposições tem que cair.
+
+
+
+
+
+
+
+
+
+
+(in progress)
 	# implementação das particulas da star
 
 
 
 
-
-
-
-
-
-
-
-
-
-
 [TODO] 
+
+
 # Construir o splashscreen!!
 Assumir uma resolução e partir daí, com downscale/ upscale
 

@@ -36,7 +36,7 @@ public class StarView extends AbstractView {
 		starSprite = GAME_CONSTANTS.devAtlas.createSprite("star");
 
 		//starSprite.setSize(1.0f, 1.0f*starSprite.getHeight()/starSprite.getWidth());
-		starSprite.setSize(starmSrc.star.getWidth(), starmSrc.star.getHeight());
+		starSprite.setSize(starmSrc.getBasicShape().getWidth(), starmSrc.getBasicShape().getHeight());
 		starSprite.setOrigin(0.0f, 0.0f);
 		
 		batch = new SpriteBatch();
@@ -48,8 +48,8 @@ public class StarView extends AbstractView {
 	public void draw(ScreenTickEvent e) {
 
 		/* isto n faz parte deste método. só está aqui devido à ordem dos ctors +*/
-		starSprite.setPosition(starmSrc.starBody.getPosition().x, starmSrc.starBody.getPosition().y);
-		starSprite.setRotation((float)Math.toDegrees(starmSrc.starBody.getAngle()));
+		starSprite.setPosition(starmSrc.getPosition().x, starmSrc.getPosition().y);
+		starSprite.setRotation((float)Math.toDegrees(starmSrc.getAngle()));
 		
 		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 		

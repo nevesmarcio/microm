@@ -230,15 +230,15 @@ public class WorldModel extends AbstractModel {
 		this.ui.touchUp(cam, positionX, positionY, pointer);
 	}
 
-	@Override
-	public Body getBody() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public Vector2 getPosition() {
-		return null;
-	}
+//	@Override
+//	public Body getBody() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//	@Override
+//	public Vector2 getPosition() {
+//		return null;
+//	}
 	
 	
 }

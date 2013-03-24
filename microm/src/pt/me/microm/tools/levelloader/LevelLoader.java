@@ -1,7 +1,8 @@
 package pt.me.microm.tools.levelloader;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -29,7 +30,6 @@ import pt.me.microm.model.stuff.PortalModel;
 import pt.me.microm.model.stuff.SpawnModel;
 import pt.me.microm.model.stuff.WallModel;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
@@ -44,13 +44,12 @@ import com.badlogic.gdx.utils.Logger;
  */
 public class LevelLoader {
 	private static final String TAG = LevelLoader.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private static float xOffset;
 	private static float yOffset;
 	private static float maxWidth;
 	private static float maxHeight;
-	private static float scale;
 	
 	private LevelLoader() {}
 	
@@ -236,17 +235,27 @@ public class LevelLoader {
 			NodeList board = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < board.getLength(); i++) {
 				String d = board.item(i).getNodeValue();
-				if (logger.getLevel() == Logger.INFO) logger.info(d);
+				if (logger.getLevel() >= Logger.INFO) logger.info(d);
 
 
 				//FIXME: these values can/ should be loaded dynamically
 				// Calculo do offset do nível é igual ao offset do 1º ponto da "board"
-				xOffset =  1.1473004f;
-				yOffset = -228.78572f;
+				//xOffset =  1.1473004f;
+				//yOffset = -228.78572f;
+				Pattern pattern = Pattern.compile("[-\\d]+[-\\.\\d,]*");//Detecta coordenada (par x,y)
+				Matcher matcher;		
+				matcher = pattern.matcher(d);
+				String ss;
+				String [] ssplit;
+				matcher.find();
+				ss = matcher.group();
+				ssplit = ss.split(",");
+				xOffset = Float.parseFloat(ssplit[0]);
+				yOffset = Float.parseFloat(ssplit[1]);				
+				
 				// Calculo da Largura e Altura limites do nivel para efeitos de scaling
 				maxWidth = 1280.0f;
 				maxHeight = 1280.0f;				
-				
 				
 				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.BOARD);
 
