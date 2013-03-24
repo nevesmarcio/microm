@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<application xmlns="http://ns.adobe.com/air/application/3.3">
+	
+	<id>com.csharks.AssetResizer</id>
+
+	<filename>AssetResizer</filename>
+
+	<name>AssetResizer</name>
+
+	<!-- An application version designator (such as "v1", "2.5", or "Alpha 1"). Required. -->
+	<versionNumber>0.4.0</versionNumber>
+
+	<!-- Description, displayed in the AIR application installer.
+	     May have multiple values for each language. See samples or xsd schema file. Optional. -->
+	<description>Asset Resizer helps to resize art assets for multiple screen support. Provide 1024x768 / 768x1024 / 1280x800 / 800x1280 assets. Useful for mobile development.</description>
+
+	<!-- Copyright information. Optional -->
+	<copyright>www.csharks.com</copyright>
+
+	<initialWindow>
+		<!-- The main SWF or HTML file of the application. Required. -->
+		<!-- Note: In Flash Builder, the SWF reference is set automatically. -->
+		<content>AssetResizer.swf</content>
+		
+		<!-- The title of the main window. Optional. -->
+		<title>Asset Resizer by Juwal Bose (Csharks)</title>
+
+		<!-- The type of system chrome to use (either "standard" or "none"). Optional. Default standard. -->
+		<!-- <systemChrome></systemChrome> -->
+
+		<!-- Whether the window is transparent. Only applicable when systemChrome is none. Optional. Default false. -->
+		<!-- <transparent></transparent> -->
+
+		<!-- Whether the window is initially visible. Optional. Default false. -->
+		<!-- <visible></visible> -->
+
+		<!-- Whether the user can minimize the window. Optional. Default true. -->
+		<!-- <minimizable></minimizable> -->
+
+		<!-- Whether the user can maximize the window. Optional. Default true. -->
+		<!-- <maximizable></maximizable> -->
+
+		<!-- Whether the user can resize the window. Optional. Default true. -->
+		<resizable>false</resizable>
+
+		<!-- The window's initial width in pixels. Optional. -->
+		<!-- <width></width> -->
+
+		<!-- The window's initial height in pixels. Optional. -->
+		<!-- <height></height> -->
+
+		<!-- The window's initial x position. Optional. -->
+		<!-- <x></x> -->
+
+		<!-- The window's initial y position. Optional. -->
+		<!-- <y></y> -->
+
+		<!-- The window's minimum size, specified as a width/height pair in pixels, such as "400 200". Optional. -->
+		<!-- <minSize></minSize> -->
+
+		<!-- The window's initial maximum size, specified as a width/height pair in pixels, such as "1600 1200". Optional. -->
+		<!-- <maxSize></maxSize> -->
+	</initialWindow>
+
+    <!-- We recommend omitting the supportedProfiles element, -->
+    <!-- which in turn permits your application to be deployed to all -->
+    <!-- devices supported by AIR. If you wish to restrict deployment -->
+    <!-- (i.e., to only mobile devices) then add this element and list -->
+    <!-- only the profiles which your application does support. -->
+    <!-- <supportedProfiles>desktop extendedDesktop mobileDevice extendedMobileDevice</supportedProfiles> -->
+
+	<!-- The subpath of the standard default installation location to use. Optional. -->
+	<!-- <installFolder></installFolder> -->
+
+	<!-- The subpath of the Programs menu to use. (Ignored on operating systems without a Programs menu.) Optional. -->
+	<!-- <programMenuFolder></programMenuFolder> -->
+
+	<!-- The icon the system uses for the application. For at least one resolution,
+		 specify the path to a PNG file included in the AIR package. Optional. -->
+	<icon>
+		<image16x16>AssetResizer_16.png</image16x16>
+		<image32x32>AssetResizer_32.png</image32x32>
+		<image48x48>AssetResizer_48.png</image48x48>
+		<image128x128>AssetResizer_128.png</image128x128>
+	</icon>
+
+</application>

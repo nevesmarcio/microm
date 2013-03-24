@@ -1,0 +1,94 @@
+
+dev.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+txr_full_board
+  rotate: false
+  xy: 1, 397
+  size: 1280, 1280
+  orig: 1280, 1280
+  offset: 0, 0
+  index: -1
+ball
+  rotate: false
+  xy: 1, 139
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+thing
+  rotate: false
+  xy: 1283, 1588
+  size: 100, 89
+  orig: 100, 89
+  offset: 0, 0
+  index: -1
+txr_daBox
+  rotate: false
+  xy: 1, 67
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+txr_ground
+  rotate: false
+  xy: 259, 325
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+txr_wall
+  rotate: false
+  xy: 1283, 1516
+  size: 70, 70
+  orig: 70, 70
+  offset: 0, 0
+  index: -1
+libgdx
+  rotate: false
+  xy: 1385, 1613
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+square1
+  rotate: false
+  xy: 1, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+star
+  rotate: false
+  xy: 73, 88
+  size: 49, 49
+  orig: 49, 49
+  offset: 0, 0
+  index: -1
+square2
+  rotate: false
+  xy: 259, 315
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+txr_spawn
+  rotate: false
+  xy: 331, 390
+  size: 5, 5
+  orig: 5, 5
+  offset: 0, 0
+  index: -1
+
+dev2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+bg
+  rotate: false
+  xy: 1, 1
+  size: 800, 800
+  orig: 800, 800
+  offset: 0, 0
+  index: -1

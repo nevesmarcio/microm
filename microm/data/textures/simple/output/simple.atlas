@@ -1,0 +1,26 @@
+
+simple.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+txr_1_3_board
+  rotate: false
+  xy: 1, 429
+  size: 1280, 427
+  orig: 1280, 427
+  offset: 0, 0
+  index: -1
+txr_3_3_board
+  rotate: false
+  xy: 1, 429
+  size: 1280, 427
+  orig: 1280, 427
+  offset: 0, 0
+  index: -1
+txr_2_3_board
+  rotate: false
+  xy: 1, 1
+  size: 1280, 426
+  orig: 1280, 426
+  offset: 0, 0
+  index: -1
