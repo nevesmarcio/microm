@@ -35,7 +35,8 @@ public class StarView extends AbstractView {
 		
 		starSprite = GAME_CONSTANTS.devAtlas.createSprite("star");
 
-		starSprite.setSize(1.0f, 1.0f*starSprite.getHeight()/starSprite.getWidth());
+		//starSprite.setSize(1.0f, 1.0f*starSprite.getHeight()/starSprite.getWidth());
+		starSprite.setSize(starmSrc.star.getWidth(), starmSrc.star.getHeight());
 		starSprite.setOrigin(0.0f, 0.0f);
 		
 		batch = new SpriteBatch();

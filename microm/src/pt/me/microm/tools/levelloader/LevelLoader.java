@@ -199,7 +199,7 @@ public class LevelLoader {
 			}
 		}
 		
-		return StarModel.getNewInstance(wm, star.getCentroid().x, star.getCentroid().y); 
+		return StarModel.getNewInstance(wm, star); 
 		
 	}	
 	
