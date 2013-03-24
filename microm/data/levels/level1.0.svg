@@ -95,17 +95,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="745.56851"
-     inkscape:cy="478.49293"
+     inkscape:zoom="0.5"
+     inkscape:cx="967.27704"
+     inkscape:cy="136.69052"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1280"
-     inkscape:window-height="1002"
-     inkscape:window-x="1592"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
+     inkscape:window-width="1164"
+     inkscape:window-height="895"
+     inkscape:window-x="1651"
+     inkscape:window-y="52"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -185,24 +185,10 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />
     <path
-       sodipodi:type="star"
        style="fill:#ffff00;fill-opacity:1;stroke:none"
+       d="m 620.77317,531.03634 -90.08752,-16.47698 77.54062,-48.73097 -12.16797,-90.77006 70.30727,58.68684 82.56728,-39.62196 -34.08839,85.00147 63.19747,66.28229 -91.3751,-6.15308 -43.50913,80.5867 z"
        id="star"
-       sodipodi:sides="5"
-       sodipodi:cx="-916"
-       sodipodi:cy="284.36218"
-       sodipodi:r1="40.102077"
-       sodipodi:r2="93.037628"
-       sodipodi:arg1="1.8621657"
-       sodipodi:arg2="2.4904842"
-       inkscape:flatsided="false"
-       inkscape:rounded="0"
-       inkscape:randomized="0"
-       d="m -927.51989,322.77401 -62.4834,17.97534 33.91163,-55.47332 -36.404,-53.87057 63.23754,15.10968 39.98449,-51.26918 5.17132,64.81162 61.11578,22.18447 -60.04149,24.94611 -2.21287,64.97993 z"
-       transform="matrix(0.25140577,0.1248776,-0.1248776,0.25140577,913.3972,633.17569)"
-       inkscape:export-filename="D:\Dropbox\eclipse_workspace\microm\microm\data\bodies\star.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
+       inkscape:connector-curvature="0" />
     <path
        style="fill:#008080;fill-opacity:1;stroke:none"
        d="m 98.5,542.86218 51,0 0,51 -51,0 z"

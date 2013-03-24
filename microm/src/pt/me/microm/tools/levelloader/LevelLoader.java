@@ -191,11 +191,13 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static StarModel addStarToWorld(WorldModel wm, BasicShape star, String star_name) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS)
-		for (Vector2 ap : star.getPointsArray()) {
-				DebugModel.getNewInstance(wm, ap.x+star.getCentroid().x, ap.y+star.getCentroid().y);
+		if (GameMicroM.FLAG_DEV_ELEMENTS) {
+			DebugModel m = DebugModel.getNewInstance(wm, star.getCentroid().x, star.getCentroid().y);
+			m.setColor(Color.WHITE);
+			for (Vector2 ap : star.getPointsArray()) {
+					DebugModel.getNewInstance(wm, ap.x+star.getCentroid().x, ap.y+star.getCentroid().y);
+			}
 		}
-		
 		
 		return StarModel.getNewInstance(wm, star.getCentroid().x, star.getCentroid().y); 
 		
