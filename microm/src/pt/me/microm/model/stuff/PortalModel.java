@@ -128,7 +128,7 @@ public class PortalModel extends AbstractModel implements BodyInterface {
 	@Override
 	public void beginContactWith(BodyInterface oModel) {
 		if (boxTouchMyTralala == 0) 
-			if (logger.getLevel() >= logger.INFO) logger.info("daBox touched my trálálá!! says: " + this.portal_name + ". Should be teleported to: " + this.portal_name.replace("entry", "exit"));
+			if (logger.getLevel() >= Logger.INFO) logger.info("daBox touched my trálálá!! says: " + this.portal_name + ". Should be teleported to: " + this.portal_name.replace("entry", "exit"));
 		boxTouchMyTralala +=1;
 		box = oModel;
 	}
@@ -137,7 +137,7 @@ public class PortalModel extends AbstractModel implements BodyInterface {
 	public void endContactWith(BodyInterface oModel) {
 		boxTouchMyTralala -=1;
 		if (boxTouchMyTralala == 0) 
-			if (logger.getLevel() >= logger.INFO) logger.info("daBox left my trálálá!! says: " + this.portal_name);
+			if (logger.getLevel() >= Logger.INFO) logger.info("daBox left my trálálá!! says: " + this.portal_name);
 	}
 	
 }

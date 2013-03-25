@@ -2,8 +2,10 @@ package pt.me.microm.model.stuff;
 
 import java.util.List;
 
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.BodyInterface;
 import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
@@ -18,11 +20,9 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class GroundModel extends AbstractModel {
+public class GroundModel extends AbstractModel implements BodyInterface {
 	private static final String TAG = GroundModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
-	
-	private Vector2 groundPosition; // posição do tabuleiro no espaço
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private Vector2[] silhouetteVertex;
 	
@@ -81,29 +81,34 @@ public class GroundModel extends AbstractModel {
 	public void handleGameTick(GameTickEvent e) {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
-		if (getBody() != null)
-			if (logger.getLevel() >= logger.DEBUG)
-				logger.debug("[Physics-room]: Pos.x:" + String.format("%.2f", getBody().getPosition().x)
-						+ " Pos.y:" + String.format("%.2f", getBody().getPosition().y) 
-						+ " Angle:" + String.format("%.2f", getBody().getAngle())
+		if (groundBody != null)
+			if (logger.getLevel() >= Logger.DEBUG)
+				logger.debug("[Physics-room]: Pos.x:" + String.format("%.2f", groundBody.getPosition().x)
+						+ " Pos.y:" + String.format("%.2f", groundBody.getPosition().y) 
+						+ " Angle:" + String.format("%.2f", groundBody.getAngle())
 						+ " Mass:" + getBody().getMass()
 						+ " Type:" + getBody().getType());			
 	}
 
 	
-	/* Getters - Setters do tabuleiro */
-	// Posição do tabuleiro
-//	@Override
-	public Vector2 getPosition() {
-		return groundPosition;
+	// BodyInterface implementation
+	@Override
+	public BasicShape getBasicShape() {
+		return ground;
 	}
-//	@Override
+	@Override
+	public Vector2 getPosition() {
+		return groundBody.getPosition();
+	}
+	@Override
+	public float getAngle() {
+		return groundBody.getAngle();
+	}
+	@Override
 	public Body getBody() {
 		return groundBody;
 	}
 	
-	public BasicShape getBasicShape() {
-		return ground;
-	}
+
 
 }

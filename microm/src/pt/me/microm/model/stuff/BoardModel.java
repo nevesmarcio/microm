@@ -2,8 +2,10 @@ package pt.me.microm.model.stuff;
 
 import java.util.List;
 
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.BodyInterface;
 import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.AbstractModel.EventType;
 import pt.me.microm.model.base.WorldModel;
@@ -19,11 +21,9 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class BoardModel extends AbstractModel {
+public class BoardModel extends AbstractModel implements BodyInterface {
 	private static final String TAG = BoardModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
-	
-	private Vector2 boardPosition; // posição do tabuleiro no espaço
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private Vector2 playzoneVertex[]; // Pontos que definem a fronteira do tabuleiro
 	
@@ -82,29 +82,33 @@ public class BoardModel extends AbstractModel {
 	public void handleGameTick(GameTickEvent e) {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
-		if (getBody() != null)
-			if (logger.getLevel() == logger.DEBUG)
-				logger.debug("[Physics-room]: Pos.x:" + String.format("%.2f", getBody().getPosition().x)
-					+ " Pos.y:" + String.format("%.2f", getBody().getPosition().y) 
-					+ " Angle:" + String.format("%.2f", getBody().getAngle())
-					+ " Mass:" + getBody().getMass()
-					+ " Type:" + getBody().getType());			
+		if (playzoneBody != null)
+			if (logger.getLevel() >= Logger.DEBUG)
+				logger.debug("[Physics-room]: Pos.x:" + String.format("%.2f", playzoneBody.getPosition().x)
+					+ " Pos.y:" + String.format("%.2f", playzoneBody.getPosition().y) 
+					+ " Angle:" + String.format("%.2f", playzoneBody.getAngle())
+					+ " Mass:" + playzoneBody.getMass()
+					+ " Type:" + playzoneBody.getType());			
 	}
 
 	
-	/* Getters - Setters do tabuleiro */
-	// Posição do tabuleiro
-//	@Override
-	public Vector2 getPosition() {
-		return boardPosition;
+	// BodyInterface implementation
+	@Override
+	public BasicShape getBasicShape() {
+		return board;
 	}
-//	@Override
+	@Override
+	public Vector2 getPosition() {
+		return playzoneBody.getPosition();
+	}
+	@Override
+	public float getAngle() {
+		return playzoneBody.getAngle(); 
+	}
+	@Override
 	public Body getBody() {
 		return playzoneBody;
 	}
 	
-	public BasicShape getBasicShape() {
-		return board;
-	}
 
 }

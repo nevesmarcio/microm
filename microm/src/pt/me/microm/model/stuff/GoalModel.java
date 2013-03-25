@@ -2,6 +2,7 @@ package pt.me.microm.model.stuff;
 
 import java.util.List;
 
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.BodyInterface;
@@ -19,9 +20,9 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class GoalModel extends AbstractModel implements BodyInterface{
+public class GoalModel extends AbstractModel implements BodyInterface {
 	private static final String TAG = GoalModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private Vector2[] silhouetteVertex;
 	

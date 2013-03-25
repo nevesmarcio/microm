@@ -1,7 +1,9 @@
 package pt.me.microm.model.stuff;
 
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.BodyInterface;
 import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
@@ -24,9 +26,9 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Logger;
 
-public class DaBoxModel extends AbstractModel {
+public class DaBoxModel extends AbstractModel implements BodyInterface {
 	private static final String TAG = DaBoxModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private Color color = new Color(0.5f,0.5f,0.5f,0.5f);
 	
@@ -115,18 +117,24 @@ public class DaBoxModel extends AbstractModel {
 		daBoxBody.applyTorque(10.0f); //N.m
 	}
 
+	// BodyInterface implementation
+	@Override
 	public BasicShape getBasicShape() {
 		return dabox;
 	}
-	
-//	@Override
+	@Override
+	public Vector2 getPosition() {
+		return daBoxBody.getPosition();
+	}
+	@Override
+	public float getAngle() {
+		return daBoxBody.getAngle();
+	}
+	@Override
 	public Body getBody() {
 		return daBoxBody;
 	}
 	
-//	@Override
-	public Vector2 getPosition() {
-		return daBoxBody.getPosition();
-	}	
+	
 	
 }

@@ -2,6 +2,7 @@ package pt.me.microm.view.dev;
 
 import java.util.Iterator;
 
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.dev.DebugModel;
 import pt.me.microm.view.AbstractView;
@@ -10,9 +11,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.utils.Logger;
 
 public class DebugView extends AbstractView {
 	private static final String TAG = DebugView.class.getSimpleName();
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private DebugModel debugmSrc;
 	

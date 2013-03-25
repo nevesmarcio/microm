@@ -24,8 +24,6 @@ public class WallModel extends AbstractModel implements BodyInterface {
 	private static final String TAG = WallModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 
-	private Vector2 wallPosition; // posição da barreira
-	
 	private Vector2[] silhouetteVertex;
 	
 	private BodyDef wallBodyDef = new BodyDef();

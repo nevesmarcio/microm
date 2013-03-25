@@ -187,6 +187,7 @@ s1.0
 # Refactorizada a estrutura de classes Model, no entanto ainda não tenho a estrutura estabilizada... o BodyInterface está a expôr as fixtures e a BasicShape... Uma das exposições tem que cair.
 
 
+25-03-2013
 
 
 

@@ -2,11 +2,13 @@ package pt.me.microm.model.dev;
 
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.BodyInterface;
 import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.AbstractModel.EventType;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
 import pt.me.microm.model.stuff.BoardModel;
+import pt.me.microm.tools.levelloader.BasicShape;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -18,7 +20,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class BallModel extends AbstractModel {
+public class BallModel extends AbstractModel implements BodyInterface {
 	private static final String TAG = BallModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG);
 	
@@ -108,14 +110,24 @@ public class BallModel extends AbstractModel {
 		this.color = color;
 	}
 
-	
-	//@Override
-	public Body getBody() {
-		return ballBody;
+
+	// BodyInterface Implementation
+	@Override
+	public BasicShape getBasicShape() {
+		//FIXME: qual é a shape ?
+		return null;
 	}
-	//@Override
+	@Override
 	public Vector2 getPosition() {
 		return ballBody.getPosition();
 	}	
+	@Override
+	public float getAngle() {
+		return ballBody.getAngle();
+	}
+	@Override
+	public Body getBody() {
+		return ballBody;
+	}
 	
 }

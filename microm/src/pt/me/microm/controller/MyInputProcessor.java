@@ -1,5 +1,6 @@
 package pt.me.microm.controller;
 
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
 
@@ -10,7 +11,7 @@ import com.badlogic.gdx.utils.Logger;
 
 public class MyInputProcessor implements InputProcessor {
 	private static final String TAG = MyInputProcessor.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private WorldModel worldModel;
 	private CameraModel camModel;
@@ -25,7 +26,7 @@ public class MyInputProcessor implements InputProcessor {
 	@Override
 	public boolean keyDown(int keycode) {
 
-		if (logger.getLevel() == logger.DEBUG) logger.debug("[KEY]: " + Integer.toString(keycode));
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("[KEY]: " + Integer.toString(keycode));
 		
 		if (keycode == Keys.SPACE)
 			if (worldModel.player.getBody() != null)

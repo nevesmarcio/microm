@@ -2,7 +2,9 @@ package pt.me.microm.model.dev;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Logger;
 
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.events.SimpleEvent;
@@ -12,6 +14,7 @@ public class GridModel extends AbstractModel {
 	// Serve apenas para ajuda ao desenvolvimento e para compreender a relação de coordenadas/ pixels
 	
 	private static final String TAG = GridModel.class.getSimpleName();
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private float gridSpacing = 1.0f;
 	private float boxSize = 10.0f;

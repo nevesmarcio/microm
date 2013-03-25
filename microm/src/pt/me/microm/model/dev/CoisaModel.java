@@ -1,10 +1,13 @@
 package pt.me.microm.model.dev;
 
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.BodyInterface;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
 import pt.me.microm.model.stuff.BoardModel;
+import pt.me.microm.tools.levelloader.BasicShape;
 import aurelienribon.bodyeditor.BodyEditorLoader;
 
 import com.badlogic.gdx.Gdx;
@@ -14,9 +17,11 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.utils.Logger;
 
-public class CoisaModel extends AbstractModel {
+public class CoisaModel extends AbstractModel implements BodyInterface {
 	private static final String TAG = CoisaModel.class.getSimpleName();
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private Color color = new Color(0.5f,0.5f,0.5f,0.5f);
 	
@@ -76,13 +81,24 @@ public class CoisaModel extends AbstractModel {
 		this.color = color;
 	}
 
-//	@Override
+
+	//BodyInterface Implementation
+	@Override
+	public BasicShape getBasicShape() {
+		//FIXME: qual é a shape ?
+		return null;
+	}
+	@Override
+	public Vector2 getPosition() {
+		return coisaBody.getPosition();
+	}
+	@Override
+	public float getAngle() {
+		return coisaBody.getAngle();
+	}
+	@Override
 	public Body getBody() {
 		return coisaBody;
-	}
-//	@Override
-	public Vector2 getPosition() {
-		return null;
 	}
 	
 }

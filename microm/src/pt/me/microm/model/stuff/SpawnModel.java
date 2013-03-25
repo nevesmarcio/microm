@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Random;
 
 import pt.me.microm.GameMicroM;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.BodyInterface;
 import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.dev.BallModel;
@@ -27,9 +29,9 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class SpawnModel extends AbstractModel {
+public class SpawnModel extends AbstractModel implements BodyInterface {
 	private static final String TAG = SpawnModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private Vector2[] silhouetteVertex;
 	
@@ -158,30 +160,34 @@ public class SpawnModel extends AbstractModel {
 	public void handleGameTick(GameTickEvent e) {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
-		if (getBody() != null)
-			if (logger.getLevel() == Logger.DEBUG)
-				logger.debug("[Physics-room]: Pos.x:" + String.format("%.2f", getBody().getPosition().x)
-						+ " Pos.y:" + String.format("%.2f", getBody().getPosition().y) 
-						+ " Angle:" + String.format("%.2f", getBody().getAngle())
-						+ " Mass:" + getBody().getMass()
-						+ " Type:" + getBody().getType());			
+		if (spawnBody != null)
+			if (logger.getLevel() >= Logger.DEBUG)
+				logger.debug("[Physics-room]: Pos.x:" + String.format("%.2f", spawnBody.getPosition().x)
+						+ " Pos.y:" + String.format("%.2f", spawnBody.getPosition().y) 
+						+ " Angle:" + String.format("%.2f", spawnBody.getAngle())
+						+ " Mass:" + spawnBody.getMass()
+						+ " Type:" + spawnBody.getType());			
 	}
 
 	
-	/* Getters - Setters do tabuleiro */
-	// Posição do tabuleiro
-//	@Override
-	public Vector2 getPosition() {
-		return spawnBody.getPosition();
-	}
-
-//	@Override
-	public Body getBody() {
-		return spawnBody;
-	}
-
+	// BodyInterface implementation
+	@Override
 	public BasicShape getBasicShape() {
 		return spawn;
 	}
+	@Override
+	public Vector2 getPosition() {
+		return spawnBody.getPosition();
+	}
+	@Override
+	public float getAngle() {
+		return spawnBody.getAngle();
+	}
+	@Override
+	public Body getBody() {
+		return spawnBody;
+	}
+	
+
 	
 }
