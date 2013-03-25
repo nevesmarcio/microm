@@ -1,38 +1,36 @@
-simplest1
+collision
 - Delay -
 active: false
 - Duration - 
-lowMin: 3000.0
-lowMax: 3000.0
+lowMin: 750.0
+lowMax: 750.0
 - Count - 
 min: 0
-max: 1
+max: 200
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
-highMin: 1.0
-highMax: 1.0
+highMin: 250.0
+highMax: 250.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
 timelineCount: 1
 timeline0: 0.0
 - Life - 
-lowMin: 1000.0
-lowMax: 1000.0
-highMin: 1500.0
-highMax: 1500.0
+lowMin: 0.0
+lowMax: 0.0
+highMin: 250.0
+highMax: 500.0
 relative: false
-scalingCount: 4
+scalingCount: 3
 scaling0: 0.0
 scaling1: 0.0
-scaling2: 1.0
-scaling3: 0.0
-timelineCount: 4
+scaling2: 0.9019608
+timelineCount: 3
 timeline0: 0.0
-timeline1: 0.25342464
-timeline2: 0.5078493
-timeline3: 0.7808219
+timeline1: 0.47260273
+timeline2: 0.8356164
 - Life Offset - 
 active: false
 - X Offset - 
@@ -76,7 +74,7 @@ active: true
 lowMin: 0.0
 lowMax: 0.0
 highMin: 0.3
-highMax: 0.3
+highMax: 30.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -84,18 +82,18 @@ timelineCount: 1
 timeline0: 0.0
 - Angle - 
 active: true
-lowMin: 0.0
-lowMax: 0.0
-highMin: 45.0
-highMax: 45.0
+lowMin: 30.0
+lowMax: 30.0
+highMin: 90.0
+highMax: 180.0
 relative: false
 scalingCount: 3
 scaling0: 1.0
-scaling1: 1.0
-scaling2: 1.0
+scaling1: 0.0
+scaling2: 0.0
 timelineCount: 3
 timeline0: 0.0
-timeline1: 0.4520548
+timeline1: 0.5
 timeline2: 1.0
 - Rotation - 
 active: false
@@ -104,12 +102,28 @@ active: false
 - Gravity - 
 active: false
 - Tint - 
-colorsCount: 3
+colorsCount: 15
 colors0: 1.0
 colors1: 0.12156863
 colors2: 0.047058824
-timelineCount: 1
+colors3: 1.0
+colors4: 0.68235296
+colors5: 0.047058824
+colors6: 1.0
+colors7: 0.63529414
+colors8: 0.6039216
+colors9: 0.6313726
+colors10: 1.0
+colors11: 0.047058824
+colors12: 0.24705882
+colors13: 0.7254902
+colors14: 0.7372549
+timelineCount: 5
 timeline0: 0.0
+timeline1: 0.15065913
+timeline2: 0.3314501
+timeline3: 0.700565
+timeline4: 1.0
 - Transparency - 
 lowMin: 0.0
 lowMax: 0.0
@@ -117,20 +131,20 @@ highMin: 1.0
 highMax: 1.0
 relative: false
 scalingCount: 4
-scaling0: 1.0
+scaling0: 0.0
 scaling1: 1.0
-scaling2: 1.0
-scaling3: 1.0
+scaling2: 0.75
+scaling3: 0.0
 timelineCount: 4
 timeline0: 0.0
 timeline1: 0.2
-timeline2: 0.8082192
+timeline2: 0.8
 timeline3: 1.0
 - Options - 
 attached: false
-continuous: true
+continuous: false
 aligned: false
 additive: true
 behind: false
 - Image Path -
-laser-orange.png
+K:\temp_workspace\microm\microm\data\particles\star.png

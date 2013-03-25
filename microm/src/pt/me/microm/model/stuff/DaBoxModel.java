@@ -7,6 +7,7 @@ import pt.me.microm.model.BodyInterface;
 import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
+import pt.me.microm.model.phenomenon.CollisionModel;
 import pt.me.microm.tools.levelloader.BasicShape;
 
 import aurelienribon.tweenengine.BaseTween;
@@ -37,7 +38,6 @@ public class DaBoxModel extends AbstractModel implements BodyInterface {
 	private BodyDef daBoxBodyDef = new BodyDef();
 	private PolygonShape daBoxShape;
 	private Body daBoxBody;	
-	private PointerToFunction handler; 
 
 	private WorldModel wm;
 	private BasicShape dabox;
@@ -115,6 +115,8 @@ public class DaBoxModel extends AbstractModel implements BodyInterface {
 		float force_to_apply = 235f; //N
 		daBoxBody.applyForceToCenter(0.0f, force_to_apply);
 		daBoxBody.applyTorque(10.0f); //N.m
+		
+		CollisionModel.getNewInstance(getPosition());
 	}
 
 	// BodyInterface implementation
