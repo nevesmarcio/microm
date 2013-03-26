@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -59,6 +60,8 @@ public class DaBoxView extends AbstractView {
 	float racioW;
 	float racioH;
 	
+	private ParticleEffect particleEffect;
+	
 	
 	public DaBoxView(DaBoxModel daBoxmSrc) {
 		super(daBoxmSrc);
@@ -67,6 +70,10 @@ public class DaBoxView extends AbstractView {
 
 	@Override
 	public void DelayedInit() {
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {		
+		
 		renderer = new ShapeRenderer();
 		
 		daBoxSprite = GAME_CONSTANTS.devAtlas.createSprite("txr_daBox");		
@@ -101,6 +108,16 @@ public class DaBoxView extends AbstractView {
 		animatedSprite.setSize(animatedSprite.getWidth()/1, animatedSprite.getHeight()/4);
 		animatedSprite.setOrigin(animatedSprite.getOriginX(), animatedSprite.getOriginY()/4);
 		
+		
+		
+		///////////////////////////////
+
+				particleEffect = new ParticleEffect();
+			    particleEffect.load(Gdx.files.internal("data/particles/fire.p"), Gdx.files.internal("data/particles"));
+			    particleEffect.start();		
+				
+			}
+		});
 	}
 	
 
@@ -171,8 +188,8 @@ public class DaBoxView extends AbstractView {
 			float delta = Gdx.graphics.getDeltaTime();
 			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 			batch.begin();
-				daBoxmSrc.particleEffect.setPosition(daBoxmSrc.getPosition().x, daBoxmSrc.getPosition().y);
-				daBoxmSrc.particleEffect.draw(batch, delta);
+				particleEffect.setPosition(daBoxmSrc.getPosition().x, daBoxmSrc.getPosition().y);
+				particleEffect.draw(batch, delta);
 			batch.end();		
 		}
 		

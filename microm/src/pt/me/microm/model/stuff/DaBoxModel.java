@@ -41,8 +41,6 @@ public class DaBoxModel extends AbstractModel implements BodyInterface {
 
 	private WorldModel wm;
 	private BasicShape dabox;
-
-	public ParticleEffect particleEffect;
 	
 	public void create(Vector2 pos) {
 		daBoxBody.setTransform(pos, daBoxBody.getAngle());
@@ -54,41 +52,48 @@ public class DaBoxModel extends AbstractModel implements BodyInterface {
 		this.wm = wm;
 		this.dabox = dabox; 
 
-		// FIXME:: fazer isto sem ser às cegas!
-		// CCW vertices
-		silhouetteVertex = dabox.getPointsArray();
-		Vector2[] t = new Vector2[silhouetteVertex.length];
-		for (int i = 0; i < silhouetteVertex.length; i++)
-			t[silhouetteVertex.length - 1 - i] = silhouetteVertex[i];
+		wm.wmManager.add(new PointerToFunction() {
+			
+			@Override
+			public Object handler(Object... a) {
 
-		daBoxShape = new PolygonShape();
-		daBoxShape.set(t);
+				// FIXME:: fazer isto sem ser às cegas!
+				// CCW vertices
+				silhouetteVertex = dabox.getPointsArray();
+				Vector2[] t = new Vector2[silhouetteVertex.length];
+				for (int i = 0; i < silhouetteVertex.length; i++)
+					t[silhouetteVertex.length - 1 - i] = silhouetteVertex[i];
 
-		daBoxBodyDef.position.set(dabox.getCentroid());
-		daBoxBodyDef.type = BodyType.DynamicBody;
+				daBoxShape = new PolygonShape();
+				daBoxShape.set(t);
 
-		daBoxBody = wm.getPhysicsWorld().createBody(daBoxBodyDef);
+				daBoxBodyDef.position.set(dabox.getCentroid());
+				daBoxBodyDef.type = BodyType.DynamicBody;
 
-		/* fixture */
-		FixtureDef fixDef = new FixtureDef();
-		fixDef.shape = daBoxShape;
-		fixDef.density = 1.0f;
-		fixDef.friction = 0.0f;
-		fixDef.restitution = 0.0f;
-		daBoxBody.createFixture(fixDef);
+				daBoxBody = wm.getPhysicsWorld().createBody(daBoxBodyDef);
 
-		daBoxBody.setUserData(DaBoxModel.this); // relacionar com o modelo
+				/* fixture */
+				FixtureDef fixDef = new FixtureDef();
+				fixDef.shape = daBoxShape;
+				fixDef.density = 1.0f;
+				fixDef.friction = 0.0f;
+				fixDef.restitution = 0.0f;
+				daBoxBody.createFixture(fixDef);
 
-		daBoxBody.setSleepingAllowed(false);		
+				daBoxBody.setUserData(DaBoxModel.this); // relacionar com o modelo
+
+				daBoxBody.setSleepingAllowed(false);		
+				
+				daBoxBody.setActive(false);
+			    
+				// Sinaliza os subscritores de que a construção do modelo terminou.
+				DaBoxModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));	    				
+				
+				return null;
+			}
+		});
 		
-		daBoxBody.setActive(false);
-		
-		particleEffect = new ParticleEffect();
-	    particleEffect.load(Gdx.files.internal("data/particles/fire.p"), Gdx.files.internal("data/particles"));
-	    particleEffect.start();
-	    
-		// Sinaliza os subscritores de que a construção do modelo terminou.
-		DaBoxModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));	    
+
 	}
 
 	public static DaBoxModel getNewInstance(WorldModel wm, BasicShape dabox){
@@ -115,8 +120,6 @@ public class DaBoxModel extends AbstractModel implements BodyInterface {
 		float force_to_apply = 235f; //N
 		daBoxBody.applyForceToCenter(0.0f, force_to_apply);
 		daBoxBody.applyTorque(10.0f); //N.m
-		
-		CollisionModel.getNewInstance(getPosition());
 	}
 
 	// BodyInterface implementation

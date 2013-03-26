@@ -202,6 +202,8 @@ public class LevelLoader {
 		
 	}	
 	
+
+	
 	
 	
 	/**
@@ -379,7 +381,44 @@ public class LevelLoader {
 			}
 			
 			
+			// Get text
+			if (logger.getLevel() >= Logger.INFO) logger.info("Text...");
+			expr = xpath.compile("//svg/g/text[contains(@id,'text')]/tspan");
+			NodeList text = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < text.getLength(); i++) {
+				String id = text.item(i).getAttributes().getNamedItem("id").getNodeValue();
+				String x = text.item(i).getAttributes().getNamedItem("x").getNodeValue();
+				String y = text.item(i).getAttributes().getNamedItem("y").getNodeValue();
+				String s = text.item(i).getTextContent();
+				
+				if (logger.getLevel() >= Logger.INFO) logger.info("[" + id + "] = x: " + x + "; y: " + y + "; ==> '" + s + "'" );
+				
+				
+
+				
+				nrElements+=1;
+			}
 			
+			
+			// Get triggers
+			if (logger.getLevel() >= Logger.INFO) logger.info("Triggers...");
+			expr = xpath.compile("//svg/g/path[contains(@id,'trigger')]");
+			NodeList triggers = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < triggers.getLength(); i++) {
+				String d = triggers.item(i).getAttributes().getNamedItem("d").getNodeValue();
+				if (logger.getLevel() >= Logger.INFO) logger.info(d);
+				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.NONE);
+
+				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
+				String trigger_name = triggers.item(i).getAttributes().getNamedItem("id").getNodeValue();
+				
+				for (Vector2 ap : s.getPointsArray()) {
+					DebugModel m = DebugModel.getNewInstance(wm, ap.x+s.getCentroid().x, ap.y+s.getCentroid().y);
+					m.setColor(Color.PINK);
+				}	
+				
+				nrElements+=1;
+			}			
 			
 			
 			

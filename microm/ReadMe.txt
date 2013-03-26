@@ -171,38 +171,31 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # Técnica de animação 1 - spritesheet: spritesheet implementada no loading screen com uma exportação válida do flash cs6 :) -- cool!!
 # Técnica de animação 2 - tweens: relvinha ...
 
-
-
-
 23-03-2013
 # Lore design
 # Level design: world 1 (s1.0 s1.1 s1.2 s1.3 s1.4 s1.5 s1.6 s1.10)  }} falta o s1.7 s1.8 e s1.9
 
-
-
 24-03-2013
-s1.0
-	# implementação da star
+# implementação da star
 # Implementada a leitura do offset (meia ranhosa, mas safa para já)
 # Refactorizada a estrutura de classes Model, no entanto ainda não tenho a estrutura estabilizada... o BodyInterface está a expôr as fixtures e a BasicShape... Uma das exposições tem que cair.
 
-
 25-03-2013
+# implementação das particulas da star
+
+26-03-2013
+# Lógica de apanha da estrela (com destruição do objecto)
 
 
 
-
-
-
-
+# ver o problema da rotação
 
 (in progress)
-	# implementação das particulas da star
-
-
 
 
 [TODO] 
+# Gostava de implementar uma protecção de thread para garantir que determinado código só corre numa thread e outro código noutra.
+
 
 
 # Construir o splashscreen!!

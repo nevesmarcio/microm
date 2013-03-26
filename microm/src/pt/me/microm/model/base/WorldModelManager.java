@@ -11,7 +11,8 @@ import pt.me.microm.model.PointerToFunction;
  * @author Márcio Neves
  *
  * Esta classe deverá fazer a gestão das adições/ remoções/ transformações sobre o mundo
- *
+ * 
+ * Serve para garantir que estas operações são feitas fora do step
  */
 public class WorldModelManager {
 

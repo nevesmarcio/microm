@@ -4,8 +4,10 @@ import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.BodyInterface;
+import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
+import pt.me.microm.model.phenomenon.CollisionModel;
 import pt.me.microm.tools.levelloader.BasicShape;
 import aurelienribon.bodyeditor.BodyEditorLoader;
 
@@ -27,9 +29,11 @@ public class StarModel extends AbstractModel implements BodyInterface {
 	private Body starBody;	
 	private Vector2 starModelOrigin;
 	
+	private WorldModel wm;
 	private BasicShape star;
 	
 	private StarModel(WorldModel wm, final BasicShape star) {
+		this.wm = wm;
 		this.star = star;
 		
 		// 0. Create a loader for the file saved from the editor.
@@ -37,13 +41,14 @@ public class StarModel extends AbstractModel implements BodyInterface {
 
 		// 1. Create a BodyDef, as usual.
 		BodyDef bd = new BodyDef();
-		bd.type = BodyType.StaticBody;
+		bd.type = BodyType.KinematicBody;
 
 		// 2. Create a FixtureDef, as usual.
 		FixtureDef fd = new FixtureDef();
 		fd.density = 1;
 		fd.friction = 0.5f;
 		fd.restitution = 0.3f;
+		fd.isSensor = true;
 
 		// 3. Create a Body, as usual.
 		starBody = WorldModel.getSingletonInstance().getPhysicsWorld().createBody(bd);
@@ -60,6 +65,9 @@ public class StarModel extends AbstractModel implements BodyInterface {
 		starModelOrigin = loader.getOrigin("star", modelScale).cpy().add(xOffset-star.getWidth()/2, yOffset-star.getHeight()/2);
 		starBody.setTransform(starModelOrigin, starBody.getAngle());
 
+		starBody.setUserData(this); // relacionar com o modelo
+		
+		
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
 	}
@@ -78,7 +86,9 @@ public class StarModel extends AbstractModel implements BodyInterface {
 //				+ " Pos.y:" + String.format("%.2f", ballBody.getPosition().y) 
 //				+ " Angle:" + String.format("%.2f", ballBody.getAngle())
 //				+ " Mass:" + ballBody.getMass()
-//				+ " Type:" + ballBody.getType());			
+//				+ " Type:" + ballBody.getType());
+		
+		starBody.setAngularVelocity(8.0f);
 		
 	}
 
@@ -108,5 +118,35 @@ public class StarModel extends AbstractModel implements BodyInterface {
 	public Body getBody() {
 		return starBody;
 	}
+
+	
+	
+	@Override
+	public void beginContactWith(BodyInterface oModel) {
+		if (logger.getLevel() >= Logger.INFO) logger.info("collision detected");
+
+		CollisionModel.getNewInstance(getPosition());	//oModel.getPosition()
+
+		wm.wmManager.add(new PointerToFunction() {
+			
+			@Override
+			public Object handler(Object... a) {
+				wm.getPhysicsWorld().destroyBody(starBody);
+				
+				return null;
+			}
+		});
+		
+		
+		this.dispose();
+	
+		
+	}
+
+	
+	@Override
+	public void endContactWith(BodyInterface oModel) {
+
+	}	
 	
 }

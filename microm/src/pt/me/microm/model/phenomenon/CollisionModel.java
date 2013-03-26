@@ -30,16 +30,11 @@ public class CollisionModel extends AbstractModel {
 	private static final String TAG = CollisionModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
-	public ParticleEffect particleEffect;
 	public Vector2 position;
 	
 	private CollisionModel(Vector2 position) {
 		this.position = position;
 		
-		particleEffect = new ParticleEffect();
-	    particleEffect.load(Gdx.files.internal("data/particles/collision.p"), Gdx.files.internal("data/particles"));
-	    particleEffect.start();
-	    
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		CollisionModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));	    
 	}
