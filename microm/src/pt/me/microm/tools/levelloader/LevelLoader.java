@@ -29,7 +29,9 @@ import pt.me.microm.model.stuff.GroundModel;
 import pt.me.microm.model.stuff.PortalModel;
 import pt.me.microm.model.stuff.SpawnModel;
 import pt.me.microm.model.stuff.WallModel;
+import pt.me.microm.model.ui.UIModel;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
@@ -389,12 +391,31 @@ public class LevelLoader {
 				String id = text.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				String x = text.item(i).getAttributes().getNamedItem("x").getNodeValue();
 				String y = text.item(i).getAttributes().getNamedItem("y").getNodeValue();
-				String s = text.item(i).getTextContent();
+				final String s = text.item(i).getTextContent();
 				
 				if (logger.getLevel() >= Logger.INFO) logger.info("[" + id + "] = x: " + x + "; y: " + y + "; ==> '" + s + "'" );
 				
+				BasicShape sh = new BasicShape("m " + x + "," + y, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.NONE);
+				for (Vector2 ap : sh.getPointsArray()) {
+					DebugModel m = DebugModel.getNewInstance(wm, ap.x+sh.getCentroid().x, ap.y+sh.getCentroid().y);
+					m.setColor(Color.PINK);
+				}					
 				
+				if (logger.getLevel() >= Logger.INFO) logger.info(".:.:.:. " + sh.getCentroid() + " .:.:.:.");
+				
+				wm.ui.addFlashMessage(new UIModel.Accessor<String>() {
 
+					@Override
+					public void set(String obj) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public String get() {
+						return s;
+					}
+				}, sh.getCentroid());
 				
 				nrElements+=1;
 			}
@@ -419,7 +440,6 @@ public class LevelLoader {
 				
 				nrElements+=1;
 			}			
-			
 			
 			
 			

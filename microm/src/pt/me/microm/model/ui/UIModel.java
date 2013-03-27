@@ -93,10 +93,6 @@ public class UIModel extends AbstractModel {
 
 	public void touchDown (CameraModel cam, float positionX, float positionY, int pointer){
 
-
-		
-		
-		
 		getTestPoint()[pointer] = new Vector3(positionX, positionY, 0);
 		getOriginalTestPoint()[pointer] = new Vector3(positionX, positionY, 0);
 

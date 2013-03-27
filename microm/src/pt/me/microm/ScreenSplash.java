@@ -15,6 +15,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -48,6 +52,18 @@ public class ScreenSplash extends ScreenAbstract {
 		super(g);
 		
 		stage = new Stage();
+		stage.addCaptureListener(new EventListener() {
+			
+			@Override
+			public boolean handle(Event event) {
+				if (event instanceof InputEvent) {
+					if (logger.getLevel() >= Logger.DEBUG)
+						logger.debug(">>> " + ((InputEvent) event).getStageX() + ":" +  ((InputEvent) event).getStageY()); 
+				}
+				
+				return false;
+			}
+		});
 		
 		Table table = new Table();
 		table.debug();
@@ -113,7 +129,8 @@ public class ScreenSplash extends ScreenAbstract {
 
 	@Override
 	public void resize(int width, int height) {
-		stage.setViewport(width, height, true);
+		//stage.setViewport(width, height, true);
+		stage.setViewport(100, 100, true);// fixando o viewport permite que se fique com um sistema de coordenadas independente da resolução
 	}
 
 	@Override

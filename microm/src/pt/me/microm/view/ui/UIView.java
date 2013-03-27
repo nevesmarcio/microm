@@ -183,10 +183,12 @@ public class UIView  extends AbstractView {
 		
 		/* renderização das flashmessages */
 		batch.begin();
-			batch.setProjectionMatrix(e.getCamera().getUiCamera().combined);	
+			batch.setProjectionMatrix(e.getCamera().getUiCamera().combined);
+//			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 			
 			for (UIModel.FlashMessage fm : uiSrc.afm) {
 				tweenFont.setScale(fm.scale);
+//				tweenFont.setScale(fm.scale/20.0f);
 				tweenFont.draw(batch, fm.dataSource.get().toString(), fm.position.x, fm.position.y);
 			}
 		

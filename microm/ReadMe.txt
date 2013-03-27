@@ -1,4 +1,4 @@
-MicroMachines clone
+OneButton Game
 
 Physics Editor
 http://code.google.com/p/box2d-editor/
@@ -186,17 +186,30 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 26-03-2013
 # Lógica de apanha da estrela (com destruição do objecto)
 
+27-03-2013
 
+- implementar o texto visível
+- problema das coordenadas... fdx...
 
-# ver o problema da rotação
 
 (in progress)
+
+# ver o problema da rotação: a rotação da estrelinha não está a 100%
+
+# usar ruby para os scripts dos triggers (http://ruboto.org)
+	# tb se podia usar python? (https://code.google.com/p/android-scripting/)
+	# ou LUA (http://dotnetslackers.com/articles/mobile/Integrate-Lua-into-Your-Android-Games.aspx#s9-example-5-a-simple-game-case)
+
+--> cada objecto subscreve o trigger e o script associado (com uma tag custom) ::
+pe. trigger :: path_to_script
+
+
+
+
 
 
 [TODO] 
 # Gostava de implementar uma protecção de thread para garantir que determinado código só corre numa thread e outro código noutra.
-
-
 
 # Construir o splashscreen!!
 Assumir uma resolução e partir daí, com downscale/ upscale
