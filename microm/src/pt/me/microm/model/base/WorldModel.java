@@ -226,6 +226,7 @@ public class WorldModel extends AbstractModel {
 	public void touchDragged (CameraModel cam, float positionX, float positionY, int pointer) {
 		this.ui.touchDragged(cam, positionX, positionY, pointer);
 	}
+	
 	public void touchUp (CameraModel cam, float positionX, float positionY, int pointer) {
 		this.ui.touchUp(cam, positionX, positionY, pointer);
 	}

@@ -97,6 +97,7 @@ public class UIModel extends AbstractModel {
 		getOriginalTestPoint()[pointer] = new Vector3(positionX, positionY, 0);
 
 
+		logger.info("touchDown: " + getTestPoint()[pointer].x + ", " + getTestPoint()[pointer].y);
 		
 		addFlashMessage(new Accessor<String>() {
 
@@ -112,8 +113,7 @@ public class UIModel extends AbstractModel {
 				return "Hello World";
 			}
 
-		}, new Vector2(getTestPoint()[pointer].x - Gdx.graphics.getWidth() / 2,
-				getTestPoint()[pointer].y - Gdx.graphics.getHeight() / 2));
+		}, new Vector2(getTestPoint()[pointer].x, getTestPoint()[pointer].y), false);
 		
 		
 		
@@ -278,7 +278,15 @@ public class UIModel extends AbstractModel {
 	private static int MAX_FLASH_MESSAGES = 5;
 	public Queue<UIModel.FlashMessage> afm = new ArrayBlockingQueue<UIModel.FlashMessage>(MAX_FLASH_MESSAGES);
 	
-	public void addFlashMessage(Accessor<?> a, Vector2 position) {
+	public void addFlashMessage(Accessor<?> a, Vector2 position, boolean worldCoord) {
+		if (worldCoord) {
+			float scale = Gdx.graphics.getHeight()/GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY;
+			position.mul(scale);
+			
+			
+		}
+			
+		
 		final FlashMessage fm = new FlashMessage();
 		fm.dataSource = a;
 		fm.position = position;
@@ -286,7 +294,7 @@ public class UIModel extends AbstractModel {
 		
 		afm.offer(fm);
 		
-		Tween.to(fm, FlashMessageAccessor.SCALE, 1.0f).target(3.0f)
+		Tween.to(fm, FlashMessageAccessor.SCALE, 10.0f).target(3.0f)
 				.ease(aurelienribon.tweenengine.equations.Elastic.INOUT)
 				.setCallback(new TweenCallback() {
 					@Override

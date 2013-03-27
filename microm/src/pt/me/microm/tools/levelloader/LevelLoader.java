@@ -415,7 +415,7 @@ public class LevelLoader {
 					public String get() {
 						return s;
 					}
-				}, sh.getCentroid());
+				}, sh.getCentroid(), true);
 				
 				nrElements+=1;
 			}
