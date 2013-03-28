@@ -1,5 +1,12 @@
 package pt.me.microm;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
+
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 
 import com.badlogic.gdx.Game;
@@ -32,8 +39,43 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 		theJuice = new ScreenTheJuice(this);
 		pausePopUp = new ScreenPause(this);
 		
+		
 //		setScreen(splash);
 		setScreen(theJuice);
+
+		
+		// javascript engine
+		Context cx = Context.enter();
+		cx.setOptimizationLevel(-1); // do not compile - it won't run on dalvik vm
+		Scriptable scope = cx.initStandardObjects();
+		
+		Object wrappedOut = Context.javaToJS(ClassicSingleton.getInstance(), scope);
+		ScriptableObject.putProperty(scope, "cs", wrappedOut);		
+		
+		Object result = cx.evaluateString(scope, "function f(x){return x+1} f(7)", "somescript.js", 1, null); // 1 is the line number!
+		System.out.println(">>>>>>>" + Context.toString(result));
+		
+		
+		InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+		BufferedReader stdin = new BufferedReader (inputStreamReader);
+		int i = 0;
+		try {
+			while (true) {
+				i+=1;
+				String s = stdin.readLine();
+				if (s.equals("exit"))
+					break;
+				result = cx.evaluateString(scope, s, "<<from console>>", i, null); // 1 is the line number!
+				System.out.println(">>>>>>>" + Context.toString(result));	
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		Context.exit();
+		/////////////////
+		
+		
 		
 	}
 	

@@ -187,9 +187,16 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # Lógica de apanha da estrela (com destruição do objecto)
 
 27-03-2013
+# implementar o texto visível
+# problema das coordenadas... fdx... tanto xanatanço
 
-- implementar o texto visível
-- problema das coordenadas... fdx...
+28-03-2013
+# mais xanatanço com força no que respeita às coordenadas do texto...
+# implementação do objecto SimpleTrigger
+# integrado o rhino (javascript engine) :: a funcionar em desktop e também no droid wOOOt!!
+
+
+
 
 
 (in progress)

@@ -134,7 +134,7 @@ public class SpawnModel extends AbstractModel implements BodyInterface {
 						
 						return Integer.toString(countdown);
 					}
-				}, spawn.getCentroid().cpy(), true);
+				}, spawn.getCentroid().cpy(), 1.0f, true);
 				countdown-=1;
 			}
 		};

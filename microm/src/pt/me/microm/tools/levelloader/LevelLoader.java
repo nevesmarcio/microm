@@ -17,6 +17,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import pt.me.microm.ClassicSingleton;
 import pt.me.microm.GameMicroM;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.base.WorldModel;
@@ -29,6 +30,7 @@ import pt.me.microm.model.stuff.GroundModel;
 import pt.me.microm.model.stuff.PortalModel;
 import pt.me.microm.model.stuff.SpawnModel;
 import pt.me.microm.model.stuff.WallModel;
+import pt.me.microm.model.trigger.SimpleTriggerModel;
 import pt.me.microm.model.ui.UIModel;
 
 import com.badlogic.gdx.Gdx;
@@ -91,6 +93,9 @@ public class LevelLoader {
 		
 		DaBoxModel dbm = DaBoxModel.getNewInstance(wm, dabox); 
 		wm.setPlayer(dbm);
+		
+		ClassicSingleton.getInstance().m = dbm;
+		
 		return dbm;
 	}	
 	
@@ -204,9 +209,23 @@ public class LevelLoader {
 		
 	}	
 	
+	/**
+	 * 
+	 * @param trigger
+	 * @param wm
+	 */
+	private static SimpleTriggerModel addTriggerToWorld(WorldModel wm, BasicShape trigger, String trigger_name) {
+		if (GameMicroM.FLAG_DEV_ELEMENTS)
+		for (Vector2 ap : trigger.getPointsArray()) {
+			DebugModel m = DebugModel.getNewInstance(wm, ap.x+trigger.getCentroid().x, ap.y+trigger.getCentroid().y);
+			m.setColor(Color.PINK);
+		}
+		
+		return SimpleTriggerModel.getNewInstance(wm, trigger);
+		
+	}
+	
 
-	
-	
 	
 	/**
 	 * This function loads a level from a SVG file. It makes a lot of
@@ -415,7 +434,7 @@ public class LevelLoader {
 					public String get() {
 						return s;
 					}
-				}, sh.getCentroid(), true);
+				}, sh.getCentroid(), 5.0f, true);
 				
 				nrElements+=1;
 			}
@@ -433,10 +452,7 @@ public class LevelLoader {
 				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
 				String trigger_name = triggers.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
-				for (Vector2 ap : s.getPointsArray()) {
-					DebugModel m = DebugModel.getNewInstance(wm, ap.x+s.getCentroid().x, ap.y+s.getCentroid().y);
-					m.setColor(Color.PINK);
-				}	
+				addTriggerToWorld(wm, s, trigger_name);
 				
 				nrElements+=1;
 			}			

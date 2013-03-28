@@ -26,6 +26,15 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Logger;
 
+/**
+ * Renderiza uma "explosão de estrelas" numa dada coordenada
+ * 
+ * Exemplos de utilização:
+ * 		-choque com uma estrela
+ * 
+ * @author mneves
+ *
+ */
 public class CollisionModel extends AbstractModel {
 	private static final String TAG = CollisionModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);

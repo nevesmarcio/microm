@@ -113,7 +113,7 @@ public class UIModel extends AbstractModel {
 				return "Hello World";
 			}
 
-		}, new Vector2(getTestPoint()[pointer].x, getTestPoint()[pointer].y), false);
+		}, new Vector2(getTestPoint()[pointer].x, getTestPoint()[pointer].y), 1.0f, false);
 		
 		
 		
@@ -278,12 +278,12 @@ public class UIModel extends AbstractModel {
 	private static int MAX_FLASH_MESSAGES = 5;
 	public Queue<UIModel.FlashMessage> afm = new ArrayBlockingQueue<UIModel.FlashMessage>(MAX_FLASH_MESSAGES);
 	
-	public void addFlashMessage(Accessor<?> a, Vector2 position, boolean worldCoord) {
+	public void addFlashMessage(Accessor<?> a, Vector2 position, float duration, boolean worldCoord) {
 		if (worldCoord) {
 			float scale = Gdx.graphics.getHeight()/GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY;
 			position.mul(scale);
-			
-			
+			position.add((Gdx.graphics.getWidth()-GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY*scale)/2, 0.0f);
+			position.y = Gdx.graphics.getHeight() - position.y;
 		}
 			
 		
@@ -294,7 +294,7 @@ public class UIModel extends AbstractModel {
 		
 		afm.offer(fm);
 		
-		Tween.to(fm, FlashMessageAccessor.SCALE, 10.0f).target(3.0f)
+		Tween.to(fm, FlashMessageAccessor.SCALE, duration).target(3.0f)
 				.ease(aurelienribon.tweenengine.equations.Elastic.INOUT)
 				.setCallback(new TweenCallback() {
 					@Override

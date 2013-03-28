@@ -7,6 +7,7 @@ import pt.me.microm.model.ui.UIModel;
 import pt.me.microm.view.AbstractView;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -184,13 +185,13 @@ public class UIView  extends AbstractView {
 		/* renderização das flashmessages */
 		batch.begin();
 
-			OrthographicCamera ca;
+			Camera ca;
 			for (UIModel.FlashMessage fm : uiSrc.afm) {
 				
 				batch.setProjectionMatrix((ca = e.getCamera().getUiCamera()).combined);
 				Vector3 blah = new Vector3(fm.position.x, fm.position.y, 0.0f);
 				ca.unproject(blah);
-				
+
 				tweenFont.setScale(fm.scale);
 				tweenFont.draw(batch, fm.dataSource.get().toString(), blah.x, blah.y);
 			}

@@ -20,5 +20,7 @@ public class Main {
 		new LwjglApplication(new GameMicroM(), cfg);
 		
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+
+		
 	}
 }
