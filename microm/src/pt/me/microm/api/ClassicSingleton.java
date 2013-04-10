@@ -1,4 +1,4 @@
-package pt.me.microm;
+package pt.me.microm.api;
 
 import pt.me.microm.model.stuff.DaBoxModel;
 
@@ -17,5 +17,7 @@ public class ClassicSingleton {
 	   
 	   public DaBoxModel m; 
 	   
-	   
+	   public void out(String s) {
+		   System.out.println(s);
+	   }
 	}

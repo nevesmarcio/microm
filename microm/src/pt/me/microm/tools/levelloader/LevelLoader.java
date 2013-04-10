@@ -17,8 +17,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import pt.me.microm.ClassicSingleton;
 import pt.me.microm.GameMicroM;
+import pt.me.microm.api.ClassicSingleton;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.collectible.StarModel;
@@ -214,14 +214,16 @@ public class LevelLoader {
 	 * @param trigger
 	 * @param wm
 	 */
-	private static SimpleTriggerModel addTriggerToWorld(WorldModel wm, BasicShape trigger, String trigger_name) {
+	private static SimpleTriggerModel addTriggerToWorld(WorldModel wm, BasicShape trigger, String trigger_name, String script) {
 		if (GameMicroM.FLAG_DEV_ELEMENTS)
 		for (Vector2 ap : trigger.getPointsArray()) {
 			DebugModel m = DebugModel.getNewInstance(wm, ap.x+trigger.getCentroid().x, ap.y+trigger.getCentroid().y);
 			m.setColor(Color.PINK);
 		}
 		
-		return SimpleTriggerModel.getNewInstance(wm, trigger);
+		SimpleTriggerModel tModel = SimpleTriggerModel.getNewInstance(wm, trigger);
+		tModel.setScript(script);
+		return tModel;
 		
 	}
 	
@@ -451,8 +453,9 @@ public class LevelLoader {
 
 				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
 				String trigger_name = triggers.item(i).getAttributes().getNamedItem("id").getNodeValue();
+				String script = triggers.item(i).getAttributes().getNamedItem("custom:script").getNodeValue();
 				
-				addTriggerToWorld(wm, s, trigger_name);
+				addTriggerToWorld(wm, s, trigger_name, script);
 				
 				nrElements+=1;
 			}			

@@ -69,7 +69,7 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 			}
 		});		
 		
-		// Este evento tem que ser lançado por casa Model após toda a instanciação efectuada.
+		// Este evento tem que ser lançado por cada Model após toda a instanciação efectuada.
 		// Tipicamente é a última linha do constructor de cada Modelo. 
 		// this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
 	}
@@ -95,6 +95,7 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	public void beginContactWith(BodyInterface oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("abstract contact: " + this.getClass().getName());
 	}
 
 	@Override /* related to ContactInterface */

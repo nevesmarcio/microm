@@ -4,6 +4,7 @@ import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.BodyInterface;
+import pt.me.microm.model.ContactInterface;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
 import pt.me.microm.model.stuff.BoardModel;
@@ -45,6 +46,8 @@ public class CoisaModel extends AbstractModel implements BodyInterface {
 		// 3. Create a Body, as usual.
 		coisaBody = WorldModel.getSingletonInstance().getPhysicsWorld().createBody(bd);
 
+		coisaBody.setUserData(CoisaModel.this); // relacionar com o modelo
+		
 		// 4. Create the body fixture automatically by using the loader.
 		loader.attachFixture(coisaBody, "thing", fd, 1.0f);
 		
@@ -100,5 +103,22 @@ public class CoisaModel extends AbstractModel implements BodyInterface {
 	public Body getBody() {
 		return coisaBody;
 	}
+	
+	
+
+	
+	@Override /* related to ContactInterface */
+	public void beginContactWith(BodyInterface oModel) {
+		// put non-specific contact logic @ MyContactListener
+		// implement specific contact logic by overriding this method on a Model
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("specific contact: " + this.getClass().getName());
+	}
+	@Override /* related to ContactInterface */
+	public void endContactWith(BodyInterface oModel) {
+		// put non-specific contact logic @ MyContactListener
+		// implement specific contact logic by overriding this method on a Model
+	}
+	
+	
 	
 }

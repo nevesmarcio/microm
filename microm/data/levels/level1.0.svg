@@ -119,17 +119,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="322.85702"
-     inkscape:cy="594.20754"
+     inkscape:zoom="0.5"
+     inkscape:cx="807.73373"
+     inkscape:cy="663.13413"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1680"
-     inkscape:window-height="1028"
-     inkscape:window-x="1672"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1" />
+     inkscape:window-width="1369"
+     inkscape:window-height="855"
+     inkscape:window-x="1772"
+     inkscape:window-y="29"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -226,12 +226,14 @@
        d="m 242.5,621.73718 16.5,0 m 0,0 -8.1267,-20.9375 8.1267,-20.9375 -16.5,0 8.10428,20.9375 -8.10428,20.9375"
        id="trigger_1"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccccccc" />
+       sodipodi:nodetypes="cccccccc"
+       custom:script="cs.out(&quot;trigger_1&quot;)" />
     <path
        sodipodi:nodetypes="cccccccc"
        inkscape:connector-curvature="0"
        id="trigger_2"
        d="m 909.8125,592.54968 0,16.5 m 0,0 20.9375,-8.1267 20.9375,8.1267 0,-16.5 -20.9375,8.10428 -20.9375,-8.10428"
-       style="fill:#ff0000;fill-opacity:1;stroke:none" />
+       style="fill:#ff0000;fill-opacity:1;stroke:none"
+       custom:script="cs.out(&quot;trigger_2&quot;)" />
   </g>
 </svg>

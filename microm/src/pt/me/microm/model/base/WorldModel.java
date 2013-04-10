@@ -126,7 +126,7 @@ public class WorldModel extends AbstractModel {
 		
 		FileHandle h = Gdx.files.internal("data/levels/level1.0.svg");
 		int nr_elements_loaded = LevelLoader.LoadLevel(h, this);
-		if (logger.getLevel() == logger.INFO) logger.info("Nr elements loaded: " + nr_elements_loaded);
+		if (logger.getLevel() == Logger.INFO) logger.info("Nr elements loaded: " + nr_elements_loaded);
 
 		// regista o contactListener para que este notifique os objectos quando há choques 
 		getPhysicsWorld().setContactListener(myContactListener = new MyContactListener()); //new ContactListenerImpl() 
@@ -153,7 +153,7 @@ public class WorldModel extends AbstractModel {
 	public void handleGameTick(GameTickEvent e) {
 		float elapsedNanoTime = e.getElapsedNanoTime();
 
-		if (logger.getLevel() == logger.DEBUG) logger.debug("[WorldModel timestep]: time elapsed=" + elapsedNanoTime/GAME_CONSTANTS.ONE_SECOND_TO_NANO + "s");
+		if (logger.getLevel() == Logger.DEBUG) logger.debug("[WorldModel timestep]: time elapsed=" + elapsedNanoTime/GAME_CONSTANTS.ONE_SECOND_TO_NANO + "s");
 		
 		// testes de física
 		if ((getPhysicsWorld() != null) && !isPauseSim()){
@@ -162,7 +162,7 @@ public class WorldModel extends AbstractModel {
 			
 			//TODO: Não entendo pq é que o elapsed nanotime escavaca o esquema todo... :: não é o elapsednanotime. é o cálculo da força a aplicar. com velocidade constante já n se verifica?!?
 			//physicsWorld.step(elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO, 12, 6);
-			if (logger.getLevel() == logger.DEBUG) logger.debug("[physics-step]: step=" + elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO);
+			if (logger.getLevel() == Logger.DEBUG) logger.debug("[physics-step]: step=" + elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO);
 		
 			//É após o step que se pode processar o adicionar/ remover objectos no physicsWorld
 			wmManager.process();

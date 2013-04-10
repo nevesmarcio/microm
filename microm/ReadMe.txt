@@ -8,6 +8,10 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 
 
 [DONE]
+16-01-2013
+# estrutura inicial do projecto +/- estabilizado do ponto de vista da arquitectura
+
+17-01-2013
 # code review - organizar a arquitectura
 # implementados os pickrays para mais do que um ponto de toque no ecrã
 # averiguar o porquê dos flicks do ecrã (que se manifestam mais no droid, mas tb acontecem no PC) :: tem a ver com o camera-update no cameraModel para forçar o update após alteração da camara
@@ -197,9 +201,13 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 
 
 
+09-04-2013
+10-04-2013
 
 
-(in progress)
+
+
+[in progress]
 
 # ver o problema da rotação: a rotação da estrelinha não está a 100%
 
@@ -209,9 +217,6 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 
 --> cada objecto subscreve o trigger e o script associado (com uma tag custom) ::
 pe. trigger :: path_to_script
-
-
-
 
 
 

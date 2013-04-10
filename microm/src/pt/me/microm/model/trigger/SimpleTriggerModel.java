@@ -32,6 +32,7 @@ public class SimpleTriggerModel extends AbstractModel implements BodyInterface {
 	
 	private WorldModel wm;
 	private BasicShape trigger;
+	private String script;
 	
 	private SimpleTriggerModel(final WorldModel wm, final BasicShape trigger) {
 		this.wm = wm;
@@ -94,6 +95,14 @@ public class SimpleTriggerModel extends AbstractModel implements BodyInterface {
 	}
 
 	
+	public String getScript() {
+		return script;
+	}
+	public void setScript(String script) {
+		this.script = script;
+	}
+	
+	
 	// BodyInterface implementation
 	@Override
 	public BasicShape getBasicShape() {
@@ -123,5 +132,5 @@ public class SimpleTriggerModel extends AbstractModel implements BodyInterface {
 	public void endContactWith(BodyInterface oModel) {
 		if (logger.getLevel() >= Logger.INFO) logger.info("da trigger has been cleared!");
 	}
-	
+
 }

@@ -3,9 +3,11 @@ package pt.me.microm.model.dev;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.BodyInterface;
 import pt.me.microm.model.PointerToFunction;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
+import pt.me.microm.tools.levelloader.BasicShape;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
@@ -84,15 +86,11 @@ public class DebugModel extends AbstractModel {
 	}
 
 
-//	@Override
+
 	public Body getBody() {
 		return debugBody;
 	}
 	
-//	@Override
-	public Vector2 getPosition() {
-		return null;
-	}	
 	
 	
 }
