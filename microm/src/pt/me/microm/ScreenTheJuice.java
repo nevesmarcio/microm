@@ -1,10 +1,12 @@
 package pt.me.microm;
 
+import pt.me.microm.api.ClassicSingleton;
 import pt.me.microm.controller.MyGestureListener;
 import pt.me.microm.controller.MyInputProcessor;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.GameTickGenerator;
 import pt.me.microm.infrastructure.ScreenTickManager;
+import pt.me.microm.model.MyContactListener;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
 
@@ -51,7 +53,13 @@ public class ScreenTheJuice extends ScreenAbstract {
 		// Lança o controller dos ticks temporais : x second tick
 		GameTickGenerator.getInstance(); //responsável pela actualizacao dos modelos
 		ScreenTickManager.getInstance(); //responsável pela actualizacao das views
+		
+		//responsável pela extensibilidade do controller: delega o controlo a entidades externas (javascript + terminal)
+		ClassicSingleton cs = ClassicSingleton.getInstance();
+		worldModel.myContactListener.addListener(MyContactListener.EventType.ON_COLLISION_BEGIN, cs);
+		worldModel.myContactListener.addListener(MyContactListener.EventType.ON_COLLISION_END, cs);
 
+		
 //		//FIXME: for development purposes only
 //		RemoteInput receiver = new RemoteInput(7777);
 //		Gdx.input = receiver;

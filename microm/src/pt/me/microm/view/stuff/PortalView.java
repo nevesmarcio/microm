@@ -67,7 +67,7 @@ public class PortalView extends AbstractView {
 		// Fixme: avaliar 
 		texture = r.getTexture(); // isto devolve sempre a textura inteira e não o quadradinho que pretendo... isto para ficar resolvido tem que se usar o UV MAP!!
 		
-		Gdx.app.postRunnable(new Runnable() { //Garante que as instrucções OPENGL correm na thread do GUI, onde existe um contexto OPENGL
+		ScreenTickManager.PostRunnable(new Runnable() { //Garante que as instrucções OPENGL correm na thread do GUI, onde existe um contexto OPENGL
 
 			@Override
 			public void run() {

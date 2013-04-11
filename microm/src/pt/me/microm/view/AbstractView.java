@@ -1,17 +1,15 @@
 package pt.me.microm.view;
 
 import pt.me.microm.infrastructure.ScreenTickManager;
-import pt.me.microm.infrastructure.interfaces.ScreenTickInterface;
+import pt.me.microm.infrastructure.interfaces.IScreenTick;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.PointerToFunction;
-import pt.me.microm.model.events.Event;
-import pt.me.microm.model.events.listener.EventListener;
+import pt.me.microm.model.events.IEvent;
+import pt.me.microm.model.events.listener.IEventListener;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Logger;
 
-public abstract class AbstractView implements Disposable, ScreenTickInterface {
+public abstract class AbstractView implements Disposable, IScreenTick {
 	private static final String TAG = AbstractView.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG);
 	
@@ -24,10 +22,10 @@ public abstract class AbstractView implements Disposable, ScreenTickInterface {
 	public AbstractView(AbstractModel model, final int zIndex) {
 		this.model = model;
 
-		model.addListener(AbstractModel.EventType.ON_MODEL_INSTANTIATED, new EventListener() {
+		model.addListener(AbstractModel.EventType.ON_MODEL_INSTANTIATED, new IEventListener() {
 
 			@Override
-			public void onEvent(Event event) {
+			public void onEvent(IEvent event) {
 				DelayedInit( ); // Isto vai correr na thread do model
 				// Regista este objecto para ser informado dos screen ticks
 				// Este registo só pode ser efectuado depois do Modelo instanciado 

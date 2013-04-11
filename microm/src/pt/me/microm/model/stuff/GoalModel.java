@@ -1,13 +1,11 @@
 package pt.me.microm.model.stuff;
 
-import java.util.List;
-
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.BodyInterface;
-import pt.me.microm.model.PointerToFunction;
+import pt.me.microm.model.IBodyProperties;
 import pt.me.microm.model.base.WorldModel;
+import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
 import pt.me.microm.model.events.SimpleEvent;
 import pt.me.microm.tools.levelloader.BasicShape;
 
@@ -20,7 +18,7 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class GoalModel extends AbstractModel implements BodyInterface {
+public class GoalModel extends AbstractModel implements IBodyProperties {
 	private static final String TAG = GoalModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
@@ -42,7 +40,6 @@ public class GoalModel extends AbstractModel implements BodyInterface {
 			@Override
 			public Object handler(Object ... a) {
 				
-			
 				silhouetteVertex = goal.getPointsArray();
 				
 				goalShape = new ChainShape();
@@ -60,10 +57,8 @@ public class GoalModel extends AbstractModel implements BodyInterface {
 				fixDef.friction = 0.0f;
 				fixDef.restitution = 0.0f;		
 				goalBody.createFixture(fixDef);
-				getBody().createFixture(fixDef);
 					
-				getBody().setUserData(GoalModel.this); // relacionar com o modelo
-				
+				goalBody.setUserData(GoalModel.this); // relacionar com o modelo
 				
 				// Sinaliza os subscritores de que a construção do modelo terminou.
 				GoalModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
@@ -114,11 +109,11 @@ public class GoalModel extends AbstractModel implements BodyInterface {
 	
 	// ContactInterface implementation
 	@Override
-	public void beginContactWith(BodyInterface oModel) {
+	public void beginContactWith(IBodyProperties oModel) {
 		Gdx.app.log(TAG, "Oh yeah!!");
 	}
 	@Override
-	public void endContactWith(BodyInterface oModel) {
+	public void endContactWith(IBodyProperties oModel) {
 		Gdx.app.log(TAG, "Oh nooooooooooooooo!!");
 	}
 	

@@ -200,9 +200,30 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # integrado o rhino (javascript engine) :: a funcionar em desktop e também no droid wOOOt!!
 
 
-
 09-04-2013
 10-04-2013
+# ClassicSingleton
+  Da forma que tenho esta classe implementada estou a contar com o thread do UI para pendurar o contexto do javascript, o que não me parece fixe!
+# Já agora, não tenho uma classe qualquer onde penduro "ponteiros para funções" ? Já que há um loop baseado num timer, este não deveria aceitar runnables ?? DEVERIA!!!
+  Ver o exemplo do libgdx - https://github.com/libgdx/libgdx/blob/master/backends/gdx-backend-lwjgl/src/com/badlogic/gdx/backends/lwjgl/LwjglApplication.java
+
+
+11-04-2013
+# Identificação dos estouros da VM:
+	. a criação de joints com o rato dentro de um step
+	. renderização dos contactos no WorldView.java ?
+
+# Implementação de um mecanismo de correr runnables nas 2 threads princiais da aplicação: ScreenTickManager e GameTickGenerator
+# Refactorização da nomenclatura dos interfaces (ISomeInterface)
+# Motor do DaBoxModel implementado com recurso a impulsos e não um set da linearVelocity à bruta
+
+
+
+
+
+
+
+
 
 
 

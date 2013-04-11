@@ -1,17 +1,14 @@
 package pt.me.microm.model.stuff;
 
-import java.util.List;
-
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.BodyInterface;
-import pt.me.microm.model.PointerToFunction;
+import pt.me.microm.model.IBodyProperties;
 import pt.me.microm.model.base.WorldModel;
+import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
 import pt.me.microm.model.events.SimpleEvent;
 import pt.me.microm.tools.levelloader.BasicShape;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -20,7 +17,7 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class WallModel extends AbstractModel implements BodyInterface {
+public class WallModel extends AbstractModel implements IBodyProperties {
 	private static final String TAG = WallModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 
@@ -122,9 +119,9 @@ public class WallModel extends AbstractModel implements BodyInterface {
 
 	
 	private int boxTouchMyTralala = 0;
-	BodyInterface box = null;
+	IBodyProperties box = null;
 	@Override
-	public void beginContactWith(BodyInterface oModel) {
+	public void beginContactWith(IBodyProperties oModel) {
 		if (boxTouchMyTralala == 0) 
 			if (logger.getLevel() >= Logger.INFO) logger.info("daBox hit da wall!");
 		boxTouchMyTralala +=1;
@@ -132,7 +129,7 @@ public class WallModel extends AbstractModel implements BodyInterface {
 	}
 	
 	@Override
-	public void endContactWith(BodyInterface oModel) {
+	public void endContactWith(IBodyProperties oModel) {
 		boxTouchMyTralala -=1;
 		if (boxTouchMyTralala == 0) 
 			if (logger.getLevel() >= Logger.INFO) logger.info("daBox left the wall!");

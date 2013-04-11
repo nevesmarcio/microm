@@ -6,7 +6,7 @@ package pt.me.microm.model.events;
  * Nota: Este é o objecto transmitido pelo EventDispatcher (Models) para o 
  * EventListener (View).
  */
-public interface Event {
+public interface IEvent {
 
 	public Enum getType();
 

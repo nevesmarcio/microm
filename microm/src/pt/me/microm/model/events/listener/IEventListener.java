@@ -1,6 +1,6 @@
 package pt.me.microm.model.events.listener;
 
-import pt.me.microm.model.events.Event;
+import pt.me.microm.model.events.IEvent;
 
 /*
  * Thanks to: http://www.therealjoshua.com/2012/07/android-architecture-part-10-the-activity-revisited/
@@ -10,8 +10,8 @@ import pt.me.microm.model.events.Event;
  * Este event listener é para ser implementado pela view!!
  */
 
-public interface EventListener {
+public interface IEventListener {
 
-	void onEvent(Event event);
+	void onEvent(IEvent event);
 
 }

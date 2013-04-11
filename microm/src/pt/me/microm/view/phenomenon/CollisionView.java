@@ -2,6 +2,7 @@ package pt.me.microm.view.phenomenon;
 
 import pt.me.microm.GameMicroM;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.ScreenTickManager;
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.phenomenon.CollisionModel;
 import pt.me.microm.view.AbstractView;
@@ -31,7 +32,7 @@ public class CollisionView extends AbstractView {
 	public void DelayedInit() {
 		 batch = new SpriteBatch();
 		 
-		 Gdx.app.postRunnable(new Runnable() {
+		 ScreenTickManager.PostRunnable(new Runnable() {
 			@Override
 			public void run() {
 				particleEffect = new ParticleEffect();

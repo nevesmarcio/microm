@@ -6,10 +6,10 @@ import java.lang.reflect.InvocationTargetException;
 import pt.me.microm.GameMicroM;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.GameTickGenerator;
-import pt.me.microm.infrastructure.interfaces.GameTickInterface;
-import pt.me.microm.model.events.Event;
+import pt.me.microm.infrastructure.interfaces.IGameTick;
+import pt.me.microm.model.events.IEvent;
 import pt.me.microm.model.events.dispatcher.EventDispatcher;
-import pt.me.microm.model.events.listener.EventListener;
+import pt.me.microm.model.events.listener.IEventListener;
 import pt.me.microm.view.AbstractView;
 
 import com.badlogic.gdx.math.Vector2;
@@ -22,7 +22,7 @@ import com.badlogic.gdx.utils.Logger;
  * O controller actua directamente sobre o modelo, de tal forma que as views não tem sobre
  * ela quaisquer interacções para além da especificada pelo interface ScreenTickInterface
  */
-public abstract class AbstractModel extends EventDispatcher implements Disposable, GameTickInterface, ContactInterface {
+public abstract class AbstractModel extends EventDispatcher implements Disposable, IGameTick, ContactInterface {
 	private static final String TAG = AbstractModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
@@ -60,10 +60,10 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 		
 		// Tanto a abstractView como o abstractModel escutam o ON_MODEL_INSTANTIATED 
 		// para saber quando podem registar os eventos screenTick e gameTick respectivamente 
-		this.addListener(AbstractModel.EventType.ON_MODEL_INSTANTIATED, new EventListener() {
+		this.addListener(AbstractModel.EventType.ON_MODEL_INSTANTIATED, new IEventListener() {
 
 			@Override
-			public void onEvent(Event event) {
+			public void onEvent(IEvent event) {
 				//Regista este objecto para ser informado dos game ticks 
 				GameTickGenerator.getInstance().addEventListener(AbstractModel.this);
 			}
@@ -92,14 +92,14 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	
 	
 	@Override /* related to ContactInterface */
-	public void beginContactWith(BodyInterface oModel) {
+	public void beginContactWith(IBodyProperties oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
 		if (logger.getLevel() >= Logger.DEBUG) logger.debug("abstract contact: " + this.getClass().getName());
 	}
 
 	@Override /* related to ContactInterface */
-	public void endContactWith(BodyInterface oModel) {
+	public void endContactWith(IBodyProperties oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
 	}	

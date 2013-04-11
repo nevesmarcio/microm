@@ -56,37 +56,40 @@ public class WorldView extends AbstractView {
 	private List<Contact> temp = new ArrayList<Contact>();
 	@Override
 	public void draw(ScreenTickEvent e) {
-		
-		if (GameMicroM.FLAG_DEV_ELEMENTS) {
-			/* renderização do world sprite... nem faz mto sentido isto, mas pronto */
-			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
-			batch.begin();
-				worldSprite.draw(batch);
-			batch.end();		
-		
-			/* renderização dos contactos */ 
-			temp.clear();
-			temp.addAll(wmSrc.getPhysicsWorld().getContactList());
-			for (int i=0; i < temp.size(); i++) {
-			
-				Contact aux = temp.get(i);
-				
-				WorldManifold wmfold = aux.getWorldManifold();
 
-				for (int j = 0; j<wmfold.getNumberOfContactPoints(); j++) {
-					Vector2 cpt = wmfold.getPoints()[j];
-					
-					renderer.identity();
-					renderer.translate(cpt.x, cpt.y, 0.0f);
-
-					renderer.begin(ShapeType.FilledCircle);
-					renderer.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-					renderer.filledCircle(0.0f, 0.0f, 0.1f, 10);
-					renderer.end();
-				}
-			}		
-		
-		}
+//FIXME:Uma catreifada dos estouros fora da VM bate aqui 
+//      Em principio este pedaço de código provoca os estouros fora da VM!! (devido ao array estar a ser manipulado sem cópia?)		
+//
+//		if (GameMicroM.FLAG_DEV_ELEMENTS) {
+//			/* renderização do world sprite... nem faz mto sentido isto, mas pronto */
+//			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+//			batch.begin();
+//				worldSprite.draw(batch);
+//			batch.end();		
+//		
+//			/* renderização dos contactos */ 
+//			temp.clear();
+//			temp.addAll(wmSrc.getPhysicsWorld().getContactList());
+//			for (int i=0; i < temp.size(); i++) {
+//			
+//				Contact aux = temp.get(i);
+//				
+//				WorldManifold wmfold = aux.getWorldManifold();
+//
+//				for (int j = 0; j<wmfold.getNumberOfContactPoints(); j++) {
+//					Vector2 cpt = wmfold.getPoints()[j];
+//					
+//					renderer.identity();
+//					renderer.translate(cpt.x, cpt.y, 0.0f);
+//
+//					renderer.begin(ShapeType.FilledCircle);
+//					renderer.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+//					renderer.filledCircle(0.0f, 0.0f, 0.1f, 10);
+//					renderer.end();
+//				}
+//			}		
+//		
+//		}
 		
 		renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 		/* renderização dos joints */

@@ -9,20 +9,25 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import pt.me.microm.infrastructure.events.GameTickEvent;
-import pt.me.microm.infrastructure.interfaces.GameTickInterface;
+import pt.me.microm.infrastructure.interfaces.IGameTick;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class GameTickGenerator implements Disposable{
+public class GameTickGenerator implements IProcessRunnable, Disposable{
 	private static final String TAG = GameTickGenerator.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG);
 
-	private List<GameTickInterface> _listeners = new ArrayList<GameTickInterface>();
+	private List<IGameTick> _listeners = new ArrayList<IGameTick>();
 
-	public synchronized void addEventListener(GameTickInterface listener) {
+	// runnables
+	protected final Array<Runnable> runnables = new Array();
+	protected final Array<Runnable> executedRunnables = new Array();	
+	
+	public synchronized void addEventListener(IGameTick listener) {
 
 		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-addEventListener-begin]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 		_listeners.add(listener);
@@ -30,7 +35,7 @@ public class GameTickGenerator implements Disposable{
 		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-addEventListener-end]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 	}
 
-	public synchronized void removeEventListener(GameTickInterface listener) {
+	public synchronized void removeEventListener(IGameTick listener) {
 
 		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-removeEventListener-begin]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 		_listeners.remove(listener);
@@ -44,10 +49,10 @@ public class GameTickGenerator implements Disposable{
 	 * @param elapsedNanoTime
 	 */
 	private GameTickEvent event = new GameTickEvent(this); 				// reutilização do evento
-	private Iterator<GameTickInterface> i; 								// reutilização da variável para iteração sobre a lista
-	private GameTickInterface gti; 										// reutilização do GameTickInterface
-	private List<GameTickInterface> temp_listeners =
-			new ArrayList<GameTickInterface>();							// reutilização da lista de listeners
+	private Iterator<IGameTick> i; 								// reutilização da variável para iteração sobre a lista
+	private IGameTick gti; 										// reutilização do GameTickInterface
+	private List<IGameTick> temp_listeners =
+			new ArrayList<IGameTick>();							// reutilização da lista de listeners
 	private boolean isTempListenersDirty = true;						// variável de controlo para saber se a lista de listeners mudou
 	private synchronized void fireEvent(long elapsedNanoTime) {
 		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-fireEvent]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
@@ -101,7 +106,22 @@ public class GameTickGenerator implements Disposable{
 			long elapsedNanoTime = thisTick - lastTick;
 
 			try {
+				// fire timed event
 				fireEvent(elapsedNanoTime);
+				
+				// execute registered runnables
+				synchronized (runnables) {
+					executedRunnables.clear();
+					executedRunnables.addAll(runnables);
+					runnables.clear();
+				}
+
+				for (int i = 0; i < executedRunnables.size; i++) {
+					executedRunnables.get(i).run(); // calls out to random app code that could do anything ...
+				}				
+				
+				
+				
 			} catch (Exception e) {
 				if (logger.getLevel() == Logger.ERROR) logger.error("Something fishy is going on here... Ex:" + e.getMessage());
 			}
@@ -118,4 +138,24 @@ public class GameTickGenerator implements Disposable{
 		gameTick = null;
 	}
 
+	/**
+	 * This method allows that external code adds a runnable to be executed on
+	 * the GameTickManager's thread context
+	 */
+	@Override
+	public void postRunnable(Runnable runnable) {
+		synchronized (runnables) {
+			runnables.add(runnable);
+		}
+		
+	}
+	
+	/**
+	 *  Static shortcut to the postRunnable method
+	 * @param runnable
+	 */
+	public static void PostRunnable(Runnable runnable)  {
+		getInstance().postRunnable(runnable);
+	}
+	
 }

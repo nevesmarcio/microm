@@ -15,7 +15,7 @@ public class GAME_CONSTANTS {
 	public static final long ONE_SECOND_TO_MILI = 1000L; // 1 second = 1x10^3 miliSeconds
 	public static final long ONE_MILISECOND_TO_NANO = 1000000L; // 1 miliSecond = 1x10^6 nanoSeconds
 	
-	public static final int GAME_TICK_MILI = 16;
+	public static final int GAME_TICK_MILI = 16;//16
 	
 	public static final float MODEL_SCREEN_WIDTH_CAPACITY = 15.0f; // must be able to represent 15 units on full width
 //	public static final float MODEL_GAME_ASPECT_RATIO = 4.0f/4.0f; // 4:3 game

@@ -3,7 +3,7 @@ package pt.me.microm.model.dev;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.BodyInterface;
+import pt.me.microm.model.IBodyProperties;
 import pt.me.microm.model.ContactInterface;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.events.SimpleEvent;
@@ -20,7 +20,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class CoisaModel extends AbstractModel implements BodyInterface {
+public class CoisaModel extends AbstractModel implements IBodyProperties {
 	private static final String TAG = CoisaModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
@@ -108,13 +108,13 @@ public class CoisaModel extends AbstractModel implements BodyInterface {
 
 	
 	@Override /* related to ContactInterface */
-	public void beginContactWith(BodyInterface oModel) {
+	public void beginContactWith(IBodyProperties oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
 		if (logger.getLevel() >= Logger.DEBUG) logger.debug("specific contact: " + this.getClass().getName());
 	}
 	@Override /* related to ContactInterface */
-	public void endContactWith(BodyInterface oModel) {
+	public void endContactWith(IBodyProperties oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
 	}

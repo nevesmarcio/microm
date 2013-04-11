@@ -44,48 +44,6 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 //		setScreen(splash);
 		setScreen(theJuice);
 
-		Thread t = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				
-				// javascript engine
-				Context cx = Context.enter();
-				cx.setOptimizationLevel(-1); // do not compile - it won't run on dalvik vm
-				Scriptable scope = cx.initStandardObjects();
-				
-				Object wrappedOut = Context.javaToJS(ClassicSingleton.getInstance(), scope);
-				ScriptableObject.putProperty(scope, "cs", wrappedOut);		
-				
-				Object result = cx.evaluateString(scope, "function f(x){return x+1}; f(7);", "somescript.js", 1, null); // 1 is the line number!
-				System.out.println(">>>>>>>" + Context.toString(result));
-				
-				
-				InputStreamReader inputStreamReader = new InputStreamReader(System.in);
-				BufferedReader stdin = new BufferedReader (inputStreamReader);
-				int i = 0;
-				try {
-					while (true) {
-						i+=1;
-						String s = stdin.readLine();
-						if (s.equals("exit"))
-							break;
-						result = cx.evaluateString(scope, s, "<<from console>>", i, null); // 1 is the line number!
-						System.out.println(">>>>>>>" + Context.toString(result));	
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-				Context.exit();
-				/////////////////				
-				
-			}
-		});
-		
-		t.start();
-
 
 	}
 	

@@ -1,15 +1,12 @@
 package pt.me.microm.model.stuff;
 
-import java.util.List;
-import java.util.Random;
-
 import pt.me.microm.GameMicroM;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.BodyInterface;
-import pt.me.microm.model.PointerToFunction;
+import pt.me.microm.model.IBodyProperties;
 import pt.me.microm.model.base.WorldModel;
+import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
 import pt.me.microm.model.dev.BallModel;
 import pt.me.microm.model.dev.CoisaModel;
 import pt.me.microm.model.events.SimpleEvent;
@@ -20,7 +17,6 @@ import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -29,7 +25,7 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class SpawnModel extends AbstractModel implements BodyInterface {
+public class SpawnModel extends AbstractModel implements IBodyProperties {
 	private static final String TAG = SpawnModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
@@ -105,9 +101,12 @@ public class SpawnModel extends AbstractModel implements BodyInterface {
 						dbm.create(spawn.getCentroid());
 						
 						// se não colocar isto depois da leitura do board, os objectos caem no espaço
+						float Yoffset = 0.0f;
 						if (GameMicroM.FLAG_DEV_ELEMENTS) {
-							BallModel.getNewInstance(wm, 3.0f, 4.0f); // larga a bola num mundo num tabuleiro
-							CoisaModel.getNewInstance(wm, 1.0f, 4.0f);
+//							for (float i=0.0f;i<5.0;i+=0.1f)
+								BallModel.getNewInstance(wm, 2.0f/*+i*/, 4.0f+Yoffset); // larga a bola num mundo num tabuleiro
+//							for (float i=0.0f;i<1.0;i+=0.1f)
+//								CoisaModel.getNewInstance(wm, 1.0f/*+i*/, 2.0f+Yoffset);
 						}
 						
 						return null;

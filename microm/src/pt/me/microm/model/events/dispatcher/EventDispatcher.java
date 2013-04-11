@@ -5,8 +5,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.badlogic.gdx.Gdx;
 
-import pt.me.microm.model.events.Event;
-import pt.me.microm.model.events.listener.EventListener;
+import pt.me.microm.model.events.IEvent;
+import pt.me.microm.model.events.listener.IEventListener;
 
 /*
  * Thanks to: http://www.therealjoshua.com/2012/07/android-architecture-part-10-the-activity-revisited/
@@ -14,27 +14,27 @@ import pt.me.microm.model.events.listener.EventListener;
  * Nota: Esta é a classe que os objectos de modelo extendem.
  * Também há a hipotese de implementarem o interface Dispatcher directamente.
  */
-public class EventDispatcher implements Dispatcher {
+public class EventDispatcher implements IDispatcher {
 	private static final String TAG = EventDispatcher.class.getSimpleName();
 
-	private HashMap<Enum, CopyOnWriteArrayList<EventListener>> listenerMap;
-	private Dispatcher target;
+	private HashMap<Enum, CopyOnWriteArrayList<IEventListener>> listenerMap;
+	private IDispatcher target;
 
 	public EventDispatcher() {
 		this(null);
 	}
 
-	public EventDispatcher(Dispatcher target) {
-		listenerMap = new HashMap<Enum, CopyOnWriteArrayList<EventListener>>();
+	public EventDispatcher(IDispatcher target) {
+		listenerMap = new HashMap<Enum, CopyOnWriteArrayList<IEventListener>>();
 		this.target = (target != null) ? target : this;
 	}
 
 	@Override
-	public void addListener(Enum type, EventListener listener) {
+	public void addListener(Enum type, IEventListener listener) {
 		synchronized (listenerMap) {
-			CopyOnWriteArrayList<EventListener> list = listenerMap.get(type);
+			CopyOnWriteArrayList<IEventListener> list = listenerMap.get(type);
 			if (list == null) {
-				list = new CopyOnWriteArrayList<EventListener>();
+				list = new CopyOnWriteArrayList<IEventListener>();
 				listenerMap.put(type, list);
 			}
 			list.add(listener);
@@ -42,9 +42,9 @@ public class EventDispatcher implements Dispatcher {
 	}
 
 	@Override
-	public void removeListener(Enum type, EventListener listener) {
+	public void removeListener(Enum type, IEventListener listener) {
 		synchronized (listenerMap) {
-			CopyOnWriteArrayList<EventListener> list = listenerMap.get(type);
+			CopyOnWriteArrayList<IEventListener> list = listenerMap.get(type);
 			if (list == null)
 				return;
 			list.remove(listener);
@@ -55,9 +55,9 @@ public class EventDispatcher implements Dispatcher {
 	}
 
 	@Override
-	public boolean hasListener(Enum type, EventListener listener) {
+	public boolean hasListener(Enum type, IEventListener listener) {
 		synchronized (listenerMap) {
-			CopyOnWriteArrayList<EventListener> list = listenerMap.get(type);
+			CopyOnWriteArrayList<IEventListener> list = listenerMap.get(type);
 			if (list == null)
 				return false;
 			return list.contains(listener);
@@ -65,20 +65,20 @@ public class EventDispatcher implements Dispatcher {
 	}
 
 	@Override
-	public void dispatchEvent(Event event) {
+	public void dispatchEvent(IEvent event) {
 		if (event == null) {
 			Gdx.app.error(TAG, "can not dispatch null event");
 			return;
 		}
 		Enum type = event.getType();
 		event.setSource(target);
-		CopyOnWriteArrayList<EventListener> list;
+		CopyOnWriteArrayList<IEventListener> list;
 		synchronized (listenerMap) {
 			list = listenerMap.get(type);
 		}
 		if (list == null)
 			return;
-		for (EventListener l : list) {
+		for (IEventListener l : list) {
 			l.onEvent(event);
 		}
 	}

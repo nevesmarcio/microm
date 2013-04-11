@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import pt.me.microm.GameMicroM;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.ScreenTickManager;
 import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.dev.BallModel;
 import pt.me.microm.model.stuff.DaBoxModel;
@@ -70,7 +71,7 @@ public class DaBoxView extends AbstractView {
 
 	@Override
 	public void DelayedInit() {
-		Gdx.app.postRunnable(new Runnable() {
+		ScreenTickManager.PostRunnable(new Runnable() {
 			@Override
 			public void run() {		
 		
@@ -146,6 +147,10 @@ public class DaBoxView extends AbstractView {
 					for (int i = 0; i < vCnt; i++) {
 						cs.getVertex(i, pointA); //pointA.add(portalmSrc.getPortalBody().getPosition());
 						cs.getVertex(i==vCnt-1 ? 0 : i + 1, pointB); //pointB.add(portalmSrc.getPortalBody().getPosition());
+						if (daBoxmSrc.getBody().isAwake())
+							renderer.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+						else
+							renderer.setColor(0.0f, 1.0f, 1.0f, 1.0f);
 						renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
 					}
 				renderer.end();

@@ -71,7 +71,7 @@ public class WorldModel extends AbstractModel {
 	
 	public WorldModelManager wmManager = new WorldModelManager();
 	
-	private MyContactListener myContactListener;
+	public MyContactListener myContactListener;
 	
 	private WorldModel() {
 		
@@ -205,7 +205,7 @@ public class WorldModel extends AbstractModel {
 	public World getPhysicsWorld() {
 		return physicsWorld;
 	}
-	public void setPhysicsWorld(World physicsWorld) {
+	private void setPhysicsWorld(World physicsWorld) {
 		this.physicsWorld = physicsWorld;
 	}
 

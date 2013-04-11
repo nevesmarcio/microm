@@ -1,18 +1,14 @@
 package pt.me.microm.model.stuff;
 
-import java.util.List;
-
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.BodyInterface;
-import pt.me.microm.model.PointerToFunction;
-import pt.me.microm.model.AbstractModel.EventType;
+import pt.me.microm.model.IBodyProperties;
 import pt.me.microm.model.base.WorldModel;
+import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
 import pt.me.microm.model.events.SimpleEvent;
 import pt.me.microm.tools.levelloader.BasicShape;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -21,7 +17,7 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class BoardModel extends AbstractModel implements BodyInterface {
+public class BoardModel extends AbstractModel implements IBodyProperties {
 	private static final String TAG = BoardModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	

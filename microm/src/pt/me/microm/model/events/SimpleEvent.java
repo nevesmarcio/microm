@@ -6,7 +6,7 @@ package pt.me.microm.model.events;
  * Nota: Implementação base do interface Event
  */
 
-public class SimpleEvent implements Event {
+public class SimpleEvent implements IEvent {
 
 	private Enum type;
 	@Override
