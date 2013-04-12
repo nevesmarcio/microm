@@ -2,6 +2,7 @@ package pt.me.microm.model;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 
 import pt.me.microm.GameMicroM;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
@@ -22,7 +23,7 @@ import com.badlogic.gdx.utils.Logger;
  * O controller actua directamente sobre o modelo, de tal forma que as views não tem sobre
  * ela quaisquer interacções para além da especificada pelo interface ScreenTickInterface
  */
-public abstract class AbstractModel extends EventDispatcher implements Disposable, IGameTick, ContactInterface {
+public abstract class AbstractModel extends EventDispatcher implements Disposable, IGameTick, IContact {
 	private static final String TAG = AbstractModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
@@ -86,22 +87,63 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 		//-----
 		viewRef.dispose();
 		
+		// para todos os objectos referenciados como colisões, tem que haver a respectiva remoção
+		for (ICanCollide element : currentContactStatus.keySet()) {
+			((AbstractModel)element).disposeNotif(this);
+		}
+		
+		
 		//Elimina o registo deste objecto para ser informado dos game ticks
 		GameTickGenerator.getInstance().removeEventListener(this);
 	}
 	
 	
-	@Override /* related to ContactInterface */
-	public void beginContactWith(IBodyProperties oModel) {
+	private HashMap<ICanCollide, Integer> currentContactStatus = new HashMap<ICanCollide, Integer>();
+	
+	@Override /* related to IContact interface */
+	public int addPointOfContactWith(ICanCollide oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
-		if (logger.getLevel() >= Logger.DEBUG) logger.debug("abstract contact: " + this.getClass().getName());
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("abstract beginContactWith: " + this.getClass().getName());
+		
+		int incrementedValue = -1;
+		try {
+			incrementedValue = currentContactStatus.get(oModel).intValue() + 1;
+			currentContactStatus.put(oModel, new Integer(incrementedValue)); // incrementa o nr de contactos com determinado objecto
+		} catch (NullPointerException npe) {
+			incrementedValue = new Integer(1);
+			currentContactStatus.put(oModel, incrementedValue);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		
+		return incrementedValue;		
 	}
 
-	@Override /* related to ContactInterface */
-	public void endContactWith(IBodyProperties oModel) {
+	@Override /* related to IContact interface */
+	public int subtractPointOfContactWith(ICanCollide oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
-	}	
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("abstract endContactWith: " + this.getClass().getName());
+		
+		int decrementedValue = -1;
+		try {
+			decrementedValue = currentContactStatus.get(oModel).intValue() - 1;
+			currentContactStatus.put(oModel, new Integer(decrementedValue)); // decrementa o nr de contactos com determinado objecto
+			if (currentContactStatus.get(oModel).intValue() == 0) currentContactStatus.remove(oModel);
+			
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		
+		return decrementedValue;
+	}
+	
+	@Override /* related to IContact interface */
+	public void disposeNotif(AbstractModel oModel) {
+		if (currentContactStatus.containsKey(oModel))
+			currentContactStatus.remove(oModel);
+	}
+	
 	
 }

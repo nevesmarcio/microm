@@ -29,13 +29,18 @@ public class MyContactListener extends EventDispatcher implements ContactListene
 		// Cada model deverá fazer o override a este método para tratar dos contactos		
 		if (logger.getLevel() >= Logger.DEBUG) logger.debug("[default-contact-handler] : BeginContact => ("+contact.getChildIndexA()+","+contact.getChildIndexB()+") => " + contact.getFixtureA().toString() +" :: "+ contact.getFixtureB() );
 		
-		((ContactInterface)contact.getFixtureA().getBody().getUserData()).beginContactWith((IBodyProperties)contact.getFixtureB().getBody().getUserData());
-		((ContactInterface)contact.getFixtureB().getBody().getUserData()).beginContactWith((IBodyProperties)contact.getFixtureA().getBody().getUserData()); 
-
-		//TODO: INVOCAR AQUI A CHAMADA AO MOTOR DE JAVASCRIPT ??
-		this.dispatchEvent(new SimpleEvent(EventType.ON_COLLISION_BEGIN));
+		int a=-1,b=-1;
+		a=((IContact)contact.getFixtureA().getBody().getUserData()).addPointOfContactWith((ICanCollide)contact.getFixtureB().getBody().getUserData());
+		b=((IContact)contact.getFixtureB().getBody().getUserData()).addPointOfContactWith((ICanCollide)contact.getFixtureA().getBody().getUserData()); 
+		assert(a==b && a!=-1 && b!=-1); // bem, se a!=b ou a==-1 ou b==-1, há gato!
 		
-		System.out.println((ContactInterface)contact.getFixtureA().getBody().getUserData() + " -x- " + (ContactInterface)contact.getFixtureB().getBody().getUserData());
+		//TODO: INVOCAR AQUI A CHAMADA AO MOTOR DE JAVASCRIPT ??
+		if (a==1) {
+			this.dispatchEvent(new SimpleEvent(EventType.ON_COLLISION_BEGIN));
+			logger.info((IContact)contact.getFixtureA().getBody().getUserData() + " -x- " + (IContact)contact.getFixtureB().getBody().getUserData());
+		}
+		
+		
 		
 	}
 	@Override /* related to MyContactListener interface */
@@ -44,13 +49,17 @@ public class MyContactListener extends EventDispatcher implements ContactListene
 		// Cada model deverá fazer o override a este método para tratar dos contactos		
 		if (logger.getLevel() >= Logger.DEBUG) logger.debug("[default-contact-handler] : EndContact => ("+contact.getChildIndexA()+","+contact.getChildIndexB()+") => " + contact.getFixtureA().toString() +" :: "+ contact.getFixtureB() );
 
-		((ContactInterface)contact.getFixtureA().getBody().getUserData()).endContactWith((IBodyProperties)contact.getFixtureB().getBody().getUserData());
-		((ContactInterface)contact.getFixtureB().getBody().getUserData()).endContactWith((IBodyProperties)contact.getFixtureA().getBody().getUserData()); 
-
-		//TODO: INVOCAR AQUI A CHAMADA AO MOTOR DE JAVASCRIPT ??
-		this.dispatchEvent(new SimpleEvent(EventType.ON_COLLISION_END));
+		int a=-1,b=-1;
+		a=((IContact)contact.getFixtureA().getBody().getUserData()).subtractPointOfContactWith((ICanCollide)contact.getFixtureB().getBody().getUserData());
+		b=((IContact)contact.getFixtureB().getBody().getUserData()).subtractPointOfContactWith((ICanCollide)contact.getFixtureA().getBody().getUserData()); 
+		assert(a==b && a!=-1 && b!=-1); // bem, se a!=b ou a==-1 ou b==-1, há gato!
 		
-		System.out.println((ContactInterface)contact.getFixtureA().getBody().getUserData() + " -o- " + (ContactInterface)contact.getFixtureB().getBody().getUserData());
+		//TODO: INVOCAR AQUI A CHAMADA AO MOTOR DE JAVASCRIPT ??
+		if (a==0) {
+			this.dispatchEvent(new SimpleEvent(EventType.ON_COLLISION_END));
+			logger.info((IContact)contact.getFixtureA().getBody().getUserData() + " -o- " + (ICanCollide)contact.getFixtureB().getBody().getUserData());
+		}
+		
 	
 	}
 	

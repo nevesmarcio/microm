@@ -218,6 +218,8 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # Motor do DaBoxModel implementado com recurso a impulsos e não um set da linearVelocity à bruta
 
 
+12-04-2013
+
 
 
 

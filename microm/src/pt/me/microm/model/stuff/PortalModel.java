@@ -3,7 +3,7 @@ package pt.me.microm.model.stuff;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.IBodyProperties;
+import pt.me.microm.model.ICanCollide;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
 import pt.me.microm.model.events.SimpleEvent;
@@ -17,7 +17,7 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class PortalModel extends AbstractModel implements IBodyProperties {
+public class PortalModel extends AbstractModel implements ICanCollide {
 	private static final String TAG = PortalModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 
@@ -124,20 +124,24 @@ public class PortalModel extends AbstractModel implements IBodyProperties {
 	
 	// ContactInterface implementation
 	private int boxTouchMyTralala = 0;
-	IBodyProperties box = null;
+	ICanCollide box = null;
 	@Override
-	public void beginContactWith(IBodyProperties oModel) {
+	public int addPointOfContactWith(ICanCollide oModel) {
 		if (boxTouchMyTralala == 0) 
 			if (logger.getLevel() >= Logger.INFO) logger.info("daBox touched my trálálá!! says: " + this.portal_name + ". Should be teleported to: " + this.portal_name.replace("entry", "exit"));
 		boxTouchMyTralala +=1;
 		box = oModel;
+		
+		return super.addPointOfContactWith(oModel);
 	}
 	
 	@Override
-	public void endContactWith(IBodyProperties oModel) {
+	public int subtractPointOfContactWith(ICanCollide oModel) {
 		boxTouchMyTralala -=1;
 		if (boxTouchMyTralala == 0) 
 			if (logger.getLevel() >= Logger.INFO) logger.info("daBox left my trálálá!! says: " + this.portal_name);
+		
+		return super.subtractPointOfContactWith(oModel);
 	}
 	
 }

@@ -3,7 +3,7 @@ package pt.me.microm.model.stuff;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.events.GameTickEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.IBodyProperties;
+import pt.me.microm.model.ICanCollide;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
 import pt.me.microm.model.events.SimpleEvent;
@@ -18,7 +18,7 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class GoalModel extends AbstractModel implements IBodyProperties {
+public class GoalModel extends AbstractModel implements ICanCollide {
 	private static final String TAG = GoalModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
@@ -109,12 +109,16 @@ public class GoalModel extends AbstractModel implements IBodyProperties {
 	
 	// ContactInterface implementation
 	@Override
-	public void beginContactWith(IBodyProperties oModel) {
-		Gdx.app.log(TAG, "Oh yeah!!");
+	public int addPointOfContactWith(ICanCollide oModel) {
+		logger.info("Oh yeah!!");
+		
+		return super.addPointOfContactWith(oModel);
 	}
 	@Override
-	public void endContactWith(IBodyProperties oModel) {
-		Gdx.app.log(TAG, "Oh nooooooooooooooo!!");
+	public int subtractPointOfContactWith(ICanCollide oModel) {
+		logger.info("Oh nooooooooooooooo!!");
+
+		return super.subtractPointOfContactWith(oModel);
 	}
 	
 	
