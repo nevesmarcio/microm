@@ -1,12 +1,12 @@
 package pt.me.microm.model.stuff;
 
+import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.events.GameTickEvent;
+import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.ICanCollide;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
-import pt.me.microm.model.events.SimpleEvent;
 import pt.me.microm.tools.levelloader.BasicShape;
 
 import com.badlogic.gdx.math.Vector2;
@@ -126,22 +126,18 @@ public class PortalModel extends AbstractModel implements ICanCollide {
 	private int boxTouchMyTralala = 0;
 	ICanCollide box = null;
 	@Override
-	public int addPointOfContactWith(ICanCollide oModel) {
+	public void beginContactWith(ICanCollide oModel) {
 		if (boxTouchMyTralala == 0) 
 			if (logger.getLevel() >= Logger.INFO) logger.info("daBox touched my trálálá!! says: " + this.portal_name + ". Should be teleported to: " + this.portal_name.replace("entry", "exit"));
 		boxTouchMyTralala +=1;
 		box = oModel;
-		
-		return super.addPointOfContactWith(oModel);
 	}
 	
 	@Override
-	public int subtractPointOfContactWith(ICanCollide oModel) {
+	public void endContactWith(ICanCollide oModel) {
 		boxTouchMyTralala -=1;
 		if (boxTouchMyTralala == 0) 
 			if (logger.getLevel() >= Logger.INFO) logger.info("daBox left my trálálá!! says: " + this.portal_name);
-		
-		return super.subtractPointOfContactWith(oModel);
 	}
 	
 }

@@ -1,6 +1,6 @@
 package pt.me.microm.view.dev;
 
-import pt.me.microm.infrastructure.events.ScreenTickEvent;
+import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.model.dev.GridModel;
 import pt.me.microm.view.AbstractView;
 

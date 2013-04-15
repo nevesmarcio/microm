@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import pt.me.microm.GameMicroM;
+import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.view.AbstractView;
 

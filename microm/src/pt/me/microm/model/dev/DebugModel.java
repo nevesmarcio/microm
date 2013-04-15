@@ -1,11 +1,11 @@
 package pt.me.microm.model.dev;
 
+import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.events.GameTickEvent;
+import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
-import pt.me.microm.model.events.SimpleEvent;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.Body;

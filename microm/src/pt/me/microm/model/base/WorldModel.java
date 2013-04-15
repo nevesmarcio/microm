@@ -3,14 +3,14 @@ package pt.me.microm.model.base;
 import java.util.Random;
 
 import pt.me.microm.GameMicroM;
+import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.events.GameTickEvent;
+import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.MyContactListener;
 import pt.me.microm.model.dev.BallModel;
 import pt.me.microm.model.dev.CoisaModel;
 import pt.me.microm.model.dev.GridModel;
-import pt.me.microm.model.events.SimpleEvent;
 import pt.me.microm.model.stuff.BoardModel;
 import pt.me.microm.model.stuff.DaBoxModel;
 import pt.me.microm.model.stuff.PortalModel;

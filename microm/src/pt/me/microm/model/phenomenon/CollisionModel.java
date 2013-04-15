@@ -1,9 +1,9 @@
 package pt.me.microm.model.phenomenon;
 
+import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.events.GameTickEvent;
+import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.events.SimpleEvent;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Logger;

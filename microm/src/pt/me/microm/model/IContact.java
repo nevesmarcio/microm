@@ -21,7 +21,21 @@ public interface IContact {
 	 */
 	public int subtractPointOfContactWith(ICanCollide oModel);
 	
-	
+	/**
+	 * Invocado quando um objecto entra em contacto com o outro. Este método
+	 * abstrai o numero de pontos de contacto efectivo
+	 * 
+	 * @param oModel
+	 */
+	public void beginContactWith(ICanCollide oModel);
+
+	/**
+	 * Invocado quando um objecto deixa de estar em contacto com o outro. Este
+	 * método abstrai o numero de pontos de contacto efectivo
+	 * 
+	 * @param oModel
+	 */
+	public void endContactWith(ICanCollide oModel);
 	
 	
 	

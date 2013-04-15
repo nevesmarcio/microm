@@ -1,8 +1,9 @@
 package pt.me.microm.model;
 
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.model.events.SimpleEvent;
-import pt.me.microm.model.events.dispatcher.EventDispatcher;
+import pt.me.microm.infrastructure.event.CollisionEvent;
+import pt.me.microm.infrastructure.event.SimpleEvent;
+import pt.me.microm.infrastructure.event.dispatcher.EventDispatcher;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -36,8 +37,17 @@ public class MyContactListener extends EventDispatcher implements ContactListene
 		
 		//TODO: INVOCAR AQUI A CHAMADA AO MOTOR DE JAVASCRIPT ??
 		if (a==1) {
-			this.dispatchEvent(new SimpleEvent(EventType.ON_COLLISION_BEGIN));
-			logger.info((IContact)contact.getFixtureA().getBody().getUserData() + " -x- " + (IContact)contact.getFixtureB().getBody().getUserData());
+			//call to notify specific behavior
+			((IContact)contact.getFixtureA().getBody().getUserData()).beginContactWith((ICanCollide)contact.getFixtureB().getBody().getUserData());
+			((IContact)contact.getFixtureB().getBody().getUserData()).beginContactWith((ICanCollide)contact.getFixtureA().getBody().getUserData());
+
+			//call to notify general behavior
+			CollisionEvent e = new CollisionEvent(EventType.ON_COLLISION_BEGIN);
+			e.setA(contact.getFixtureA().getBody().getUserData().toString());
+			e.setB(contact.getFixtureB().getBody().getUserData().toString());
+			this.dispatchEvent(e);
+
+			logger.debug((IContact)contact.getFixtureA().getBody().getUserData() + " -x- " + (IContact)contact.getFixtureB().getBody().getUserData());
 		}
 		
 		
@@ -56,8 +66,17 @@ public class MyContactListener extends EventDispatcher implements ContactListene
 		
 		//TODO: INVOCAR AQUI A CHAMADA AO MOTOR DE JAVASCRIPT ??
 		if (a==0) {
-			this.dispatchEvent(new SimpleEvent(EventType.ON_COLLISION_END));
-			logger.info((IContact)contact.getFixtureA().getBody().getUserData() + " -o- " + (ICanCollide)contact.getFixtureB().getBody().getUserData());
+			//call no notify specific behavior
+			((IContact)contact.getFixtureA().getBody().getUserData()).endContactWith((ICanCollide)contact.getFixtureB().getBody().getUserData());
+			((IContact)contact.getFixtureB().getBody().getUserData()).endContactWith((ICanCollide)contact.getFixtureA().getBody().getUserData());			
+			
+			//call to notify general behavior
+			CollisionEvent e = new CollisionEvent(EventType.ON_COLLISION_END);
+			e.setA(contact.getFixtureA().getBody().getUserData().toString());
+			e.setB(contact.getFixtureB().getBody().getUserData().toString());
+			this.dispatchEvent(e);
+			
+			logger.debug((IContact)contact.getFixtureA().getBody().getUserData() + " -o- " + (ICanCollide)contact.getFixtureB().getBody().getUserData());
 		}
 		
 	

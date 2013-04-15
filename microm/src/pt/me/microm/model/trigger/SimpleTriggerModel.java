@@ -1,12 +1,12 @@
 package pt.me.microm.model.trigger;
 
+import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.events.GameTickEvent;
+import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.ICanCollide;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
-import pt.me.microm.model.events.SimpleEvent;
 import pt.me.microm.tools.levelloader.BasicShape;
 
 import com.badlogic.gdx.math.Vector2;
@@ -120,18 +120,13 @@ public class SimpleTriggerModel extends AbstractModel implements ICanCollide {
 
 
 	@Override
-	public int addPointOfContactWith(ICanCollide oModel) {
+	public void beginContactWith(ICanCollide oModel) {
 		if (logger.getLevel() >= Logger.INFO) logger.info("da trigger has been hitted!");
-		
-		return super.addPointOfContactWith(oModel);
-
 	}
 	
 	@Override
-	public int subtractPointOfContactWith(ICanCollide oModel) {
+	public void endContactWith(ICanCollide oModel) {
 		if (logger.getLevel() >= Logger.INFO) logger.info("da trigger has been cleared!");
-		
-		return super.subtractPointOfContactWith(oModel);
 	}
 
 }

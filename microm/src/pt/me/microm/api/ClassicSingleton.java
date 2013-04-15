@@ -8,10 +8,14 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Logger;
 
-import pt.me.microm.infrastructure.GameTickGenerator;
-import pt.me.microm.model.events.IEvent;
-import pt.me.microm.model.events.listener.IEventListener;
+import pt.me.microm.ScreenTheJuice;
+import pt.me.microm.controller.loop.GameTickGenerator;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.event.CollisionEvent;
+import pt.me.microm.infrastructure.event.IEvent;
+import pt.me.microm.infrastructure.event.listener.IEventListener;
 import pt.me.microm.model.stuff.DaBoxModel;
 
 
@@ -22,6 +26,11 @@ import pt.me.microm.model.stuff.DaBoxModel;
  *
  */
 public class ClassicSingleton implements IEventListener {
+	
+	private static final String TAG = ClassicSingleton.class.getSimpleName();
+	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+
+	
 	private static ClassicSingleton instance = null;
 
 
@@ -53,7 +62,7 @@ public class ClassicSingleton implements IEventListener {
 						"function f(x){return x+1}; f(7);", "somescript.js", 1,
 						null); // 1 is the line number!
 
-				System.out.println(">>>>>>>" + Context.toString(result));
+				logger.info(">>>>>>>" + Context.toString(result));
 
 			}
 		});
@@ -80,7 +89,7 @@ public class ClassicSingleton implements IEventListener {
 								// TODO Auto-generated method stub
 								result = cx.evaluateString(scope, s, "<<from console>>", in,
 										null); // 1 is the line number!
-								System.out.println(">>>>>>>" + Context.toString(result));
+								logger.info(">>>>>>>" + Context.toString(result));
 								
 							}
 						});
@@ -124,14 +133,15 @@ public class ClassicSingleton implements IEventListener {
 	public DaBoxModel m;
 
 	public void out(String s) {
-		System.out.println(s);
+		logger.info(s);
 	}
 	   
 	   
 	@Override
 	public void onEvent(IEvent event) {
 
-		System.out.println("Event received :: __"+event.getType());
+		logger.info("event:: _" + event.getType() + "_ " + ((CollisionEvent)event).getA() + "<-->" + ((CollisionEvent)event).getB());
+		
 		GameTickGenerator.PostRunnable(new Runnable() {
 			
 			@Override

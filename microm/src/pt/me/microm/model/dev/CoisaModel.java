@@ -1,12 +1,12 @@
 package pt.me.microm.model.dev;
 
+import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.events.GameTickEvent;
+import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.ICanCollide;
 import pt.me.microm.model.IContact;
 import pt.me.microm.model.base.WorldModel;
-import pt.me.microm.model.events.SimpleEvent;
 import pt.me.microm.model.stuff.BoardModel;
 import pt.me.microm.tools.levelloader.BasicShape;
 import aurelienribon.bodyeditor.BodyEditorLoader;
@@ -108,20 +108,17 @@ public class CoisaModel extends AbstractModel implements ICanCollide {
 
 	
 	@Override /* related to ContactInterface */
-	public int addPointOfContactWith(ICanCollide oModel) {
+	public void beginContactWith(ICanCollide oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
 		if (logger.getLevel() >= Logger.DEBUG) logger.debug("specific beginContactWith: " + this.getClass().getName());
-		
-		return super.addPointOfContactWith(oModel);
 	}
+	
 	@Override /* related to ContactInterface */
-	public int subtractPointOfContactWith(ICanCollide oModel) {
+	public void endContactWith(ICanCollide oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
 		if (logger.getLevel() >= Logger.DEBUG) logger.debug("specific endContactWith: " + this.getClass().getName());
-		
-		return super.subtractPointOfContactWith(oModel);
 	}
 	
 	

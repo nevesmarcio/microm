@@ -1,10 +1,10 @@
 package pt.me.microm.view;
 
-import pt.me.microm.infrastructure.ScreenTickManager;
-import pt.me.microm.infrastructure.interfaces.IScreenTick;
+import pt.me.microm.controller.loop.ScreenTickManager;
+import pt.me.microm.controller.loop.itf.IScreenTick;
+import pt.me.microm.infrastructure.event.IEvent;
+import pt.me.microm.infrastructure.event.listener.IEventListener;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.events.IEvent;
-import pt.me.microm.model.events.listener.IEventListener;
 
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Logger;

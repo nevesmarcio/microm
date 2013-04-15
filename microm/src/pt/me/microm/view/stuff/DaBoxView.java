@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import pt.me.microm.GameMicroM;
+import pt.me.microm.controller.loop.ScreenTickManager;
+import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.ScreenTickManager;
-import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.dev.BallModel;
 import pt.me.microm.model.stuff.DaBoxModel;
 import pt.me.microm.view.AbstractView;

@@ -1,8 +1,8 @@
 package pt.me.microm.view.stuff;
 
 import pt.me.microm.GameMicroM;
+import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.stuff.BoardModel;
 import pt.me.microm.model.stuff.GoalModel;
 import pt.me.microm.model.stuff.SpawnModel;

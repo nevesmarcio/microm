@@ -1,22 +1,22 @@
-package pt.me.microm.infrastructure.events;
+package pt.me.microm.controller.loop.event;
 
 import java.util.EventObject;
 
 import pt.me.microm.model.base.CameraModel;
 
-import com.badlogic.gdx.graphics.Camera;
-
 public class ScreenTickEvent extends EventObject {
+	
 	private static final String TAG = ScreenTickEvent.class.getSimpleName();
 	
 	private static final long serialVersionUID = 1L;
-
-	private long elapsedNanoTime;
-	private CameraModel camModel; 
 	
 	public ScreenTickEvent(Object source) {
 		super(source);
 	}
+	
+	private long elapsedNanoTime;
+	private CameraModel camModel; 
+	
 
 	/**/
 	public long getElapsedNanoTime() {

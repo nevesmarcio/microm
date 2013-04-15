@@ -1,4 +1,5 @@
-package pt.me.microm.model.events;
+package pt.me.microm.infrastructure.event;
+
 
 /*
  * Thanks to: http://www.therealjoshua.com/2012/07/android-architecture-part-10-the-activity-revisited/
@@ -8,16 +9,9 @@ package pt.me.microm.model.events;
 
 public class SimpleEvent implements IEvent {
 
-	private Enum type;
-	@Override
-	public Enum getType() {
-		return type;
-	}
-	public void setType(Enum type) {
-		this.type = type;
-	}
-
 	protected Object source;
+	private Enum<?> type;
+
 	@Override
 	public Object getSource() {
 		return source;
@@ -26,9 +20,17 @@ public class SimpleEvent implements IEvent {
 	public void setSource(Object source) {
 		this.source = source;
 	}
+	
+	@Override
+	public Enum<?> getType() {
+		return type;
+	}
 
-	public SimpleEvent(Enum type) {
+	public SimpleEvent(Enum<?> type) {
 		this.type = type;
 	}
+
+
+
 
 }

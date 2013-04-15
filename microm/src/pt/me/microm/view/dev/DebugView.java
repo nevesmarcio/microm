@@ -2,8 +2,8 @@ package pt.me.microm.view.dev;
 
 import java.util.Iterator;
 
+import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.events.ScreenTickEvent;
 import pt.me.microm.model.dev.DebugModel;
 import pt.me.microm.view.AbstractView;
 

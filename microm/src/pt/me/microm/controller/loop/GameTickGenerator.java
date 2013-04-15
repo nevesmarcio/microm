@@ -1,4 +1,4 @@
-package pt.me.microm.infrastructure;
+package pt.me.microm.controller.loop;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import pt.me.microm.infrastructure.events.GameTickEvent;
-import pt.me.microm.infrastructure.interfaces.IGameTick;
+import pt.me.microm.controller.loop.event.GameTickEvent;
+import pt.me.microm.controller.loop.itf.IGameTick;
+import pt.me.microm.controller.loop.itf.IProcessRunnable;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
@@ -24,8 +26,8 @@ public class GameTickGenerator implements IProcessRunnable, Disposable{
 	private List<IGameTick> _listeners = new ArrayList<IGameTick>();
 
 	// runnables
-	protected final Array<Runnable> runnables = new Array();
-	protected final Array<Runnable> executedRunnables = new Array();	
+	protected final Array<Runnable> runnables = new Array<Runnable>();
+	protected final Array<Runnable> executedRunnables = new Array<Runnable>();	
 	
 	public synchronized void addEventListener(IGameTick listener) {
 
@@ -48,7 +50,7 @@ public class GameTickGenerator implements IProcessRunnable, Disposable{
 	 * the event listeners of the particular event
 	 * @param elapsedNanoTime
 	 */
-	private GameTickEvent event = new GameTickEvent(this); 				// reutilização do evento
+	private GameTickEvent event = new GameTickEvent(this); 		// reutilização do evento
 	private Iterator<IGameTick> i; 								// reutilização da variável para iteração sobre a lista
 	private IGameTick gti; 										// reutilização do GameTickInterface
 	private List<IGameTick> temp_listeners =

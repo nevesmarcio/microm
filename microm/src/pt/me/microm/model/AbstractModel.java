@@ -5,12 +5,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
 import pt.me.microm.GameMicroM;
+import pt.me.microm.controller.loop.GameTickGenerator;
+import pt.me.microm.controller.loop.itf.IGameTick;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.GameTickGenerator;
-import pt.me.microm.infrastructure.interfaces.IGameTick;
-import pt.me.microm.model.events.IEvent;
-import pt.me.microm.model.events.dispatcher.EventDispatcher;
-import pt.me.microm.model.events.listener.IEventListener;
+import pt.me.microm.infrastructure.event.IEvent;
+import pt.me.microm.infrastructure.event.dispatcher.EventDispatcher;
+import pt.me.microm.infrastructure.event.listener.IEventListener;
 import pt.me.microm.view.AbstractView;
 
 import com.badlogic.gdx.math.Vector2;
@@ -138,6 +138,15 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 		
 		return decrementedValue;
 	}
+	
+	
+	@Override /* related to IContact interface */
+	//public abstract void beginContactWith(ICanCollide oModel);
+	public void beginContactWith(ICanCollide oModel) {}
+	@Override /* related to IContact interface */
+	//public abstract void endContactWith(ICanCollide oModel);
+	public void endContactWith(ICanCollide oModel) {}
+	
 	
 	@Override /* related to IContact interface */
 	public void disposeNotif(AbstractModel oModel) {

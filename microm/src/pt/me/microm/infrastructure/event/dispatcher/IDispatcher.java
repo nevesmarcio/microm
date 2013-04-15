@@ -1,7 +1,7 @@
-package pt.me.microm.model.events.dispatcher;
+package pt.me.microm.infrastructure.event.dispatcher;
 
-import pt.me.microm.model.events.IEvent;
-import pt.me.microm.model.events.listener.IEventListener;
+import pt.me.microm.infrastructure.event.IEvent;
+import pt.me.microm.infrastructure.event.listener.IEventListener;
 
 /*
  * Thanks to: http://www.therealjoshua.com/2012/07/android-architecture-part-10-the-activity-revisited/
@@ -11,11 +11,10 @@ import pt.me.microm.model.events.listener.IEventListener;
  * que se possa extender directamente dessa classe base --> EventDispatcher.
  */
 public interface IDispatcher {
-	void addListener(Enum type, IEventListener listener);
 
-	void removeListener(Enum type, IEventListener listener);
-
-	boolean hasListener(Enum type, IEventListener listener);
+	void addListener(Enum<?> type, IEventListener listener);
+	void removeListener(Enum<?> type, IEventListener listener);
+	boolean hasListener(Enum<?> type, IEventListener listener);
 
 	void dispatchEvent(IEvent event);
 }

@@ -1,4 +1,4 @@
-package pt.me.microm.infrastructure;
+package pt.me.microm.controller.loop;
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import pt.me.microm.infrastructure.events.ScreenTickEvent;
-import pt.me.microm.infrastructure.interfaces.IScreenTick;
+import pt.me.microm.controller.loop.event.ScreenTickEvent;
+import pt.me.microm.controller.loop.itf.IProcessRunnable;
+import pt.me.microm.controller.loop.itf.IScreenTick;
 import pt.me.microm.model.base.CameraModel;
 
 import com.badlogic.gdx.Application;
@@ -73,7 +74,7 @@ public class ScreenTickManager implements IProcessRunnable, Disposable {
 	 * @param camera
 	 * @param elapsedNanoTime
 	 */
-	private ScreenTickEvent event = new ScreenTickEvent(this); 					// reutilização do evento
+	private ScreenTickEvent event = new ScreenTickEvent(this); 			// reutilização do evento
 	private TreeMap<Integer, List<IScreenTick>> temp_listeners = 
 			new TreeMap<Integer, List<IScreenTick>>(); 					// reutilização da lista de listeners
 	private boolean isTempListenersDirty = true;

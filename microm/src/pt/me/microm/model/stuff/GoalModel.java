@@ -1,12 +1,12 @@
 package pt.me.microm.model.stuff;
 
+import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.events.GameTickEvent;
+import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.ICanCollide;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
-import pt.me.microm.model.events.SimpleEvent;
 import pt.me.microm.tools.levelloader.BasicShape;
 
 import com.badlogic.gdx.Gdx;
@@ -109,16 +109,13 @@ public class GoalModel extends AbstractModel implements ICanCollide {
 	
 	// ContactInterface implementation
 	@Override
-	public int addPointOfContactWith(ICanCollide oModel) {
+	public void beginContactWith(ICanCollide oModel) {
 		logger.info("Oh yeah!!");
-		
-		return super.addPointOfContactWith(oModel);
 	}
+	
 	@Override
-	public int subtractPointOfContactWith(ICanCollide oModel) {
+	public void endContactWith(ICanCollide oModel) {
 		logger.info("Oh nooooooooooooooo!!");
-
-		return super.subtractPointOfContactWith(oModel);
 	}
 	
 	

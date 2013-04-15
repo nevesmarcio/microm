@@ -219,9 +219,12 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 
 
 12-04-2013
+# mecanismo de notificações de colisões
 
 
-
+14-04-2013
+15-04-2013
+# Explorado o mecanismo dos Enums mais a fundo no java: http://stackoverflow.com/questions/2770321/what-is-a-raw-type-and-why-shouldnt-we-use-it
 
 
 

@@ -1,6 +1,6 @@
-package pt.me.microm.model.events.listener;
+package pt.me.microm.infrastructure.event.listener;
 
-import pt.me.microm.model.events.IEvent;
+import pt.me.microm.infrastructure.event.IEvent;
 
 /*
  * Thanks to: http://www.therealjoshua.com/2012/07/android-architecture-part-10-the-activity-revisited/

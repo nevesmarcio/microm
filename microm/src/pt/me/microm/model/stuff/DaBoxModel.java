@@ -1,12 +1,12 @@
 package pt.me.microm.model.stuff;
 
+import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.events.GameTickEvent;
+import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.ICanCollide;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
-import pt.me.microm.model.events.SimpleEvent;
 import pt.me.microm.tools.levelloader.BasicShape;
 
 import com.badlogic.gdx.graphics.Color;

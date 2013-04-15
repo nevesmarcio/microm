@@ -1,12 +1,14 @@
-package pt.me.microm.model.events.dispatcher;
+package pt.me.microm.infrastructure.event.dispatcher;
 
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Logger;
 
-import pt.me.microm.model.events.IEvent;
-import pt.me.microm.model.events.listener.IEventListener;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.event.IEvent;
+import pt.me.microm.infrastructure.event.listener.IEventListener;
 
 /*
  * Thanks to: http://www.therealjoshua.com/2012/07/android-architecture-part-10-the-activity-revisited/
@@ -16,8 +18,9 @@ import pt.me.microm.model.events.listener.IEventListener;
  */
 public class EventDispatcher implements IDispatcher {
 	private static final String TAG = EventDispatcher.class.getSimpleName();
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 
-	private HashMap<Enum, CopyOnWriteArrayList<IEventListener>> listenerMap;
+	private HashMap<Enum<?>, CopyOnWriteArrayList<IEventListener>> listenerMap;
 	private IDispatcher target;
 
 	public EventDispatcher() {
@@ -25,12 +28,12 @@ public class EventDispatcher implements IDispatcher {
 	}
 
 	public EventDispatcher(IDispatcher target) {
-		listenerMap = new HashMap<Enum, CopyOnWriteArrayList<IEventListener>>();
+		listenerMap = new HashMap<Enum<?>, CopyOnWriteArrayList<IEventListener>>();
 		this.target = (target != null) ? target : this;
 	}
 
 	@Override
-	public void addListener(Enum type, IEventListener listener) {
+	public void addListener(Enum<?> type, IEventListener listener) {
 		synchronized (listenerMap) {
 			CopyOnWriteArrayList<IEventListener> list = listenerMap.get(type);
 			if (list == null) {
@@ -42,7 +45,7 @@ public class EventDispatcher implements IDispatcher {
 	}
 
 	@Override
-	public void removeListener(Enum type, IEventListener listener) {
+	public void removeListener(Enum<?> type, IEventListener listener) {
 		synchronized (listenerMap) {
 			CopyOnWriteArrayList<IEventListener> list = listenerMap.get(type);
 			if (list == null)
@@ -55,7 +58,7 @@ public class EventDispatcher implements IDispatcher {
 	}
 
 	@Override
-	public boolean hasListener(Enum type, IEventListener listener) {
+	public boolean hasListener(Enum<?> type, IEventListener listener) {
 		synchronized (listenerMap) {
 			CopyOnWriteArrayList<IEventListener> list = listenerMap.get(type);
 			if (list == null)
@@ -67,10 +70,10 @@ public class EventDispatcher implements IDispatcher {
 	@Override
 	public void dispatchEvent(IEvent event) {
 		if (event == null) {
-			Gdx.app.error(TAG, "can not dispatch null event");
+			logger.error("can not dispatch null event");
 			return;
 		}
-		Enum type = event.getType();
+		Enum<?> type = event.getType();
 		event.setSource(target);
 		CopyOnWriteArrayList<IEventListener> list;
 		synchronized (listenerMap) {
