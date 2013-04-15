@@ -73,7 +73,7 @@ public class LevelLoader {
 			m.setColor(Color.BLACK);
 		}		
 
-		BoardModel bm = BoardModel.getNewInstance(wm, board); 
+		BoardModel bm = BoardModel.getNewInstance(wm, board, board_name); 
 		wm.setBoard(bm);
 		return bm;
 	}
@@ -91,7 +91,7 @@ public class LevelLoader {
 					DebugModel.getNewInstance(wm, ap.x+dabox.getCentroid().x, ap.y+dabox.getCentroid().y);
 			}
 		
-		DaBoxModel dbm = DaBoxModel.getNewInstance(wm, dabox); 
+		DaBoxModel dbm = DaBoxModel.getNewInstance(wm, dabox, dabox_name); 
 		wm.setPlayer(dbm);
 		
 		ClassicSingleton.getInstance().m = dbm;
@@ -117,7 +117,7 @@ public class LevelLoader {
 			m.setColor(Color.CYAN);
 		}
 
-		SpawnModel sm = SpawnModel.getNewInstance(wm, dbm, spawn);
+		SpawnModel sm = SpawnModel.getNewInstance(wm, dbm, spawn, spawn_name);
 		wm.spawnModel = sm;
 		return sm;
 	}
@@ -139,7 +139,7 @@ public class LevelLoader {
 
 		}
 		
-		return GoalModel.getNewInstance(wm, goal); 
+		return GoalModel.getNewInstance(wm, goal, goal_name); 
 	}
 	
 	/**
@@ -153,7 +153,7 @@ public class LevelLoader {
 				DebugModel.getNewInstance(wm, ap.x+ground.getCentroid().x, ap.y+ground.getCentroid().y);
 			}
 		
-		return GroundModel.getNewInstance(wm, ground);
+		return GroundModel.getNewInstance(wm, ground, ground_name);
 	}	
 	
 	
@@ -187,7 +187,7 @@ public class LevelLoader {
 		}
 		
 		
-		return WallModel.getNewInstance(wm, wall);
+		return WallModel.getNewInstance(wm, wall, wall_name);
 		
 	}
 
@@ -205,7 +205,7 @@ public class LevelLoader {
 			}
 		}
 		
-		return StarModel.getNewInstance(wm, star); 
+		return StarModel.getNewInstance(wm, star, star_name); 
 		
 	}	
 	
@@ -221,7 +221,7 @@ public class LevelLoader {
 			m.setColor(Color.PINK);
 		}
 		
-		SimpleTriggerModel tModel = SimpleTriggerModel.getNewInstance(wm, trigger);
+		SimpleTriggerModel tModel = SimpleTriggerModel.getNewInstance(wm, trigger, trigger_name);
 		tModel.setScript(script);
 		return tModel;
 		

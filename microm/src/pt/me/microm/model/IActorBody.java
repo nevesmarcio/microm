@@ -13,7 +13,9 @@ import pt.me.microm.tools.levelloader.BasicShape;
  * @author Márcio Neves
  *
  */
-public interface ICanCollide {
+public interface IActorBody {
+	public String getName();
+	
 	public BasicShape getBasicShape();
 	public Vector2 getPosition();
 	public float getAngle();

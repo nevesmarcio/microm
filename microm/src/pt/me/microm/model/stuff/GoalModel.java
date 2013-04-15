@@ -4,7 +4,7 @@ import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.ICanCollide;
+import pt.me.microm.model.IActorBody;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
 import pt.me.microm.tools.levelloader.BasicShape;
@@ -18,7 +18,7 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class GoalModel extends AbstractModel implements ICanCollide {
+public class GoalModel extends AbstractModel implements IActorBody {
 	private static final String TAG = GoalModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
@@ -90,6 +90,10 @@ public class GoalModel extends AbstractModel implements ICanCollide {
 	
 	// BodyInterface implementation
 	@Override
+	public String getName() {
+		return this.getClass().getName();
+	}
+	@Override
 	public BasicShape getBasicShape() {
 		return goal;
 	}
@@ -109,13 +113,13 @@ public class GoalModel extends AbstractModel implements ICanCollide {
 	
 	// ContactInterface implementation
 	@Override
-	public void beginContactWith(ICanCollide oModel) {
-		logger.info("Oh yeah!!");
+	public void beginContactWith(IActorBody oModel) {
+		logger.debug("Oh yeah!!");
 	}
 	
 	@Override
-	public void endContactWith(ICanCollide oModel) {
-		logger.info("Oh nooooooooooooooo!!");
+	public void endContactWith(IActorBody oModel) {
+		logger.debug("Oh nooooooooooooooo!!");
 	}
 	
 	

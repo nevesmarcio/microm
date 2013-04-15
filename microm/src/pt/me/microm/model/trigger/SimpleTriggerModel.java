@@ -4,7 +4,7 @@ import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.ICanCollide;
+import pt.me.microm.model.IActorBody;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
 import pt.me.microm.tools.levelloader.BasicShape;
@@ -17,7 +17,7 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class SimpleTriggerModel extends AbstractModel implements ICanCollide {
+public class SimpleTriggerModel extends AbstractModel implements IActorBody {
 	private static final String TAG = SimpleTriggerModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 
@@ -28,12 +28,14 @@ public class SimpleTriggerModel extends AbstractModel implements ICanCollide {
 	private Body triggerBody;
 	
 	private WorldModel wm;
+	private String name;
 	private BasicShape trigger;
 	private String script;
 	
-	private SimpleTriggerModel(final WorldModel wm, final BasicShape trigger) {
+	private SimpleTriggerModel(final WorldModel wm, final BasicShape trigger, final String name) {
 		this.wm = wm;
 		this.trigger = trigger;
+		this.name = name;
 		
 		wm.wmManager.add(new PointerToFunction() {
 			
@@ -71,8 +73,8 @@ public class SimpleTriggerModel extends AbstractModel implements ICanCollide {
 		
 	}
 	
-	public static SimpleTriggerModel getNewInstance(WorldModel wm, BasicShape wall){
-		return new SimpleTriggerModel(wm, wall);
+	public static SimpleTriggerModel getNewInstance(WorldModel wm, BasicShape wall, String name){
+		return new SimpleTriggerModel(wm, wall, name);
 	}
 
 	
@@ -101,6 +103,10 @@ public class SimpleTriggerModel extends AbstractModel implements ICanCollide {
 	
 	
 	// BodyInterface implementation
+	@Override 
+	public String getName() {
+		return name;
+	}
 	@Override
 	public BasicShape getBasicShape() {
 		return trigger;
@@ -120,13 +126,13 @@ public class SimpleTriggerModel extends AbstractModel implements ICanCollide {
 
 
 	@Override
-	public void beginContactWith(ICanCollide oModel) {
-		if (logger.getLevel() >= Logger.INFO) logger.info("da trigger has been hitted!");
+	public void beginContactWith(IActorBody oModel) {
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("da trigger has been hitted!");
 	}
 	
 	@Override
-	public void endContactWith(ICanCollide oModel) {
-		if (logger.getLevel() >= Logger.INFO) logger.info("da trigger has been cleared!");
+	public void endContactWith(IActorBody oModel) {
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("da trigger has been cleared!");
 	}
 
 }

@@ -4,7 +4,7 @@ import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.ICanCollide;
+import pt.me.microm.model.IActorBody;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
 import pt.me.microm.model.phenomenon.CollisionModel;
@@ -20,7 +20,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class StarModel extends AbstractModel implements ICanCollide {
+public class StarModel extends AbstractModel implements IActorBody {
 	private static final String TAG = StarModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
@@ -103,6 +103,10 @@ public class StarModel extends AbstractModel implements ICanCollide {
 	
 	// BodyInterface Implementation
 	@Override
+	public String getName() {
+		return this.getClass().getName();
+	}
+	@Override
 	public BasicShape getBasicShape() {
 		return star;
 	}
@@ -122,9 +126,9 @@ public class StarModel extends AbstractModel implements ICanCollide {
 	
 	
 	@Override
-	public void beginContactWith(ICanCollide oModel) {
+	public void beginContactWith(IActorBody oModel) {
 		
-		if (logger.getLevel() >= Logger.INFO) logger.info("collision detected");
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("collision detected");
 
 		CollisionModel.getNewInstance(getPosition());	//oModel.getPosition()
 
@@ -145,7 +149,7 @@ public class StarModel extends AbstractModel implements ICanCollide {
 
 	
 	@Override
-	public void endContactWith(ICanCollide oModel) {
+	public void endContactWith(IActorBody oModel) {
 		
 	}	
 

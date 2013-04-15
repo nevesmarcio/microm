@@ -9,7 +9,7 @@ public interface IContact {
 	 * @return devolve o número de pontos de contacto entre os 2 objectos após a
 	 *         adição, ou -1 em caso de erro
 	 */
-	public int addPointOfContactWith(ICanCollide oModel);
+	public int addPointOfContactWith(IActorBody oModel);
 	
 	
 	/**
@@ -19,7 +19,7 @@ public interface IContact {
 	 * @return devolve o número de pontos de contacto entre os 2 objectos após a
 	 *         subtracção, ou -1 em caso de erro
 	 */
-	public int subtractPointOfContactWith(ICanCollide oModel);
+	public int subtractPointOfContactWith(IActorBody oModel);
 	
 	/**
 	 * Invocado quando um objecto entra em contacto com o outro. Este método
@@ -27,7 +27,7 @@ public interface IContact {
 	 * 
 	 * @param oModel
 	 */
-	public void beginContactWith(ICanCollide oModel);
+	public void beginContactWith(IActorBody oModel);
 
 	/**
 	 * Invocado quando um objecto deixa de estar em contacto com o outro. Este
@@ -35,7 +35,7 @@ public interface IContact {
 	 * 
 	 * @param oModel
 	 */
-	public void endContactWith(ICanCollide oModel);
+	public void endContactWith(IActorBody oModel);
 	
 	
 	

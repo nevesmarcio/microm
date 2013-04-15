@@ -4,7 +4,7 @@ import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.ICanCollide;
+import pt.me.microm.model.IActorBody;
 import pt.me.microm.model.IContact;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.stuff.BoardModel;
@@ -20,7 +20,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class CoisaModel extends AbstractModel implements ICanCollide {
+public class CoisaModel extends AbstractModel implements IActorBody {
 	private static final String TAG = CoisaModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
@@ -87,6 +87,10 @@ public class CoisaModel extends AbstractModel implements ICanCollide {
 
 	//BodyInterface Implementation
 	@Override
+	public String getName() {
+		return this.getClass().getName();
+	}
+	@Override
 	public BasicShape getBasicShape() {
 		//FIXME: qual é a shape ?
 		return null;
@@ -108,14 +112,14 @@ public class CoisaModel extends AbstractModel implements ICanCollide {
 
 	
 	@Override /* related to ContactInterface */
-	public void beginContactWith(ICanCollide oModel) {
+	public void beginContactWith(IActorBody oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
 		if (logger.getLevel() >= Logger.DEBUG) logger.debug("specific beginContactWith: " + this.getClass().getName());
 	}
 	
 	@Override /* related to ContactInterface */
-	public void endContactWith(ICanCollide oModel) {
+	public void endContactWith(IActorBody oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
 		if (logger.getLevel() >= Logger.DEBUG) logger.debug("specific endContactWith: " + this.getClass().getName());

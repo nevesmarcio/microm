@@ -88,7 +88,7 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 		viewRef.dispose();
 		
 		// para todos os objectos referenciados como colisões, tem que haver a respectiva remoção
-		for (ICanCollide element : currentContactStatus.keySet()) {
+		for (IActorBody element : currentContactStatus.keySet()) {
 			((AbstractModel)element).disposeNotif(this);
 		}
 		
@@ -98,10 +98,10 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	}
 	
 	
-	private HashMap<ICanCollide, Integer> currentContactStatus = new HashMap<ICanCollide, Integer>();
+	private HashMap<IActorBody, Integer> currentContactStatus = new HashMap<IActorBody, Integer>();
 	
 	@Override /* related to IContact interface */
-	public int addPointOfContactWith(ICanCollide oModel) {
+	public int addPointOfContactWith(IActorBody oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
 		if (logger.getLevel() >= Logger.DEBUG) logger.debug("abstract beginContactWith: " + this.getClass().getName());
@@ -121,7 +121,7 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	}
 
 	@Override /* related to IContact interface */
-	public int subtractPointOfContactWith(ICanCollide oModel) {
+	public int subtractPointOfContactWith(IActorBody oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
 		if (logger.getLevel() >= Logger.DEBUG) logger.debug("abstract endContactWith: " + this.getClass().getName());
@@ -142,10 +142,10 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	
 	@Override /* related to IContact interface */
 	//public abstract void beginContactWith(ICanCollide oModel);
-	public void beginContactWith(ICanCollide oModel) {}
+	public void beginContactWith(IActorBody oModel) {}
 	@Override /* related to IContact interface */
 	//public abstract void endContactWith(ICanCollide oModel);
-	public void endContactWith(ICanCollide oModel) {}
+	public void endContactWith(IActorBody oModel) {}
 	
 	
 	@Override /* related to IContact interface */
