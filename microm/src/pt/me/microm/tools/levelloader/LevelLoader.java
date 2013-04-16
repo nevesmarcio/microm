@@ -18,7 +18,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import pt.me.microm.GameMicroM;
-import pt.me.microm.api.ClassicSingleton;
+import pt.me.microm.api.JsBridgeSingleton;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.collectible.StarModel;
@@ -62,7 +62,7 @@ public class LevelLoader {
 	 * @param board
 	 * @param wm
 	 */
-	private static BoardModel addBoardToWorld(WorldModel wm, BasicShape board) {
+	private static BoardModel addBoardToWorld(WorldModel wm, BasicShape board, String board_name) {
 		if (GameMicroM.FLAG_DEV_ELEMENTS) {
 			DebugModel m;
 			for (Vector2 ap : board.getPointsArray()) {
@@ -94,7 +94,7 @@ public class LevelLoader {
 		DaBoxModel dbm = DaBoxModel.getNewInstance(wm, dabox, dabox_name); 
 		wm.setPlayer(dbm);
 		
-		ClassicSingleton.getInstance().m = dbm;
+		JsBridgeSingleton.getInstance().m = dbm;
 		
 		return dbm;
 	}	
@@ -104,7 +104,7 @@ public class LevelLoader {
 	 * @param spawn
 	 * @param wm
 	 */
-	private static SpawnModel addSpawnToWorld(WorldModel wm, DaBoxModel dbm, BasicShape spawn) {
+	private static SpawnModel addSpawnToWorld(WorldModel wm, DaBoxModel dbm, BasicShape spawn, String spawn_name) {
 
 		if (GameMicroM.FLAG_DEV_ELEMENTS) {
 			DebugModel m;
@@ -127,7 +127,7 @@ public class LevelLoader {
 	 * @param goal
 	 * @param wm
 	 */
-	private static GoalModel addGoalToWorld(WorldModel wm, BasicShape goal) {
+	private static GoalModel addGoalToWorld(WorldModel wm, BasicShape goal, String goal_name) {
 		if (GameMicroM.FLAG_DEV_ELEMENTS) {
 			DebugModel m;
 			for (Vector2 ap : goal.getPointsArray()) {
@@ -147,7 +147,7 @@ public class LevelLoader {
 	 * @param ground
 	 * @param wm
 	 */
-	private static GroundModel addGroundToWorld(WorldModel wm, BasicShape ground) {
+	private static GroundModel addGroundToWorld(WorldModel wm, BasicShape ground, String ground_name) {
 		if (GameMicroM.FLAG_DEV_ELEMENTS)
 			for (Vector2 ap : ground.getPointsArray()) {
 				DebugModel.getNewInstance(wm, ap.x+ground.getCentroid().x, ap.y+ground.getCentroid().y);
@@ -256,10 +256,10 @@ public class LevelLoader {
 			XPathExpression expr; 
 			// Get Board
 			if (logger.getLevel() >= Logger.INFO) logger.info("Board...");
-			expr = xpath.compile("//svg/g/path[contains(@id,'board')]/@d");
+			expr = xpath.compile("//svg/g/path[contains(@id,'board')]");
 			NodeList board = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < board.getLength(); i++) {
-				String d = board.item(i).getNodeValue();
+				String d = board.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				if (logger.getLevel() >= Logger.INFO) logger.info(d);
 
 
@@ -285,7 +285,9 @@ public class LevelLoader {
 				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.BOARD);
 
 				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
-				addBoardToWorld(wm, s);
+				String board_name = board.item(i).getAttributes().getNamedItem("id").getNodeValue();
+				
+				addBoardToWorld(wm, s, board_name);
 				
 				nrElements+=1;
 			}
@@ -309,46 +311,49 @@ public class LevelLoader {
 			
 			// Get Spawn
 			if (logger.getLevel() >= Logger.INFO) logger.info("Spawn...");
-			expr = xpath.compile("//svg/g/path[contains(@id,'spawn')]/@d");
+			expr = xpath.compile("//svg/g/path[contains(@id,'spawn')]");
 			NodeList spawn = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < spawn.getLength(); i++) {
-				String d = spawn.item(i).getNodeValue();
+				String d = spawn.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				if (logger.getLevel() >= Logger.INFO) logger.info(d);
 				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.SPAWN);
 
 				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
-
-				addSpawnToWorld(wm, daBoxRef, s);
+				String spawn_name = spawn.item(i).getAttributes().getNamedItem("id").getNodeValue();
+				
+				addSpawnToWorld(wm, daBoxRef, s, spawn_name);
 				nrElements+=1;
 			}
 			
 			// Get Goals
 			if (logger.getLevel() >= Logger.INFO) logger.info("Goals...");
-			expr = xpath.compile("//svg/g/path[contains(@id,'goal')]/@d");
+			expr = xpath.compile("//svg/g/path[contains(@id,'goal')]");
 			NodeList goals = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < goals.getLength(); i++) {
-				String d = goals.item(i).getNodeValue();
+				String d = goals.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				if (logger.getLevel() >= Logger.INFO) logger.info(d);
 				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.GOAL);
 
 				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
+				String goal_name = goals.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
-				addGoalToWorld(wm, s);
+				addGoalToWorld(wm, s, goal_name);
 				nrElements+=1;
 			}
 
 			// Get Grounds
 			if (logger.getLevel() >= Logger.INFO) logger.info("Grounds...");
-			expr = xpath.compile("//svg/g/path[contains(@id,'ground')]/@d");
+			expr = xpath.compile("//svg/g/path[contains(@id,'ground')]");
 			NodeList grounds = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < grounds.getLength(); i++) {
-				String d = grounds.item(i).getNodeValue();
+				String d = grounds.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				if (logger.getLevel() >= Logger.INFO) logger.info(d);
 				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.GROUND);
 				
 				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
+				String ground_name = grounds.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
-				addGroundToWorld(wm, s);
+				addGroundToWorld(wm, s, ground_name);
 				nrElements+=1;
 			}
 

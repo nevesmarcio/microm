@@ -32,6 +32,7 @@ public class DaBoxModel extends AbstractModel implements IActorBody {
 
 	private WorldModel wm;
 	private BasicShape dabox;
+	private String dabox_name;
 	
 	public void create(Vector2 pos) {
 		daBoxBody.setTransform(pos, daBoxBody.getAngle());
@@ -39,9 +40,10 @@ public class DaBoxModel extends AbstractModel implements IActorBody {
 		daBoxBody.setActive(true);		
 	}
 	
-	private DaBoxModel(final WorldModel wm, final BasicShape dabox) {
+	private DaBoxModel(final WorldModel wm, final BasicShape dabox, final String dabox_name) {
 		this.wm = wm;
 		this.dabox = dabox; 
+		this.dabox_name = dabox_name;
 
 		wm.wmManager.add(new PointerToFunction() {
 			
@@ -94,8 +96,8 @@ public class DaBoxModel extends AbstractModel implements IActorBody {
 
 	}
 
-	public static DaBoxModel getNewInstance(WorldModel wm, BasicShape dabox){
-		return new DaBoxModel(wm, dabox);
+	public static DaBoxModel getNewInstance(WorldModel wm, BasicShape dabox, String dabox_name){
+		return new DaBoxModel(wm, dabox, dabox_name);
 	}
 	
 	@Override
@@ -141,7 +143,7 @@ public class DaBoxModel extends AbstractModel implements IActorBody {
 	// BodyInterface implementation
 	@Override
 	public String getName() {
-		return this.getClass().getName();
+		return dabox_name;
 	}
 	@Override
 	public BasicShape getBasicShape() {

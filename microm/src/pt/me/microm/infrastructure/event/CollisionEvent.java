@@ -32,14 +32,12 @@ public class CollisionEvent implements IEvent {
 
 
 	private String a,b;
-	
 	public String getA() {
 		return a;
 	}
 	public void setA(String a) {
 		this.a = a;
 	}
-
 
 	public String getB() {
 		return b;
@@ -49,4 +47,13 @@ public class CollisionEvent implements IEvent {
 	}
 	
 
+	private String script;
+	public String getScript() {
+		return script;
+	}
+	public void setScript(String script) {
+		this.script = script;
+	}
+	
+	
 }

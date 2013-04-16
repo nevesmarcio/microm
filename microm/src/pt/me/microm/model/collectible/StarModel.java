@@ -31,10 +31,12 @@ public class StarModel extends AbstractModel implements IActorBody {
 	
 	private WorldModel wm;
 	private BasicShape star;
+	private String star_name;
 	
-	private StarModel(WorldModel wm, final BasicShape star) {
+	private StarModel(WorldModel wm, final BasicShape star, final String star_name) {
 		this.wm = wm;
 		this.star = star;
+		this.star_name = star_name;
 		
 		// 0. Create a loader for the file saved from the editor.
 		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("data/bodies/collectibles/collectibles.json"));
@@ -72,8 +74,8 @@ public class StarModel extends AbstractModel implements IActorBody {
 		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
 	}
 
-	public static StarModel getNewInstance(WorldModel wm, BasicShape star){
-		return new StarModel(wm, star);
+	public static StarModel getNewInstance(WorldModel wm, BasicShape star, String star_name){
+		return new StarModel(wm, star, star_name);
 	}
 	
 	@Override
@@ -104,7 +106,7 @@ public class StarModel extends AbstractModel implements IActorBody {
 	// BodyInterface Implementation
 	@Override
 	public String getName() {
-		return this.getClass().getName();
+		return star_name;
 	}
 	@Override
 	public BasicShape getBasicShape() {

@@ -227,13 +227,23 @@
        id="trigger_1"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccccc"
-       custom:script="cs.out(&quot;trigger_1&quot;)" />
+       custom:script="cs.out(&quot;trigger_1&quot;);
+function add(a,b){return a + '&lt;---&gt;' + b;};
+cs.out(&quot;puff&gt;&gt;&gt; &quot; + add(__ACTOR_A, __ACTOR_B));
+if (__EVENT_TYPE.indexOf(&quot;ON_COLLISION_BEGIN&quot;) !== -1)
+	if ((__ACTOR_A.indexOf(&quot;trigger&quot;) !== -1) || (__ACTOR_B.indexOf(&quot;trigger&quot;) !== -1))
+		cs.m.jump();" />
     <path
        sodipodi:nodetypes="cccccccc"
        inkscape:connector-curvature="0"
        id="trigger_2"
        d="m 909.8125,592.54968 0,16.5 m 0,0 20.9375,-8.1267 20.9375,8.1267 0,-16.5 -20.9375,8.10428 -20.9375,-8.10428"
        style="fill:#ff0000;fill-opacity:1;stroke:none"
-       custom:script="cs.out(&quot;trigger_2&quot;)" />
+       custom:script="cs.out(&quot;trigger_2&quot;);
+function add(a,b){return a + '&lt;---&gt;' + b;};
+cs.out(&quot;puff&gt;&gt;&gt; &quot; + add(__ACTOR_A, __ACTOR_B));
+if (__EVENT_TYPE.indexOf(&quot;ON_COLLISION_BEGIN&quot;) !== -1)
+	if ((__ACTOR_A.indexOf(&quot;trigger&quot;) !== -1) || (__ACTOR_B.indexOf(&quot;trigger&quot;) !== -1))
+		cs.m.jump();" />
   </g>
 </svg>

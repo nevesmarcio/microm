@@ -227,8 +227,9 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # Explorado o mecanismo dos Enums mais a fundo no java: http://stackoverflow.com/questions/2770321/what-is-a-raw-type-and-why-shouldnt-we-use-it
 # Refactorizações ao mecanismo de notificação de colisões e bridge com o motor de javascript
 
-
-
+16-04-2013
+# Finalmente deleguei o javascript para os elementos do tipo SimpleTriggerModel
+# Prova de conceito do javascript terminada. Agora é ir extendendo a API para permitir lógica no javascript
 
 
 

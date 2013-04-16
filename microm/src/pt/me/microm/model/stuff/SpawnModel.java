@@ -37,11 +37,13 @@ public class SpawnModel extends AbstractModel implements IActorBody {
 	
 	private WorldModel wm;
 	private BasicShape spawn;
+	private String spawn_name;
 	
 	private int countdown = 4;
-	private SpawnModel(final WorldModel wm, final DaBoxModel dbm, final BasicShape spawn) {
+	private SpawnModel(final WorldModel wm, final DaBoxModel dbm, final BasicShape spawn, final String spawn_name) {
 		this.wm = wm;
 		this.spawn = spawn;
+		this.spawn_name = spawn_name;
 		
 		wm.wmManager.add(new PointerToFunction() {
 
@@ -55,17 +57,16 @@ public class SpawnModel extends AbstractModel implements IActorBody {
 				
 				spawnBodyDef.position.set(spawn.getCentroid()); // posição inicial do tabuleiro
 				spawnBodyDef.type = BodyType.StaticBody;
-				spawnBodyDef.active = false;
 				
 				spawnBody = wm.getPhysicsWorld().createBody(spawnBodyDef);
 
 				FixtureDef fixDef = new FixtureDef();
 				fixDef.shape = spawnShape;
+				fixDef.isSensor = true;
 				fixDef.density = 1.0f;
 				fixDef.friction = 0.0f;
 				fixDef.restitution = 0.0f;		
 				spawnBody.createFixture(fixDef);
-				getBody().createFixture(fixDef);
 					
 				getBody().setUserData(SpawnModel.this); // relacionar com o modelo
 				
@@ -150,8 +151,8 @@ public class SpawnModel extends AbstractModel implements IActorBody {
 
 	}
 	
-	public static SpawnModel getNewInstance(WorldModel wm, DaBoxModel dbm, BasicShape spawn){
-		return new SpawnModel(wm, dbm, spawn);
+	public static SpawnModel getNewInstance(WorldModel wm, DaBoxModel dbm, BasicShape spawn, String spawn_name){
+		return new SpawnModel(wm, dbm, spawn, spawn_name);
 	}
 
 	
@@ -191,6 +192,16 @@ public class SpawnModel extends AbstractModel implements IActorBody {
 		return spawnBody;
 	}
 	
+
+	// ContactInterface implementation
+	@Override
+	public void beginContactWith(IActorBody oModel) {
+
+	}
+	@Override
+	public void endContactWith(IActorBody oModel) {
+		logger.info("Oh nooooooooooooooo! Elvis has left the building!");
+	}
 
 	
 }

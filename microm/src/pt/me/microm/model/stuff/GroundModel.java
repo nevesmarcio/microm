@@ -29,10 +29,12 @@ public class GroundModel extends AbstractModel implements IActorBody {
 	
 	private WorldModel wm;
 	private BasicShape ground;
+	private String ground_name;
 	
-	private GroundModel(final WorldModel wm, final BasicShape ground) {
+	private GroundModel(final WorldModel wm, final BasicShape ground, final String ground_name) {
 		this.wm = wm;
 		this.ground = ground;
+		this.ground_name = ground_name;
 		
 		wm.wmManager.add(new PointerToFunction() {
 			
@@ -69,8 +71,8 @@ public class GroundModel extends AbstractModel implements IActorBody {
 	
 	}
 	
-	public static GroundModel getNewInstance(WorldModel wm, BasicShape ground){
-		return new GroundModel(wm, ground);
+	public static GroundModel getNewInstance(WorldModel wm, BasicShape ground, String ground_name){
+		return new GroundModel(wm, ground, ground_name);
 	}
 
 	
@@ -91,7 +93,7 @@ public class GroundModel extends AbstractModel implements IActorBody {
 	// BodyInterface implementation
 	@Override
 	public String getName() {
-		return this.getClass().getName();
+		return ground_name;
 	}
 	@Override
 	public BasicShape getBasicShape() {

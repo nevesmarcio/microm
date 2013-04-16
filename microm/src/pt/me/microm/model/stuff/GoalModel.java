@@ -30,10 +30,12 @@ public class GoalModel extends AbstractModel implements IActorBody {
 	
 	private WorldModel wm;
 	private BasicShape goal;
+	private String goal_name;
 	
-	private GoalModel(final WorldModel wm, final BasicShape goal) {
+	private GoalModel(final WorldModel wm, final BasicShape goal, final String goal_name) {
 		this.wm = wm;
 		this.goal = goal;
+		this.goal_name = goal_name;
 		
 		wm.wmManager.add(new PointerToFunction() {
 			
@@ -69,8 +71,8 @@ public class GoalModel extends AbstractModel implements IActorBody {
 		
 	}
 	
-	public static GoalModel getNewInstance(WorldModel wm, BasicShape goal){
-		return new GoalModel(wm, goal);
+	public static GoalModel getNewInstance(WorldModel wm, BasicShape goal, String goal_name){
+		return new GoalModel(wm, goal, goal_name);
 	}
 
 	
@@ -79,7 +81,7 @@ public class GoalModel extends AbstractModel implements IActorBody {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
 		if (getBody() != null)
-			if (logger.getLevel() == logger.DEBUG)
+			if (logger.getLevel() == Logger.DEBUG)
 				logger.debug("[Physics-room]: Pos.x:" + String.format("%.2f", getBody().getPosition().x)
 					+ " Pos.y:" + String.format("%.2f", getBody().getPosition().y) 
 					+ " Angle:" + String.format("%.2f", getBody().getAngle())
@@ -91,7 +93,7 @@ public class GoalModel extends AbstractModel implements IActorBody {
 	// BodyInterface implementation
 	@Override
 	public String getName() {
-		return this.getClass().getName();
+		return goal_name;
 	}
 	@Override
 	public BasicShape getBasicShape() {
@@ -114,12 +116,11 @@ public class GoalModel extends AbstractModel implements IActorBody {
 	// ContactInterface implementation
 	@Override
 	public void beginContactWith(IActorBody oModel) {
-		logger.debug("Oh yeah!!");
+		logger.info("Oh yeah! Elvis has entered the building!");
 	}
 	
 	@Override
 	public void endContactWith(IActorBody oModel) {
-		logger.debug("Oh nooooooooooooooo!!");
 	}
 	
 	

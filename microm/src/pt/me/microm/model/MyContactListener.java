@@ -4,6 +4,7 @@ import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.CollisionEvent;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.infrastructure.event.dispatcher.EventDispatcher;
+import pt.me.microm.model.trigger.SimpleTriggerModel;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -43,6 +44,11 @@ public class MyContactListener extends EventDispatcher implements ContactListene
 
 			//call to notify general behavior
 			CollisionEvent e = new CollisionEvent(EventType.ON_COLLISION_BEGIN);
+			if (contact.getFixtureA().getBody().getUserData() instanceof SimpleTriggerModel)
+				e.setScript(((SimpleTriggerModel)contact.getFixtureA().getBody().getUserData()).getScript());
+			if (contact.getFixtureB().getBody().getUserData() instanceof SimpleTriggerModel)
+				e.setScript(((SimpleTriggerModel)contact.getFixtureB().getBody().getUserData()).getScript());				
+
 			e.setA(((IActorBody)contact.getFixtureA().getBody().getUserData()).getName());
 			e.setB(((IActorBody)contact.getFixtureB().getBody().getUserData()).getName());
 			this.dispatchEvent(e);
@@ -72,6 +78,11 @@ public class MyContactListener extends EventDispatcher implements ContactListene
 			
 			//call to notify general behavior
 			CollisionEvent e = new CollisionEvent(EventType.ON_COLLISION_END);
+			if (contact.getFixtureA().getBody().getUserData() instanceof SimpleTriggerModel)
+				e.setScript(((SimpleTriggerModel)contact.getFixtureA().getBody().getUserData()).getScript());
+			if (contact.getFixtureB().getBody().getUserData() instanceof SimpleTriggerModel)
+				e.setScript(((SimpleTriggerModel)contact.getFixtureB().getBody().getUserData()).getScript());
+			
 			e.setA(((IActorBody)contact.getFixtureA().getBody().getUserData()).getName());
 			e.setB(((IActorBody)contact.getFixtureB().getBody().getUserData()).getName());
 			this.dispatchEvent(e);

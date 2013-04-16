@@ -30,10 +30,12 @@ public class WallModel extends AbstractModel implements IActorBody {
 	
 	private WorldModel wm;
 	private BasicShape wall;
+	private String wall_name;
 	
-	private WallModel(final WorldModel wm, final BasicShape wall) {
+	private WallModel(final WorldModel wm, final BasicShape wall, final String wall_name) {
 		this.wm = wm;
 		this.wall = wall;
+		this.wall_name = wall_name;
 		
 		wm.wmManager.add(new PointerToFunction() {
 			
@@ -70,8 +72,8 @@ public class WallModel extends AbstractModel implements IActorBody {
 		
 	}
 	
-	public static WallModel getNewInstance(WorldModel wm, BasicShape wall){
-		return new WallModel(wm, wall);
+	public static WallModel getNewInstance(WorldModel wm, BasicShape wall, String wall_name){
+		return new WallModel(wm, wall, wall_name);
 	}
 
 	

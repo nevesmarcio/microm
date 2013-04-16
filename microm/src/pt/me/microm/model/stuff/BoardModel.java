@@ -29,10 +29,12 @@ public class BoardModel extends AbstractModel implements IActorBody {
 	
 	private WorldModel wm;
 	private BasicShape board;
+	private String board_name;
 	
-	private BoardModel(final WorldModel wm, final BasicShape board) {
+	private BoardModel(final WorldModel wm, final BasicShape board, final String board_name) {
 		this.wm = wm;
 		this.board = board;
+		this.board_name = board_name;
 		
 		wm.wmManager.add(new PointerToFunction() {
 			
@@ -69,8 +71,8 @@ public class BoardModel extends AbstractModel implements IActorBody {
 		
 	}
 	
-	public static BoardModel getNewInstance(WorldModel wm, BasicShape board){
-		return new BoardModel(wm, board);
+	public static BoardModel getNewInstance(WorldModel wm, BasicShape board, String board_name){
+		return new BoardModel(wm, board, board_name);
 	}
 
 	
@@ -91,7 +93,7 @@ public class BoardModel extends AbstractModel implements IActorBody {
 	// BodyInterface implementation
 	@Override
 	public String getName() {
-		return this.getClass().getName();
+		return board_name;
 	}
 	@Override
 	public BasicShape getBasicShape() {

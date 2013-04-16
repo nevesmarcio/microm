@@ -7,7 +7,7 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
-import pt.me.microm.api.ClassicSingleton;
+import pt.me.microm.api.JsBridgeSingleton;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 
 import com.badlogic.gdx.Game;

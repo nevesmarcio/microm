@@ -1,6 +1,6 @@
 package pt.me.microm;
 
-import pt.me.microm.api.ClassicSingleton;
+import pt.me.microm.api.JsBridgeSingleton;
 import pt.me.microm.controller.MyGestureListener;
 import pt.me.microm.controller.MyInputProcessor;
 import pt.me.microm.controller.loop.GameTickGenerator;
@@ -55,7 +55,7 @@ public class ScreenTheJuice extends ScreenAbstract {
 		ScreenTickManager.getInstance(); //responsável pela actualizacao das views
 		
 		//responsável pela extensibilidade do controller: delega o controlo a entidades externas (javascript + terminal)
-		ClassicSingleton cs = ClassicSingleton.getInstance();
+		JsBridgeSingleton cs = JsBridgeSingleton.getInstance();
 		worldModel.myContactListener.addListener(MyContactListener.EventType.ON_COLLISION_BEGIN, cs);
 		worldModel.myContactListener.addListener(MyContactListener.EventType.ON_COLLISION_END, cs);
 

@@ -26,19 +26,19 @@ import pt.me.microm.model.stuff.DaBoxModel;
  * @author mneves
  *
  */
-public class ClassicSingleton implements IEventListener {
+public class JsBridgeSingleton implements IEventListener {
 	
-	private static final String TAG = ClassicSingleton.class.getSimpleName();
+	private static final String TAG = JsBridgeSingleton.class.getSimpleName();
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 
 	
-	private static ClassicSingleton instance = null;
+	private static JsBridgeSingleton instance = null;
 
 
 	private Context cx;
 	private Scriptable scope;
 	private Object result;
-	protected ClassicSingleton() {
+	protected JsBridgeSingleton() {
 		// Exists only to defeat instantiation.
 
 		/*Example invocation of javascript engine!*/
@@ -55,7 +55,7 @@ public class ClassicSingleton implements IEventListener {
 				Object wrappedOut = Context.javaToJS(/*
 													 * ClassicSingleton.getInstance
 													 * ()
-													 */ClassicSingleton.this, scope);
+													 */JsBridgeSingleton.this, scope);
 				ScriptableObject.putProperty(scope, "cs", wrappedOut);
 
 				result = cx.evaluateString(scope,
@@ -105,9 +105,9 @@ public class ClassicSingleton implements IEventListener {
 		
 	}
 
-	public static ClassicSingleton getInstance() {
+	public static JsBridgeSingleton getInstance() {
 		if (instance == null) {
-			instance = new ClassicSingleton();
+			instance = new JsBridgeSingleton();
 
 		}
 		return instance;
@@ -124,22 +124,25 @@ public class ClassicSingleton implements IEventListener {
 
 		logger.debug("event:: _" + event.getType() + "_ " + ((CollisionEvent)event).getA() + "<-->" + ((CollisionEvent)event).getB());
 		
-		if (event.getType()==MyContactListener.EventType.ON_COLLISION_BEGIN)
-			GameTickGenerator.PostRunnable(new Runnable() {
+		GameTickGenerator.PostRunnable(new Runnable() {
+			
+			@Override
+			public void run() {
+
+				ScriptableObject.putProperty(scope, "__EVENT_TYPE", event.getType().toString());
+				ScriptableObject.putProperty(scope, "__ACTOR_A", ((CollisionEvent)event).getA());
+				ScriptableObject.putProperty(scope, "__ACTOR_B", ((CollisionEvent)event).getB());
 				
-				@Override
-				public void run() {
-	
-					ScriptableObject.putProperty(scope, "sA", ((CollisionEvent)event).getA());
-					ScriptableObject.putProperty(scope, "sB", ((CollisionEvent)event).getB());
-					
-					String script = "function add(a,b){return a + '<--->' + b;}; " +
-							"cs.out(\"puff>>> \" + add(sA,sB));" +
-							"if ((sA.indexOf(\"SimpleTrigger\") !== -1) || (sB.indexOf(\"SimpleTrigger\") !== -1)) cs.m.jump();";
-					
-					ClassicSingleton.this.cx.evaluateString(scope, script, "external", 1, null);		
-				}
-			});
+				String script = ((CollisionEvent)event).getScript();
+//				script = "function add(a,b){return a + '<--->' + b;}; " +
+//						"cs.out(\"puff>>> \" + add(__ACTOR_A, __ACTOR_B));" +
+//						"if (__EVENT_TYPE.indexOf(\"ON_COLLISION_BEGIN\") !== -1)" +
+//						"if ((__ACTOR_A.indexOf(\"trigger\") !== -1) || (__ACTOR_B.indexOf(\"trigger\") !== -1)) cs.m.jump();";
+				
+				if (script != null)
+					JsBridgeSingleton.this.cx.evaluateString(scope, script, "external", 1, null);		
+			}
+		});
 		
 	}
 	   
