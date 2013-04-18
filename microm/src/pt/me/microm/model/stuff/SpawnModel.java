@@ -2,14 +2,13 @@ package pt.me.microm.model.stuff;
 
 import pt.me.microm.GameMicroM;
 import pt.me.microm.controller.loop.event.GameTickEvent;
+import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IActorBody;
 import pt.me.microm.model.base.WorldModel;
-import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
 import pt.me.microm.model.dev.BallModel;
-import pt.me.microm.model.dev.CoisaModel;
 import pt.me.microm.model.ui.UIModel.Accessor;
 import pt.me.microm.tools.levelloader.BasicShape;
 import aurelienribon.tweenengine.BaseTween;
@@ -45,7 +44,7 @@ public class SpawnModel extends AbstractModel implements IActorBody {
 		this.spawn = spawn;
 		this.spawn_name = spawn_name;
 		
-		wm.wmManager.add(new PointerToFunction() {
+		wm.wmManager.add(new ICommand() {
 
 			@Override
 			public Object handler(Object ... a) {
@@ -94,7 +93,7 @@ public class SpawnModel extends AbstractModel implements IActorBody {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
 
-				wm.wmManager.add(new PointerToFunction() {
+				wm.wmManager.add(new ICommand() {
 					
 					@Override
 					public Object handler(Object... a) {

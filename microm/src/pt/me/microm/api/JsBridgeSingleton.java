@@ -10,6 +10,7 @@ import org.mozilla.javascript.ScriptableObject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Logger;
 
+import pt.me.microm.GameMicroM;
 import pt.me.microm.ScreenTheJuice;
 import pt.me.microm.controller.loop.GameTickGenerator;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
@@ -68,41 +69,42 @@ public class JsBridgeSingleton implements IEventListener {
 		});
 		
 		/*Raises a thread that listens to console input and evaluates javascript with rhino engine*/
-		Thread t = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				InputStreamReader inputStreamReader = new InputStreamReader(System.in);
-				BufferedReader stdin = new BufferedReader(inputStreamReader);
-				int i = 0;
-				try {
-					while (true) {
-						i += 1;
-						final String s = stdin.readLine();
-						if (s.equals("exit"))
-							break;
-						final Integer in = new Integer(i);
-						GameTickGenerator.PostRunnable(new Runnable() {
-							
-							@Override
-							public void run() {
-								result = cx.evaluateString(scope, s, "<<from console>>", in, null); // 1 is the line number!
-								logger.info(">>>>>>>" + Context.toString(result));
+		if (GameMicroM.FLAG_DEV_ELEMENTS) {
+			Thread t = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+					BufferedReader stdin = new BufferedReader(inputStreamReader);
+					int i = 0;
+					try {
+						while (true) {
+							i += 1;
+							final String s = stdin.readLine();
+							if (s.equals("exit"))
+								break;
+							final Integer in = new Integer(i);
+							GameTickGenerator.PostRunnable(new Runnable() {
 								
-							}
-						});
-
+								@Override
+								public void run() {
+									result = cx.evaluateString(scope, s, "<<from console>>", in, null); // 1 is the line number!
+									logger.info(">>>>>>>" + Context.toString(result));
+									
+								}
+							});
+	
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
+	
+					Context.exit();
+	
 				}
-
-				Context.exit();
-
-			}
-		});
-		
-		t.start();
-		
+			});
+			
+			t.start();
+		}
 	}
 
 	public static JsBridgeSingleton getInstance() {

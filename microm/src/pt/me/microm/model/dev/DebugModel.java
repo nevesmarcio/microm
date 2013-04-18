@@ -1,11 +1,11 @@
 package pt.me.microm.model.dev;
 
 import pt.me.microm.controller.loop.event.GameTickEvent;
+import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.base.WorldModel;
-import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -30,7 +30,7 @@ public class DebugModel extends AbstractModel {
 	private DebugModel(final WorldModel wm, final float x, final float y) {
 		
 		
-		wm.wmManager.add(new PointerToFunction() {
+		wm.wmManager.add(new ICommand() {
 			@Override
 			public Object handler(Object ... a) {
 				debugBodyDef.type = BodyType.StaticBody;

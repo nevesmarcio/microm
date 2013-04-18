@@ -25,7 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.Screen;
 
-public class ScreenPause extends ScreenAbstract {
+public class ScreenPause implements Screen {
 	
 	private static final String TAG = ScreenPause.class.getSimpleName();
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
@@ -33,8 +33,7 @@ public class ScreenPause extends ScreenAbstract {
 	private Stage stage;
 	
 	public ScreenPause(Game g) {
-		super(g);
-		
+
 		stage = new Stage();
 //		InputMultiplexer im = (InputMultiplexer) Gdx.input.getInputProcessor();
 //		if (im == null) im = new InputMultiplexer();
@@ -58,8 +57,10 @@ public class ScreenPause extends ScreenAbstract {
 			@Override
 			public boolean handle(Event event) {
 //				Gdx.app.log(TAG, event.getClass().getSimpleName() + " >> " + event.toString());
-				if (event instanceof ChangeEvent)
-					 ScreenPause.this.g.setScreen(((GameMicroM)ScreenPause.this.g).theJuice);
+				if (event instanceof ChangeEvent) {
+					logger.debug("");
+//					 ScreenPause.this.g.setScreen(((GameMicroM)ScreenPause.this.g).getTheJuice());
+				}
 				return false;
 			}
 		});

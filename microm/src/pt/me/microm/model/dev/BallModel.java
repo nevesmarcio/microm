@@ -1,11 +1,11 @@
 package pt.me.microm.model.dev;
 
 import pt.me.microm.controller.loop.event.GameTickEvent;
+import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IActorBody;
 import pt.me.microm.model.base.WorldModel;
-import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
 import pt.me.microm.tools.levelloader.BasicShape;
 
 import com.badlogic.gdx.graphics.Color;
@@ -31,7 +31,7 @@ public class BallModel extends AbstractModel implements IActorBody {
 	
 
 	private BallModel(final WorldModel wm, final float x, final float y) {
-		wm.wmManager.add(new PointerToFunction() {
+		wm.wmManager.add(new ICommand() {
 			
 			@Override
 			public Object handler(Object ... a) {

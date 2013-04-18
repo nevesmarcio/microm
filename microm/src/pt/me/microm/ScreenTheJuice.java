@@ -6,6 +6,7 @@ import pt.me.microm.controller.MyInputProcessor;
 import pt.me.microm.controller.loop.GameTickGenerator;
 import pt.me.microm.controller.loop.ScreenTickManager;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.model.MyContactListener;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
@@ -20,7 +21,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.utils.Logger;
 
-public class ScreenTheJuice extends ScreenAbstract {
+public class ScreenTheJuice implements Screen {
 
 	private static final String TAG = ScreenTheJuice.class.getSimpleName();
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
@@ -36,9 +37,10 @@ public class ScreenTheJuice extends ScreenAbstract {
 	// VIEW RELATED
 	// Todas as views são instanciadas por "reflection"
 
+	private ICommand callback;
 	
-	public ScreenTheJuice(Game g) {
-		super(g);
+	private ScreenTheJuice(ICommand callback) {
+		this.callback = callback;
 
 		Texture.setEnforcePotImages(true); // ver o melhor sitio para enfiar isto, dado que as texturas estão nas constantes.
 		
@@ -69,12 +71,13 @@ public class ScreenTheJuice extends ScreenAbstract {
 		myGestureListener = new MyGestureListener(cameraModel, worldModel);
 		myInputProcessor = new MyInputProcessor(cameraModel, worldModel);
 
-
-		
+	}
+	
+	public static Screen playground(ICommand callback) {
+		logger.info("playground start!");
+		return new ScreenTheJuice(callback);
 	}
 
-	
-	
 
 	@Override
 	// the main loop - maximum fps possible (Update rate para a View)
@@ -83,11 +86,14 @@ public class ScreenTheJuice extends ScreenAbstract {
 		
         // use your own criterion here
     	if (Gdx.input.isKeyPressed(Keys.ESCAPE) || 
-    			Gdx.input.isKeyPressed(Keys.BACK))
-            g.setScreen(((GameMicroM)g).menu);
+    			Gdx.input.isKeyPressed(Keys.BACK)) {
+//            g.setScreen(((GameMicroM)g).getMenu());
+    		callback.handler();
+    	}
     	
-    	if (Gdx.input.isKeyPressed(Keys.PLUS))
-    		g.setScreen(((GameMicroM)g).pausePopUp);
+    	if (Gdx.input.isKeyPressed(Keys.PLUS)) {
+//    		g.setScreen(((GameMicroM)g).getPausePopUp());
+    	}
 		
 		// Clean do gl context
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);

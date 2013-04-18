@@ -31,17 +31,10 @@ public class CollisionView extends AbstractView {
 	@Override
 	public void DelayedInit() {
 		 batch = new SpriteBatch();
-		 
-		 ScreenTickManager.PostRunnable(new Runnable() {
-			@Override
-			public void run() {
-				particleEffect = new ParticleEffect();
-			    particleEffect.load(Gdx.files.internal("data/particles/collision.p"), Gdx.files.internal("data/particles"));
-			    particleEffect.start();
-				
-			}
-		});
-		 
+
+		 particleEffect = new ParticleEffect();
+		 particleEffect.load(Gdx.files.internal("data/particles/collision.p"), Gdx.files.internal("data/particles"));
+		 particleEffect.start();
 	}
 	
 

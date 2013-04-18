@@ -1,6 +1,7 @@
 package pt.me.microm;
 
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.view.accessor.SpriteAccessor;
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
@@ -10,6 +11,7 @@ import aurelienribon.tweenengine.TweenManager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -25,7 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Logger;
 
-public class ScreenLevelSelect extends ScreenAbstract {
+public class ScreenLevelSelect implements Screen {
 	
 	private static final String TAG = ScreenLevelSelect.class.getSimpleName();
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
@@ -38,10 +40,10 @@ public class ScreenLevelSelect extends ScreenAbstract {
 	
 	private TweenManager tweenManager = new TweenManager();	
 	
+	private ICommand callback;
 	
-	
-	public ScreenLevelSelect(Game g) {
-		super(g);
+	private ScreenLevelSelect(ICommand callback) {
+		this.callback = callback;
 		
 		stage = new Stage();
 //		InputMultiplexer im = (InputMultiplexer) Gdx.input.getInputProcessor();
@@ -66,8 +68,10 @@ public class ScreenLevelSelect extends ScreenAbstract {
 			@Override
 			public boolean handle(Event event) {
 //				Gdx.app.log(TAG, event.getClass().getSimpleName() + " >> " + event.toString());
-				if (event instanceof ChangeEvent)
-					 ScreenLevelSelect.this.g.setScreen(((GameMicroM)ScreenLevelSelect.this.g).theJuice);
+				if (event instanceof ChangeEvent) {
+					ScreenLevelSelect.this.callback.handler();
+					//ScreenLevelSelect.this.g.setScreen(((GameMicroM)ScreenLevelSelect.this.g).getTheJuice());
+				}
 				return false;
 			}
 		});
@@ -87,12 +91,7 @@ public class ScreenLevelSelect extends ScreenAbstract {
 		Tween.registerAccessor(Sprite.class, new SpriteAccessor());
 		Tween.call(windCallback).delay(1.0f).start(tweenManager);		
 		
-		
-		
-		
-		
 	}
-
 	
 	private final TweenCallback windCallback = new TweenCallback() {
 		@Override
@@ -109,6 +108,10 @@ public class ScreenLevelSelect extends ScreenAbstract {
 		}
 	};	
 	
+	public static Screen selectALevel(ICommand callback) {
+		logger.info("selectALevel start!");
+		return new ScreenLevelSelect(callback);
+	}
 	
 	
 	@Override

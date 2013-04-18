@@ -231,10 +231,22 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # Finalmente deleguei o javascript para os elementos do tipo SimpleTriggerModel
 # Prova de conceito do javascript terminada. Agora é ir extendendo a API para permitir lógica no javascript
 
-
-
+17-04-2013
+18-04-2013
+# Refactorizado PointerToFunctions para ICommand (interface) --> command design pattern
 
 [in progress]
+# Refactorização do mecanismo de salto entre Screens
+# Sistema de loading de worlds(folder) e levels(files)
+# Mecanismo de carregamento / loading
+
+
+
+
+
+
+
+
 
 # ver o problema da rotação: a rotação da estrelinha não está a 100%
 

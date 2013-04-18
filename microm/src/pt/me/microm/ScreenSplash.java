@@ -3,11 +3,13 @@ package pt.me.microm;
 import java.util.Arrays;
 
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.ICommand;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -25,7 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Logger;
 
-public class ScreenSplash extends ScreenAbstract {
+public class ScreenSplash implements Screen {
 	
 	private static final String TAG = ScreenSplash.class.getSimpleName();
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
@@ -47,9 +49,10 @@ public class ScreenSplash extends ScreenAbstract {
 
 	float stateTime; // #8	
 	
+	private ICommand callback;
 	
-	public ScreenSplash(Game g) {
-		super(g);
+	private ScreenSplash(ICommand callback) {
+		this.callback = callback;
 		
 		stage = new Stage();
 		stage.addCaptureListener(new EventListener() {
@@ -80,8 +83,7 @@ public class ScreenSplash extends ScreenAbstract {
 		
 		
 		/////////////////////////////////////////////////////////
-		walkSheet = new Texture(
-				Gdx.files.internal("data/spritesheets/DaBoxRunning.png")); // #9
+		walkSheet = new Texture(Gdx.files.internal("data/spritesheets/DaBoxRunning.png")); // #9
 //		TextureRegion[][] tmp = TextureRegion.split(walkSheet,
 //				walkSheet.getWidth() / FRAME_COLS, walkSheet.getHeight()
 //						/ FRAME_ROWS); // #10
@@ -100,15 +102,22 @@ public class ScreenSplash extends ScreenAbstract {
 		stateTime = 0f;
 		
 	}
+	
+	public static Screen doHeavyLoading(ICommand callback) {
+		logger.info("doHeavyLoading start!");
+		return new ScreenSplash(callback);
+	}
 
 	
 	@Override
 	public void render(float delta) {
 
         // use your own criterion here
-    	if (Gdx.input.isKeyPressed(Keys.ENTER) || Gdx.input.isTouched())
-            g.setScreen(((GameMicroM)g).menu);		
-		
+    	if (Gdx.input.isKeyPressed(Keys.ENTER) || Gdx.input.isTouched()) {
+    		callback.handler();
+            //g.setScreen(((GameMicroM)g).getMenu());
+    	}
+    		
 		// Clean do gl context
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		Gdx.gl.glClearColor(0.5f, 0.05f, 0.50f, 0.8f); // brown

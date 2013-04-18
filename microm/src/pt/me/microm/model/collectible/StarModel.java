@@ -6,7 +6,6 @@ import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IActorBody;
 import pt.me.microm.model.base.WorldModel;
-import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
 import pt.me.microm.model.phenomenon.CollisionModel;
 import pt.me.microm.tools.levelloader.BasicShape;
 import aurelienribon.bodyeditor.BodyEditorLoader;

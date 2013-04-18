@@ -1,12 +1,12 @@
 package pt.me.microm.model.trigger;
 
 import pt.me.microm.controller.loop.event.GameTickEvent;
+import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IActorBody;
 import pt.me.microm.model.base.WorldModel;
-import pt.me.microm.model.base.WorldModelManager.PointerToFunction;
 import pt.me.microm.tools.levelloader.BasicShape;
 
 import com.badlogic.gdx.math.Vector2;
@@ -37,7 +37,7 @@ public class SimpleTriggerModel extends AbstractModel implements IActorBody {
 		this.trigger = trigger;
 		this.name = name;
 		
-		wm.wmManager.add(new PointerToFunction() {
+		wm.wmManager.add(new ICommand() {
 			
 			@Override
 			public Object handler(Object ... a) {

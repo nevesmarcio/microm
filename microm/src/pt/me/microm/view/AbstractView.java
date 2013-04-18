@@ -26,11 +26,16 @@ public abstract class AbstractView implements Disposable, IScreenTick {
 
 			@Override
 			public void onEvent(IEvent event) {
-				DelayedInit( ); // Isto vai correr na thread do model
-				// Regista este objecto para ser informado dos screen ticks
-				// Este registo só pode ser efectuado depois do Modelo instanciado 
-				ScreenTickManager.getInstance().addEventListener(AbstractView.this, zIndex);
+				ScreenTickManager.PostRunnable(new Runnable() {
+					@Override
+					public void run() {
+						DelayedInit( ); // Sem o PostRunnable isto iria correr na thread do model
+						// Regista este objecto para ser informado dos screen ticks
+						// Este registo só pode ser efectuado depois do Modelo instanciado 
+						ScreenTickManager.getInstance().addEventListener(AbstractView.this, zIndex);
 
+					}
+				});				
 			}
 		});		
 	}

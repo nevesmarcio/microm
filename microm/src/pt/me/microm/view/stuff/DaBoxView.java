@@ -71,54 +71,50 @@ public class DaBoxView extends AbstractView {
 
 	@Override
 	public void DelayedInit() {
-		ScreenTickManager.PostRunnable(new Runnable() {
-			@Override
-			public void run() {		
-		
-		renderer = new ShapeRenderer();
-		
-		daBoxSprite = GAME_CONSTANTS.devAtlas.createSprite("txr_daBox");		
-		daBoxSprite.setSize(daBoxmSrc.getBasicShape().getWidth(), daBoxmSrc.getBasicShape().getHeight());
-		daBoxSprite.setOrigin(daBoxmSrc.getBasicShape().getWidth()/2, daBoxmSrc.getBasicShape().getHeight()/2);
-		
-		/////////////////////////////////////////////////////////
-		walkSheet = new Texture(Gdx.files.internal("data/spritesheets/DaBoxRunning.png")); // #9 - textura completa
-		
-//		racioW = daBoxmSrc.getBasicShape().getWidth()/(FRAME_WIDTH*2);   // estes racios tem a ver com o tamanho da imagem  (512 x 2048). porque?...
-//		racioH = daBoxmSrc.getBasicShape().getHeight()/(FRAME_HEIGHT*8);
-		racioW = daBoxmSrc.getBasicShape().getWidth()/(FRAME_WIDTH*3); 
-		racioH = daBoxmSrc.getBasicShape().getHeight()/(FRAME_HEIGHT*3);
-		
-		animatedSprite = new Sprite(walkSheet);
-		
-		TextureRegion[][] tmp = TextureRegion.split(walkSheet, FRAME_WIDTH, FRAME_HEIGHT); // #10 - o array walkFrames contem as posições de cada frame		
-		walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
-		int index = 0;
-		for (int i = 0; i < FRAME_ROWS; i++) {
-			for (int j = 0; j < FRAME_COLS; j++) {
-				walkFrames[index++] = tmp[i][j];
-			}
-		}
-		walkFrames = Arrays.copyOfRange(walkFrames, 0, walkFrames.length-1); // a sheet não tem todas as imagens da matrix COLS*ROWS
-		
-		
-		walkAnimation = new Animation(0.025f, walkFrames); // #11
-		stateTime = 0f;		
 
-		// estes racios tem a ver com o tamanho da imagem  (512 x 2048). porque?...
-		animatedSprite.setSize(animatedSprite.getWidth()/1, animatedSprite.getHeight()/4);
-		animatedSprite.setOrigin(animatedSprite.getOriginX(), animatedSprite.getOriginY()/4);
+				renderer = new ShapeRenderer();
+				
+				daBoxSprite = GAME_CONSTANTS.devAtlas.createSprite("txr_daBox");		
+				daBoxSprite.setSize(daBoxmSrc.getBasicShape().getWidth(), daBoxmSrc.getBasicShape().getHeight());
+				daBoxSprite.setOrigin(daBoxmSrc.getBasicShape().getWidth()/2, daBoxmSrc.getBasicShape().getHeight()/2);
+				
+				/////////////////////////////////////////////////////////
+				walkSheet = new Texture(Gdx.files.internal("data/spritesheets/DaBoxRunning.png")); // #9 - textura completa
+				
+		//		racioW = daBoxmSrc.getBasicShape().getWidth()/(FRAME_WIDTH*2);   // estes racios tem a ver com o tamanho da imagem  (512 x 2048). porque?...
+		//		racioH = daBoxmSrc.getBasicShape().getHeight()/(FRAME_HEIGHT*8);
+				racioW = daBoxmSrc.getBasicShape().getWidth()/(FRAME_WIDTH*3); 
+				racioH = daBoxmSrc.getBasicShape().getHeight()/(FRAME_HEIGHT*3);
+				
+				animatedSprite = new Sprite(walkSheet);
+				
+				TextureRegion[][] tmp = TextureRegion.split(walkSheet, FRAME_WIDTH, FRAME_HEIGHT); // #10 - o array walkFrames contem as posições de cada frame		
+				walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
+				int index = 0;
+				for (int i = 0; i < FRAME_ROWS; i++) {
+					for (int j = 0; j < FRAME_COLS; j++) {
+						walkFrames[index++] = tmp[i][j];
+					}
+				}
+				walkFrames = Arrays.copyOfRange(walkFrames, 0, walkFrames.length-1); // a sheet não tem todas as imagens da matrix COLS*ROWS
+				
+				
+				walkAnimation = new Animation(0.025f, walkFrames); // #11
+				stateTime = 0f;		
 		
-		
-		
-		///////////////////////////////
-
+				// estes racios tem a ver com o tamanho da imagem  (512 x 2048). porque?...
+				animatedSprite.setSize(animatedSprite.getWidth()/1, animatedSprite.getHeight()/4);
+				animatedSprite.setOrigin(animatedSprite.getOriginX(), animatedSprite.getOriginY()/4);
+				
+				
+				
+				///////////////////////////////
+	
 				particleEffect = new ParticleEffect();
 			    particleEffect.load(Gdx.files.internal("data/particles/fire.p"), Gdx.files.internal("data/particles"));
 			    particleEffect.start();		
 				
-			}
-		});
+
 	}
 	
 

@@ -1,39 +1,80 @@
 package pt.me.microm;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.ICommand;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Logger;
-import com.badlogic.gdx.Screen;
 
-public class ScreenWorldSelect extends ScreenAbstract {
+public class ScreenWorldSelect implements Screen {
 	
 	private static final String TAG = ScreenWorldSelect.class.getSimpleName();
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private Stage stage;
 	
-	public ScreenWorldSelect(Game g) {
-		super(g);
+	private ICommand callback;
+	
+	private ScreenWorldSelect(ICommand callback) {
+		this.callback = callback;
+		
+		boolean isExtAvailable = Gdx.files.isExternalStorageAvailable();
+		boolean isLocAvailable = Gdx.files.isLocalStorageAvailable();
+		
+		String extRoot = Gdx.files.getExternalStoragePath();
+		String locRoot = Gdx.files.getLocalStoragePath();
+		if ((locRoot != null) && locRoot.isEmpty()) locRoot = ".";
+		
+		logger.info("isExtAvailable: " + isExtAvailable + " ::" + extRoot);
+		logger.info("FP: " + Gdx.files.local(extRoot).file().getAbsolutePath());
+		FileHandle[] filesA = Gdx.files.local(extRoot).list();
+		for(FileHandle file: filesA) {
+		   logger.info("\t" + file.name() + "|" + file.length());
+		}		
+		
+		logger.info("isLocAvailable: " + isLocAvailable + " ::" + locRoot);
+		logger.info("FP: " + Gdx.files.local(locRoot).file().getAbsolutePath());
+		FileHandle[] filesB = Gdx.files.local(locRoot).list();
+		for(FileHandle file: filesB) {
+			logger.info("\t" + file.name() + "|" + file.length());
+		}				
+		
+		logger.info("FP: " + Gdx.files.internal("data/levels").file().getAbsolutePath());
+		FileHandle[] filesC = Gdx.files.internal("data/levels").list();
+		
+		Pattern pattern = Pattern.compile("world\\.\\d\\.\\w+");
+		Matcher matcher;
+		List<String> discoveredWorld = new ArrayList<String>();
+		for (FileHandle file : filesC) {
+			logger.debug("\t" + file.name() + "|" + (file.isDirectory()?"D":file.length()));
+			matcher = pattern.matcher(file.name());
+			// Check all occurance
+			while (matcher.find()) {
+				discoveredWorld.add(matcher.group());
+			}
+		}			
+
+		
+		
 		
 		stage = new Stage();
 //		InputMultiplexer im = (InputMultiplexer) Gdx.input.getInputProcessor();
@@ -52,21 +93,43 @@ public class ScreenWorldSelect extends ScreenAbstract {
 		
 		
 		Actor a;
-		table.add(a = new TextButton("worldSelect-btn",skin));
+//		table.add(a = new TextButton("SPECIAL-btn",skin));
+//		
+//		a.addListener(new EventListener() {
+//			@Override
+//			public boolean handle(Event event) {
+////				Gdx.app.log(TAG, event.getClass().getSimpleName() + " >> " + event.toString());
+//				if (event instanceof ChangeEvent)
+//					 ScreenWorldSelect.this.g.setScreen(((GameMicroM)ScreenWorldSelect.this.g).getLevelSelect());
+//				return false;
+//			}
+//		});
 		
-		a.addListener(new EventListener() {
-			@Override
-			public boolean handle(Event event) {
-//				Gdx.app.log(TAG, event.getClass().getSimpleName() + " >> " + event.toString());
-				if (event instanceof ChangeEvent)
-					 ScreenWorldSelect.this.g.setScreen(((GameMicroM)ScreenWorldSelect.this.g).levelSelect);
-				return false;
-			}
-		});
 		
+		for (final String aWorld : discoveredWorld) {
+			table.add(a = new TextButton(aWorld, skin));
+			
+			a.addListener(new EventListener() {
+				@Override
+				public boolean handle(Event event) {
+					if (event instanceof ChangeEvent) {
+						 logger.info("[**] Selected world: " + aWorld);
+						 ScreenWorldSelect.this.callback.handler(aWorld);
+					}
+					return false;
+				}
+			});			
+			
+		}
 		
 	}
 
+	public static Screen selectAWorld(ICommand callback) {
+		logger.info("selectAWorld start!");
+		return new ScreenWorldSelect(callback);
+	}	
+	
+	
 	
 	@Override
 	public void render(float delta) {

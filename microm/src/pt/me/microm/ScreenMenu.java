@@ -1,6 +1,7 @@
 package pt.me.microm;
 
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.ICommand;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -25,15 +26,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.Screen;
 
-public class ScreenMenu extends ScreenAbstract {
+public class ScreenMenu implements Screen {
 	
 	private static final String TAG = ScreenMenu.class.getSimpleName();
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private Stage stage;
 	
-	public ScreenMenu(Game g) {
-		super(g);
+	private ICommand callback;
+	
+	private ScreenMenu(ICommand callback) {
+		this.callback = callback;
 		
 		stage = new Stage();
 //		InputMultiplexer im = (InputMultiplexer) Gdx.input.getInputProcessor();
@@ -59,8 +62,10 @@ public class ScreenMenu extends ScreenAbstract {
 			@Override
 			public boolean handle(Event event) {
 //				Gdx.app.log(TAG, event.getClass().getSimpleName() + " >> " + event.toString());
-				if (event instanceof ChangeEvent)
-					 ScreenMenu.this.g.setScreen(((GameMicroM)ScreenMenu.this.g).worldSelect);
+				if (event instanceof ChangeEvent) {
+					ScreenMenu.this.callback.handler();
+//					 ScreenMenu.this.g.setScreen(((GameMicroM)ScreenMenu.this.g).getWorldSelect());
+				}
 				return false;
 			}
 		});
@@ -106,6 +111,12 @@ public class ScreenMenu extends ScreenAbstract {
 		
 	}
 
+	public static Screen showMenu(ICommand callback) {
+		logger.info("showMenu start!");
+		return new ScreenMenu(callback);
+	}
+	
+	
 	
 	@Override
 	public void render(float delta) {
