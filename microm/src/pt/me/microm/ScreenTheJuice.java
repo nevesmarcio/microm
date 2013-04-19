@@ -39,14 +39,14 @@ public class ScreenTheJuice implements Screen {
 
 	private ICommand callback;
 	
-	private ScreenTheJuice(ICommand callback) {
+	private ScreenTheJuice(ICommand callback, String world, String level) {
 		this.callback = callback;
 
 		Texture.setEnforcePotImages(true); // ver o melhor sitio para enfiar isto, dado que as texturas estão nas constantes.
 		
 		// MODELS ///////////////////////////////////////////////////////////////
 		cameraModel = new CameraModel();
-		worldModel = WorldModel.getSingletonInstance();
+		worldModel = WorldModel.getSingletonInstance(world, level);
 		
 		// VIEWS  ///////////////////////////////////////////////////////////////
 		// Todas as views são instanciadas por "reflection"
@@ -73,9 +73,9 @@ public class ScreenTheJuice implements Screen {
 
 	}
 	
-	public static Screen playground(ICommand callback) {
+	public static Screen playground(ICommand callback, String world, String level) {
 		logger.info("playground start!");
-		return new ScreenTheJuice(callback);
+		return new ScreenTheJuice(callback, world, level);
 	}
 
 
@@ -88,16 +88,17 @@ public class ScreenTheJuice implements Screen {
     	if (Gdx.input.isKeyPressed(Keys.ESCAPE) || 
     			Gdx.input.isKeyPressed(Keys.BACK)) {
 //            g.setScreen(((GameMicroM)g).getMenu());
-    		callback.handler();
+    		callback.handler("exit");
     	}
     	
     	if (Gdx.input.isKeyPressed(Keys.PLUS)) {
 //    		g.setScreen(((GameMicroM)g).getPausePopUp());
+    		callback.handler("pause");
     	}
 		
 		// Clean do gl context
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1); // cinza
+		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1); // cinza escuro
 		
 		ScreenTickManager.getInstance().fireEvent(cameraModel, elapsedNanoTime);
 		

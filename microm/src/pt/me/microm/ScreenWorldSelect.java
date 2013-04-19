@@ -63,13 +63,13 @@ public class ScreenWorldSelect implements Screen {
 		
 		Pattern pattern = Pattern.compile("world\\.\\d\\.\\w+");
 		Matcher matcher;
-		List<String> discoveredWorld = new ArrayList<String>();
+		List<String> discoveredWorlds = new ArrayList<String>();
 		for (FileHandle file : filesC) {
 			logger.debug("\t" + file.name() + "|" + (file.isDirectory()?"D":file.length()));
 			matcher = pattern.matcher(file.name());
 			// Check all occurance
 			while (matcher.find()) {
-				discoveredWorld.add(matcher.group());
+				discoveredWorlds.add(matcher.group());
 			}
 		}			
 
@@ -106,7 +106,7 @@ public class ScreenWorldSelect implements Screen {
 //		});
 		
 		
-		for (final String aWorld : discoveredWorld) {
+		for (final String aWorld : discoveredWorlds) {
 			table.add(a = new TextButton(aWorld, skin));
 			
 			a.addListener(new EventListener() {
@@ -137,7 +137,7 @@ public class ScreenWorldSelect implements Screen {
 		
 		// Clean do gl context
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		Gdx.gl.glClearColor(0.3f, 0.15f, 0.10f, 0.8f); // brown
+		Gdx.gl.glClearColor(0.27f, 0.135f, 0.09f, 0.72f); // brown
 		
         Table.drawDebug(stage); // This is optional, but enables debug lines for tables.
         

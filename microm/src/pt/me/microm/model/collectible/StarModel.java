@@ -52,7 +52,7 @@ public class StarModel extends AbstractModel implements IActorBody {
 		fd.isSensor = true;
 
 		// 3. Create a Body, as usual.
-		starBody = WorldModel.getSingletonInstance().getPhysicsWorld().createBody(bd);
+		starBody = wm.getPhysicsWorld().createBody(bd);
 
 		float modelScale = star.getWidth(); // The width returned by the BodyEditorLoader is normalized to 1. Thats why the scale = <basicshape>.getWidth. 
 		

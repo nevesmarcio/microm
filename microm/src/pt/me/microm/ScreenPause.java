@@ -1,6 +1,7 @@
 package pt.me.microm;
 
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.ICommand;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -32,7 +33,10 @@ public class ScreenPause implements Screen {
 	
 	private Stage stage;
 	
-	public ScreenPause(Game g) {
+	ICommand callback;
+	
+	private ScreenPause(ICommand callback) {
+		this.callback = callback;
 
 		stage = new Stage();
 //		InputMultiplexer im = (InputMultiplexer) Gdx.input.getInputProcessor();
@@ -58,8 +62,8 @@ public class ScreenPause implements Screen {
 			public boolean handle(Event event) {
 //				Gdx.app.log(TAG, event.getClass().getSimpleName() + " >> " + event.toString());
 				if (event instanceof ChangeEvent) {
-					logger.debug("");
 //					 ScreenPause.this.g.setScreen(((GameMicroM)ScreenPause.this.g).getTheJuice());
+					ScreenPause.this.callback.handler();
 				}
 				return false;
 			}
@@ -68,12 +72,18 @@ public class ScreenPause implements Screen {
 		
 	}
 
+	public static Screen pauseGame(ICommand callback) {
+		logger.info("pause start!");
+		return new ScreenPause(callback);
+	}
 	
 	@Override
 	public void render(float delta) {
+
 		// Clean do gl context
-//		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-//		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 0.5f); // brown
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClearColor(0.0f, 0.5f, 0.5f, 0.5f); // cyan
+		// Comment the last two lines to make the pause screen an overlay over the game screen
 		
         Table.drawDebug(stage); // This is optional, but enables debug lines for tables.
         

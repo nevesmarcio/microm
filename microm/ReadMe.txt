@@ -234,10 +234,14 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 17-04-2013
 18-04-2013
 # Refactorizado PointerToFunctions para ICommand (interface) --> command design pattern
-
-[in progress]
 # Refactorização do mecanismo de salto entre Screens
 # Sistema de loading de worlds(folder) e levels(files)
+
+
+19-04-2013
+
+
+[in progress]
 # Mecanismo de carregamento / loading
 
 

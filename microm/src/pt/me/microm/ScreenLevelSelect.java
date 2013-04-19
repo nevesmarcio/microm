@@ -1,5 +1,10 @@
 package pt.me.microm;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.view.accessor.SpriteAccessor;
@@ -12,6 +17,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -42,9 +48,24 @@ public class ScreenLevelSelect implements Screen {
 	
 	private ICommand callback;
 	
-	private ScreenLevelSelect(ICommand callback) {
+	private ScreenLevelSelect(ICommand callback, String world) {
 		this.callback = callback;
 		
+		logger.info("FP: " + Gdx.files.internal("data/levels/" + world).file().getAbsolutePath());
+		FileHandle[] filesC = Gdx.files.internal("data/levels/" + world).list();
+		
+		Pattern pattern = Pattern.compile("level#[1-9\\.]\\.\\w+\\.svg");
+		Matcher matcher;
+		List<String> discoveredLevels = new ArrayList<String>();
+		for (FileHandle file : filesC) {
+			logger.debug("\t" + file.name() + "|" + (file.isDirectory()?"D":file.length()));
+			matcher = pattern.matcher(file.name());
+			// Check all occurance
+			while (matcher.find()) {
+				discoveredLevels.add(matcher.group());
+			}
+		}			
+
 		stage = new Stage();
 //		InputMultiplexer im = (InputMultiplexer) Gdx.input.getInputProcessor();
 //		if (im == null) im = new InputMultiplexer();
@@ -60,26 +81,28 @@ public class ScreenLevelSelect implements Screen {
 		TextureAtlas t = new TextureAtlas(Gdx.files.internal("data/scene2d/uiskin.atlas"), Gdx.files.internal("data/scene2d/"));
 		Skin skin = new Skin(Gdx.files.internal("data/scene2d/uiskin.json"), t);
 		
-		
 		Actor a;
-		table.add(a = new TextButton("levelSelect-btn",skin));
 		
-		a.addListener(new EventListener() {
-			@Override
-			public boolean handle(Event event) {
-//				Gdx.app.log(TAG, event.getClass().getSimpleName() + " >> " + event.toString());
-				if (event instanceof ChangeEvent) {
-					ScreenLevelSelect.this.callback.handler();
-					//ScreenLevelSelect.this.g.setScreen(((GameMicroM)ScreenLevelSelect.this.g).getTheJuice());
+		int i = 0;
+		for (final String aLevel : discoveredLevels) { 
+			if (i%3 == 0)
+				table.row();
+			table.add(a = new TextButton(aLevel, skin));
+
+			a.addListener(new EventListener() {
+				@Override
+				public boolean handle(Event event) {
+					if (event instanceof ChangeEvent) {
+						logger.info("[**] Selected level: " + aLevel);
+						ScreenLevelSelect.this.callback.handler(aLevel);
+					}
+					return false;
 				}
-				return false;
-			}
-		});
+			});
+			i+=1;
+		}
 		
-		table.add(a = new TextButton("levelSelect-dummy1",skin));
-		table.add(a = new TextButton("levelSelect-dummy2",skin));
-		table.add(a = new TextButton("levelSelect-dummy3",skin));
-		
+
 		
 		///////////////////////////////////////
 		batch = new SpriteBatch();
@@ -108,9 +131,9 @@ public class ScreenLevelSelect implements Screen {
 		}
 	};	
 	
-	public static Screen selectALevel(ICommand callback) {
+	public static Screen selectALevel(ICommand callback, String world) {
 		logger.info("selectALevel start!");
-		return new ScreenLevelSelect(callback);
+		return new ScreenLevelSelect(callback, world);
 	}
 	
 	
@@ -120,7 +143,7 @@ public class ScreenLevelSelect implements Screen {
 		
 		// Clean do gl context
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		Gdx.gl.glClearColor(0.3f, 0.15f, 0.10f, 0.8f); // brown
+		Gdx.gl.glClearColor(0.15f, 0.075f, 0.05f, 0.4f); // brown
 		
         Table.drawDebug(stage); // This is optional, but enables debug lines for tables.
         

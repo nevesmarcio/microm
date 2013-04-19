@@ -26,10 +26,13 @@ public class CoisaModel extends AbstractModel implements IActorBody {
 	
 	private Color color = new Color(0.5f,0.5f,0.5f,0.5f);
 	
+	private WorldModel wm;
 	private Body coisaBody;	
 	private Vector2 coisaModelOrigin;
 	
 	private CoisaModel(WorldModel wm, float xOffset, float yOffset) {
+		this.wm = wm;
+		
 		// 0. Create a loader for the file saved from the editor.
 		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("data/bodies/1st_example/1st_example.json"));
 
@@ -44,7 +47,7 @@ public class CoisaModel extends AbstractModel implements IActorBody {
 		fd.restitution = 0.3f;
 
 		// 3. Create a Body, as usual.
-		coisaBody = WorldModel.getSingletonInstance().getPhysicsWorld().createBody(bd);
+		coisaBody = wm.getPhysicsWorld().createBody(bd);
 
 		coisaBody.setUserData(CoisaModel.this); // relacionar com o modelo
 		

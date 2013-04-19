@@ -92,7 +92,7 @@ public class WorldModel extends AbstractModel {
 		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
 	}
 
-	private void PopulateWorld() {
+	private void PopulateWorld(String world, String level) {
 
 		// Modelos complementares ao WorldModel
 		if (GameMicroM.FLAG_DEV_ELEMENTS)
@@ -124,7 +124,7 @@ public class WorldModel extends AbstractModel {
 //		}).repeat(10, 0.1f).start(tweenManager);
 ///* fim dos exemplos */
 		
-		FileHandle h = Gdx.files.internal("data/levels/level1.0.svg");
+		FileHandle h = Gdx.files.internal("data/levels/" + world + "/" + level);
 		int nr_elements_loaded = LevelLoader.LoadLevel(h, this);
 		if (logger.getLevel() == Logger.INFO) logger.info("Nr elements loaded: " + nr_elements_loaded);
 
@@ -139,11 +139,11 @@ public class WorldModel extends AbstractModel {
 	}
 	
 	//there can only be one world
-	public static WorldModel getSingletonInstance(){
+	public static WorldModel getSingletonInstance(String world, String level){
 		if (instance == null) {
 			instance = new WorldModel();
 			
-			instance.PopulateWorld(); // go have fun!
+			instance.PopulateWorld(world, level); // go have fun!
 		}
 		return instance;
 	}
