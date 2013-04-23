@@ -1,5 +1,7 @@
 package pt.me.microm.view;
 
+import java.util.UUID;
+
 import pt.me.microm.controller.loop.ScreenTickManager;
 import pt.me.microm.controller.loop.itf.IScreenTick;
 import pt.me.microm.infrastructure.event.IEvent;
@@ -19,7 +21,10 @@ public abstract class AbstractView implements Disposable, IScreenTick {
 		this(model, 0);
 	}
 	
+	private UUID devID;
 	public AbstractView(AbstractModel model, final int zIndex) {
+		logger.info("ALLOC:" + (devID = UUID.randomUUID()).toString());
+		
 		this.model = model;
 
 		model.addListener(AbstractModel.EventType.ON_MODEL_INSTANTIATED, new IEventListener() {
@@ -49,4 +54,10 @@ public abstract class AbstractView implements Disposable, IScreenTick {
 		ScreenTickManager.getInstance().removeEventListener(this);		
 	}
 
+	@Override
+	protected void finalize() throws Throwable {
+		logger.info("GC'ed:"+devID);
+		super.finalize();
+	}	
+	
 }

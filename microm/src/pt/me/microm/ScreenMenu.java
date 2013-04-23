@@ -1,5 +1,7 @@
 package pt.me.microm;
 
+import java.util.UUID;
+
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
 
@@ -23,7 +25,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Logger;
+import com.badlogic.gdx.utils.SnapshotArray;
 import com.badlogic.gdx.Screen;
 
 public class ScreenMenu implements Screen {
@@ -32,10 +36,14 @@ public class ScreenMenu implements Screen {
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private Stage stage;
+	private Table table;
 	
 	private ICommand callback;
 	
+	private UUID devID;
 	private ScreenMenu(ICommand callback) {
+		logger.info("ALLOC:" + (devID = UUID.randomUUID()).toString());
+		
 		this.callback = callback;
 		
 		stage = new Stage();
@@ -44,7 +52,7 @@ public class ScreenMenu implements Screen {
 //		im.addProcessor(stage);
 //		Gdx.input.setInputProcessor(im);
 		
-		Table table = new Table();
+		table = new Table();
 		table.debug();
 		table.setFillParent(true);
 		stage.addActor(table);
@@ -57,57 +65,54 @@ public class ScreenMenu implements Screen {
 		
 		Actor a;
 		table.add(a = new TextButton("norow-btn",skin));
-		
 		a.addListener(new EventListener() {
 			@Override
 			public boolean handle(Event event) {
-//				Gdx.app.log(TAG, event.getClass().getSimpleName() + " >> " + event.toString());
+				//Gdx.app.log(TAG, event.getClass().getSimpleName() + " >> " + event.toString());
 				if (event instanceof ChangeEvent) {
-					ScreenMenu.this.callback.handler();
-//					 ScreenMenu.this.g.setScreen(((GameMicroM)ScreenMenu.this.g).getWorldSelect());
+					ScreenMenu.this.callback.handler(null);
 				}
 				return false;
 			}
-		});
-		
-		
+		});		
 		a.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-//				Gdx.app.log(TAG, event.toString());
-//				Gdx.app.log(TAG, actor.toString());
+				//Gdx.app.log(TAG, event.toString());
+				//Gdx.app.log(TAG, actor.toString());
 			}
 		});
 		
 		table.row();
-		table.add(a = new TextButton("row2-btn",skin));
-		a.addListener(new EventListener() {
-			
-			@Override
-			public boolean handle(Event event) {
-//				logger.info("b pressed!");
-				return false;
-			}
-		});
-		table.add(a = new TextButton("row2-btn",skin));
-		a.addListener(new EventListener() {
-			
-			@Override
-			public boolean handle(Event event) {
-//				logger.info("b pressed!");
-				return false;
-			}
-		});		
+			table.add(a = new TextButton("row2-btn",skin));
+			a.addListener(new EventListener() {
+				
+				@Override
+				public boolean handle(Event event) {
+					//logger.info("b pressed!");
+					return false;
+				}
+			});
+			table.add(a = new TextButton("row2-btn",skin));
+			a.addListener(new EventListener() {
+				
+				@Override
+				public boolean handle(Event event) {
+					//logger.info("b pressed!");
+					return false;
+				}
+			});		
+		
 		table.row();
-		table.add(a = new com.badlogic.gdx.scenes.scene2d.ui.Label("row3-lbl", skin));
-		a.addListener(new EventListener() {
-			
-			@Override
-			public boolean handle(Event event) {
-//				logger.info("b pressed!");
-				return false;
-			}
-		});
+			table.add(a = new com.badlogic.gdx.scenes.scene2d.ui.Label("row3-lbl", skin));
+			a.addListener(new EventListener() {
+				
+				@Override
+				public boolean handle(Event event) {
+					//logger.info("b pressed!");
+					return false;
+				}
+			});
 		
 	}
 
@@ -120,13 +125,14 @@ public class ScreenMenu implements Screen {
 	
 	@Override
 	public void render(float delta) {
+
+		if (Gdx.input.isKeyPressed(Keys.BACKSPACE)) // use your own criterion here
+			callback.handler("back");
+		
 		// Clean do gl context
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		Gdx.gl.glClearColor(0.3f, 0.15f, 0.10f, 0.8f); // brown
 		
-//        if (Gdx.input.isKeyPressed(Keys.ENTER)) // use your own criterion here
-//            g.setScreen(((GameMicroM)g).theJuice);
-        
         Table.drawDebug(stage); // This is optional, but enables debug lines for tables.
         
         stage.act(delta);
@@ -153,7 +159,7 @@ public class ScreenMenu implements Screen {
 	@Override
 	public void hide() {
 		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->hide()");
-		
+		this.dispose();
 	}
 
 	@Override
@@ -171,8 +177,28 @@ public class ScreenMenu implements Screen {
 
 	@Override
 	public void dispose() {
+		// clean actor listeners
+		SnapshotArray<Actor> items = table.getChildren();
+		for (int i = 0; i<items.size; i++) {
+			Array<EventListener> el = items.get(i).getListeners();
+			for (int j = 0; j<el.size; j++){
+				items.get(i).removeListener(el.get(j));
+			}
+			Array<EventListener> ecl = items.get(i).getCaptureListeners();
+			for (int j = 0; j<ecl.size; j++){
+				items.get(i).removeCaptureListener(ecl.get(j));
+			}
+		}
+		table.clear();
+		stage.clear();
 		stage.dispose();
 		
 	}
+	
+	@Override
+	protected void finalize() throws Throwable {
+		logger.info("GC'ed:"+devID);
+		super.finalize();
+	}	
 
 }

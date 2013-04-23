@@ -1,6 +1,7 @@
 package pt.me.microm;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
@@ -25,7 +26,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Logger;
+import com.badlogic.gdx.utils.SnapshotArray;
 
 public class ScreenSplash implements Screen {
 	
@@ -33,6 +36,7 @@ public class ScreenSplash implements Screen {
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private Stage stage;
+	private Table table;
 
 	//////////////////////////////////////////////////////////////
 	
@@ -51,24 +55,25 @@ public class ScreenSplash implements Screen {
 	
 	private ICommand callback;
 	
+	private UUID devID;
 	private ScreenSplash(ICommand callback) {
+		logger.info("ALLOC:" + (devID = UUID.randomUUID()).toString());
+		
 		this.callback = callback;
 		
 		stage = new Stage();
 		stage.addCaptureListener(new EventListener() {
-			
 			@Override
 			public boolean handle(Event event) {
 				if (event instanceof InputEvent) {
 					if (logger.getLevel() >= Logger.DEBUG)
 						logger.debug(">>> " + ((InputEvent) event).getStageX() + ":" +  ((InputEvent) event).getStageY()); 
 				}
-				
 				return false;
 			}
 		});
 		
-		Table table = new Table();
+		table = new Table();
 		table.debug();
 		table.setFillParent(true);
 		stage.addActor(table);
@@ -114,7 +119,7 @@ public class ScreenSplash implements Screen {
 
         // use your own criterion here
     	if (Gdx.input.isKeyPressed(Keys.ENTER) || Gdx.input.isTouched()) {
-    		callback.handler();
+    		callback.handler(null);
             //g.setScreen(((GameMicroM)g).getMenu());
     	}
     		
@@ -155,6 +160,7 @@ public class ScreenSplash implements Screen {
 	@Override
 	public void hide() {
 		if (logger.getLevel() >= Logger.DEBUG) logger.debug("-->hide()");
+		this.dispose();
 		
 	}
 
@@ -171,8 +177,28 @@ public class ScreenSplash implements Screen {
 
 	@Override
 	public void dispose() {
+		// clean actor listeners
+		SnapshotArray<Actor> items = table.getChildren();
+		for (int i = 0; i<items.size; i++) {
+			Array<EventListener> el = items.get(i).getListeners();
+			for (int j = 0; j<el.size; j++){
+				items.get(i).removeListener(el.get(j));
+			}
+			Array<EventListener> ecl = items.get(i).getCaptureListeners();
+			for (int j = 0; j<ecl.size; j++){
+				items.get(i).removeCaptureListener(ecl.get(j));
+			}
+		}
+		table.clear();
+		stage.clear();
 		stage.dispose();
 		
 	}
 
+	@Override
+	protected void finalize() throws Throwable {
+		logger.info("GC'ed:"+devID);
+		super.finalize();
+	}		
+	
 }

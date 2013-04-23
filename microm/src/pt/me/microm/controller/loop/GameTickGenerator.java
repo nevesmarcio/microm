@@ -19,11 +19,11 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class GameTickGenerator implements IProcessRunnable, Disposable{
+public class GameTickGenerator implements IProcessRunnable, Disposable {
 	private static final String TAG = GameTickGenerator.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG);
 
-	private List<IGameTick> _listeners = new ArrayList<IGameTick>();
+	private final List<IGameTick> _listeners = new ArrayList<IGameTick>();
 
 	// runnables
 	protected final Array<Runnable> runnables = new Array<Runnable>();
@@ -55,7 +55,7 @@ public class GameTickGenerator implements IProcessRunnable, Disposable{
 	private IGameTick gti; 										// reutilização do GameTickInterface
 	private List<IGameTick> temp_listeners =
 			new ArrayList<IGameTick>();							// reutilização da lista de listeners
-	private boolean isTempListenersDirty = true;						// variável de controlo para saber se a lista de listeners mudou
+	private boolean isTempListenersDirty = true;				// variável de controlo para saber se a lista de listeners mudou
 	private synchronized void fireEvent(long elapsedNanoTime) {
 		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-fireEvent]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 		
@@ -134,10 +134,15 @@ public class GameTickGenerator implements IProcessRunnable, Disposable{
 		}
 	}
 
+
 	@Override
-	public void dispose() {
-		gameTick.cancel();
-		gameTick = null;
+	public synchronized void dispose() {
+		gameTick.cancel();		
+		_listeners.clear();
+		temp_listeners.clear();
+		runnables.clear();
+		
+		logger.debug("");
 	}
 
 	/**

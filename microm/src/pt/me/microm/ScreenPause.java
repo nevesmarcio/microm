@@ -1,5 +1,7 @@
 package pt.me.microm;
 
+import java.util.UUID;
+
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
 
@@ -23,7 +25,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Logger;
+import com.badlogic.gdx.utils.SnapshotArray;
 import com.badlogic.gdx.Screen;
 
 public class ScreenPause implements Screen {
@@ -32,10 +36,14 @@ public class ScreenPause implements Screen {
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private Stage stage;
+	private Table table;
 	
-	ICommand callback;
+	private ICommand callback;
 	
+	private UUID devID;
 	private ScreenPause(ICommand callback) {
+		logger.info("ALLOC:" + (devID = UUID.randomUUID()).toString());
+		
 		this.callback = callback;
 
 		stage = new Stage();
@@ -44,7 +52,7 @@ public class ScreenPause implements Screen {
 //		im.addProcessor(stage);
 //		Gdx.input.setInputProcessor(im);
 		
-		Table table = new Table();
+		table = new Table();
 		table.debug();
 		table.setFillParent(true);
 		stage.addActor(table);
@@ -55,20 +63,31 @@ public class ScreenPause implements Screen {
 		
 		
 		Actor a;
-		table.add(a = new TextButton("norow-btn",skin));
+		table.add(a = new TextButton("return_to_game",skin));
 		
 		a.addListener(new EventListener() {
 			@Override
 			public boolean handle(Event event) {
-//				Gdx.app.log(TAG, event.getClass().getSimpleName() + " >> " + event.toString());
 				if (event instanceof ChangeEvent) {
-//					 ScreenPause.this.g.setScreen(((GameMicroM)ScreenPause.this.g).getTheJuice());
-					ScreenPause.this.callback.handler();
+					ScreenPause.this.callback.handler("return_to_game");
 				}
 				return false;
 			}
 		});
 		
+		
+		table.row();
+		
+		table.add(a = new TextButton("goto_menu", skin));
+		a.addListener(new EventListener() {
+			@Override
+			public boolean handle(Event event) {
+				if (event instanceof ChangeEvent) {
+					ScreenPause.this.callback.handler("goto_menu");
+				}
+				return false;
+			}
+		});
 		
 	}
 
@@ -81,8 +100,8 @@ public class ScreenPause implements Screen {
 	public void render(float delta) {
 
 		// Clean do gl context
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		Gdx.gl.glClearColor(0.0f, 0.5f, 0.5f, 0.5f); // cyan
+		// Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		// Gdx.gl.glClearColor(0.0f, 0.5f, 0.5f, 0.5f); // cyan
 		// Comment the last two lines to make the pause screen an overlay over the game screen
 		
         Table.drawDebug(stage); // This is optional, but enables debug lines for tables.
@@ -112,6 +131,7 @@ public class ScreenPause implements Screen {
 	@Override
 	public void hide() {
 		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->hide()");
+		this.dispose();
 		
 	}
 
@@ -129,8 +149,28 @@ public class ScreenPause implements Screen {
 
 	@Override
 	public void dispose() {
+		// clean actor listeners
+		SnapshotArray<Actor> items = table.getChildren();
+		for (int i = 0; i<items.size; i++) {
+			Array<EventListener> el = items.get(i).getListeners();
+			for (int j = 0; j<el.size; j++){
+				items.get(i).removeListener(el.get(j));
+			}
+			Array<EventListener> ecl = items.get(i).getCaptureListeners();
+			for (int j = 0; j<ecl.size; j++){
+				items.get(i).removeCaptureListener(ecl.get(j));
+			}
+		}
+		table.clear();
+		stage.clear();
 		stage.dispose();
 		
 	}
 
+	@Override
+	protected void finalize() throws Throwable {
+		logger.info("GC'ed:"+devID);
+		super.finalize();
+	}	
+	
 }

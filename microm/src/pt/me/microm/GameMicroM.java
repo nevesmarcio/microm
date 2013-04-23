@@ -5,12 +5,13 @@ import pt.me.microm.infrastructure.ICommand;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.utils.Logger;
 
 public class GameMicroM extends Game/*implements ApplicationListener*/ { // it extends the Game so it can handle Screens
 	// FLAGS
-	public static final boolean FLAG_DEV_ELEMENTS = false; 				// "pre-compiler" equivalent for branching development-only code
+	public static final boolean FLAG_DEV_ELEMENTS = true; 				// "pre-compiler" equivalent for branching development-only code
 	public static final boolean FLAG_DISPLAY_ACTOR_SHAPES = true;		// mostra o desenho das shapes dos actores: walls, dabox, etc.
 	public static final boolean FLAG_DISPLAY_ACTOR_TEXTURES = true;		// liga a texturização dos actores
 	public static final boolean FLAG_DISPLAY_PARTICLES = true;			// liga o desenho de particulas
@@ -24,6 +25,11 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 	
 	@Override
 	public void create() {		
+		splash();
+	}
+
+
+	private void splash() {
 		setScreen(ScreenSplash.doHeavyLoading(new ICommand() {
 			@Override
 			public Object handler(Object... a) {
@@ -32,16 +38,18 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 				logger.info("doHeavyLoading returning!");
 				return null;
 			}
-		}));
-		
+		}));		
 	}
-
+	
 	private void menu() {
 		setScreen(ScreenMenu.showMenu(new ICommand() {
 			@Override
 			public Object handler(Object... a) {
 				logger.info("showMenu ending!");
-				world();
+				if (a!=null && ((String)a[0]).equalsIgnoreCase("back"))
+					splash();
+				else				
+					world();
 				logger.info("showMenu returning!");
 				return null;
 			}
@@ -53,7 +61,10 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 			@Override
 			public Object handler(Object... a) {
 				logger.info("selectAWorld ending!");
-				level((String)a[0]);
+				if (a!=null && ((String)a[0]).equalsIgnoreCase("back"))
+					menu();
+				else
+					level((String)a[0]);
 				logger.info("selectAWorld returning!");
 				return null;
 			}
@@ -67,7 +78,10 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 			@Override
 			public Object handler(Object... a) {
 				logger.info("selectALevel ending!");
-				theJuice(world, (String)a[0]);
+				if (a!=null && ((String)a[0]).equalsIgnoreCase("back"))
+					world();
+				else				
+					theJuice(world, (String)a[0]);
 				logger.info("selectALevel returning!");
 				return null;
 			}
@@ -84,19 +98,25 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 					Gdx.app.exit();					
 				}
 				if (a!=null && ((String)a[0]).equalsIgnoreCase("pause")) {
-					pauseGame();
+					pauseGame((Screen)a[1]);
 				}
 				return null;
 			}
 		}, world, level));
 	}
 
-	private void pauseGame() {
+	private void pauseGame(final Screen theJuice) {
 		setScreen(ScreenPause.pauseGame(new ICommand() {
 			@Override
 			public Object handler(Object... a) {
 				logger.info("pause ending!");
-				//theJuice();
+				if (a!=null && ((String)a[0]).equalsIgnoreCase("goto_menu")) {
+					theJuice.dispose();
+					menu();
+				}
+				else
+					setScreen(theJuice);
+				
 				logger.info("pause returning!");				
 				return null;
 			}

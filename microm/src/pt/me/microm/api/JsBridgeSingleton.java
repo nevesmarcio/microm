@@ -8,6 +8,7 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Logger;
 
 import pt.me.microm.GameMicroM;
@@ -16,6 +17,7 @@ import pt.me.microm.controller.loop.GameTickGenerator;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.CollisionEvent;
 import pt.me.microm.infrastructure.event.IEvent;
+import pt.me.microm.infrastructure.event.dispatcher.IDispatcher;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
 import pt.me.microm.model.MyContactListener;
 import pt.me.microm.model.stuff.DaBoxModel;
@@ -27,7 +29,7 @@ import pt.me.microm.model.stuff.DaBoxModel;
  * @author mneves
  *
  */
-public class JsBridgeSingleton implements IEventListener {
+public class JsBridgeSingleton implements IEventListener, Disposable {
 	
 	private static final String TAG = JsBridgeSingleton.class.getSimpleName();
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
@@ -156,7 +158,12 @@ public class JsBridgeSingleton implements IEventListener {
 	public void out(String s) {
 		logger.info(s);
 	}
-	/******** END OF EXPOSED API *********/	   
+	/******** END OF EXPOSED API *********/
+
+	@Override
+	public void dispose() {
+		m = null;
+	}	   
 
 	   
 	/**

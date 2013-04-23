@@ -239,10 +239,25 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 
 
 19-04-2013
+# procurar os singletons manhosos - removi o "anti-pattern" singleton do WorldModel. 
+	http://caines.ca/blog/programming/singletons-anti-pattern-or-worst-anti-pattern-ever/
+	http://javapeanuts.blogspot.pt/2012/02/singleton-testing-and-dependency.html
 
+
+20-04-2013
+22-04-2013
+23-04-2013
 
 [in progress]
-# Mecanismo de carregamento / loading
+# Mecanismo de carregamento / loading (E mais importante que isso, o mecanismo de unloading (dispose))
+	- Navegação entre menus já não deixa referências penduradas que impedem o GC
+	- Avaliar: https://weblogs.java.net/blog/2006/05/04/understanding-weak-references
+
+# Unloading do "theJuice"
+
+
+
+# O mecanismo de pausa, como pára o render, também pára os efeitos das partículas. No entanto não para o motor fisico.
 
 
 

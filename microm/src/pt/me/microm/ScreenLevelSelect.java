@@ -2,6 +2,7 @@ package pt.me.microm;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +18,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -31,7 +33,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Logger;
+import com.badlogic.gdx.utils.SnapshotArray;
 
 public class ScreenLevelSelect implements Screen {
 	
@@ -39,6 +43,7 @@ public class ScreenLevelSelect implements Screen {
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private Stage stage;
+	private Table table;
 	
 	private SpriteBatch batch;
 	private TextureAtlas atlas;
@@ -48,7 +53,10 @@ public class ScreenLevelSelect implements Screen {
 	
 	private ICommand callback;
 	
+	private UUID devID;
 	private ScreenLevelSelect(ICommand callback, String world) {
+		logger.info("ALLOC:" + (devID = UUID.randomUUID()).toString());
+
 		this.callback = callback;
 		
 		logger.info("FP: " + Gdx.files.internal("data/levels/" + world).file().getAbsolutePath());
@@ -72,7 +80,7 @@ public class ScreenLevelSelect implements Screen {
 //		im.addProcessor(stage);
 //		Gdx.input.setInputProcessor(im);
 		
-		Table table = new Table();
+		table = new Table();
 		table.debug();
 		table.setFillParent(true);
 		stage.addActor(table);
@@ -140,6 +148,8 @@ public class ScreenLevelSelect implements Screen {
 	@Override
 	public void render(float delta) {
 
+		if (Gdx.input.isKeyPressed(Keys.BACKSPACE)) // use your own criterion here
+			callback.handler("back");		
 		
 		// Clean do gl context
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
@@ -182,6 +192,7 @@ public class ScreenLevelSelect implements Screen {
 	@Override
 	public void hide() {
 		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->hide()");
+		this.dispose();
 		
 	}
 
@@ -199,8 +210,28 @@ public class ScreenLevelSelect implements Screen {
 
 	@Override
 	public void dispose() {
+		// clean actor listeners
+		SnapshotArray<Actor> items = table.getChildren();
+		for (int i = 0; i<items.size; i++) {
+			Array<EventListener> el = items.get(i).getListeners();
+			for (int j = 0; j<el.size; j++){
+				items.get(i).removeListener(el.get(j));
+			}
+			Array<EventListener> ecl = items.get(i).getCaptureListeners();
+			for (int j = 0; j<ecl.size; j++){
+				items.get(i).removeCaptureListener(ecl.get(j));
+			}
+		}
+		table.clear();
+		stage.clear();
 		stage.dispose();
 		
 	}
 
+	@Override
+	protected void finalize() throws Throwable {
+		logger.info("GC'ed:"+devID);
+		super.finalize();
+	}	
+	
 }

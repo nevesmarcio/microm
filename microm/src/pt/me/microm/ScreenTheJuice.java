@@ -1,5 +1,7 @@
 package pt.me.microm;
 
+import java.util.UUID;
+
 import pt.me.microm.api.JsBridgeSingleton;
 import pt.me.microm.controller.MyGestureListener;
 import pt.me.microm.controller.MyInputProcessor;
@@ -39,14 +41,17 @@ public class ScreenTheJuice implements Screen {
 
 	private ICommand callback;
 	
+	private UUID devID;
 	private ScreenTheJuice(ICommand callback, String world, String level) {
+		logger.info("ALLOC:" + (devID = UUID.randomUUID()).toString());
+		
 		this.callback = callback;
 
 		Texture.setEnforcePotImages(true); // ver o melhor sitio para enfiar isto, dado que as texturas estão nas constantes.
 		
 		// MODELS ///////////////////////////////////////////////////////////////
 		cameraModel = new CameraModel();
-		worldModel = WorldModel.getSingletonInstance(world, level);
+		worldModel = new WorldModel(world, level);
 		
 		// VIEWS  ///////////////////////////////////////////////////////////////
 		// Todas as views são instanciadas por "reflection"
@@ -85,15 +90,12 @@ public class ScreenTheJuice implements Screen {
 		long elapsedNanoTime = (long)(Gdx.graphics.getDeltaTime()*GAME_CONSTANTS.ONE_SECOND_TO_NANO);
 		
         // use your own criterion here
-    	if (Gdx.input.isKeyPressed(Keys.ESCAPE) || 
-    			Gdx.input.isKeyPressed(Keys.BACK)) {
-//            g.setScreen(((GameMicroM)g).getMenu());
+    	if (Gdx.input.isKeyPressed(Keys.ESCAPE) || Gdx.input.isKeyPressed(Keys.BACK)) {
     		callback.handler("exit");
     	}
     	
     	if (Gdx.input.isKeyPressed(Keys.PLUS)) {
-//    		g.setScreen(((GameMicroM)g).getPausePopUp());
-    		callback.handler("pause");
+    		callback.handler("pause", this);
     	}
 		
 		// Clean do gl context
@@ -101,7 +103,6 @@ public class ScreenTheJuice implements Screen {
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1); // cinza escuro
 		
 		ScreenTickManager.getInstance().fireEvent(cameraModel, elapsedNanoTime);
-		
 	}
 
 	@Override
@@ -113,7 +114,6 @@ public class ScreenTheJuice implements Screen {
 	@Override
 	public void show() {
 		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->show()");
-		
 		
 		InputMultiplexer multiplexer = (InputMultiplexer) Gdx.input.getInputProcessor();
 		if (multiplexer == null) multiplexer = new InputMultiplexer();
@@ -128,7 +128,7 @@ public class ScreenTheJuice implements Screen {
 
 	@Override
 	public void hide() {
-		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->hide()");
+		if (logger.getLevel() == Logger.INFO) logger.info("-->hide()");
 		
 	}
 
@@ -146,13 +146,24 @@ public class ScreenTheJuice implements Screen {
 
 	@Override
 	public void dispose() {
-		//## ASSETS UNLOAD
-		
-		GAME_CONSTANTS.DisposeAllObjects();
-		
+		cameraModel.dispose();
+		cameraModel = null;
 		GameTickGenerator.getInstance().dispose();
 		ScreenTickManager.getInstance().dispose();
+
+//		JsBridgeSingleton.getInstance().dispose();		
+//		
+//		Gdx.input.setInputProcessor(null);
+//		myGestureListener = null;
+//		myInputProcessor = null;
+//		worldModel = null;
 	}
 
+	@Override
+	protected void finalize() throws Throwable {
+		logger.info("GC'ed:"+devID);
+		super.finalize();
+	}
+	
 	
 }

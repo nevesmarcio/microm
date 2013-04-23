@@ -3,6 +3,7 @@ package pt.me.microm.model;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.UUID;
 
 import pt.me.microm.GameMicroM;
 import pt.me.microm.controller.loop.GameTickGenerator;
@@ -33,9 +34,11 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	
 	private AbstractView viewRef;
 	
+	private UUID devID;
 	public AbstractModel() {
+		logger.info("ALLOC:" + (devID = UUID.randomUUID()).toString());
+		
 		//Notifica terceiros da criação deste objecto
-		//+++++
 		String model = this.getClass().getName();
 		if (logger.getLevel() >= Logger.DEBUG) logger.debug("++abstract ctor! - " + model);
 		
@@ -154,5 +157,10 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 			currentContactStatus.remove(oModel);
 	}
 	
+	@Override
+	protected void finalize() throws Throwable {
+		logger.info("GC'ed:"+devID);
+		super.finalize();
+	}	
 	
 }

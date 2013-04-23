@@ -42,7 +42,7 @@ public class WorldModel extends AbstractModel {
 	private static final String TAG = WorldModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG);
 	
-	private static WorldModel instance = null;
+//	private static WorldModel instance = null;
 	
 	private GridModel grid;
 	public UIModel ui;
@@ -73,7 +73,7 @@ public class WorldModel extends AbstractModel {
 	
 	public MyContactListener myContactListener;
 	
-	private WorldModel() {
+	public WorldModel(String world, String level) {
 		
 //		bgMusic.setLooping(true);
 //		//bgMusic.play();
@@ -87,6 +87,7 @@ public class WorldModel extends AbstractModel {
 //		}
 //		exampleSound.play();
 
+		PopulateWorld(world, level);
 		
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
@@ -139,14 +140,14 @@ public class WorldModel extends AbstractModel {
 	}
 	
 	//there can only be one world
-	public static WorldModel getSingletonInstance(String world, String level){
-		if (instance == null) {
-			instance = new WorldModel();
-			
-			instance.PopulateWorld(world, level); // go have fun!
-		}
-		return instance;
-	}
+//	public static WorldModel getSingletonInstance(String world, String level){
+//		if (instance == null) {
+//			instance = new WorldModel();
+//			
+//			instance.PopulateWorld(world, level); // go have fun!
+//		}
+//		return instance;
+//	}
 	 
 	
 	@Override
@@ -170,8 +171,7 @@ public class WorldModel extends AbstractModel {
 			// Faz o step das "animações"
 			tweenManager.update(elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO);
 		}
-		
-		
+
 	}
 
 	

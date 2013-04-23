@@ -2,6 +2,7 @@ package pt.me.microm;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,6 +13,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -23,7 +25,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Logger;
+import com.badlogic.gdx.utils.SnapshotArray;
 
 public class ScreenWorldSelect implements Screen {
 	
@@ -31,34 +35,38 @@ public class ScreenWorldSelect implements Screen {
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private Stage stage;
+	private Table table;
 	
 	private ICommand callback;
 	
+	private UUID devID;
 	private ScreenWorldSelect(ICommand callback) {
+		logger.info("ALLOC:" + (devID = UUID.randomUUID()).toString());
+		
 		this.callback = callback;
 		
-		boolean isExtAvailable = Gdx.files.isExternalStorageAvailable();
-		boolean isLocAvailable = Gdx.files.isLocalStorageAvailable();
+//		boolean isExtAvailable = Gdx.files.isExternalStorageAvailable();
+//		boolean isLocAvailable = Gdx.files.isLocalStorageAvailable();
+//		
+//		String extRoot = Gdx.files.getExternalStoragePath();
+//		String locRoot = Gdx.files.getLocalStoragePath();
+//		if ((locRoot != null) && locRoot.isEmpty()) locRoot = ".";
+//		
+//		logger.info("isExtAvailable: " + isExtAvailable + " ::" + extRoot);
+//		logger.info("FP: " + Gdx.files.local(extRoot).file().getAbsolutePath());
+//		FileHandle[] filesA = Gdx.files.local(extRoot).list();
+//		for(FileHandle file: filesA) {
+//		   logger.info("\t" + file.name() + "|" + file.length());
+//		}		
+//		
+//		logger.info("isLocAvailable: " + isLocAvailable + " ::" + locRoot);
+//		logger.info("FP: " + Gdx.files.local(locRoot).file().getAbsolutePath());
+//		FileHandle[] filesB = Gdx.files.local(locRoot).list();
+//		for(FileHandle file: filesB) {
+//			logger.info("\t" + file.name() + "|" + file.length());
+//		}				
 		
-		String extRoot = Gdx.files.getExternalStoragePath();
-		String locRoot = Gdx.files.getLocalStoragePath();
-		if ((locRoot != null) && locRoot.isEmpty()) locRoot = ".";
-		
-		logger.info("isExtAvailable: " + isExtAvailable + " ::" + extRoot);
-		logger.info("FP: " + Gdx.files.local(extRoot).file().getAbsolutePath());
-		FileHandle[] filesA = Gdx.files.local(extRoot).list();
-		for(FileHandle file: filesA) {
-		   logger.info("\t" + file.name() + "|" + file.length());
-		}		
-		
-		logger.info("isLocAvailable: " + isLocAvailable + " ::" + locRoot);
-		logger.info("FP: " + Gdx.files.local(locRoot).file().getAbsolutePath());
-		FileHandle[] filesB = Gdx.files.local(locRoot).list();
-		for(FileHandle file: filesB) {
-			logger.info("\t" + file.name() + "|" + file.length());
-		}				
-		
-		logger.info("FP: " + Gdx.files.internal("data/levels").file().getAbsolutePath());
+		logger.debug("FP: " + Gdx.files.internal("data/levels").file().getAbsolutePath());
 		FileHandle[] filesC = Gdx.files.internal("data/levels").list();
 		
 		Pattern pattern = Pattern.compile("world\\.\\d\\.\\w+");
@@ -82,7 +90,7 @@ public class ScreenWorldSelect implements Screen {
 //		im.addProcessor(stage);
 //		Gdx.input.setInputProcessor(im);
 		
-		Table table = new Table();
+		table = new Table();
 		table.debug();
 		table.setFillParent(true);
 		stage.addActor(table);
@@ -90,7 +98,6 @@ public class ScreenWorldSelect implements Screen {
 		
 		TextureAtlas t = new TextureAtlas(Gdx.files.internal("data/scene2d/uiskin.atlas"), Gdx.files.internal("data/scene2d/"));
 		Skin skin = new Skin(Gdx.files.internal("data/scene2d/uiskin.json"), t);
-		
 		
 		Actor a;
 //		table.add(a = new TextButton("SPECIAL-btn",skin));
@@ -117,7 +124,7 @@ public class ScreenWorldSelect implements Screen {
 						 ScreenWorldSelect.this.callback.handler(aWorld);
 					}
 					return false;
-				}
+				}				
 			});			
 			
 		}
@@ -134,7 +141,9 @@ public class ScreenWorldSelect implements Screen {
 	@Override
 	public void render(float delta) {
 
-		
+        if (Gdx.input.isKeyPressed(Keys.BACKSPACE)) // use your own criterion here
+        	callback.handler("back");
+        	
 		// Clean do gl context
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		Gdx.gl.glClearColor(0.27f, 0.135f, 0.09f, 0.72f); // brown
@@ -165,7 +174,7 @@ public class ScreenWorldSelect implements Screen {
 	@Override
 	public void hide() {
 		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->hide()");
-		
+    	this.dispose();
 	}
 
 	@Override
@@ -182,8 +191,28 @@ public class ScreenWorldSelect implements Screen {
 
 	@Override
 	public void dispose() {
+		// clean actor listeners
+		SnapshotArray<Actor> items = table.getChildren();
+		for (int i = 0; i<items.size; i++) {
+			Array<EventListener> el = items.get(i).getListeners();
+			for (int j = 0; j<el.size; j++){
+				items.get(i).removeListener(el.get(j));
+			}
+			Array<EventListener> ecl = items.get(i).getCaptureListeners();
+			for (int j = 0; j<ecl.size; j++){
+				items.get(i).removeCaptureListener(ecl.get(j));
+			}
+		}
+		table.clear();
+		stage.clear();
 		stage.dispose();
 		
 	}
 
+	@Override
+	protected void finalize() throws Throwable {
+		logger.info("GC'ed:"+devID);
+		super.finalize();
+	}
+	
 }

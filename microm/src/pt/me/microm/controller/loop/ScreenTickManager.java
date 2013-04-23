@@ -28,7 +28,7 @@ public class ScreenTickManager implements IProcessRunnable, Disposable {
 	private static final String TAG = ScreenTickManager.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG);
 	
-	private TreeMap<Integer, List<IScreenTick>> _listeners = new TreeMap<Integer, List<IScreenTick>>();
+	private final TreeMap<Integer, List<IScreenTick>> _listeners = new TreeMap<Integer, List<IScreenTick>>();
 	
 	/**
 	 * the default zIndex is 0
@@ -130,8 +130,8 @@ public class ScreenTickManager implements IProcessRunnable, Disposable {
 	}
 
 	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
+	public synchronized void dispose() {
+		_listeners.clear();
 		
 	}
 
