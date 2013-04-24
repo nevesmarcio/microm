@@ -27,7 +27,7 @@ public class CollisionModel extends AbstractModel {
 		this.position = position;
 		
 		// Sinaliza os subscritores de que a construção do modelo terminou.
-		CollisionModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));	    
+		CollisionModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));	    
 	}
 
 	public static CollisionModel getNewInstance(Vector2 position){

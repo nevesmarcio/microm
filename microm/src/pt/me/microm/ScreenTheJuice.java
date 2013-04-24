@@ -146,12 +146,13 @@ public class ScreenTheJuice implements Screen {
 
 	@Override
 	public void dispose() {
-		cameraModel.dispose();
-		cameraModel = null;
 		GameTickGenerator.getInstance().dispose();
 		ScreenTickManager.getInstance().dispose();
+		JsBridgeSingleton.getInstance().dispose();		
 
-//		JsBridgeSingleton.getInstance().dispose();		
+		
+//		cameraModel.dispose();
+//		cameraModel = null;
 //		
 //		Gdx.input.setInputProcessor(null);
 //		myGestureListener = null;

@@ -70,7 +70,7 @@ public class StarModel extends AbstractModel implements IActorBody {
 		
 		
 		// Sinaliza os subscritores de que a construção do modelo terminou.
-		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
+		this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));		
 	}
 
 	public static StarModel getNewInstance(WorldModel wm, BasicShape star, String star_name){

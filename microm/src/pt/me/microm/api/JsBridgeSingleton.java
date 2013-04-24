@@ -2,25 +2,22 @@ package pt.me.microm.api;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.nio.channels.ReadableByteChannel;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.Logger;
-
 import pt.me.microm.GameMicroM;
-import pt.me.microm.ScreenTheJuice;
 import pt.me.microm.controller.loop.GameTickGenerator;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.CollisionEvent;
 import pt.me.microm.infrastructure.event.IEvent;
-import pt.me.microm.infrastructure.event.dispatcher.IDispatcher;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
-import pt.me.microm.model.MyContactListener;
 import pt.me.microm.model.stuff.DaBoxModel;
+
+import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.Logger;
 
 
 /**
@@ -34,13 +31,15 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
 	private static final String TAG = JsBridgeSingleton.class.getSimpleName();
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 
-	
 	private static JsBridgeSingleton instance = null;
-
 
 	private Context cx;
 	private Scriptable scope;
 	private Object result;
+
+	private Thread t;
+	ReadableByteChannel rbc;
+	
 	protected JsBridgeSingleton() {
 		// Exists only to defeat instantiation.
 
@@ -72,7 +71,8 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
 		
 		/*Raises a thread that listens to console input and evaluates javascript with rhino engine*/
 		if (GameMicroM.FLAG_DEV_ELEMENTS) {
-			Thread t = new Thread(new Runnable() {
+			t = new Thread(new Runnable() {
+				
 				@Override
 				public void run() {
 					InputStreamReader inputStreamReader = new InputStreamReader(System.in);
@@ -81,30 +81,37 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
 					try {
 						while (true) {
 							i += 1;
-							final String s = stdin.readLine();
-							if (s.equals("exit"))
-								break;
-							final Integer in = new Integer(i);
-							GameTickGenerator.PostRunnable(new Runnable() {
-								
-								@Override
-								public void run() {
-									result = cx.evaluateString(scope, s, "<<from console>>", in, null); // 1 is the line number!
-									logger.info(">>>>>>>" + Context.toString(result));
+							final String s;
+							if (stdin.ready()) {
+								s = stdin.readLine();
+								if (s.equals("exit"))
+									break;
+								final Integer in = new Integer(i);
+								GameTickGenerator.PostRunnable(new Runnable() {
 									
-								}
-							});
-	
+									@Override
+									public void run() {
+										result = cx.evaluateString(scope, s, "<<from console>>", in, null); // 1 is the line number!
+										logger.info(">>>>>>>" + Context.toString(result));
+										
+									}
+								});
+							} else {
+								Thread.sleep(500); // This is not optimized, but this way, the thread is interruptible!
+							}
 						}
+					} catch (InterruptedException ie) { 
+						ie.printStackTrace();
 					} catch (Exception e) {
 						e.printStackTrace();
-					}
-	
-					Context.exit();
+					} 
+					
+					Context.exit();					
 	
 				}
 			});
 			
+			t.setName("_javascript_read_from_console");
 			t.start();
 		}
 	}
@@ -162,7 +169,10 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
 
 	@Override
 	public void dispose() {
+		t.interrupt();
+		
 		m = null;
+		instance = null;
 	}	   
 
 	   

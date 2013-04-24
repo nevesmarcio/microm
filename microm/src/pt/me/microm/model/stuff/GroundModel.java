@@ -1,8 +1,8 @@
 package pt.me.microm.model.stuff;
 
 import pt.me.microm.controller.loop.event.GameTickEvent;
-import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IActorBody;
@@ -63,7 +63,7 @@ public class GroundModel extends AbstractModel implements IActorBody {
 				
 				
 				// Sinaliza os subscritores de que a construção do modelo terminou.
-				GroundModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));	
+				GroundModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));	
 				
 				return null;
 			}

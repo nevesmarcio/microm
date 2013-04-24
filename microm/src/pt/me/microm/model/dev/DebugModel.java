@@ -1,8 +1,8 @@
 package pt.me.microm.model.dev;
 
 import pt.me.microm.controller.loop.event.GameTickEvent;
-import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.base.WorldModel;
@@ -54,7 +54,7 @@ public class DebugModel extends AbstractModel {
 				debugBody.setSleepingAllowed(false);
 				
 				// Sinaliza os subscritores de que a construção do modelo terminou.
-				DebugModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
+				DebugModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
 				
 				return null;
 			}

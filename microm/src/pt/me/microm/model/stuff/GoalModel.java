@@ -1,8 +1,8 @@
 package pt.me.microm.model.stuff;
 
 import pt.me.microm.controller.loop.event.GameTickEvent;
-import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IActorBody;
@@ -62,7 +62,7 @@ public class GoalModel extends AbstractModel implements IActorBody {
 				goalBody.setUserData(GoalModel.this); // relacionar com o modelo
 				
 				// Sinaliza os subscritores de que a construção do modelo terminou.
-				GoalModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
+				GoalModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));		
 				
 				return null;
 			}

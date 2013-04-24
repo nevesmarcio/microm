@@ -137,12 +137,15 @@ public class GameTickGenerator implements IProcessRunnable, Disposable {
 
 	@Override
 	public synchronized void dispose() {
-		gameTick.cancel();		
+		gameTick.cancel();
+		gameTick.purge();
 		_listeners.clear();
 		temp_listeners.clear();
 		runnables.clear();
 		
-		logger.debug("");
+		event = null;
+		instance = null;
+
 	}
 
 	/**

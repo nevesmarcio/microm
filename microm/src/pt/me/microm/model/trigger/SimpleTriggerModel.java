@@ -1,8 +1,8 @@
 package pt.me.microm.model.trigger;
 
 import pt.me.microm.controller.loop.event.GameTickEvent;
-import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IActorBody;
@@ -65,7 +65,7 @@ public class SimpleTriggerModel extends AbstractModel implements IActorBody {
 				triggerBody.setUserData(SimpleTriggerModel.this); // relacionar com o modelo
 				
 				// Sinaliza os subscritores de que a construção do modelo terminou.
-				SimpleTriggerModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
+				SimpleTriggerModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));		
 				
 				return null;
 			}

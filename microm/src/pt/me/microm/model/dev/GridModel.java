@@ -1,13 +1,11 @@
 package pt.me.microm.model.dev;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Logger;
-
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
+
+import com.badlogic.gdx.utils.Logger;
 
 public class GridModel extends AbstractModel {
 	// Esta classe deverá desenhar uma grid sobre o mundo
@@ -22,7 +20,7 @@ public class GridModel extends AbstractModel {
 	public GridModel() {
 
 		// Sinaliza os subscritores de que a construção do modelo terminou.
-		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED)); 
+		this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED)); 
 	}
 	
 	@Override

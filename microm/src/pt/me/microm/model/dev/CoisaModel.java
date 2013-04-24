@@ -5,9 +5,7 @@ import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IActorBody;
-import pt.me.microm.model.IContact;
 import pt.me.microm.model.base.WorldModel;
-import pt.me.microm.model.stuff.BoardModel;
 import pt.me.microm.tools.levelloader.BasicShape;
 import aurelienribon.bodyeditor.BodyEditorLoader;
 
@@ -59,7 +57,7 @@ public class CoisaModel extends AbstractModel implements IActorBody {
 		coisaBody.setTransform(coisaModelOrigin, coisaBody.getAngle());
 
 		// Sinaliza os subscritores de que a construção do modelo terminou.
-		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));		
+		this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));		
 	}
 
 	public static CoisaModel getNewInstance(WorldModel wm, float xOffset, float yOffset){

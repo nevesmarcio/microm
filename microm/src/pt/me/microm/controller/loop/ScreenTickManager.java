@@ -131,7 +131,9 @@ public class ScreenTickManager implements IProcessRunnable, Disposable {
 
 	@Override
 	public synchronized void dispose() {
+		event = null;
 		_listeners.clear();
+		instance = null;
 		
 	}
 

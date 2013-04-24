@@ -3,7 +3,6 @@ package pt.me.microm.model.base;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
-import java.util.logging.SimpleFormatter;
 
 import pt.me.microm.GameMicroM;
 import pt.me.microm.controller.loop.event.GameTickEvent;
@@ -15,9 +14,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.physics.box2d.Body;
 
 public class CameraModel extends AbstractModel {
 	private static final String TAG = CameraModel.class.getSimpleName();
@@ -54,7 +51,7 @@ public class CameraModel extends AbstractModel {
 		Resize();
 		
 		// Sinaliza os subscritores de que a construção do modelo terminou.
-		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
+		this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
 	}
 	
 	

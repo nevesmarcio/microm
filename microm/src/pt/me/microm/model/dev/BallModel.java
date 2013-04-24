@@ -65,7 +65,7 @@ public class BallModel extends AbstractModel implements IActorBody {
 				//wDynamicBox.applyTorque(50.0f);
 						
 				// Sinaliza os subscritores de que a construção do modelo terminou.
-				BallModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
+				BallModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
 				
 				return null;
 				

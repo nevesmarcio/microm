@@ -1,8 +1,8 @@
 package pt.me.microm.model.stuff;
 
 import pt.me.microm.controller.loop.event.GameTickEvent;
-import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IActorBody;
@@ -87,7 +87,7 @@ public class DaBoxModel extends AbstractModel implements IActorBody {
 				daBoxBody.setActive(false);
 			    
 				// Sinaliza os subscritores de que a construção do modelo terminou.
-				DaBoxModel.this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));	    				
+				DaBoxModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));	    				
 				
 				return null;
 			}

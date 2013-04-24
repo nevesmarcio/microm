@@ -1,7 +1,5 @@
 package pt.me.microm.model.base;
 
-import java.util.Random;
-
 import pt.me.microm.GameMicroM;
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
@@ -18,17 +16,11 @@ import pt.me.microm.model.stuff.PortalModelManager;
 import pt.me.microm.model.stuff.SpawnModel;
 import pt.me.microm.model.ui.UIModel;
 import pt.me.microm.tools.levelloader.LevelLoader;
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Logger;
 
@@ -47,9 +39,6 @@ public class WorldModel extends AbstractModel {
 	private GridModel grid;
 	public UIModel ui;
 	private BoardModel board;
-	private BallModel ball1;
-	private BallModel ball2;
-	private CoisaModel coisa;
 	
 	public SpawnModel spawnModel;
 	public  DaBoxModel player;
@@ -57,9 +46,6 @@ public class WorldModel extends AbstractModel {
 	
 	public Vector2 waypoint;
 	
-//	private Music bgMusic = GAME_CONSTANTS.MUSIC_BACKGROUND;
-//	private Sound exampleSound = GAME_CONSTANTS.SOUND_DROP;
-
 	// testes física
 	private Vector2 gravity = new Vector2(0.0f, -30.0f);//-9.8f
 	private boolean doSleep = true;
@@ -74,23 +60,11 @@ public class WorldModel extends AbstractModel {
 	public MyContactListener myContactListener;
 	
 	public WorldModel(String world, String level) {
-		
-//		bgMusic.setLooping(true);
-//		//bgMusic.play();
-//
-//		exampleSound.play();
-//		try {
-//			Thread.sleep(200);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		exampleSound.play();
-
+	
 		PopulateWorld(world, level);
 		
 		// Sinaliza os subscritores de que a construção do modelo terminou.
-		this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
+		this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
 	}
 
 	private void PopulateWorld(String world, String level) {
@@ -101,29 +75,6 @@ public class WorldModel extends AbstractModel {
 		
 		ui = new UIModel(this); // constroi o painel informativo?		
 		portalManager = new PortalModelManager();
-		
-///* exemplos de coisas populadas no mundo */		
-////		ball1 = BallModel.getNewInstance(this, board, 1.0f, 1.0f);
-////		ball2 = BallModel.getNewInstance(this, board, 2.0f, 2.0f);
-////		coisa = CoisaModel.getNewInstance(this, 1.0f, 4.0f);
-////		ball1.ballBody.setActive(false);
-////		ball2.ballBody.setActive(true);
-////		ball1.ballBody.setActive(!ball1.ballBody.isActive());
-////		ball2.ballBody.setActive(!ball2.ballBody.isActive());		
-//		
-//		Tween.call(new TweenCallback() {
-//			@Override public void onEvent(int type, BaseTween<?> source) {
-//				Gdx.app.postRunnable(new Runnable() {
-//					
-//					@Override
-//					public void run() {
-//						BallModel.getNewInstance(WorldModel.this, (new Random().nextFloat())*14.0f, (new Random().nextFloat())*14.0f);
-//						
-//					}
-//				});
-//			}
-//		}).repeat(10, 0.1f).start(tweenManager);
-///* fim dos exemplos */
 		
 		FileHandle h = Gdx.files.internal("data/levels/" + world + "/" + level);
 		int nr_elements_loaded = LevelLoader.LoadLevel(h, this);
@@ -139,15 +90,7 @@ public class WorldModel extends AbstractModel {
 
 	}
 	
-	//there can only be one world
-//	public static WorldModel getSingletonInstance(String world, String level){
-//		if (instance == null) {
-//			instance = new WorldModel();
-//			
-//			instance.PopulateWorld(world, level); // go have fun!
-//		}
-//		return instance;
-//	}
+
 	 
 	
 	@Override

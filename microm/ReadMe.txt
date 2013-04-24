@@ -247,6 +247,7 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 20-04-2013
 22-04-2013
 23-04-2013
+24-04-2013
 
 [in progress]
 # Mecanismo de carregamento / loading (E mais importante que isso, o mecanismo de unloading (dispose))
@@ -254,6 +255,12 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 	- Avaliar: https://weblogs.java.net/blog/2006/05/04/understanding-weak-references
 
 # Unloading do "theJuice"
+
+# Enums e statics não são gc'ed. O classloader fica com referência para eles.
+
+# interruptible threads (JAVA NIO: doesn't work on System.in)
+
+------> continue work on populate world method <-------
 
 
 
