@@ -268,8 +268,11 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 
 
 
+26-04-2013
+# substituição do timer do gameTickGenerator para um ScheduledThreadPool
 
-
+------>> Podem ser os ScreenTickManager e o GameTickGenerator que orquestram o shutdown de tudo. P.e. podem lançar eventos de shutdown tal como há objectos com eventos de startup para quem os quer subscrever! 
+O código faz o unload todo, mas está assim um bocado ratado (para não dizer muito ratado)
 
 
 

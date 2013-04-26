@@ -113,7 +113,7 @@ public class ScreenTheJuice implements Screen {
 
 	@Override
 	public void show() {
-		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->show()");
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("-->show()");
 		
 		InputMultiplexer multiplexer = (InputMultiplexer) Gdx.input.getInputProcessor();
 		if (multiplexer == null) multiplexer = new InputMultiplexer();
@@ -128,29 +128,32 @@ public class ScreenTheJuice implements Screen {
 
 	@Override
 	public void hide() {
-		if (logger.getLevel() == Logger.INFO) logger.info("-->hide()");
+		if (logger.getLevel() >= Logger.INFO) logger.info("-->hide()");
 		
 	}
 
 	@Override
 	public void pause() {
-		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->pause()");
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("-->pause()");
 		
 	}
 
 	@Override
 	public void resume() {
-		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->resume()");
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("-->resume()");
 		
 	}
 
 	@Override
 	public void dispose() {
+		worldModel.dispose();
+		
 		GameTickGenerator.getInstance().dispose();
 		ScreenTickManager.getInstance().dispose();
-		JsBridgeSingleton.getInstance().dispose();		
+		JsBridgeSingleton.getInstance().dispose();
 
 		
+
 //		cameraModel.dispose();
 //		cameraModel = null;
 //		

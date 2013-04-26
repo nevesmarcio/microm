@@ -210,6 +210,8 @@ public class ScreenLevelSelect implements Screen {
 
 	@Override
 	public void dispose() {
+		Tween.registerAccessor(Sprite.class, null);
+		
 		// clean actor listeners
 		SnapshotArray<Actor> items = table.getChildren();
 		for (int i = 0; i<items.size; i++) {

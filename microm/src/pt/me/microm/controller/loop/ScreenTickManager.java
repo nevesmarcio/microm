@@ -60,7 +60,7 @@ public class ScreenTickManager implements IProcessRunnable, Disposable {
 				subList.remove(listener);
 				isTempListenersDirty = true;
 			} catch (Exception e) { //FIXME: especificar a excepção
-				if (logger.getLevel() == Logger.DEBUG) logger.debug(e.getMessage());
+				if (logger.getLevel() >= Logger.DEBUG) logger.debug(e.getMessage());
 			}
 		}
 
@@ -88,7 +88,7 @@ public class ScreenTickManager implements IProcessRunnable, Disposable {
 		try {
 			/* cria uma copia para iterar */
 			if (isTempListenersDirty) {
-				if (logger.getLevel() == Logger.DEBUG) logger.debug("[diff] _listeners|temp_listeners: " + _listeners.size() + "|" + temp_listeners.size());
+				if (logger.getLevel() >= Logger.DEBUG) logger.debug("[diff] _listeners|temp_listeners: " + _listeners.size() + "|" + temp_listeners.size());
 				temp_listeners.clear();
 				for (Map.Entry<Integer, List<IScreenTick>> zGroup : _listeners.entrySet())
 					temp_listeners.put(zGroup.getKey(), zGroup.getValue());
@@ -104,14 +104,14 @@ public class ScreenTickManager implements IProcessRunnable, Disposable {
 				for (IScreenTick it : x) {
 					it.draw(event);
 					if (print) {
-						if (logger.getLevel() == Logger.DEBUG) logger.debug(x.getClass().getName());
+						if (logger.getLevel() >= Logger.DEBUG) logger.debug(x.getClass().getName());
 					}					
 				}
 
 			}
 			print = false;
 		} catch (ConcurrentModificationException ex) {
-			if (logger.getLevel() == Logger.DEBUG) logger.debug("[ScreenTickGen-EXCEPTION] CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
+			if (logger.getLevel() >= Logger.DEBUG) logger.debug("[ScreenTickGen-EXCEPTION] CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 			throw ex;
 		}		
 
@@ -151,6 +151,6 @@ public class ScreenTickManager implements IProcessRunnable, Disposable {
 	 * @param runnable
 	 */
 	public static void PostRunnable(Runnable runnable)  {
-		getInstance().postRunnable(runnable);
+		ScreenTickManager.getInstance().postRunnable(runnable);
 	}
 }

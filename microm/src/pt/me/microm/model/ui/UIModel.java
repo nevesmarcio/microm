@@ -301,4 +301,10 @@ public class UIModel extends AbstractModel {
 	// falta fazer idêntico para as static messages (essas tem a naunce dos triggers)
 	
 	
+	@Override
+	public void dispose() {
+		Tween.registerAccessor(FlashMessage.class, null);
+		super.dispose();
+	}
+	
 }

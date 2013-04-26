@@ -88,12 +88,10 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
 									break;
 								final Integer in = new Integer(i);
 								GameTickGenerator.PostRunnable(new Runnable() {
-									
 									@Override
 									public void run() {
 										result = cx.evaluateString(scope, s, "<<from console>>", in, null); // 1 is the line number!
 										logger.info(">>>>>>>" + Context.toString(result));
-										
 									}
 								});
 							} else {
@@ -106,7 +104,15 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
 						e.printStackTrace();
 					} 
 					
-					Context.exit();					
+					
+					//FIXME: deverá ser feito um exit() ao context, mas o problema do cleanup n facilita
+//					GameTickGenerator.PostRunnable(new Runnable() {
+//						@Override
+//						public void run() {
+//							Context.exit();
+//						}
+//					});
+										
 	
 				}
 			});

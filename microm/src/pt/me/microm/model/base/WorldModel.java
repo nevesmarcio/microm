@@ -72,14 +72,15 @@ public class WorldModel extends AbstractModel {
 		// Modelos complementares ao WorldModel
 		if (GameMicroM.FLAG_DEV_ELEMENTS)
 			grid = new GridModel(); // constroi a grid sobre a qual estão renderizados os objectos - debug purposes		
-		
+
+
 		ui = new UIModel(this); // constroi o painel informativo?		
 		portalManager = new PortalModelManager();
-		
+
 		FileHandle h = Gdx.files.internal("data/levels/" + world + "/" + level);
 		int nr_elements_loaded = LevelLoader.LoadLevel(h, this);
 		if (logger.getLevel() == Logger.INFO) logger.info("Nr elements loaded: " + nr_elements_loaded);
-
+		
 		// regista o contactListener para que este notifique os objectos quando há choques 
 		getPhysicsWorld().setContactListener(myContactListener = new MyContactListener()); //new ContactListenerImpl() 
 	
@@ -184,5 +185,11 @@ public class WorldModel extends AbstractModel {
 //		return null;
 //	}
 	
+	
+	@Override
+	public void dispose() {
+		ui.dispose();
+		super.dispose();
+	}
 	
 }
