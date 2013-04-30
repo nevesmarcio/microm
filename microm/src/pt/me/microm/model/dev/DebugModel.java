@@ -49,7 +49,7 @@ public class DebugModel extends AbstractModel {
 				fixDef.restitution = 0.75f;
 				debugBody.createFixture(fixDef);
 				
-				debugBody.setUserData(this); // relacionar com o modelo
+				debugBody.setUserData(DebugModel.this); // relacionar com o modelo
 				
 				debugBody.setSleepingAllowed(false);
 				

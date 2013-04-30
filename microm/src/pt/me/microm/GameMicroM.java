@@ -11,7 +11,8 @@ import com.badlogic.gdx.utils.Logger;
 
 public class GameMicroM extends Game/*implements ApplicationListener*/ { // it extends the Game so it can handle Screens
 	// FLAGS
-	public static final boolean FLAG_DEV_ELEMENTS = true; 				// "pre-compiler" equivalent for branching development-only code
+	public static final boolean FLAG_DEV_ELEMENTS_A = true; 			// "pre-compiler" equivalent for branching development-only code (lvl A)
+	public static final boolean FLAG_DEV_ELEMENTS_B = true;				// "pre-compiler" equivalent for branching development-only code (lvl B)
 	public static final boolean FLAG_DISPLAY_ACTOR_SHAPES = true;		// mostra o desenho das shapes dos actores: walls, dabox, etc.
 	public static final boolean FLAG_DISPLAY_ACTOR_TEXTURES = true;		// liga a texturização dos actores
 	public static final boolean FLAG_DISPLAY_PARTICLES = true;			// liga o desenho de particulas
@@ -25,6 +26,9 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 	
 	@Override
 	public void create() {		
+		Gdx.input.setCatchBackKey(true);
+		Gdx.input.setCatchMenuKey(true);			
+		
 		splash();
 	}
 

@@ -63,7 +63,7 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static BoardModel addBoardToWorld(WorldModel wm, BasicShape board, String board_name) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS) {
+		if (GameMicroM.FLAG_DEV_ELEMENTS_A) {
 			DebugModel m;
 			for (Vector2 ap : board.getPointsArray()) {
 				m = DebugModel.getNewInstance(wm, ap.x+board.getCentroid().x, ap.y+board.getCentroid().y);
@@ -86,15 +86,13 @@ public class LevelLoader {
 	 * @return
 	 */
 	private static DaBoxModel addDaBoxToWorld(WorldModel wm, BasicShape dabox, String dabox_name) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS)
+		if (GameMicroM.FLAG_DEV_ELEMENTS_A)
 			for (Vector2 ap : dabox.getPointsArray()) {
 					DebugModel.getNewInstance(wm, ap.x+dabox.getCentroid().x, ap.y+dabox.getCentroid().y);
 			}
 		
 		DaBoxModel dbm = DaBoxModel.getNewInstance(wm, dabox, dabox_name); 
 		wm.setPlayer(dbm);
-		
-		JsBridgeSingleton.getInstance().m = dbm;
 		
 		return dbm;
 	}	
@@ -106,7 +104,7 @@ public class LevelLoader {
 	 */
 	private static SpawnModel addSpawnToWorld(WorldModel wm, DaBoxModel dbm, BasicShape spawn, String spawn_name) {
 
-		if (GameMicroM.FLAG_DEV_ELEMENTS) {
+		if (GameMicroM.FLAG_DEV_ELEMENTS_A) {
 			DebugModel m;
 			for (Vector2 ap : spawn.getPointsArray()) {
 				m = DebugModel.getNewInstance(wm, ap.x+spawn.getCentroid().x, ap.y+spawn.getCentroid().y);
@@ -128,7 +126,7 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static GoalModel addGoalToWorld(WorldModel wm, BasicShape goal, String goal_name) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS) {
+		if (GameMicroM.FLAG_DEV_ELEMENTS_A) {
 			DebugModel m;
 			for (Vector2 ap : goal.getPointsArray()) {
 				m = DebugModel.getNewInstance(wm, ap.x+goal.getCentroid().x, ap.y+goal.getCentroid().y);
@@ -148,7 +146,7 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static GroundModel addGroundToWorld(WorldModel wm, BasicShape ground, String ground_name) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS)
+		if (GameMicroM.FLAG_DEV_ELEMENTS_A)
 			for (Vector2 ap : ground.getPointsArray()) {
 				DebugModel.getNewInstance(wm, ap.x+ground.getCentroid().x, ap.y+ground.getCentroid().y);
 			}
@@ -163,7 +161,7 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static PortalModel addPortalToWorld(WorldModel wm, BasicShape portal, String portal_name) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS) {
+		if (GameMicroM.FLAG_DEV_ELEMENTS_A) {
 			for (Vector2 ap : portal.getPointsArray()) {
 				DebugModel.getNewInstance(wm, ap.x+portal.getCentroid().x, ap.y+portal.getCentroid().y);
 			}
@@ -181,7 +179,7 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static WallModel addWallToWorld(WorldModel wm, BasicShape wall, String wall_name) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS)
+		if (GameMicroM.FLAG_DEV_ELEMENTS_A)
 		for (Vector2 ap : wall.getPointsArray()) {
 				DebugModel.getNewInstance(wm, ap.x+wall.getCentroid().x, ap.y+wall.getCentroid().y);
 		}
@@ -197,7 +195,7 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static StarModel addStarToWorld(WorldModel wm, BasicShape star, String star_name) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS) {
+		if (GameMicroM.FLAG_DEV_ELEMENTS_A) {
 			DebugModel m = DebugModel.getNewInstance(wm, star.getCentroid().x, star.getCentroid().y);
 			m.setColor(Color.WHITE);
 			for (Vector2 ap : star.getPointsArray()) {
@@ -215,7 +213,7 @@ public class LevelLoader {
 	 * @param wm
 	 */
 	private static SimpleTriggerModel addTriggerToWorld(WorldModel wm, BasicShape trigger, String trigger_name, String script) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS)
+		if (GameMicroM.FLAG_DEV_ELEMENTS_A)
 		for (Vector2 ap : trigger.getPointsArray()) {
 			DebugModel m = DebugModel.getNewInstance(wm, ap.x+trigger.getCentroid().x, ap.y+trigger.getCentroid().y);
 			m.setColor(Color.PINK);
@@ -415,6 +413,8 @@ public class LevelLoader {
 			NodeList text = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < text.getLength(); i++) {
 				String id = text.item(i).getAttributes().getNamedItem("id").getNodeValue();
+				if (logger.getLevel() >= Logger.INFO) logger.info("[" + id + "]");
+				
 				String x = text.item(i).getAttributes().getNamedItem("x").getNodeValue();
 				String y = text.item(i).getAttributes().getNamedItem("y").getNodeValue();
 				final String s = text.item(i).getTextContent();
@@ -458,7 +458,7 @@ public class LevelLoader {
 
 				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
 				String trigger_name = triggers.item(i).getAttributes().getNamedItem("id").getNodeValue();
-				String script = triggers.item(i).getAttributes().getNamedItem("custom:script").getNodeValue();
+				String script = triggers.item(i).getAttributes().getNamedItem("custom-script").getNodeValue();
 				
 				addTriggerToWorld(wm, s, trigger_name, script);
 				

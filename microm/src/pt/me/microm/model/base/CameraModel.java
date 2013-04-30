@@ -249,8 +249,6 @@ public class CameraModel extends AbstractModel {
 		}
 					
 		
-		
-		
 		if ((flags & CAM_MOVE_LEFT) != 0) {
 			temp = gameCamera.up.cpy();
 			temp.crs(gameCamera.direction); 
@@ -294,7 +292,7 @@ public class CameraModel extends AbstractModel {
 		}
 
 		//FIXME: n posso meter isto aqui senão o ecrã faz um "flick"
-		if (GameMicroM.FLAG_DEV_ELEMENTS)
+		if (GameMicroM.FLAG_DEV_ELEMENTS_B)
 			gameCamera.update(); // faz update às matrizes da camera após os movimentos
 		
 	}

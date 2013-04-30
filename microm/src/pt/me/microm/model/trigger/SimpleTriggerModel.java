@@ -28,14 +28,13 @@ public class SimpleTriggerModel extends AbstractModel implements IActorBody {
 	private Body triggerBody;
 	
 	private WorldModel wm;
-	private String name;
 	private BasicShape trigger;
 	private String script;
 	
 	private SimpleTriggerModel(final WorldModel wm, final BasicShape trigger, final String name) {
 		this.wm = wm;
 		this.trigger = trigger;
-		this.name = name;
+		setName(name);
 		
 		wm.wmManager.add(new ICommand() {
 			
@@ -105,7 +104,7 @@ public class SimpleTriggerModel extends AbstractModel implements IActorBody {
 	// BodyInterface implementation
 	@Override 
 	public String getName() {
-		return name;
+		return super.getName();
 	}
 	@Override
 	public BasicShape getBasicShape() {

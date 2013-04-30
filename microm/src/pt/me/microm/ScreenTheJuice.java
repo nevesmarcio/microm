@@ -62,10 +62,7 @@ public class ScreenTheJuice implements Screen {
 		ScreenTickManager.getInstance(); //responsável pela actualizacao das views
 		
 		//responsável pela extensibilidade do controller: delega o controlo a entidades externas (javascript + terminal)
-		JsBridgeSingleton cs = JsBridgeSingleton.getInstance();
-		worldModel.myContactListener.addListener(MyContactListener.EventType.ON_COLLISION_BEGIN, cs);
-		worldModel.myContactListener.addListener(MyContactListener.EventType.ON_COLLISION_END, cs);
-
+		JsBridgeSingleton cs = JsBridgeSingleton.getInstance(worldModel);
 		
 //		//FIXME: for development purposes only
 //		RemoteInput receiver = new RemoteInput(7777);
@@ -90,11 +87,11 @@ public class ScreenTheJuice implements Screen {
 		long elapsedNanoTime = (long)(Gdx.graphics.getDeltaTime()*GAME_CONSTANTS.ONE_SECOND_TO_NANO);
 		
         // use your own criterion here
-    	if (Gdx.input.isKeyPressed(Keys.ESCAPE) || Gdx.input.isKeyPressed(Keys.BACK)) {
+    	if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
     		callback.handler("exit");
     	}
     	
-    	if (Gdx.input.isKeyPressed(Keys.PLUS)) {
+    	if (Gdx.input.isKeyPressed(Keys.PLUS) || Gdx.input.isKeyPressed(Keys.BACK)) {
     		callback.handler("pause", this);
     	}
 		
@@ -121,9 +118,7 @@ public class ScreenTheJuice implements Screen {
 		multiplexer.addProcessor(new GestureDetector(1, 1.0f, 1.0f, 1.0f, myGestureListener));
 		multiplexer.addProcessor(myInputProcessor);
 		Gdx.input.setInputProcessor(multiplexer);		
-		
-		Gdx.input.setCatchBackKey(true);
-		Gdx.input.setCatchMenuKey(true);		
+			
 	}
 
 	@Override
@@ -150,7 +145,7 @@ public class ScreenTheJuice implements Screen {
 		
 		GameTickGenerator.getInstance().dispose();
 		ScreenTickManager.getInstance().dispose();
-		JsBridgeSingleton.getInstance().dispose();
+		JsBridgeSingleton.getInstance(worldModel).dispose();
 
 		
 

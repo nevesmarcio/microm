@@ -3,6 +3,7 @@ package pt.me.microm.api;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.channels.ReadableByteChannel;
+import java.util.Iterator;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -14,8 +15,12 @@ import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.CollisionEvent;
 import pt.me.microm.infrastructure.event.IEvent;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
+import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.MyContactListener;
+import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.stuff.DaBoxModel;
 
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Logger;
 
@@ -38,11 +43,19 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
 	private Object result;
 
 	private Thread t;
-	ReadableByteChannel rbc;
 	
-	protected JsBridgeSingleton() {
+	private WorldModel wm;
+	
+	protected JsBridgeSingleton(WorldModel wm) {
 		// Exists only to defeat instantiation.
 
+		this.wm = wm;
+		
+		wm.myContactListener.addListener(MyContactListener.EventType.ON_COLLISION_BEGIN, JsBridgeSingleton.this);
+		wm.myContactListener.addListener(MyContactListener.EventType.ON_COLLISION_END, JsBridgeSingleton.this);		
+		
+		m = wm.player;
+		
 		/*Example invocation of javascript engine!*/
 		GameTickGenerator.PostRunnable(new Runnable() {
 
@@ -50,8 +63,7 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
 			public void run() {
 				// javascript engine
 				cx = Context.enter();
-				cx.setOptimizationLevel(-1); // do not compile - it won't run on
-												// dalvik vm
+				cx.setOptimizationLevel(-1); // do not compile - or else it won't run on dalvik vm
 				scope = cx.initStandardObjects();
 
 				Object wrappedOut = Context.javaToJS(/*
@@ -70,7 +82,7 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
 		});
 		
 		/*Raises a thread that listens to console input and evaluates javascript with rhino engine*/
-		if (GameMicroM.FLAG_DEV_ELEMENTS) {
+		if (GameMicroM.FLAG_DEV_ELEMENTS_A) {
 			t = new Thread(new Runnable() {
 				
 				@Override
@@ -122,10 +134,10 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
 		}
 	}
 
-	public static JsBridgeSingleton getInstance() {
+	public static JsBridgeSingleton getInstance(WorldModel wm) {
 		if (instance == null) {
-			instance = new JsBridgeSingleton();
-
+			instance = new JsBridgeSingleton(wm);
+			
 		}
 		return instance;
 	}
@@ -157,34 +169,75 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
 //						"if ((__ACTOR_A.indexOf(\"trigger\") !== -1) || (__ACTOR_B.indexOf(\"trigger\") !== -1)) cs.m.jump();";
 				
 				if (script != null)
-					JsBridgeSingleton.this.cx.evaluateString(scope, script, "external", 1, null);		
+					JsBridgeSingleton.this.cx.evaluateString(scope, script, "external", 1, null);
 			}
 		});
 		
 	}
 	   
-
-	   
-	/************ EXPOSED API ************/
-	public DaBoxModel m;
-
-	public void out(String s) {
-		logger.info(s);
-	}
-	/******** END OF EXPOSED API *********/
-
 	@Override
 	public void dispose() {
-		t.interrupt();
+		if (GameMicroM.FLAG_DEV_ELEMENTS_A)
+			t.interrupt();
 		
 		m = null;
 		instance = null;
 	}	   
 
 	   
+
+	/************ EXPOSED API ************/
+	public DaBoxModel m;
+
+	public void out(String s) {
+		logger.info(s);
+	}
+
+	
+	/**
+	 * method to list objects by name
+	 */
+	public void listBodies() {
+		Iterator<Body> it = wm.getPhysicsWorld().getBodies();
+		out("start listing...");
+		while (it.hasNext()) {
+			Body b = it.next();
+			String name = ((AbstractModel) b.getUserData()).getName();
+			try {
+				out("\t.." + name);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}			
+		out("end listing...");
+	}
+	
 	/**
 	 * method to lookup for an object given its name
-	 */	   
+	 */
+	public Body findBodyByName(String searchName) {
+		Iterator<Body> it = wm.getPhysicsWorld().getBodies();
+
+		while (it.hasNext()) {
+			Body b = it.next();
+			String name = ((AbstractModel) b.getUserData()).getName();
+			try {
+				if (logger.getLevel() >= Logger.DEBUG) logger.debug("searching...  [" + name + "]");
+				if (name.equals(searchName)) 
+					return b;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}			
+
+		return null;
+	}
+
+	
+	
+	/******** END OF EXPOSED API *********/
+	
+	
 	
 	   
 

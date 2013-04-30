@@ -148,10 +148,10 @@ public class GameTickGenerator implements IProcessRunnable, Disposable {
 				
 				
 			} catch (Exception e) {
-				if (logger.getLevel() == Logger.ERROR) logger.error("Something fishy is going on here... Ex:" + e.getMessage());
+				if (logger.getLevel() >= Logger.ERROR) logger.error("Something fishy is going on here... Ex:" + e.getMessage());
 			}
 
-			if (logger.getLevel() == Logger.DEBUG) logger.debug("Time's up (miliseconds)!" + elapsedNanoTime / GAME_CONSTANTS.ONE_MILISECOND_TO_NANO);
+			if (logger.getLevel() >= Logger.DEBUG) logger.debug("Time's up (miliseconds)!" + elapsedNanoTime / GAME_CONSTANTS.ONE_MILISECOND_TO_NANO);
 
 			lastTick = thisTick;
 		}

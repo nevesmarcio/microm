@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   sodipodi:docname="level1.4.svg">
+   sodipodi:docname="level#1.4.svg">
   <defs
      id="defs4">
     <inkscape:path-effect
@@ -101,11 +101,11 @@
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="885"
-     inkscape:window-height="779"
-     inkscape:window-x="1777"
-     inkscape:window-y="75"
-     inkscape:window-maximized="0" />
+     inkscape:window-width="1618"
+     inkscape:window-height="1028"
+     inkscape:window-x="54"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -154,7 +154,7 @@
        inkscape:export-ydpi="90" />
     <text
        xml:space="preserve"
-       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER'"
+       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
        x="-1207.3301"
        y="-29.551453"
        id="text2989"
@@ -237,7 +237,7 @@
        style="fill:#800000;fill-opacity:1;stroke:none" />
     <text
        xml:space="preserve"
-       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER'"
+       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
        x="-1207.3301"
        y="830.44861"
        id="text4207"
@@ -335,16 +335,7 @@
        style="fill:#ff6600;fill-opacity:1;stroke:none" />
     <text
        xml:space="preserve"
-       style="font-size:12px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="-350"
-       y="968.36218"
-       id="text3387"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan3389"></tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;font-family:Sans"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;font-family:Arial;-inkscape-font-specification:Arial;font-stretch:normal;font-variant:normal"
        x="-1194.5313"
        y="895.4696"
        id="text4508"
@@ -407,7 +398,7 @@
        id="text3493"
        y="1049.4696"
        x="-1028.5313"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;font-family:Sans"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;font-family:Arial;-inkscape-font-specification:Arial;font-stretch:normal;font-variant:normal"
        xml:space="preserve"><tspan
          id="tspan3497"
          y="1049.4696"
@@ -418,7 +409,7 @@
        id="text3501"
        y="846.44861"
        x="-465.33008"
-       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER'"
+       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
        xml:space="preserve"><tspan
          id="tspan3503"
          y="846.44861"

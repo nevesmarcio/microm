@@ -29,12 +29,11 @@ public class GoalModel extends AbstractModel implements IActorBody {
 	
 	private WorldModel wm;
 	private BasicShape goal;
-	private String goal_name;
 	
 	private GoalModel(final WorldModel wm, final BasicShape goal, final String goal_name) {
 		this.wm = wm;
 		this.goal = goal;
-		this.goal_name = goal_name;
+		setName(goal_name);
 		
 		wm.wmManager.add(new ICommand() {
 			
@@ -92,7 +91,7 @@ public class GoalModel extends AbstractModel implements IActorBody {
 	// BodyInterface implementation
 	@Override
 	public String getName() {
-		return goal_name;
+		return super.getName();
 	}
 	@Override
 	public BasicShape getBasicShape() {

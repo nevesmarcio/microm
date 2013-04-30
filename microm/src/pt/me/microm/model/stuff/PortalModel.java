@@ -32,13 +32,12 @@ public class PortalModel extends AbstractModel implements IActorBody {
 	private WorldModel wm;
 	private BasicShape portal;
 	
-	public String portal_name;
 	private PortalType portal_type;
 	
 	private PortalModel(final WorldModel wm, final BasicShape portal, final String portal_name) {
 		this.wm = wm;
 		this.portal = portal;
-		this.portal_name = portal_name;
+		setName(portal_name);
 		
 		wm.wmManager.add(new ICommand() {
 			
@@ -106,7 +105,7 @@ public class PortalModel extends AbstractModel implements IActorBody {
 	// BodyInterface implementation
 	@Override
 	public String getName() {
-		return this.getClass().getName();
+		return super.getName();
 	}
 	@Override
 	public BasicShape getBasicShape() {
@@ -132,7 +131,7 @@ public class PortalModel extends AbstractModel implements IActorBody {
 	@Override
 	public void beginContactWith(IActorBody oModel) {
 		if (boxTouchMyTralala == 0) 
-			if (logger.getLevel() >= Logger.INFO) logger.info("daBox touched my trálálá!! says: " + this.portal_name + ". Should be teleported to: " + this.portal_name.replace("entry", "exit"));
+			if (logger.getLevel() >= Logger.INFO) logger.info("daBox touched my trálálá!! says: " + this.getName() + ". Should be teleported to: " + this.getName().replace("entry", "exit"));
 		boxTouchMyTralala +=1;
 		box = oModel;
 	}
@@ -141,7 +140,7 @@ public class PortalModel extends AbstractModel implements IActorBody {
 	public void endContactWith(IActorBody oModel) {
 		boxTouchMyTralala -=1;
 		if (boxTouchMyTralala == 0) 
-			if (logger.getLevel() >= Logger.INFO) logger.info("daBox left my trálálá!! says: " + this.portal_name);
+			if (logger.getLevel() >= Logger.INFO) logger.info("daBox left my trálálá!! says: " + this.getName());
 	}
 	
 }

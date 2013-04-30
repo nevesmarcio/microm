@@ -148,7 +148,7 @@ public class ScreenLevelSelect implements Screen {
 	@Override
 	public void render(float delta) {
 
-		if (Gdx.input.isKeyPressed(Keys.BACKSPACE)) // use your own criterion here
+		if (Gdx.input.isKeyPressed(Keys.BACKSPACE) || Gdx.input.isKeyPressed(Keys.BACK)) // use your own criterion here
 			callback.handler("back");		
 		
 		// Clean do gl context

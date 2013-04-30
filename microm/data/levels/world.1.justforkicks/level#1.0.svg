@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   sodipodi:docname="level1.0.svg">
+   sodipodi:docname="level#1.0.svg">
   <defs
      id="defs4">
     <linearGradient
@@ -170,7 +170,7 @@
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
-       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER'"
+       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
        x="25.817139"
        y="269.30066"
        id="text2989"
@@ -183,11 +183,11 @@
        sodipodi:linespacing="125%"
        id="text2993"
        y="269.30066"
-       x="870.26379"
-       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER'"
+       x="1261.2247"
+       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
        xml:space="preserve"><tspan
          y="269.30066"
-         x="870.26379"
+         x="1261.2247"
          id="tspan2995"
          sodipodi:role="line">Go rescue her!</tspan></text>
     <path
@@ -227,23 +227,13 @@
        id="trigger_1"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccccc"
-       custom:script="cs.out(&quot;trigger_1&quot;);
-function add(a,b){return a + '&lt;---&gt;' + b;};
-cs.out(&quot;puff&gt;&gt;&gt; &quot; + add(__ACTOR_A, __ACTOR_B));
-if (__EVENT_TYPE.indexOf(&quot;ON_COLLISION_BEGIN&quot;) !== -1)
-	if ((__ACTOR_A.indexOf(&quot;trigger&quot;) !== -1) || (__ACTOR_B.indexOf(&quot;trigger&quot;) !== -1))
-		cs.m.jump();" />
+       custom-script="cs.out(&quot;trigger_1&quot;); function add(a,b){return a + '&lt;---&gt;' + b;}; cs.out(&quot;puff&gt;&gt;&gt; &quot; + add(__ACTOR_A, __ACTOR_B)); if (__EVENT_TYPE.indexOf(&quot;ON_COLLISION_BEGIN&quot;) !== -1)  if ((__ACTOR_A.indexOf(&quot;trigger&quot;) !== -1) || (__ACTOR_B.indexOf(&quot;trigger&quot;) !== -1))   cs.m.jump();" />
     <path
        sodipodi:nodetypes="cccccccc"
        inkscape:connector-curvature="0"
        id="trigger_2"
        d="m 909.8125,592.54968 0,16.5 m 0,0 20.9375,-8.1267 20.9375,8.1267 0,-16.5 -20.9375,8.10428 -20.9375,-8.10428"
        style="fill:#ff0000;fill-opacity:1;stroke:none"
-       custom:script="cs.out(&quot;trigger_2&quot;);
-function add(a,b){return a + '&lt;---&gt;' + b;};
-cs.out(&quot;puff&gt;&gt;&gt; &quot; + add(__ACTOR_A, __ACTOR_B));
-if (__EVENT_TYPE.indexOf(&quot;ON_COLLISION_BEGIN&quot;) !== -1)
-	if ((__ACTOR_A.indexOf(&quot;trigger&quot;) !== -1) || (__ACTOR_B.indexOf(&quot;trigger&quot;) !== -1))
-		cs.m.jump();" />
+       custom-script="cs.out(&quot;trigger_2&quot;); function add(a,b){return a + '&lt;---&gt;' + b;}; cs.out(&quot;puff&gt;&gt;&gt; &quot; + add(__ACTOR_A, __ACTOR_B)); if (__EVENT_TYPE.indexOf(&quot;ON_COLLISION_BEGIN&quot;) !== -1)  if ((__ACTOR_A.indexOf(&quot;trigger&quot;) !== -1) || (__ACTOR_B.indexOf(&quot;trigger&quot;) !== -1))   cs.m.jump();" />
   </g>
 </svg>

@@ -29,12 +29,11 @@ public class BoardModel extends AbstractModel implements IActorBody {
 	
 	private WorldModel wm;
 	private BasicShape board;
-	private String board_name;
 	
 	private BoardModel(final WorldModel wm, final BasicShape board, final String board_name) {
 		this.wm = wm;
 		this.board = board;
-		this.board_name = board_name;
+		setName(board_name);
 		
 		wm.wmManager.add(new ICommand() {
 			
@@ -93,7 +92,7 @@ public class BoardModel extends AbstractModel implements IActorBody {
 	// BodyInterface implementation
 	@Override
 	public String getName() {
-		return board_name;
+		return super.getName();
 	}
 	@Override
 	public BasicShape getBasicShape() {

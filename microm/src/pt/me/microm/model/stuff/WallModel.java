@@ -29,12 +29,11 @@ public class WallModel extends AbstractModel implements IActorBody {
 	
 	private WorldModel wm;
 	private BasicShape wall;
-	private String wall_name;
 	
 	private WallModel(final WorldModel wm, final BasicShape wall, final String wall_name) {
 		this.wm = wm;
 		this.wall = wall;
-		this.wall_name = wall_name;
+		setName(wall_name);
 		
 		wm.wmManager.add(new ICommand() {
 			
@@ -103,7 +102,7 @@ public class WallModel extends AbstractModel implements IActorBody {
 	// BodyInterface implementation
 	@Override
 	public String getName() {
-		return this.getClass().getName();
+		return super.getName();
 	}
 	@Override
 	public BasicShape getBasicShape() {

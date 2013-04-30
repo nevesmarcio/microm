@@ -248,31 +248,34 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 22-04-2013
 23-04-2013
 24-04-2013
-
-[in progress]
 # Mecanismo de carregamento / loading (E mais importante que isso, o mecanismo de unloading (dispose))
 	- Navegação entre menus já não deixa referências penduradas que impedem o GC
 	- Avaliar: https://weblogs.java.net/blog/2006/05/04/understanding-weak-references
-
 # Unloading do "theJuice"
-
 # Enums e statics não são gc'ed. O classloader fica com referência para eles.
-
 # interruptible threads (JAVA NIO: doesn't work on System.in)
-
-------> continue work on populate world method <-------
-
-
-
-# O mecanismo de pausa, como pára o render, também pára os efeitos das partículas. No entanto não para o motor fisico.
-
 
 
 26-04-2013
 # substituição do timer do gameTickGenerator para um ScheduledThreadPool
+# O código faz o unload todo, mas está assim um bocado ratado (para não dizer muito ratado)
 
+
+30-04-2013
+# Desenvolvimento de funções para expor à API javascript: procura de elemento por nome e listagem de elementos
+# Diversas refactorizações
+# Introdução de um exemplo simples de move de uma wall aquando a passagem num trigger (level#1.1)
+
+
+
+
+
+
+
+
+------>> O mecanismo de pausa, como pára o render, também pára os efeitos das partículas. No entanto não pára o motor fisico.
 ------>> Podem ser os ScreenTickManager e o GameTickGenerator que orquestram o shutdown de tudo. P.e. podem lançar eventos de shutdown tal como há objectos com eventos de startup para quem os quer subscrever! 
-O código faz o unload todo, mas está assim um bocado ratado (para não dizer muito ratado)
+
 
 
 

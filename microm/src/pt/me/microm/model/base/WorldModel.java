@@ -70,7 +70,7 @@ public class WorldModel extends AbstractModel {
 	private void PopulateWorld(String world, String level) {
 
 		// Modelos complementares ao WorldModel
-		if (GameMicroM.FLAG_DEV_ELEMENTS)
+		if (GameMicroM.FLAG_DEV_ELEMENTS_B)
 			grid = new GridModel(); // constroi a grid sobre a qual estão renderizados os objectos - debug purposes		
 
 
@@ -135,10 +135,10 @@ public class WorldModel extends AbstractModel {
 	}
 	public PortalModel getLinkedPortal(PortalModel a) {
 		// procura a referência para o outro portal
-		String other_portal_name = a.portal_name.replace("entry", "exit");
+		String other_portal_name = a.getName().replace("entry", "exit");
 
 		for (PortalModel p : portalManager.portals) {
-			if (p.portal_name.equals(other_portal_name)) {
+			if (p.getName().equals(other_portal_name)) {
 				return p;
 			}
 		}

@@ -34,12 +34,22 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	
 	private AbstractView viewRef;
 	
+	private String name;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}	
+	
+	
 	private UUID devID;
 	public AbstractModel() {
 		logger.info("ALLOC:" + (devID = UUID.randomUUID()).toString());
 		
 		//Notifica terceiros da criação deste objecto
 		String model = this.getClass().getName();
+		setName(model); // default name
 		if (logger.getLevel() >= Logger.DEBUG) logger.debug("++abstract ctor! - " + model);
 		
 		model = model.replaceAll("model", "view"); //package part
@@ -55,7 +65,7 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 		}
 		catch (InvocationTargetException ite) {
 			if (logger.getLevel() >= Logger.ERROR) logger.error("Error \"reflecting\" view: " + ite.getTargetException().getMessage());
-			if (GameMicroM.FLAG_DEV_ELEMENTS)
+			if (GameMicroM.FLAG_DEV_ELEMENTS_A)
 				ite.getTargetException().printStackTrace();
 		}
 		catch (Exception ex) {
@@ -161,6 +171,6 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	protected void finalize() throws Throwable {
 		logger.info("GC'ed:"+devID);
 		super.finalize();
-	}	
+	}
 	
 }

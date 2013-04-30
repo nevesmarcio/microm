@@ -29,12 +29,11 @@ public class GroundModel extends AbstractModel implements IActorBody {
 	
 	private WorldModel wm;
 	private BasicShape ground;
-	private String ground_name;
 	
 	private GroundModel(final WorldModel wm, final BasicShape ground, final String ground_name) {
 		this.wm = wm;
 		this.ground = ground;
-		this.ground_name = ground_name;
+		setName(ground_name);
 		
 		wm.wmManager.add(new ICommand() {
 			
@@ -93,7 +92,7 @@ public class GroundModel extends AbstractModel implements IActorBody {
 	// BodyInterface implementation
 	@Override
 	public String getName() {
-		return ground_name;
+		return super.getName();
 	}
 	@Override
 	public BasicShape getBasicShape() {

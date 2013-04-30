@@ -57,6 +57,7 @@ public class UIModel extends AbstractModel {
 		
 		dummyBody = wm.getPhysicsWorld().createBody(dummyBodyDef);
 		
+		dummyBody.setUserData(this);
 		
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));

@@ -111,7 +111,7 @@ public class BallModel extends AbstractModel implements IActorBody {
 	// BodyInterface Implementation
 	@Override
 	public String getName() {
-		return this.getClass().getName();
+		return super.getName();
 	}
 	@Override
 	public BasicShape getBasicShape() {
