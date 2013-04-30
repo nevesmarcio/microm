@@ -14,11 +14,10 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenManager;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -81,7 +80,8 @@ public class ScreenLevelSelect implements Screen {
 //		Gdx.input.setInputProcessor(im);
 		
 		table = new Table();
-		table.debug();
+		if (GameMicroM.FLAG_DEV_ELEMENTS_B)
+			table.debug();
 		table.setFillParent(true);
 		stage.addActor(table);
 		// Add widgets to the table here

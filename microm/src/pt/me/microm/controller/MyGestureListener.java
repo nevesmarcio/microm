@@ -22,10 +22,10 @@ public class MyGestureListener implements GestureListener {
 	
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
-		if (logger.getLevel() == logger.DEBUG) logger.debug("touchDown");
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("touchDown");
 		
-//		if (worldModel.player.daBoxBody != null)
-//			worldModel.player.jump();
+		if (worldModel.player != null)
+			worldModel.player.jump();
 		
 		return false;
 	}
@@ -33,7 +33,7 @@ public class MyGestureListener implements GestureListener {
 
 	@Override
 	public boolean tap(float x, float y, int count, int button) {
-		if (logger.getLevel() == logger.DEBUG) logger.debug("tap");
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("tap");
 		
 		return false;
 	}
@@ -41,7 +41,7 @@ public class MyGestureListener implements GestureListener {
 
 	@Override
 	public boolean longPress(float x, float y) {
-		if (logger.getLevel() == logger.DEBUG) logger.debug("longPress");
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("longPress");
 		
 		return false;
 	}
@@ -49,7 +49,7 @@ public class MyGestureListener implements GestureListener {
 
 	@Override
 	public boolean fling(float velocityX, float velocityY, int button) {
-		if (logger.getLevel() == logger.DEBUG) logger.debug("fling");
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("fling");
 		
 		return false;
 	}
@@ -57,7 +57,7 @@ public class MyGestureListener implements GestureListener {
 
 	@Override
 	public boolean pan(float x, float y, float deltaX, float deltaY) {
-		if (logger.getLevel() == logger.DEBUG) logger.debug("pan");
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("pan");
 		
 		return false;
 	}
@@ -65,7 +65,7 @@ public class MyGestureListener implements GestureListener {
 
 	@Override
 	public boolean zoom(float originalDistance, float currentDistance) {
-		if (logger.getLevel() == logger.DEBUG) logger.debug("zoom");
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("zoom");
 
 		return false;
 	}
@@ -74,7 +74,7 @@ public class MyGestureListener implements GestureListener {
 	public boolean pinch(Vector2 initialFirstPointer,
 			Vector2 initialSecondPointer, Vector2 firstPointer,
 			Vector2 secondPointer) {
-		if (logger.getLevel() == logger.DEBUG) logger.debug("pinch");
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("pinch");
 
 		return false;
 	}

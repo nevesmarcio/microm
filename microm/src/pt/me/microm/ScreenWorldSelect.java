@@ -9,11 +9,10 @@ import java.util.regex.Pattern;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -91,7 +90,8 @@ public class ScreenWorldSelect implements Screen {
 //		Gdx.input.setInputProcessor(im);
 		
 		table = new Table();
-		table.debug();
+		if (GameMicroM.FLAG_DEV_ELEMENTS_B)
+			table.debug();
 		table.setFillParent(true);
 		stage.addActor(table);
 		// Add widgets to the table here

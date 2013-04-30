@@ -5,30 +5,26 @@ import java.util.UUID;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.SnapshotArray;
-import com.badlogic.gdx.Screen;
 
 public class ScreenMenu implements Screen {
 	
@@ -53,49 +49,76 @@ public class ScreenMenu implements Screen {
 //		Gdx.input.setInputProcessor(im);
 		
 		table = new Table();
-		table.debug();
+		if (GameMicroM.FLAG_DEV_ELEMENTS_B)
+			table.debug();
 		table.setFillParent(true);
+		table.bottom();
 		stage.addActor(table);
 		// Add widgets to the table here
 		
 		TextureAtlas t = new TextureAtlas(Gdx.files.internal("data/scene2d/uiskin.atlas"), Gdx.files.internal("data/scene2d/"));
 		Skin skin = new Skin(Gdx.files.internal("data/scene2d/uiskin.json"), t);
 		
-		stage.addActor(new CheckBox("Ué ?", skin));
-		
 		Actor a;
-		table.add(a = new TextButton("norow-btn",skin));
-		a.addListener(new EventListener() {
-			@Override
-			public boolean handle(Event event) {
-				//Gdx.app.log(TAG, event.getClass().getSimpleName() + " >> " + event.toString());
-				if (event instanceof ChangeEvent) {
-					ScreenMenu.this.callback.handler(null);
-				}
-				return false;
-			}
-		});		
-		a.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				//Gdx.app.log(TAG, event.toString());
-				//Gdx.app.log(TAG, actor.toString());
-			}
-		});
+		stage.addActor(a = new CheckBox("Ué ?", skin));
+		a.setPosition(10.0f, 0.0f);
 		
-		table.row();
-			table.add(a = new TextButton("row2-btn",skin));
+		table.row().height(50.0f);
+			a = new TextButton("Story Mode",skin);
+			table.add(a).align(Align.left | Align.top).fill();
 			a.addListener(new EventListener() {
-				
+				@Override
+				public boolean handle(Event event) {
+					//Gdx.app.log(TAG, event.getClass().getSimpleName() + " >> " + event.toString());
+					if (event instanceof ChangeEvent) {
+						ScreenMenu.this.callback.handler(null);
+					}
+					return false;
+				}
+			});		
+			a.addListener(new ChangeListener() {
+				@Override
+				public void changed(ChangeEvent event, Actor actor) {
+					//Gdx.app.log(TAG, event.toString());
+					//Gdx.app.log(TAG, actor.toString());
+				}
+			});
+			
+			a = new TextButton("Training Mode",skin);
+			table.add(a).align(Align.right | Align.top).fill();
+			a.addListener(new EventListener() {
+				@Override
+				public boolean handle(Event event) {
+					//Gdx.app.log(TAG, event.getClass().getSimpleName() + " >> " + event.toString());
+					if (event instanceof ChangeEvent) {
+
+					}
+					return false;
+				}
+			});
+			
+			
+		table.row().uniform();
+			table.add(a = new com.badlogic.gdx.scenes.scene2d.ui.Label("_more:", skin)).align(Align.left | Align.bottom).spaceTop(10.0f);
+			a.addListener(new EventListener() {
 				@Override
 				public boolean handle(Event event) {
 					//logger.info("b pressed!");
 					return false;
 				}
 			});
-			table.add(a = new TextButton("row2-btn",skin));
+			
+		table.row().uniform();
+			table.add(a = new TextButton("Go full!",skin)).align(Align.left | Align.top).width(100).height(20.0f).fill();
 			a.addListener(new EventListener() {
-				
+				@Override
+				public boolean handle(Event event) {
+					//logger.info("b pressed!");
+					return false;
+				}
+			});
+			table.add(a = new TextButton("+ games!",skin)).align(Align.right | Align.top).width(100).height(20.0f).fill();
+			a.addListener(new EventListener() {
 				@Override
 				public boolean handle(Event event) {
 					//logger.info("b pressed!");
@@ -103,10 +126,10 @@ public class ScreenMenu implements Screen {
 				}
 			});		
 		
-		table.row();
-			table.add(a = new com.badlogic.gdx.scenes.scene2d.ui.Label("row3-lbl", skin));
+		table.row().uniform();
+			a = new TextButton("Rate & Share", skin);
+			table.add(a).colspan(2).align(Align.center | Align.top).fill(false).height(20f).pad(5.0f);
 			a.addListener(new EventListener() {
-				
 				@Override
 				public boolean handle(Event event) {
 					//logger.info("b pressed!");
@@ -144,7 +167,8 @@ public class ScreenMenu implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		stage.setViewport(width, height, true);
+//		stage.setViewport(width, height, true);
+		stage.setViewport(800/2, 480/2, true);// fixando o viewport permite que se fique com um sistema de coordenadas independente da resolução
 	}
 
 	@Override

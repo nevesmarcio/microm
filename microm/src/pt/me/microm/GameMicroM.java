@@ -1,18 +1,25 @@
 package pt.me.microm;
 
+import java.util.UUID;
+
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.utils.Logger;
 
+/**
+ * This class maintain the context across the life time of the session!
+ * @author mneves
+ *
+ */
 public class GameMicroM extends Game/*implements ApplicationListener*/ { // it extends the Game so it can handle Screens
 	// FLAGS
-	public static final boolean FLAG_DEV_ELEMENTS_A = true; 			// "pre-compiler" equivalent for branching development-only code (lvl A)
-	public static final boolean FLAG_DEV_ELEMENTS_B = true;				// "pre-compiler" equivalent for branching development-only code (lvl B)
+	public static final boolean FLAG_DEV_ELEMENTS_A = false; 			// "pre-compiler" equivalent for branching development-only code (lvl A)
+	public static final boolean FLAG_DEV_ELEMENTS_B = false; 			// "pre-compiler" equivalent for branching development-only code (lvl B)
 	public static final boolean FLAG_DISPLAY_ACTOR_SHAPES = true;		// mostra o desenho das shapes dos actores: walls, dabox, etc.
 	public static final boolean FLAG_DISPLAY_ACTOR_TEXTURES = true;		// liga a texturização dos actores
 	public static final boolean FLAG_DISPLAY_PARTICLES = true;			// liga o desenho de particulas
@@ -23,9 +30,11 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 	/**
 	 * Worlflow implementation
 	 */
-	
+	private UUID devID;
 	@Override
 	public void create() {		
+		devID = UUID.randomUUID();
+		
 		Gdx.input.setCatchBackKey(true);
 		Gdx.input.setCatchMenuKey(true);			
 		
@@ -133,6 +142,10 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 		// Clean do gl context
 //		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 //		Gdx.gl.glClearColor(0.90f, 0.90f, 0.90f, 1); // almost white
+        
+		if (Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isKeyPressed(Keys.MENU)) // use your own criterion here
+        	if (logger.getLevel() >= Logger.INFO) logger.info("SessionID = " + devID);
+		
 		
 		super.render();
 	}
