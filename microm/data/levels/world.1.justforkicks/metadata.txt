@@ -1,3 +1,5 @@
+world.name = world.1.justforkicks
+
 #level declaration
 level#1.0
 level#1.1

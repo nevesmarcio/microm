@@ -35,6 +35,13 @@ public class WorldModel extends AbstractModel {
 	private static final Logger logger = new Logger(TAG);
 	
 //	private static WorldModel instance = null;
+	public static enum EventType {
+		ON_LEVEL_LOADED,		// Event raised when the level is finished loading
+		ON_LIFE_LOST,			// Event raised when the player lose a life
+		ON_COLLECTIBLE_FOUND,	// Event raised when the player founds a collectible item
+		ON_WORLD_COMPLETED	 	// Event raised when the player successfully completes this world
+		
+	};
 	
 	private GridModel grid;
 	public UIModel ui;

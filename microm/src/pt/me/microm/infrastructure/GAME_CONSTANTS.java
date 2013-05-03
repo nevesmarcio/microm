@@ -23,6 +23,8 @@ public class GAME_CONSTANTS {
 	
 	public static final int MAX_TOUCH_POINTS = 5;
 	
+	public static final String SAVEGAME_FILE_V1 = "PlayerProgress_v1.save";
+	
 	// Legacy Textures LOAD
 //	public static final Texture TEXTURE_BG = new Texture(Gdx.files.internal("data/textures/dev/input/bg.png"));
 //	public static final Texture TEXTURE_DROID = new Texture(Gdx.files.internal("data/textures/dev/input/libgdx.png"));

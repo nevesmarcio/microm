@@ -267,9 +267,17 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # Introdução de um exemplo simples de move de uma wall aquando a passagem num trigger (level#1.1)
 
 
+01-05-2013
+# adicionada a lib gson para serialize/deserialize
 
 
+02-05-2013
+# mecanismo de save/load do progresso do jogador
 
+03-05-2013
+# Criação de uma estrutura em memória que guarda os worlds/ levels disponíveis
+# Adaptação do mecanismo de save à estrutura de memória (sync)
+# inicio da definição da API que permite interagir com os scores
 
 
 

@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
+import pt.me.microm.session.PlayerProgress;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -11,11 +12,13 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -34,12 +37,14 @@ public class ScreenMenu implements Screen {
 	private Stage stage;
 	private Table table;
 	
+	private PlayerProgress playerProgress;
 	private ICommand callback;
 	
 	private UUID devID;
-	private ScreenMenu(ICommand callback) {
+	private ScreenMenu(PlayerProgress playerProgress, ICommand callback) {
 		logger.info("ALLOC:" + (devID = UUID.randomUUID()).toString());
 		
+		this.playerProgress = playerProgress;
 		this.callback = callback;
 		
 		stage = new Stage();
@@ -61,7 +66,16 @@ public class ScreenMenu implements Screen {
 		
 		Actor a;
 		stage.addActor(a = new CheckBox("Ué ?", skin));
-		a.setPosition(10.0f, 0.0f);
+		a.setPosition(100.0f, 0.0f);
+		final Actor b;
+		stage.addActor(b = new Label("#: "+playerProgress.getWorldByName("world.1.justforkicks").getCurrentDeathCount(), skin));
+		b.addAction(new Action() {
+			@Override
+			public boolean act(float delta) {
+				((Label)b).setText("#: "+ScreenMenu.this.playerProgress.getWorldByName("world.1.justforkicks").getCurrentDeathCount());
+				return false;
+			}
+		});
 		
 		table.row().height(50.0f);
 			a = new TextButton("Story Mode",skin);
@@ -139,9 +153,9 @@ public class ScreenMenu implements Screen {
 		
 	}
 
-	public static Screen showMenu(ICommand callback) {
+	public static Screen showMenu(PlayerProgress playerProgress, ICommand callback) {
 		logger.info("showMenu start!");
-		return new ScreenMenu(callback);
+		return new ScreenMenu(playerProgress, callback);
 	}
 	
 	

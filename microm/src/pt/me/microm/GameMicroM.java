@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
+import pt.me.microm.session.PlayerProgress;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -27,6 +28,9 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 	private static final String TAG = GameMicroM.class.getSimpleName();
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 
+	private PlayerProgress playerProgress;
+	
+	
 	/**
 	 * Worlflow implementation
 	 */
@@ -34,6 +38,15 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 	@Override
 	public void create() {		
 		devID = UUID.randomUUID();
+		
+		try {
+			playerProgress = PlayerProgress.Load();
+			
+			logger.info("loaded: " + playerProgress.getWorldByName("world.1.justforkicks").getCurrentDeathCount());
+			
+		} catch (Exception e) {
+			if (logger.getLevel() >= Logger.ERROR) logger.error("Cannot load savegame: " + e.getMessage());
+		}
 		
 		Gdx.input.setCatchBackKey(true);
 		Gdx.input.setCatchMenuKey(true);			
@@ -47,15 +60,15 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 			@Override
 			public Object handler(Object... a) {
 				logger.info("doHeavyLoading ending!");
-				menu();
+				menu(playerProgress);
 				logger.info("doHeavyLoading returning!");
 				return null;
 			}
 		}));		
 	}
 	
-	private void menu() {
-		setScreen(ScreenMenu.showMenu(new ICommand() {
+	private void menu(PlayerProgress playerProgress) {
+		setScreen(ScreenMenu.showMenu(playerProgress, new ICommand() {
 			@Override
 			public Object handler(Object... a) {
 				logger.info("showMenu ending!");
@@ -75,7 +88,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 			public Object handler(Object... a) {
 				logger.info("selectAWorld ending!");
 				if (a!=null && ((String)a[0]).equalsIgnoreCase("back"))
-					menu();
+					menu(playerProgress);
 				else
 					level((String)a[0]);
 				logger.info("selectAWorld returning!");
@@ -125,7 +138,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 				logger.info("pause ending!");
 				if (a!=null && ((String)a[0]).equalsIgnoreCase("goto_menu")) {
 					theJuice.dispose();
-					menu();
+					menu(playerProgress);
 				}
 				else
 					setScreen(theJuice);
@@ -143,9 +156,16 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 //		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 //		Gdx.gl.glClearColor(0.90f, 0.90f, 0.90f, 1); // almost white
         
-		if (Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isKeyPressed(Keys.MENU)) // use your own criterion here
-        	if (logger.getLevel() >= Logger.INFO) logger.info("SessionID = " + devID);
+		if (Gdx.input.isKeyPressed(Keys.I))
+			playerProgress.getWorldByName("world.1.justforkicks").addCurrentDeathCount();
+			
 		
+		if (Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isKeyPressed(Keys.MENU)) { // use your own criterion here
+        	if (logger.getLevel() >= Logger.INFO) logger.info("SessionID = " + devID);
+			
+        	playerProgress.save();
+        	logger.info("saved: " + playerProgress.getWorldByName("world.1.justforkicks").getCurrentDeathCount());
+		}
 		
 		super.render();
 	}

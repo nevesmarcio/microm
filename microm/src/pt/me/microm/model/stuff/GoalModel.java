@@ -6,6 +6,7 @@ import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IActorBody;
+import pt.me.microm.model.MyContactListener.EventType;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.tools.levelloader.BasicShape;
 
@@ -115,6 +116,7 @@ public class GoalModel extends AbstractModel implements IActorBody {
 	@Override
 	public void beginContactWith(IActorBody oModel) {
 		logger.info("Oh yeah! Elvis has entered the building!");
+		wm.dispatchEvent(new SimpleEvent(WorldModel.EventType.ON_WORLD_COMPLETED));
 	}
 	
 	@Override

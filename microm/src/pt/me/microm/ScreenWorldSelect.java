@@ -44,27 +44,6 @@ public class ScreenWorldSelect implements Screen {
 		
 		this.callback = callback;
 		
-//		boolean isExtAvailable = Gdx.files.isExternalStorageAvailable();
-//		boolean isLocAvailable = Gdx.files.isLocalStorageAvailable();
-//		
-//		String extRoot = Gdx.files.getExternalStoragePath();
-//		String locRoot = Gdx.files.getLocalStoragePath();
-//		if ((locRoot != null) && locRoot.isEmpty()) locRoot = ".";
-//		
-//		logger.info("isExtAvailable: " + isExtAvailable + " ::" + extRoot);
-//		logger.info("FP: " + Gdx.files.local(extRoot).file().getAbsolutePath());
-//		FileHandle[] filesA = Gdx.files.local(extRoot).list();
-//		for(FileHandle file: filesA) {
-//		   logger.info("\t" + file.name() + "|" + file.length());
-//		}		
-//		
-//		logger.info("isLocAvailable: " + isLocAvailable + " ::" + locRoot);
-//		logger.info("FP: " + Gdx.files.local(locRoot).file().getAbsolutePath());
-//		FileHandle[] filesB = Gdx.files.local(locRoot).list();
-//		for(FileHandle file: filesB) {
-//			logger.info("\t" + file.name() + "|" + file.length());
-//		}				
-		
 		logger.debug("FP: " + Gdx.files.internal("data/levels").file().getAbsolutePath());
 		FileHandle[] filesC = Gdx.files.internal("data/levels").list();
 		

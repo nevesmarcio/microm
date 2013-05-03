@@ -9,6 +9,8 @@ import pt.me.microm.controller.loop.GameTickGenerator;
 import pt.me.microm.controller.loop.ScreenTickManager;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
+import pt.me.microm.infrastructure.event.IEvent;
+import pt.me.microm.infrastructure.event.listener.IEventListener;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
 
@@ -50,6 +52,13 @@ public class ScreenTheJuice implements Screen {
 		// MODELS ///////////////////////////////////////////////////////////////
 		cameraModel = new CameraModel();
 		worldModel = new WorldModel(world, level);
+		worldModel.addListener(WorldModel.EventType.ON_WORLD_COMPLETED, new IEventListener() {
+			@Override
+			public void onEvent(IEvent event) {
+				ScreenTheJuice.this.callback.handler("exit");
+
+			}
+		});
 		
 		// VIEWS  ///////////////////////////////////////////////////////////////
 		// Todas as views são instanciadas por "reflection"
