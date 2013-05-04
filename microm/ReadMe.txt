@@ -279,6 +279,12 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # Adaptação do mecanismo de save à estrutura de memória (sync)
 # inicio da definição da API que permite interagir com os scores
 
+04-05-2013
+# Separação da API em 2 classes: AchievementService e ScreenFlowService
+# ... 
+
+
+
 
 
 ------>> O mecanismo de pausa, como pára o render, também pára os efeitos das partículas. No entanto não pára o motor fisico.

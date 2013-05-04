@@ -1,3 +1,10 @@
+﻿FILE NAMING::
+
+world.<world_number>.<world_name>.svg
+level#<world_number>.<level_number>.svg
+
+
+
 Level Editor Supported features:
 
 ## Recognized IDs ##

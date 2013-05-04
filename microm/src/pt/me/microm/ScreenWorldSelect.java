@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
+import pt.me.microm.session.MyWorld;
+import pt.me.microm.session.PlayerProgress;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -39,28 +41,10 @@ public class ScreenWorldSelect implements Screen {
 	private ICommand callback;
 	
 	private UUID devID;
-	private ScreenWorldSelect(ICommand callback) {
+	private ScreenWorldSelect(ICommand callback, PlayerProgress playerProgress) {
 		logger.info("ALLOC:" + (devID = UUID.randomUUID()).toString());
 		
 		this.callback = callback;
-		
-		logger.debug("FP: " + Gdx.files.internal("data/levels").file().getAbsolutePath());
-		FileHandle[] filesC = Gdx.files.internal("data/levels").list();
-		
-		Pattern pattern = Pattern.compile("world\\.\\d\\.\\w+");
-		Matcher matcher;
-		List<String> discoveredWorlds = new ArrayList<String>();
-		for (FileHandle file : filesC) {
-			logger.debug("\t" + file.name() + "|" + (file.isDirectory()?"D":file.length()));
-			matcher = pattern.matcher(file.name());
-			// Check all occurance
-			while (matcher.find()) {
-				discoveredWorlds.add(matcher.group());
-			}
-		}			
-
-		
-		
 		
 		stage = new Stage();
 //		InputMultiplexer im = (InputMultiplexer) Gdx.input.getInputProcessor();
@@ -92,15 +76,15 @@ public class ScreenWorldSelect implements Screen {
 //		});
 		
 		
-		for (final String aWorld : discoveredWorlds) {
-			table.add(a = new TextButton(aWorld, skin));
+		for (final MyWorld aWorld : playerProgress.getAchievementService().getAllWorlds()) {
+			table.add(a = new TextButton(aWorld.getName(), skin));
 			
 			a.addListener(new EventListener() {
 				@Override
 				public boolean handle(Event event) {
 					if (event instanceof ChangeEvent) {
-						 logger.info("[**] Selected world: " + aWorld);
-						 ScreenWorldSelect.this.callback.handler(aWorld);
+						 logger.info("[**] Selected world: " + aWorld.getName());
+						 ScreenWorldSelect.this.callback.handler(aWorld.getName());
 					}
 					return false;
 				}				
@@ -110,9 +94,9 @@ public class ScreenWorldSelect implements Screen {
 		
 	}
 
-	public static Screen selectAWorld(ICommand callback) {
+	public static Screen selectAWorld(ICommand callback, PlayerProgress playerProgress) {
 		logger.info("selectAWorld start!");
-		return new ScreenWorldSelect(callback);
+		return new ScreenWorldSelect(callback, playerProgress);
 	}	
 	
 	

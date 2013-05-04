@@ -42,7 +42,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 		try {
 			playerProgress = PlayerProgress.Load();
 			
-			logger.info("loaded: " + playerProgress.getWorldByName("world.1.justforkicks").getCurrentDeathCount());
+			logger.info("loaded: " + playerProgress.getAchievementService().getWorldByName("world.1.justforkicks").getCurrentDeathCount());
 			
 		} catch (Exception e) {
 			if (logger.getLevel() >= Logger.ERROR) logger.error("Cannot load savegame: " + e.getMessage());
@@ -94,7 +94,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 				logger.info("selectAWorld returning!");
 				return null;
 			}
-		}));
+		}, playerProgress));
 		
 		
 	}
@@ -111,7 +111,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 				logger.info("selectALevel returning!");
 				return null;
 			}
-		}, world));
+		}, world, playerProgress));
 	}
 	
 	private void theJuice(final String world, final String level) {
@@ -157,14 +157,14 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 //		Gdx.gl.glClearColor(0.90f, 0.90f, 0.90f, 1); // almost white
         
 		if (Gdx.input.isKeyPressed(Keys.I))
-			playerProgress.getWorldByName("world.1.justforkicks").addCurrentDeathCount();
+			playerProgress.getAchievementService().getWorldByName("world.1.justforkicks").addCurrentDeathCount();
 			
 		
 		if (Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isKeyPressed(Keys.MENU)) { // use your own criterion here
         	if (logger.getLevel() >= Logger.INFO) logger.info("SessionID = " + devID);
 			
         	playerProgress.save();
-        	logger.info("saved: " + playerProgress.getWorldByName("world.1.justforkicks").getCurrentDeathCount());
+        	logger.info("saved: " + playerProgress.getAchievementService().getWorldByName("world.1.justforkicks").getCurrentDeathCount());
 		}
 		
 		super.render();

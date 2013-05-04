@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
+import pt.me.microm.session.MyLevel;
+import pt.me.microm.session.PlayerProgress;
 import pt.me.microm.view.accessor.SpriteAccessor;
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
@@ -53,26 +55,11 @@ public class ScreenLevelSelect implements Screen {
 	private ICommand callback;
 	
 	private UUID devID;
-	private ScreenLevelSelect(ICommand callback, String world) {
+	private ScreenLevelSelect(ICommand callback, String world, PlayerProgress playerProgress) {
 		logger.info("ALLOC:" + (devID = UUID.randomUUID()).toString());
 
 		this.callback = callback;
-		
-		logger.info("FP: " + Gdx.files.internal("data/levels/" + world).file().getAbsolutePath());
-		FileHandle[] filesC = Gdx.files.internal("data/levels/" + world).list();
-		
-		Pattern pattern = Pattern.compile("level#[1-9\\.]\\.\\w+\\.svg");
-		Matcher matcher;
-		List<String> discoveredLevels = new ArrayList<String>();
-		for (FileHandle file : filesC) {
-			logger.debug("\t" + file.name() + "|" + (file.isDirectory()?"D":file.length()));
-			matcher = pattern.matcher(file.name());
-			// Check all occurance
-			while (matcher.find()) {
-				discoveredLevels.add(matcher.group());
-			}
-		}			
-
+	
 		stage = new Stage();
 //		InputMultiplexer im = (InputMultiplexer) Gdx.input.getInputProcessor();
 //		if (im == null) im = new InputMultiplexer();
@@ -92,17 +79,17 @@ public class ScreenLevelSelect implements Screen {
 		Actor a;
 		
 		int i = 0;
-		for (final String aLevel : discoveredLevels) { 
+		for (final MyLevel aLevel : playerProgress.getAchievementService().getWorldByName(world).getLevels()) { 
 			if (i%3 == 0)
 				table.row();
-			table.add(a = new TextButton(aLevel, skin));
+			table.add(a = new TextButton(aLevel.getName(), skin));
 
 			a.addListener(new EventListener() {
 				@Override
 				public boolean handle(Event event) {
 					if (event instanceof ChangeEvent) {
-						logger.info("[**] Selected level: " + aLevel);
-						ScreenLevelSelect.this.callback.handler(aLevel);
+						logger.info("[**] Selected level: " + aLevel.getName());
+						ScreenLevelSelect.this.callback.handler(aLevel.getName());
 					}
 					return false;
 				}
@@ -139,9 +126,9 @@ public class ScreenLevelSelect implements Screen {
 		}
 	};	
 	
-	public static Screen selectALevel(ICommand callback, String world) {
+	public static Screen selectALevel(ICommand callback, String world, PlayerProgress playerProgress) {
 		logger.info("selectALevel start!");
-		return new ScreenLevelSelect(callback, world);
+		return new ScreenLevelSelect(callback, world, playerProgress);
 	}
 	
 	

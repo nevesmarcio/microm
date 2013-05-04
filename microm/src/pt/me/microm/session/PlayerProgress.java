@@ -2,6 +2,7 @@ package pt.me.microm.session;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -115,6 +116,10 @@ public class PlayerProgress {
 		// based on the savegame, inits the player's progress data
 		toReturn.initProgressData();
 		
+		// init the api objects
+		toReturn.achievementService = new AchievementService(toReturn.currentWorld, toReturn.availableWorlds);
+		toReturn.screenFlowService = new ScreenFlowService(toReturn.currentWorld, toReturn.availableWorlds);
+		
 		return toReturn;
 	}
 	
@@ -143,6 +148,13 @@ public class PlayerProgress {
 				availableWorlds.add(toAdd);
 			}
 		}
+		Collections.sort(availableWorlds, new Comparator<MyWorld>(){
+			@Override
+			public int compare(MyWorld o1, MyWorld o2) {
+				int wNum1 = Integer.parseInt(o1.getName().split("\\.")[1]);
+				int wNum2 = Integer.parseInt(o2.getName().split("\\.")[1]);
+				return wNum1-wNum2;
+			}});
 		this.availableWorlds = availableWorlds;
 	}
 	private void readAvailableLevels(MyWorld world) {
@@ -168,6 +180,14 @@ public class PlayerProgress {
 				availableLevels.add(toAdd);
 			}
 		}
+		Collections.sort(availableLevels, new Comparator<MyLevel>() {
+			@Override
+			public int compare(MyLevel o1, MyLevel o2) {
+				int wNum1 = Integer.parseInt(o1.getName().split("\\.")[1]);
+				int wNum2 = Integer.parseInt(o2.getName().split("\\.")[1]);
+				return wNum1-wNum2;
+			}
+		});
 		world.setLevels(availableLevels);
 
 	}
@@ -208,33 +228,17 @@ public class PlayerProgress {
 	
 
 	/* and the PlayerProgress API */
-	/**
-	 * Searches for a world with a given name
-	 * @param worldName
-	 * @return
-	 */
-	public MyWorld getWorldByName(String worldName) {
-		MyWorld auxWorld = null;
-		
-		Iterator<MyWorld> itAvailableWorlds = availableWorlds.iterator();
-		while (itAvailableWorlds.hasNext()) {
-			auxWorld = itAvailableWorlds.next();
-			
-			if (auxWorld.getName().equals(worldName))
-				break;
-		}
-		return auxWorld;
+	private AchievementService achievementService;
+	private ScreenFlowService screenFlowService;
+	
+	public AchievementService getAchievementService() {
+		return achievementService;
 	}
-
-	/**
-	 * Some foo function
-	 */
-	public void foo() {
-		
-	}	
-
+	public ScreenFlowService getScreenFlowService() {
+		return screenFlowService;
+	}
 	
-	
+
 	/* savegame definition - VERY IMPORTANT!! - API should not work on this objects, because the are only updated on save operation */
 	@Expose	private StoryMode storyMode;
 	@Expose	private TrainingMode trainingMode;

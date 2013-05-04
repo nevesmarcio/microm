@@ -1,4 +1,6 @@
-package pt.me.microm;
+package pt.me.microm.session;
+
+import java.util.List;
 
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 
@@ -16,12 +18,17 @@ import com.badlogic.gdx.utils.Logger;
  * @author mneves
  *
  */
-public class LogicTrainingMode {
-
-	private static final String TAG = LogicTrainingMode.class.getSimpleName();
-	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);	
+public class ScreenFlowService {
 	
-	public LogicTrainingMode() {
+	private static final String TAG = ScreenFlowService .class.getSimpleName();
+	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);	
+
+	private MyWorld currentWorld;
+	private List<MyWorld> data;
+	
+	protected ScreenFlowService(MyWorld currentWorld, List<MyWorld> data) {
+		this.currentWorld = currentWorld;
+		this.data = data;
 		
 	}
 	
