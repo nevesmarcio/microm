@@ -107,7 +107,8 @@ public class ScreenPause implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		stage.setViewport(width, height, true);
+		//stage.setViewport(width, height, true);
+		stage.setViewport(800/2, 480/2, true);
 	}
 
 	@Override

@@ -55,7 +55,7 @@ public class ScreenTheJuice implements Screen {
 		worldModel.addListener(WorldModel.EventType.ON_WORLD_COMPLETED, new IEventListener() {
 			@Override
 			public void onEvent(IEvent event) {
-				ScreenTheJuice.this.callback.handler("exit");
+				ScreenTheJuice.this.callback.handler("completed", ScreenTheJuice.this);
 
 			}
 		});

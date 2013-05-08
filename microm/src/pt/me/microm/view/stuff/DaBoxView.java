@@ -11,6 +11,10 @@ import pt.me.microm.model.dev.BallModel;
 import pt.me.microm.model.stuff.DaBoxModel;
 import pt.me.microm.view.AbstractView;
 
+import box2dLight.ConeLight;
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
@@ -62,6 +66,7 @@ public class DaBoxView extends AbstractView {
 	float racioH;
 	
 	private ParticleEffect particleEffect;
+	private RayHandler rayHandler;
 	
 	
 	public DaBoxView(DaBoxModel daBoxmSrc) {
@@ -114,7 +119,16 @@ public class DaBoxView extends AbstractView {
 			    particleEffect.load(Gdx.files.internal("data/particles/fire.p"), Gdx.files.internal("data/particles"));
 			    particleEffect.start();		
 				
-
+			    ///////////////////////////////
+			    
+			    rayHandler = new RayHandler(daBoxmSrc.wm.getPhysicsWorld());
+			    rayHandler.setBlur(true);
+			    rayHandler.setShadows(true);
+			    rayHandler.setAmbientLight(0.75f);
+			    RayHandler.useDiffuseLight(true);
+			    //new PointLight(rayHandler, 36*10, new Color(1,1,1,0.75f), 30.0f, 10.0f, 7.0f);
+			    new ConeLight(rayHandler, 36*10, new Color(0.1f, 0.29f, 0.75f, 0.60f), 30.0f, 13.5f, 9.5f, 225, 30);
+			    
 	}
 	
 
@@ -194,7 +208,20 @@ public class DaBoxView extends AbstractView {
 			batch.end();		
 		}
 		
+		
+		
+		//////// LIGHTING ///////////
+		rayHandler.setCombinedMatrix(e.getCamera().getGameCamera().combined);
+		rayHandler.updateAndRender();
+		
+		
+		
+		
 	}
 
-
+	@Override
+	public void dispose() {
+		rayHandler.dispose();
+		super.dispose();
+	}
 }

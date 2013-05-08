@@ -48,7 +48,7 @@ public class PortalView extends AbstractView {
 
 	SpriteBatch batch;
 	Mesh mesh;
-	SubMesh sm;
+//	SubMesh sm;
 	
 	float[] vertexes;
 	short[] indexes;

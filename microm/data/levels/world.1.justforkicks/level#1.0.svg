@@ -111,6 +111,14 @@
        r="60.278887"
        gradientTransform="matrix(1.3201527,0.89636831,-0.80512792,1.1857783,776.50627,531.93746)"
        gradientUnits="userSpaceOnUse" />
+    <filter
+       inkscape:collect="always"
+       id="filter3855">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="1.5591704"
+         id="feGaussianBlur3857" />
+    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -119,17 +127,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.5"
-     inkscape:cx="807.73373"
-     inkscape:cy="663.13413"
+     inkscape:zoom="0.25"
+     inkscape:cx="1483.6476"
+     inkscape:cy="835.83731"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1369"
-     inkscape:window-height="855"
-     inkscape:window-x="1772"
-     inkscape:window-y="29"
-     inkscape:window-maximized="0" />
+     inkscape:window-width="1680"
+     inkscape:window-height="1028"
+     inkscape:window-x="1672"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -194,7 +202,7 @@
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
        id="goal"
-       d="m 1256.4313,628.21428 24.716,-35 -24.716,-35 z"
+       d="m 1256.4313,408.21428 24.716,-35 -24.716,-35 z"
        style="fill:#000000;fill-opacity:1;stroke:none" />
     <path
        style="fill:#00ff00;fill-opacity:1;stroke:none"
@@ -235,5 +243,42 @@
        d="m 909.8125,592.54968 0,16.5 m 0,0 20.9375,-8.1267 20.9375,8.1267 0,-16.5 -20.9375,8.10428 -20.9375,-8.10428"
        style="fill:#ff0000;fill-opacity:1;stroke:none"
        custom-script="cs.out(&quot;trigger_2&quot;); function add(a,b){return a + '&lt;---&gt;' + b;}; cs.out(&quot;puff&gt;&gt;&gt; &quot; + add(__ACTOR_A, __ACTOR_B)); if (__EVENT_TYPE.indexOf(&quot;ON_COLLISION_BEGIN&quot;) !== -1)  if ((__ACTOR_A.indexOf(&quot;trigger&quot;) !== -1) || (__ACTOR_B.indexOf(&quot;trigger&quot;) !== -1))   cs.m.jump();" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path3045"
+       d="m 425.67827,432.93665 89.09545,0 0,118.79393 -89.09545,0 z"
+       style="fill:#3e1900;fill-opacity:1;stroke:none;opacity:0.71999999999999997;filter:url(#filter3855)" />
+    <path
+       style="fill:#ff6600;fill-opacity:1;stroke:none;opacity:0.8"
+       d="m 425.67827,432.93665 89.09545,0 0,118.79393 -89.09545,0 z"
+       id="wall_3341"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:0.8;fill:#3e1900;fill-opacity:1;stroke:none"
+       id="path3873"
+       d="m 571.53276,649.47086 c 15.21408,-8.49482 30.09236,-17.62115 45.64223,-25.48447 6.6462,-3.36087 13.84411,-5.49864 20.81457,-8.12165 10.78567,-4.05868 21.63419,-7.94833 32.45129,-11.92249 15.01308,-5.5484 30.06101,-11.00337 45.03923,-16.64519 19.99268,-7.53061 39.91463,-15.24768 59.87194,-22.87153 25.10871,-9.42124 50.21742,-18.84249 75.32613,-28.26374 220.05995,-79.62985 435.74665,-170.65706 650.59875,-263.2418 119.906,-52.23581 241.706,-99.82879 364.3089,-145.29124 0,0 -22.5098,17.58076 -22.5098,17.58076 l 0,0 c -21.7437,7.677 -43.567,15.13185 -65.2309,23.03098 -97.8953,35.69478 -194.5526,74.65943 -290.37,115.59162 -217.4669,93.68763 -435.7346,185.68685 -657.5785,268.61924 -62.51557,24.29937 -124.87875,48.96528 -187.35716,73.35665 -11.43896,4.46574 -22.91971,8.82912 -34.2791,13.49355 -7.53365,3.09348 -25.75693,17.1923 -22.39088,9.77642 3.95425,-8.71174 16.42448,-9.81622 24.63672,-14.72432 0,0 -38.97342,15.11721 -38.97342,15.11721 z"
+       inkscape:connector-curvature="0"
+       transform="translate(0,-227.63782)" />
+    <path
+       style="opacity:0.8;fill:#3e1900;fill-opacity:1;stroke:none"
+       id="path3877"
+       d="m 660.01238,586.13271 c -8.83567,8.48495 -18.82863,15.78266 -28.41536,23.42448 -9.6235,8.72048 -19.73525,16.84851 -29.68183,25.18159 -2.11015,2.38437 -5.34792,4.94018 -6.02729,8.32176 -0.0312,0.15518 0.29773,-0.12441 0.45576,-0.13326 0.90846,-0.0508 1.81946,-0.0333 2.72926,-0.045 2.03001,-0.0261 4.0601,-0.0455 6.09016,-0.0683 14.94317,-1.29393 29.73087,-3.56118 44.4404,-6.43627 0,0 -31.83745,24.06167 -31.83745,24.06167 l 0,0 c -15.20849,2.83502 -30.49323,5.37471 -45.94396,6.46647 -4.0403,-0.23299 -8.11676,0.38289 -11.51544,-2.38499 -5.36371,-4.36821 0.45635,-10.59222 3.34862,-14.23064 9.6509,-8.81619 20.6498,-16.15183 29.90606,-25.46841 9.25099,-7.43159 18.43002,-14.94652 27.82559,-22.18682 0,0 38.62548,-16.50228 38.62548,-16.50228 z"
+       inkscape:connector-curvature="0"
+       transform="translate(0,-227.63782)" />
+    <text
+       xml:space="preserve"
+       style="font-size:72px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1581.0907"
+       y="155.75079"
+       id="text3879"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3881"
+         x="1581.0907"
+         y="155.75079">O efeito do blur, tem que ser conseguido</tspan><tspan
+         sodipodi:role="line"
+         x="1581.0907"
+         y="245.75081"
+         id="tspan3883">no motor do jogo</tspan></text>
   </g>
 </svg>

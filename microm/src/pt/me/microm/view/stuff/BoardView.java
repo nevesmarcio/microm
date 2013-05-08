@@ -7,6 +7,7 @@ import pt.me.microm.model.stuff.BoardModel;
 import pt.me.microm.view.AbstractView;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -37,7 +38,7 @@ public class BoardView extends AbstractView {
 	@Override
 	public void DelayedInit() {
 		renderer = new ShapeRenderer();
-		
+
 		boardSprite = GAME_CONSTANTS.devAtlas.createSprite("txr_full_board");
 		
 		boardSprite.setSize(boardmSrc.getBasicShape().getWidth(), boardmSrc.getBasicShape().getHeight());
@@ -51,10 +52,9 @@ public class BoardView extends AbstractView {
 	@Override
 	public void draw(ScreenTickEvent e) {
 		
-		
 		if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
 			renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
-			
+						
 			Fixture fix = (boardmSrc.getBody().getFixtureList()).get(0);
 			ChainShape cs = (ChainShape)fix.getShape();
 			

@@ -27,6 +27,7 @@ import pt.me.microm.model.stuff.BoardModel;
 import pt.me.microm.model.stuff.DaBoxModel;
 import pt.me.microm.model.stuff.GoalModel;
 import pt.me.microm.model.stuff.GroundModel;
+import pt.me.microm.model.stuff.MagnetModel;
 import pt.me.microm.model.stuff.PortalModel;
 import pt.me.microm.model.stuff.SpawnModel;
 import pt.me.microm.model.stuff.WallModel;
@@ -225,7 +226,24 @@ public class LevelLoader {
 		
 	}
 	
-
+	/**
+	 * 
+	 * @param magnet
+	 * @param wm
+	 */
+	private static MagnetModel addMagnetToWorld(WorldModel wm, BasicShape magnet, String magnet_name) {
+		if (GameMicroM.FLAG_DEV_ELEMENTS_A)
+		for (Vector2 ap : magnet.getPointsArray()) {
+			DebugModel m = DebugModel.getNewInstance(wm, ap.x+magnet.getCentroid().x, ap.y+magnet.getCentroid().y);
+			m.setColor(Color.MAGENTA);
+		}
+		
+		MagnetModel mModel = MagnetModel.getNewInstance(wm, magnet, magnet_name);
+		return mModel;
+		
+	}
+	
+	
 	
 	/**
 	 * This function loads a level from a SVG file. It makes a lot of
@@ -258,8 +276,8 @@ public class LevelLoader {
 			NodeList board = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < board.getLength(); i++) {
 				String d = board.item(i).getAttributes().getNamedItem("d").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info(d);
-
+				String style = board.item(i).getAttributes().getNamedItem("style").getNodeValue();
+				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
 
 				//FIXME: these values can/ should be loaded dynamically
 				// Calculo do offset do nível é igual ao offset do 1º ponto da "board"
@@ -280,7 +298,7 @@ public class LevelLoader {
 				maxWidth = 1280.0f;
 				maxHeight = 1280.0f;				
 				
-				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.BOARD);
+				BasicShape s = new BasicShape(d, style, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.BOARD);
 
 				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
 				String board_name = board.item(i).getAttributes().getNamedItem("id").getNodeValue();
@@ -297,8 +315,10 @@ public class LevelLoader {
 			NodeList dabox = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < dabox.getLength(); i++) {
 				String d = dabox.item(i).getAttributes().getNamedItem("d").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info(d);
-				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.DABOX);
+				String style = dabox.item(i).getAttributes().getNamedItem("style").getNodeValue();
+				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				
+				BasicShape s = new BasicShape(d, style, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.DABOX);
 				
 				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
 				String dabox_name = dabox.item(i).getAttributes().getNamedItem("id").getNodeValue();
@@ -313,8 +333,10 @@ public class LevelLoader {
 			NodeList spawn = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < spawn.getLength(); i++) {
 				String d = spawn.item(i).getAttributes().getNamedItem("d").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info(d);
-				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.SPAWN);
+				String style = spawn.item(i).getAttributes().getNamedItem("style").getNodeValue();
+				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				
+				BasicShape s = new BasicShape(d, style, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.SPAWN);
 
 				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
 				String spawn_name = spawn.item(i).getAttributes().getNamedItem("id").getNodeValue();
@@ -329,8 +351,10 @@ public class LevelLoader {
 			NodeList goals = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < goals.getLength(); i++) {
 				String d = goals.item(i).getAttributes().getNamedItem("d").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info(d);
-				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.GOAL);
+				String style = goals.item(i).getAttributes().getNamedItem("style").getNodeValue();
+				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				
+				BasicShape s = new BasicShape(d, style, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.GOAL);
 
 				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
 				String goal_name = goals.item(i).getAttributes().getNamedItem("id").getNodeValue();
@@ -345,8 +369,10 @@ public class LevelLoader {
 			NodeList grounds = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < grounds.getLength(); i++) {
 				String d = grounds.item(i).getAttributes().getNamedItem("d").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info(d);
-				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.GROUND);
+				String style = grounds.item(i).getAttributes().getNamedItem("style").getNodeValue();
+				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				
+				BasicShape s = new BasicShape(d, style, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.GROUND);
 				
 				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
 				String ground_name = grounds.item(i).getAttributes().getNamedItem("id").getNodeValue();
@@ -362,8 +388,10 @@ public class LevelLoader {
 			NodeList portals = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < portals.getLength(); i++) {
 				String d = portals.item(i).getAttributes().getNamedItem("d").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info(d);
-				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.PORTAL);
+				String style = portals.item(i).getAttributes().getNamedItem("style").getNodeValue();
+				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				
+				BasicShape s = new BasicShape(d, style, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.PORTAL);
 
 				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
 				String portal_name = portals.item(i).getAttributes().getNamedItem("id").getNodeValue();
@@ -379,8 +407,10 @@ public class LevelLoader {
 			NodeList walls = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < walls.getLength(); i++) {
 				String d = walls.item(i).getAttributes().getNamedItem("d").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info(d);
-				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.WALL);
+				String style = walls.item(i).getAttributes().getNamedItem("style").getNodeValue();
+				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				
+				BasicShape s = new BasicShape(d, style, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.WALL);
 
 				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
 				String wall_name = walls.item(i).getAttributes().getNamedItem("id").getNodeValue();
@@ -396,8 +426,10 @@ public class LevelLoader {
 			NodeList stars = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < stars.getLength(); i++) {
 				String d = stars.item(i).getAttributes().getNamedItem("d").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info(d);
-				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.STAR);
+				String style = stars.item(i).getAttributes().getNamedItem("style").getNodeValue();
+				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				
+				BasicShape s = new BasicShape(d, style, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.STAR);
 
 				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
 				String star_name = stars.item(i).getAttributes().getNamedItem("id").getNodeValue();
@@ -421,7 +453,7 @@ public class LevelLoader {
 				
 				if (logger.getLevel() >= Logger.INFO) logger.info("[" + id + "] = x: " + x + "; y: " + y + "; ==> '" + s + "'" );
 				
-				BasicShape sh = new BasicShape("m " + x + "," + y, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.NONE);
+				BasicShape sh = new BasicShape("m " + x + "," + y, "", new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.NONE);
 				for (Vector2 ap : sh.getPointsArray()) {
 					DebugModel m = DebugModel.getNewInstance(wm, ap.x+sh.getCentroid().x, ap.y+sh.getCentroid().y);
 					m.setColor(Color.PINK);
@@ -453,8 +485,10 @@ public class LevelLoader {
 			NodeList triggers = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < triggers.getLength(); i++) {
 				String d = triggers.item(i).getAttributes().getNamedItem("d").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info(d);
-				BasicShape s = new BasicShape(d, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.NONE);
+				String style = triggers.item(i).getAttributes().getNamedItem("style").getNodeValue();
+				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				
+				BasicShape s = new BasicShape(d, style, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.NONE);
 
 				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
 				String trigger_name = triggers.item(i).getAttributes().getNamedItem("id").getNodeValue();
@@ -465,6 +499,25 @@ public class LevelLoader {
 				nrElements+=1;
 			}			
 			
+
+			// Get magnets
+			if (logger.getLevel() >= Logger.INFO) logger.info("Magnets...");
+			expr = xpath.compile("//svg/g/path[contains(@id,'magnet')]");
+			NodeList magnets = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < magnets.getLength(); i++) {
+				String d = magnets.item(i).getAttributes().getNamedItem("d").getNodeValue();
+				String style = magnets.item(i).getAttributes().getNamedItem("style").getNodeValue();
+				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				
+				BasicShape s = new BasicShape(d, style, new Vector2(xOffset, yOffset), new Vector2(maxWidth, maxHeight), ObjectType.MAGNET);
+
+				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
+				String magnet_name = magnets.item(i).getAttributes().getNamedItem("id").getNodeValue();
+				
+				addMagnetToWorld(wm, s, magnet_name);
+				
+				nrElements+=1;
+			}					
 			
 			
 			if (logger.getLevel() >= Logger.INFO) logger.info("Finished Loading level: " + h.name());

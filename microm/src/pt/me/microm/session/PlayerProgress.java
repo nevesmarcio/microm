@@ -117,13 +117,20 @@ public class PlayerProgress {
 		toReturn.initProgressData();
 		
 		// init the api objects
-		toReturn.achievementService = new AchievementService(toReturn.currentWorld, toReturn.availableWorlds);
-		toReturn.screenFlowService = new ScreenFlowService(toReturn.currentWorld, toReturn.availableWorlds);
+		toReturn.sessionState = toReturn.new SessionState();
+		toReturn.achievementService = new AchievementService(toReturn.sessionState, toReturn.currentWorld, toReturn.availableWorlds);
+		toReturn.screenFlowService = new ScreenFlowService(toReturn.sessionState, toReturn.currentWorld, toReturn.availableWorlds);
 		
 		return toReturn;
 	}
 	
 	/* memory structure that stores available worlds and levels */
+	public class SessionState {
+		public int gameMode = -1; // -1: no game mode selected; 0: story; 1: training;
+		public boolean isMuted = false;
+	}
+	
+	private SessionState sessionState;
 	private MyWorld currentWorld;
 	private List<MyWorld> availableWorlds;
 	

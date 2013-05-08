@@ -68,11 +68,11 @@ public class ScreenMenu implements Screen {
 		stage.addActor(a = new CheckBox("Ué ?", skin));
 		a.setPosition(100.0f, 0.0f);
 		final Actor b;
-		stage.addActor(b = new Label("#: "+playerProgress.getAchievementService().getWorldByName("world.1.justforkicks").getCurrentDeathCount(), skin));
+		stage.addActor(b = new Label("#: "+playerProgress.getScreenFlowService().getWorldByName("world.1.justforkicks").getCurrentDeathCount(), skin));
 		b.addAction(new Action() {
 			@Override
 			public boolean act(float delta) {
-				((Label)b).setText("#: "+ScreenMenu.this.playerProgress.getAchievementService().getWorldByName("world.1.justforkicks").getCurrentDeathCount());
+				((Label)b).setText("#: "+ScreenMenu.this.playerProgress.getScreenFlowService().getWorldByName("world.1.justforkicks").getCurrentDeathCount());
 				return false;
 			}
 		});
@@ -85,6 +85,7 @@ public class ScreenMenu implements Screen {
 				public boolean handle(Event event) {
 					//Gdx.app.log(TAG, event.getClass().getSimpleName() + " >> " + event.toString());
 					if (event instanceof ChangeEvent) {
+						ScreenMenu.this.playerProgress.getScreenFlowService().getSessionState().gameMode = 0;
 						ScreenMenu.this.callback.handler(null);
 					}
 					return false;
@@ -105,7 +106,8 @@ public class ScreenMenu implements Screen {
 				public boolean handle(Event event) {
 					//Gdx.app.log(TAG, event.getClass().getSimpleName() + " >> " + event.toString());
 					if (event instanceof ChangeEvent) {
-
+						ScreenMenu.this.playerProgress.getScreenFlowService().getSessionState().gameMode = 1;
+						ScreenMenu.this.callback.handler(null);
 					}
 					return false;
 				}

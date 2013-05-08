@@ -79,7 +79,7 @@ public class ScreenLevelSelect implements Screen {
 		Actor a;
 		
 		int i = 0;
-		for (final MyLevel aLevel : playerProgress.getAchievementService().getWorldByName(world).getLevels()) { 
+		for (final MyLevel aLevel : playerProgress.getScreenFlowService().getWorldByName(world).getLevels()) { 
 			if (i%3 == 0)
 				table.row();
 			table.add(a = new TextButton(aLevel.getName(), skin));
@@ -164,7 +164,8 @@ public class ScreenLevelSelect implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		stage.setViewport(width, height, true);
+		//stage.setViewport(width, height, true);
+		stage.setViewport(800/2, 480/2, true);
 	}
 
 	@Override

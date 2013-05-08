@@ -76,7 +76,9 @@ public class ScreenWorldSelect implements Screen {
 //		});
 		
 		
-		for (final MyWorld aWorld : playerProgress.getAchievementService().getAllWorlds()) {
+		for (final MyWorld aWorld : playerProgress.getScreenFlowService().getAllWorlds()) {
+			
+			table.row();
 			table.add(a = new TextButton(aWorld.getName(), skin));
 			
 			a.addListener(new EventListener() {
@@ -122,7 +124,8 @@ public class ScreenWorldSelect implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		stage.setViewport(width, height, true);
+		//stage.setViewport(width, height, true);
+		stage.setViewport(800/2, 480/2, true);
 	}
 
 	@Override

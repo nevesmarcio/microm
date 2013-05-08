@@ -2,6 +2,7 @@ package pt.me.microm;
 
 import java.util.UUID;
 
+import pt.me.microm.controller.loop.ScreenTickManager;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.session.PlayerProgress;
@@ -19,8 +20,8 @@ import com.badlogic.gdx.utils.Logger;
  */
 public class GameMicroM extends Game/*implements ApplicationListener*/ { // it extends the Game so it can handle Screens
 	// FLAGS
-	public static final boolean FLAG_DEV_ELEMENTS_A = false; 			// "pre-compiler" equivalent for branching development-only code (lvl A)
-	public static final boolean FLAG_DEV_ELEMENTS_B = false; 			// "pre-compiler" equivalent for branching development-only code (lvl B)
+	public static final boolean FLAG_DEV_ELEMENTS_A = true; 			// "pre-compiler" equivalent for branching development-only code (lvl A)
+	public static final boolean FLAG_DEV_ELEMENTS_B = true; 			// "pre-compiler" equivalent for branching development-only code (lvl B)
 	public static final boolean FLAG_DISPLAY_ACTOR_SHAPES = true;		// mostra o desenho das shapes dos actores: walls, dabox, etc.
 	public static final boolean FLAG_DISPLAY_ACTOR_TEXTURES = true;		// liga a texturização dos actores
 	public static final boolean FLAG_DISPLAY_PARTICLES = true;			// liga o desenho de particulas
@@ -42,7 +43,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 		try {
 			playerProgress = PlayerProgress.Load();
 			
-			logger.info("loaded: " + playerProgress.getAchievementService().getWorldByName("world.1.justforkicks").getCurrentDeathCount());
+			logger.info("loaded: " + playerProgress.getScreenFlowService().getWorldByName("world.1.justforkicks").getCurrentDeathCount());
 			
 		} catch (Exception e) {
 			if (logger.getLevel() >= Logger.ERROR) logger.error("Cannot load savegame: " + e.getMessage());
@@ -51,7 +52,8 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 		Gdx.input.setCatchBackKey(true);
 		Gdx.input.setCatchMenuKey(true);			
 		
-		splash();
+		//splash();
+		theJuice("world.1.justforkicks", "level#1.0.svg");
 	}
 
 
@@ -117,7 +119,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 	private void theJuice(final String world, final String level) {
 		setScreen(ScreenTheJuice.playground(new ICommand() {
 			@Override
-			public Object handler(Object... a) {
+			public Object handler(final Object... a) {
 				if (a!=null && ((String)a[0]).equalsIgnoreCase("exit")) {
 					logger.info("playground ending!");
 					logger.info("playground returning!");
@@ -126,6 +128,17 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 				if (a!=null && ((String)a[0]).equalsIgnoreCase("pause")) {
 					pauseGame((Screen)a[1]);
 				}
+				if (a!=null && ((String)a[0]).equalsIgnoreCase("completed")) {
+					ScreenTickManager.PostRunnable(new Runnable() {
+						
+						@Override
+						public void run() {
+							((ScreenTheJuice)a[1]).dispose();
+							level(world);
+
+						}
+					});
+				}				
 				return null;
 			}
 		}, world, level));
@@ -157,14 +170,15 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 //		Gdx.gl.glClearColor(0.90f, 0.90f, 0.90f, 1); // almost white
         
 		if (Gdx.input.isKeyPressed(Keys.I))
-			playerProgress.getAchievementService().getWorldByName("world.1.justforkicks").addCurrentDeathCount();
+			playerProgress.getScreenFlowService().getWorldByName("world.1.justforkicks").addCurrentDeathCount();
 			
+
 		
 		if (Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isKeyPressed(Keys.MENU)) { // use your own criterion here
         	if (logger.getLevel() >= Logger.INFO) logger.info("SessionID = " + devID);
 			
         	playerProgress.save();
-        	logger.info("saved: " + playerProgress.getAchievementService().getWorldByName("world.1.justforkicks").getCurrentDeathCount());
+        	logger.info("saved: " + playerProgress.getScreenFlowService().getWorldByName("world.1.justforkicks").getCurrentDeathCount());
 		}
 		
 		super.render();

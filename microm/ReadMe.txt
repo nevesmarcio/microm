@@ -207,7 +207,6 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # Já agora, não tenho uma classe qualquer onde penduro "ponteiros para funções" ? Já que há um loop baseado num timer, este não deveria aceitar runnables ?? DEVERIA!!!
   Ver o exemplo do libgdx - https://github.com/libgdx/libgdx/blob/master/backends/gdx-backend-lwjgl/src/com/badlogic/gdx/backends/lwjgl/LwjglApplication.java
 
-
 11-04-2013
 # Identificação dos estouros da VM:
 	. a criação de joints com o rato dentro de um step
@@ -217,10 +216,8 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # Refactorização da nomenclatura dos interfaces (ISomeInterface)
 # Motor do DaBoxModel implementado com recurso a impulsos e não um set da linearVelocity à bruta
 
-
 12-04-2013
 # Mecanismo de notificações de colisões
-
 
 14-04-2013
 15-04-2013
@@ -237,12 +234,10 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # Refactorização do mecanismo de salto entre Screens
 # Sistema de loading de worlds(folder) e levels(files)
 
-
 19-04-2013
 # procurar os singletons manhosos - removi o "anti-pattern" singleton do WorldModel. 
 	http://caines.ca/blog/programming/singletons-anti-pattern-or-worst-anti-pattern-ever/
 	http://javapeanuts.blogspot.pt/2012/02/singleton-testing-and-dependency.html
-
 
 20-04-2013
 22-04-2013
@@ -255,21 +250,17 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # Enums e statics não são gc'ed. O classloader fica com referência para eles.
 # interruptible threads (JAVA NIO: doesn't work on System.in)
 
-
 26-04-2013
 # substituição do timer do gameTickGenerator para um ScheduledThreadPool
 # O código faz o unload todo, mas está assim um bocado ratado (para não dizer muito ratado)
-
 
 30-04-2013
 # Desenvolvimento de funções para expor à API javascript: procura de elemento por nome e listagem de elementos
 # Diversas refactorizações
 # Introdução de um exemplo simples de move de uma wall aquando a passagem num trigger (level#1.1)
 
-
 01-05-2013
 # adicionada a lib gson para serialize/deserialize
-
 
 02-05-2013
 # mecanismo de save/load do progresso do jogador
@@ -281,7 +272,50 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 
 04-05-2013
 # Separação da API em 2 classes: AchievementService e ScreenFlowService
-# ... 
+# Criação de um SessionState (para guardar o modo seleccionado, mute, etc.) 
+# Workflow simples de uma vez terminado um level, voltar ao menu --> está mto xanatado, mas vou deixar para já, para depois voltar a esta questão com uma perspectiva mais critica.
+
+[[[[[[[ tentar abordar temas como lighting / shadow para desenjoar dos workflows/ GC's, etc.!!! ]]]]]]]
+# introduzida a lib das luzes :: https://code.google.com/p/box2dlights/
+
+
+06-05-2013
+# Very cool art style: http://www.gamerprint.co.uk/collections/hyrulean-travel (tb gosto do art style super simplificado. tenho um artigo no pocket)
+# implementado um novo tipo de objecto que dará origem aos magnets (objectos repelidos pela daBox)
+
+
+07-05-2013
+---technology evaluation day---
+# fluids
+	http://www.youtube.com/watch?v=dCxmS5IrMRo
+	https://plus.google.com/104301319754911100519/posts/4BaC8MJC7UP
+	http://www.jbox2d.org/liquid/
+
+# dynamic loading example
+	http://www.youtube.com/watch?v=pzO1AsL2ZXk
+
+# post processing filters
+	http://manuelbua.github.io/libgdx-contribs/
+---inspiration titles---
+*thomas was alone
+*super splatters
+*flat design era
+*dots (ios) - simple and elegant graphics
+
+
+
+
+08-05-2013
+# adicionada estrutura de testes unitários ao projecto (avaliar TestNG)
+# suporte para pintar os polígonos de acordo com a cor definida no inkscape
+	* ainda n consegui fazer o valor do alpha da cor, surtir efeito
+	* também é necessário conseguir fazer um post-processing para dar o efeitozinho do sombreado para dar alguma profundidade
+	(GLSL post processing?)
+
+# refactorizações:
+	ver o canvas de forma diferente (sem a complicação dos offsets): usar um mecanismo diferente para localizar a camera 
+
+
 
 
 
@@ -289,7 +323,6 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 
 ------>> O mecanismo de pausa, como pára o render, também pára os efeitos das partículas. No entanto não pára o motor fisico.
 ------>> Podem ser os ScreenTickManager e o GameTickGenerator que orquestram o shutdown de tudo. P.e. podem lançar eventos de shutdown tal como há objectos com eventos de startup para quem os quer subscrever! 
-
 
 
 
@@ -312,7 +345,7 @@ pe. trigger :: path_to_script
 Assumir uma resolução e partir daí, com downscale/ upscale
 
 
-# como faço o level design quando for um horizontal scroller ?
+# como faço o level design quando for um horizontal / vertical scroller ?
 
 # counter de vidas e mecanismo de restart no mesmo nivel
 # zona de texto do UI para contar as vidas/ saltar para o menu, etc.

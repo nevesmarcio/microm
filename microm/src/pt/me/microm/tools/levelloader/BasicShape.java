@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Logger;
 
@@ -25,11 +26,14 @@ public class BasicShape {
 	private static final String TAG = BasicShape.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
-	private String d; 
+	private String d;
 	private ArrayList<Vector2> points;
 	private ObjectType type;
 	private Vector2 centroid;
 
+	private String style;
+	private Color color;
+	
 	private float width;
 	private float height;
 	
@@ -42,14 +46,15 @@ public class BasicShape {
 	 * element 
 	 * @param d
 	 */
-	public BasicShape(String d, Vector2 offset, Vector2 maxSize, ObjectType type) {
+	public BasicShape(String d, String style, Vector2 offset, Vector2 maxSize, ObjectType type) {
 		this();
 		this.d = d;
 		
-		//Pattern pattern = Pattern.compile("[-\\d]+[\\.\\d]*");//Detecta numero a numero (x ou y)
-		Pattern pattern = Pattern.compile("[-\\d]+[-\\.\\d,]*");//Detecta coordenada (par x,y)
+		Pattern pattern;
+		Matcher matcher;
 		
-		Matcher matcher;		
+		//pattern = Pattern.compile("[-\\d]+[\\.\\d]*");//Detecta numero a numero (x ou y)
+		pattern = Pattern.compile("[-\\d]+[-\\.\\d,]*");//Detecta coordenada (par x,y)
 		matcher = pattern.matcher(d);
 		
 		String s;
@@ -95,6 +100,31 @@ public class BasicShape {
 		// calc width and height
 		width = calcWidth();
 		height = calcHeight();
+		
+		
+		color = new Color();
+		// color fill
+		pattern = Pattern.compile("fill:#([0-9a-fA-F]){6};*");
+		matcher = pattern.matcher(style);
+		while (matcher.find()) {
+			String aux = matcher.group();
+			aux = aux.replace("fill:#", "");
+			aux = aux.replace(";", "");			
+			color.r = (float)Integer.parseInt(aux.substring(0, 2), 16) / (float)0xFF;
+			color.g = (float)Integer.parseInt(aux.substring(2, 4), 16) / (float)0xFF;
+			color.b = (float)Integer.parseInt(aux.substring(4, 6), 16) / (float)0xFF;
+		}
+		// color fill opacity
+		pattern = Pattern.compile("fill-opacity:[01][\\.0-9]*;*");
+		matcher = pattern.matcher(style);
+		while (matcher.find()) {
+			String aux = matcher.group();
+			aux = aux.replace("fill-opacity:", "");
+			aux = aux.replace(";", "");
+			color.a = Float.parseFloat(aux);
+		}
+		
+		
 	}	
 		
 	
@@ -118,6 +148,10 @@ public class BasicShape {
 	
 	public Vector2[] getPointsArray() {
 		return points.toArray(new Vector2[] {});
+	}
+	
+	public Color getFillColor() {
+		return color;
 	}
 	
 

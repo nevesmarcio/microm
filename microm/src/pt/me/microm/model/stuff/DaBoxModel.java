@@ -30,7 +30,7 @@ public class DaBoxModel extends AbstractModel implements IActorBody {
 	private PolygonShape daBoxShape;
 	private Body daBoxBody;	
 
-	private WorldModel wm;
+	public WorldModel wm;
 	private BasicShape dabox;
 	
 	public void create(Vector2 pos) {

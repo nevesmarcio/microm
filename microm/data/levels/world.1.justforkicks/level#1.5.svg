@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.2 r9819"
-   sodipodi:docname="level1.5.svg">
+   sodipodi:docname="level#1.5.svg">
   <defs
      id="defs4">
     <inkscape:path-effect
@@ -95,15 +95,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.5"
-     inkscape:cx="-1024.5358"
-     inkscape:cy="613.72322"
+     inkscape:zoom="1"
+     inkscape:cx="-942.43983"
+     inkscape:cy="704.36492"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1528"
-     inkscape:window-height="1178"
-     inkscape:window-x="64"
+     inkscape:window-width="1680"
+     inkscape:window-height="1028"
+     inkscape:window-x="1672"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
@@ -216,7 +216,7 @@
        sodipodi:nodetypes="cccc" />
     <path
        inkscape:connector-curvature="0"
-       id="path4205"
+       id="magnet_4205"
        d="m -1119.1473,344.298 60,0 0,56 -60,0 z"
        style="fill:#ff6600;fill-opacity:1;stroke:none" />
     <text
@@ -233,17 +233,17 @@
     <path
        style="fill:#800000;fill-opacity:1;stroke:none"
        d="m -917.1473,348.298 60,0 0,56 -60,0 z"
-       id="path3369"
+       id="wall_3369"
        inkscape:connector-curvature="0" />
     <path
        inkscape:connector-curvature="0"
-       id="path3375"
+       id="magnet_3375"
        d="m -1315.1473,342.298 60,0 0,56 -60,0 z"
        style="fill:#ff6600;fill-opacity:1;stroke:none" />
     <path
        style="fill:#ff6600;fill-opacity:1;stroke:none"
        d="m -1183.1473,348.298 60,0 0,56 -60,0 z"
-       id="path3377"
+       id="magnet_3377"
        inkscape:connector-curvature="0" />
     <path
        style="fill:#ff6600;fill-opacity:1;stroke:none"
@@ -252,17 +252,17 @@
        inkscape:connector-curvature="0" />
     <path
        inkscape:connector-curvature="0"
-       id="path3381"
+       id="magnet_3381"
        d="m -837.1473,344.298 60,0 0,56 -60,0 z"
        style="fill:#ff6600;fill-opacity:1;stroke:none" />
     <path
        style="fill:#ff6600;fill-opacity:1;stroke:none"
        d="m -1049.1473,344.298 60,0 0,56 -60,0 z"
-       id="path3383"
+       id="magnet_3383"
        inkscape:connector-curvature="0" />
     <path
        inkscape:connector-curvature="0"
-       id="path3385"
+       id="magnet_3385"
        d="m -981.1473,342.298 60,0 0,56 -60,0 z"
        style="fill:#ff6600;fill-opacity:1;stroke:none" />
     <text
@@ -290,61 +290,61 @@
     <path
        style="fill:#ff6600;fill-opacity:1;stroke:none"
        d="m -1249.1473,344.298 60,0 0,56 -60,0 z"
-       id="path3229"
+       id="magnet_3229"
        inkscape:connector-curvature="0" />
     <path
        style="fill:#ff6600;fill-opacity:1;stroke:none"
        d="m -631.1473,344.298 60,0 0,56 -60,0 z"
-       id="path3231"
+       id="magnet_3231"
        inkscape:connector-curvature="0" />
     <path
        inkscape:connector-curvature="0"
-       id="path3233"
+       id="magnet_3233"
        d="m -695.1473,348.298 60,0 0,56 -60,0 z"
        style="fill:#ff6600;fill-opacity:1;stroke:none" />
     <path
        inkscape:connector-curvature="0"
-       id="path3235"
+       id="magnet_3235"
        d="m -419.1473,344.298 60,0 0,56 -60,0 z"
        style="fill:#ff6600;fill-opacity:1;stroke:none" />
     <path
        style="fill:#ff6600;fill-opacity:1;stroke:none"
        d="m -349.1473,344.298 60,0 0,56 -60,0 z"
-       id="path3237"
+       id="magnet_3237"
        inkscape:connector-curvature="0" />
     <path
        inkscape:connector-curvature="0"
-       id="path3239"
+       id="magnet_3239"
        d="m -561.1473,344.298 60,0 0,56 -60,0 z"
        style="fill:#ff6600;fill-opacity:1;stroke:none" />
     <path
        style="fill:#ff6600;fill-opacity:1;stroke:none"
        d="m -493.1473,342.298 60,0 0,56 -60,0 z"
-       id="path3241"
+       id="magnet_3241"
        inkscape:connector-curvature="0" />
     <path
        inkscape:connector-curvature="0"
-       id="path3243"
+       id="magnet_3243"
        d="m -761.1473,344.298 60,0 0,56 -60,0 z"
        style="fill:#ff6600;fill-opacity:1;stroke:none" />
     <path
        inkscape:connector-curvature="0"
-       id="path3245"
+       id="wall"
        d="m -1270.1473,731.798 177,0 0,56 -177,0 z"
        style="fill:#800000;fill-opacity:1;stroke:none" />
     <path
        style="fill:#800000;fill-opacity:1;stroke:none"
        d="m -951.1473,544.798 60,0 0,113 -60,0 z"
-       id="path3247"
+       id="wall_3247"
        inkscape:connector-curvature="0" />
     <path
        inkscape:connector-curvature="0"
-       id="path3249"
+       id="wall_3249"
        d="m -730.1473,754.798 427,0 0,31 -427,0 z"
        style="fill:#800000;fill-opacity:1;stroke:none" />
     <path
        inkscape:connector-curvature="0"
-       id="path3251"
+       id="wall_3251"
        d="m -951.1473,716.798 60,0 0,113 -60,0 z"
        style="fill:#800000;fill-opacity:1;stroke:none" />
     <text
@@ -386,7 +386,7 @@
        style="fill:#ff6600;fill-opacity:1;stroke:none" />
     <path
        inkscape:connector-curvature="0"
-       id="path3271"
+       id="wall_3271"
        d="m -233.1473,1016.798 60,0 0,113 -60,0 z"
        style="fill:#800000;fill-opacity:1;stroke:none" />
     <path

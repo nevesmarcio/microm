@@ -100,12 +100,13 @@ public class SpawnModel extends AbstractModel implements IActorBody {
 						dbm.create(spawn.getCentroid());
 						
 						// se não colocar isto depois da leitura do board, os objectos caem no espaço
-						float Yoffset = 0.0f;
+						float Yoffset = 4.0f;
 						if (GameMicroM.FLAG_DEV_ELEMENTS_B) {
 //							for (float i=0.0f;i<5.0;i+=0.1f)
 								BallModel.getNewInstance(wm, 2.0f/*+i*/, 4.0f+Yoffset); // larga a bola num mundo num tabuleiro
 //							for (float i=0.0f;i<1.0;i+=0.1f)
 //								CoisaModel.getNewInstance(wm, 1.0f/*+i*/, 2.0f+Yoffset);
+								
 						}
 						
 						return null;
