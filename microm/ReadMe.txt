@@ -315,8 +315,10 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 # refactorizações:
 	ver o canvas de forma diferente (sem a complicação dos offsets): usar um mecanismo diferente para localizar a camera 
 
-
-
+# minimal convex polygon
+http://valis.cs.uiuc.edu/~sariel/research/CG/applets/convex_decomp/Default.html
+# porque nao usar triangulação em todos?
+http://stackoverflow.com/questions/5646221/delaunay-triangulating-the-2d-polygon-with-holes
 
 
 
