@@ -19,7 +19,10 @@ import pt.me.microm.tools.levelloader.LevelLoader;
 import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Logger;
@@ -30,9 +33,9 @@ import com.badlogic.gdx.utils.Logger;
  * Eu diria que é o WorldModel que transparece os handles para os objectos controláveis pelo jogador (e pela AI ?)
  * Por exemplo, é o WorldModel que expõe os métodos para movimentar os Pads.
  */
-public class WorldModel extends AbstractModel {
+public class WorldModel extends AbstractModel implements GestureListener, InputProcessor {
 	private static final String TAG = WorldModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 //	private static WorldModel instance = null;
 	public static enum EventType {
@@ -43,8 +46,8 @@ public class WorldModel extends AbstractModel {
 		
 	};
 	
-	private GridModel grid;
 	public UIModel ui;
+
 	private BoardModel board;
 	
 	public SpawnModel spawnModel;
@@ -66,28 +69,18 @@ public class WorldModel extends AbstractModel {
 	
 	public MyContactListener myContactListener;
 	
-	public WorldModel(String world, String level) {
+	public WorldModel() {
 	
-		PopulateWorld(world, level);
+		PopulateWorld();
 		
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
 	}
 
-	private void PopulateWorld(String world, String level) {
+	private void PopulateWorld() {
 
-		// Modelos complementares ao WorldModel
-		if (GameMicroM.FLAG_DEV_ELEMENTS_B)
-			grid = new GridModel(); // constroi a grid sobre a qual estão renderizados os objectos - debug purposes		
-
-
-		ui = new UIModel(this); // constroi o painel informativo?		
 		portalManager = new PortalModelManager();
 
-		FileHandle h = Gdx.files.internal("data/levels/" + world + "/" + level);
-		int nr_elements_loaded = LevelLoader.LoadLevel(h, this);
-		if (logger.getLevel() == Logger.INFO) logger.info("Nr elements loaded: " + nr_elements_loaded);
-		
 		// regista o contactListener para que este notifique os objectos quando há choques 
 		getPhysicsWorld().setContactListener(myContactListener = new MyContactListener()); //new ContactListenerImpl() 
 	
@@ -169,19 +162,6 @@ public class WorldModel extends AbstractModel {
 	}
 	
 
-	
-	public void touchDown (CameraModel cam, float positionX, float positionY, int pointer){
-		this.ui.touchDown(cam, positionX, positionY, pointer);
-	}
-	
-	public void touchDragged (CameraModel cam, float positionX, float positionY, int pointer) {
-		this.ui.touchDragged(cam, positionX, positionY, pointer);
-	}
-	
-	public void touchUp (CameraModel cam, float positionX, float positionY, int pointer) {
-		this.ui.touchUp(cam, positionX, positionY, pointer);
-	}
-
 //	@Override
 //	public Body getBody() {
 //		// TODO Auto-generated method stub
@@ -195,8 +175,116 @@ public class WorldModel extends AbstractModel {
 	
 	@Override
 	public void dispose() {
-		ui.dispose();
 		super.dispose();
 	}
-	
+
+
+	// GestureListener interface implementation
+	@Override
+	public boolean touchDown(float x, float y, int pointer, int button) {
+
+		if (player != null)
+			player.jump();
+		
+		return false;
+	}
+
+	@Override
+	public boolean tap(float x, float y, int count, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean longPress(float x, float y) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean fling(float velocityX, float velocityY, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean pan(float x, float y, float deltaX, float deltaY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean zoom(float initialDistance, float distance) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2,
+			Vector2 pointer1, Vector2 pointer2) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	// InputProcessor interface implementation
+	@Override
+	public boolean keyDown(int keycode) {
+
+		if ((keycode == Keys.SPACE) || (keycode == Keys.MENU))
+			if (player.getBody() != null)
+				player.jump();
+		
+		if (keycode == Keys.P) {
+			setPauseSim(true);
+		}
+		
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+
+		if (keycode == Keys.P) {
+			setPauseSim(false);
+		}	
+		
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+
+		return false;
+	}
+
 }

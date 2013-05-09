@@ -301,9 +301,7 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 *super splatters
 *flat design era
 *dots (ios) - simple and elegant graphics
-
-
-
+*they need to be fed 2 - gravitational field
 
 08-05-2013
 # adicionada estrutura de testes unitários ao projecto (avaliar TestNG)
@@ -312,13 +310,16 @@ convencionar que as meshes são sempre boxes para ser facil texturar?
 	* também é necessário conseguir fazer um post-processing para dar o efeitozinho do sombreado para dar alguma profundidade
 	(GLSL post processing?)
 
-# refactorizações:
-	ver o canvas de forma diferente (sem a complicação dos offsets): usar um mecanismo diferente para localizar a camera 
-
 # minimal convex polygon
 http://valis.cs.uiuc.edu/~sariel/research/CG/applets/convex_decomp/Default.html
 # porque nao usar triangulação em todos?
 http://stackoverflow.com/questions/5646221/delaunay-triangulating-the-2d-polygon-with-holes
+
+
+09-05-2013
+# refactorizações:
+	ver o canvas de forma diferente (sem a complicação dos offsets): usar um mecanismo diferente para localizar a camera
+	definição de DIps, scaling da camera de acordo... etc. fazer o homework! 
 
 
 

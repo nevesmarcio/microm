@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Logger;
 
 public class GAME_CONSTANTS {
@@ -15,11 +16,11 @@ public class GAME_CONSTANTS {
 	public static final long ONE_SECOND_TO_MILI = 1000L; // 1 second = 1x10^3 miliSeconds
 	public static final long ONE_MILISECOND_TO_NANO = 1000000L; // 1 miliSecond = 1x10^6 nanoSeconds
 	
-	public static final int GAME_TICK_MILI = 16;//16
+	public static final int GAME_TICK_MILI = 16;//32
 	
-	public static final float MODEL_SCREEN_WIDTH_CAPACITY = 15.0f; // must be able to represent 15 units on full width
-//	public static final float MODEL_GAME_ASPECT_RATIO = 4.0f/4.0f; // 4:3 game
-//	public static final float MODEL_MAX_HEIGHT_TO_CONSIDER = MODEL_SCREEN_WIDTH_CAPACITY * MODEL_GAME_ASPECT_RATIO; // 16.0f
+	public static final float TO_REMOVE_MODEL_SCREEN_WIDTH_CAPACITY = 15.0f; // must be able to represent 15 units on full width
+	public static final float DIPIXELS_PER_METER = 85.3f; 	// device independent pixels per meter:: these pixels are the ones used on editor
+														  	// then, the camera has to scale accordingly, but that's another story
 	
 	public static final int MAX_TOUCH_POINTS = 5;
 	
@@ -49,9 +50,7 @@ public class GAME_CONSTANTS {
 	// Musics LOAD
 	//public static final Music MUSIC_BACKGROUND = Gdx.audio.newMusic(Gdx.files.internal("data/music/01 me and my social anxiety.mp3"));
 	
-	public static void DisposeAllObjects() {
-		//TEXTURE_DROID.dispose();
-		//SOUND_DROP.dispose();
-		//MUSIC_BACKGROUND.dispose();
+	public static void dispose() {
+	
 	}
 }

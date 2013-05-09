@@ -1,6 +1,7 @@
 package pt.me.microm.tools.levelloader;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,12 +13,15 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Logger;
 
 /**
- * Esta BasicShape deverá receber as coordenadas do SVG, mas após a construcção
- * do objecto, deverá manter apenas coordenadas compativeis com o nível e com o
- * Box2D.
+ * BasicShape is an object that is initialized with an SVG "d" string.
+ * It decodes this string and translates the shape to a more workable coordinate system and units: box2d coordinate system and meters
  * 
- * Este objecto guarda a posição do shape no centroid e guarda a propria shape com coordenadas centradas em torno do 0.0f, 0.0f
- * Avaliar se pretendo que seja efectivamente o centroid a fornecer a posição, ou se quero definir um centroid, e guardar a posição noutra variável
+ * Adopted convention to define the shapes:
+ *  # calculate the minimum rectangle that can be considered to inscribe the shape into
+ *  # calculate the centroid of this rectangle
+ *  # all the points that represent the shape are defined around this centroid (centroid is considered 0,0 coordinate)
+ *  # the position of the shape is considered to be this centroid coordinate  
+ * 
  * 
  * @author mneves
  * 
@@ -26,12 +30,10 @@ public class BasicShape {
 	private static final String TAG = BasicShape.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
-	private String d;
 	private ArrayList<Vector2> points;
 	private ObjectType type;
 	private Vector2 centroid;
 
-	private String style;
 	private Color color;
 	
 	private float width;
@@ -46,9 +48,8 @@ public class BasicShape {
 	 * element 
 	 * @param d
 	 */
-	public BasicShape(String d, String style, Vector2 offset, Vector2 maxSize, ObjectType type) {
+	public BasicShape(String d, String style, ObjectType type) {
 		this();
-		this.d = d;
 		
 		Pattern pattern;
 		Matcher matcher;
@@ -72,35 +73,31 @@ public class BasicShape {
 				pt.y = Float.parseFloat(ssplit[1]);
 			}
 			else {
-				pt.x = Float.parseFloat(ssplit[0]) + this.getPoints().get(i-1).x;
-				pt.y = Float.parseFloat(ssplit[1]) + this.getPoints().get(i-1).y;
+				pt.x = Float.parseFloat(ssplit[0]) + this.points.get(i-1).x;
+				pt.y = Float.parseFloat(ssplit[1]) + this.points.get(i-1).y;
 			}
 			
-			this.getPoints().add(pt);
+			this.points.add(pt);
 			i+=1;
 		}
 	
-		// offset the shape to make it independent from the position drawn on svg
-		offsetShape(offset);
-		
 		// calc centroid of the shape, considering the minimum rectangle that can be created to inscribe the shape into
 		centroid = inscribedPolygonCenter();
 
 		//coordenadas do objecto definidas em torno do ponto 0.0f, 0.0f -- mais fácil para a renderização e rotações?
-		for (Vector2 v : getPoints()) {
+		for (Vector2 v : points) {
 			v.sub(getCentroid());
 		}		
 		
 		//scaling and Y-invert
-		float scale = GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY / maxSize.x;
-		scaleAndYInvertShape(scale, maxSize.y);
+		float scale = 1.0f/GAME_CONSTANTS.DIPIXELS_PER_METER;
+		scaleAndYInvertShape(scale);
 
 		this.type = type;
 		
 		// calc width and height
 		width = calcWidth();
 		height = calcHeight();
-		
 		
 		color = new Color();
 		// color fill
@@ -128,6 +125,10 @@ public class BasicShape {
 	}	
 		
 	
+	/**
+	 * this point is "world" coordinates 
+	 * @return meters
+	 */
 	public Vector2 getCentroid() {
 		return centroid;
 	}
@@ -136,18 +137,27 @@ public class BasicShape {
 		return type;
 	}
 
-	
+	/**
+	 * 
+	 * @return the width of the minimal rectangle in meters
+	 */
 	public float getWidth() {
 		return width;
 	}
-
+	/**
+	 * 
+	 * @return the height of the minimal rectangle in meters
+	 */
 	public float getHeight() {
 		return height;
 	}
-    	
-	
+    
+	/**
+	 * these points are "local" coordinates (centroid = [0.0, 0.0] )
+	 * @return meters
+	 */
 	public Vector2[] getPointsArray() {
-		return points.toArray(new Vector2[] {});
+		return Collections.unmodifiableList(points).toArray(new Vector2[] {});
 	}
 	
 	public Color getFillColor() {
@@ -156,9 +166,6 @@ public class BasicShape {
 	
 
 	/////////////// Auxiliar functions /////////////////// 
-	private ArrayList<Vector2> getPoints() {
-		return points;
-	}
     
     /**
 	 * 
@@ -169,7 +176,7 @@ public class BasicShape {
     	Float minX = null, maxX = null;
     	Float minY = null, maxY = null;
     	
-    	for (Vector2 point : getPoints()) {
+    	for (Vector2 point : points) {
 			if ((minX == null) || (point.x < minX)) minX = point.x;
 			if ((maxX == null) || (point.x > maxX)) maxX = point.x;
 			if ((minY == null) || (point.y < minY)) minY = point.y;
@@ -179,28 +186,14 @@ public class BasicShape {
     	return new Vector2(minX+(maxX-minX)/2, minY+(maxY-minY)/2);
     }
 
-	/**
-	 * This function offsets the coordinates of a shape to stay inside of the
-	 * board
-	 * 
-	 * @param offset
-	 */
-	private void offsetShape(Vector2 offset) {
-		// offset de todos os pontos
-		for (Vector2 p : this.getPoints()) {
-			p.x = p.x - offset.x;
-			p.y = p.y - offset.y;
-		}
-	}	
-    
-	private void scaleAndYInvertShape(float scale, float maxHeight) {
+	private void scaleAndYInvertShape(float scale) {
 		// scaling and y-invert
-		for (Vector2 ap : getPoints()) {
+		for (Vector2 ap : points) {
 			ap.x = ap.x*scale;
 			ap.y = - ap.y*scale;			
 		}
 		getCentroid().x = getCentroid().x*scale;
-		getCentroid().y = (maxHeight - getCentroid().y)*scale;
+		getCentroid().y = -scale * getCentroid().y;
 	}
 
    /**
@@ -210,7 +203,7 @@ public class BasicShape {
     private float calcWidth() {
     	Float minX = null, maxX = null;
     	
-    	for (Vector2 point : getPoints()) {
+    	for (Vector2 point : points) {
 			if ((minX == null) || (point.x < minX)) minX = point.x;
 			if ((maxX == null) || (point.x > maxX)) maxX = point.x;
 		}
@@ -224,7 +217,7 @@ public class BasicShape {
     private float calcHeight() {
     	Float minY = null, maxY = null;
     	
-    	for (Vector2 point : getPoints()) {
+    	for (Vector2 point : points) {
 			if ((minY == null) || (point.y < minY)) minY = point.y;
 			if ((maxY == null) || (point.y > maxY)) maxY = point.y;			
 		}

@@ -15,6 +15,7 @@ import aurelienribon.tweenengine.TweenAccessor;
 import aurelienribon.tweenengine.TweenCallback;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector2;
@@ -29,13 +30,14 @@ import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class UIModel extends AbstractModel {
+public class UIModel extends AbstractModel implements InputProcessor{
 	// Esta classe deverá ter um objecto visual independente da camera sobre o mundo.
 	// O UI deverá permanecer inalterado independentemente do zoom/ pan, etc.
 	private static final String TAG = UIModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private WorldModel wm;
+	private CameraModel cam;
 	
 	////////// protected devido à innerclass do QueryCallback
 	protected Body[] hitBody = null;
@@ -49,8 +51,11 @@ public class UIModel extends AbstractModel {
 	
 	int pntr;
 
-	public UIModel(WorldModel wm) {
+
+	public UIModel(CameraModel cam, WorldModel wm) {
+		this.cam = cam;
 		this.wm = wm;
+		wm.ui = this;
 		
 		hitBody = new Body[GAME_CONSTANTS.MAX_TOUCH_POINTS];
 		mouseJoint = new MouseJoint[GAME_CONSTANTS.MAX_TOUCH_POINTS];
@@ -83,7 +88,7 @@ public class UIModel extends AbstractModel {
 		}
 	};
 
-	public void touchDown (CameraModel cam, float positionX, float positionY, int pointer){
+	public void _touchDown (float positionX, float positionY, int pointer){
 
 		getTestPoint()[pointer] = new Vector3(positionX, positionY, 0);
 		getOriginalTestPoint()[pointer] = new Vector3(positionX, positionY, 0);
@@ -156,7 +161,7 @@ public class UIModel extends AbstractModel {
 
 	/** another temporary vector **/
 	Vector2 target = new Vector2();
-	public void touchDragged(CameraModel cam, float positionX, float positionY, int pointer) {
+	public void _touchDragged(float positionX, float positionY, int pointer) {
 
 		testPoint[pointer].x = positionX;
 		testPoint[pointer].y = positionY;
@@ -187,7 +192,7 @@ public class UIModel extends AbstractModel {
 
 	}
 		
-	public void touchUp(CameraModel cam, float positionX, float positionY, int pointer){
+	public void _touchUp(float positionX, float positionY, int pointer){
 		getTestPoint()[pointer] = null;
 		getOriginalTestPoint()[pointer] = null;
 		
@@ -272,9 +277,9 @@ public class UIModel extends AbstractModel {
 	
 	public void addFlashMessage(Accessor<?> a, Vector2 position, float duration, boolean worldCoord) {
 		if (worldCoord) {
-			float scale = Gdx.graphics.getHeight()/GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY;
+			float scale = Gdx.graphics.getHeight()/GAME_CONSTANTS.TO_REMOVE_MODEL_SCREEN_WIDTH_CAPACITY;
 			position.mul(scale);
-			position.add((Gdx.graphics.getWidth()-GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY*scale)/2, 0.0f);
+			position.add((Gdx.graphics.getWidth()-GAME_CONSTANTS.TO_REMOVE_MODEL_SCREEN_WIDTH_CAPACITY*scale)/2, 0.0f);
 			position.y = Gdx.graphics.getHeight() - position.y;
 		}
 			
@@ -302,10 +307,61 @@ public class UIModel extends AbstractModel {
 	// falta fazer idêntico para as static messages (essas tem a naunce dos triggers)
 	
 	
+	
 	@Override
 	public void dispose() {
 		Tween.registerAccessor(FlashMessage.class, null);
 		super.dispose();
+	}
+
+	
+	// InputProcessor interface implementation
+	@Override
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		this._touchDown(screenX, screenY, pointer);
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		this._touchUp(screenX, screenY, pointer);
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		this._touchDragged(screenX, screenY, pointer);
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 }

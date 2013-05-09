@@ -13,11 +13,15 @@ import pt.me.microm.infrastructure.event.IEvent;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
+import pt.me.microm.model.dev.GridModel;
+import pt.me.microm.model.ui.UIModel;
+import pt.me.microm.tools.levelloader.LevelLoader;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.input.GestureDetector;
@@ -29,12 +33,13 @@ public class ScreenTheJuice implements Screen {
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	// CONTROLLER RELATED
-	private MyGestureListener myGestureListener;
-	private MyInputProcessor myInputProcessor;
+	private InputMultiplexer multiplexer;
 
 	// MODEL RELATED
 	private WorldModel worldModel;
 	private CameraModel cameraModel;
+	private GridModel grid;
+	private UIModel ui;	
 	
 	// VIEW RELATED
 	// Todas as views são instanciadas por "reflection"
@@ -51,7 +56,14 @@ public class ScreenTheJuice implements Screen {
 		
 		// MODELS ///////////////////////////////////////////////////////////////
 		cameraModel = new CameraModel();
-		worldModel = new WorldModel(world, level);
+		worldModel = new WorldModel();
+		ui = new UIModel(cameraModel, worldModel); // constroi o painel informativo?
+		
+		
+		FileHandle h = Gdx.files.internal("data/levels/" + world + "/" + level);
+		int nr_elements_loaded = LevelLoader.LoadLevel(h, worldModel, cameraModel);
+		if (logger.getLevel() == Logger.INFO) logger.info("Nr elements loaded: " + nr_elements_loaded);		
+		
 		worldModel.addListener(WorldModel.EventType.ON_WORLD_COMPLETED, new IEventListener() {
 			@Override
 			public void onEvent(IEvent event) {
@@ -59,6 +71,13 @@ public class ScreenTheJuice implements Screen {
 
 			}
 		});
+		
+		
+		// Modelos complementares ao WorldModel
+		if (GameMicroM.FLAG_DEV_ELEMENTS_B)
+			grid = new GridModel(); // constroi a grid sobre a qual estão renderizados os objectos - debug purposes		
+
+			
 		
 		// VIEWS  ///////////////////////////////////////////////////////////////
 		// Todas as views são instanciadas por "reflection"
@@ -77,8 +96,19 @@ public class ScreenTheJuice implements Screen {
 		
 		
 		// Cria o controller dos gestos e regista-o --> este pode actuar quer ao nivel do modelo quer ao nivel da view
-		myGestureListener = new MyGestureListener(cameraModel, worldModel);
-		myInputProcessor = new MyInputProcessor(cameraModel, worldModel);
+//		multiplexer = (InputMultiplexer) Gdx.input.getInputProcessor();
+//		if (multiplexer == null) multiplexer = new InputMultiplexer();
+		multiplexer = new InputMultiplexer();
+		Gdx.input.setInputProcessor(multiplexer);
+		
+		MyGestureListener myGestureListener = new MyGestureListener();
+		MyInputProcessor myInputProcessor = new MyInputProcessor();
+
+		multiplexer.addProcessor(new GestureDetector(1, 1.0f, 1.0f, 1.0f, myGestureListener));
+		multiplexer.addProcessor(myInputProcessor);
+		multiplexer.addProcessor(worldModel);
+		multiplexer.addProcessor(cameraModel);
+		multiplexer.addProcessor(ui);
 
 	}
 	
@@ -111,7 +141,7 @@ public class ScreenTheJuice implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		cameraModel.Resize();
+		cameraModel.Resize(width, height);
 		
 	}
 
@@ -119,11 +149,6 @@ public class ScreenTheJuice implements Screen {
 	public void show() {
 		if (logger.getLevel() >= Logger.DEBUG) logger.debug("-->show()");
 		
-		InputMultiplexer multiplexer = (InputMultiplexer) Gdx.input.getInputProcessor();
-		if (multiplexer == null) multiplexer = new InputMultiplexer();
-		//InputMultiplexer multiplexer = new InputMultiplexer();
-		multiplexer.addProcessor(new GestureDetector(1, 1.0f, 1.0f, 1.0f, myGestureListener));
-		multiplexer.addProcessor(myInputProcessor);
 		Gdx.input.setInputProcessor(multiplexer);		
 			
 	}
@@ -154,6 +179,8 @@ public class ScreenTheJuice implements Screen {
 		ScreenTickManager.getInstance().dispose();
 		JsBridgeSingleton.getInstance(worldModel).dispose();
 
+		
+		Gdx.input.setInputProcessor(new InputMultiplexer());
 		
 
 //		cameraModel.dispose();

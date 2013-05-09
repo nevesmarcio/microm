@@ -1,5 +1,6 @@
 package pt.me.microm.controller;
 
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
 
@@ -10,22 +11,15 @@ import com.badlogic.gdx.utils.Logger;
 
 public class MyGestureListener implements GestureListener {
 	private static final String TAG = MyGestureListener.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
-	private CameraModel camModel;
-	private WorldModel worldModel;
-	
-	public MyGestureListener(CameraModel camModel, WorldModel wm) {
-		this.camModel = camModel;
-		this.worldModel = wm;
+	public MyGestureListener() {
+
 	}
 	
 	@Override
 	public boolean touchDown(float x, float y, int pointer, int button) {
 		if (logger.getLevel() >= Logger.DEBUG) logger.debug("touchDown");
-		
-		if (worldModel.player != null)
-			worldModel.player.jump();
 		
 		return false;
 	}

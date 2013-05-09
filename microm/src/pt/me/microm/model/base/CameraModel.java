@@ -11,13 +11,19 @@ import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
+import com.badlogic.gdx.input.GestureDetector.GestureListener;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Logger;
 
-public class CameraModel extends AbstractModel {
+public class CameraModel extends AbstractModel implements InputProcessor {
 	private static final String TAG = CameraModel.class.getSimpleName();
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private OrthographicCamera uiCamera; 	// camera dedicada ao UI
 	private Camera gameCamera;				// game camera
@@ -41,14 +47,15 @@ public class CameraModel extends AbstractModel {
 	
 	private int flags = 0x00000000;
 
-	float theta;
-	float phi;
-	Vector3 camCenter;
-	float camRadius;
+	private float theta;
+	private float phi;
+	private Vector3 camCenter;
+	private float camRadius;
 	
 	public CameraModel() {
 		//FIXME:: se não colocar isto aqui tenho uma data de excepções. Analisar!!
-		Resize();
+		// provavelmente o objecto cameraview começa a pedir coisas que ainda n existem devido a ser indicado que a cameraModel está pronto, sem estar.
+		this.Resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
@@ -65,36 +72,42 @@ public class CameraModel extends AbstractModel {
 //		return null;
 //	}
 	
-	
-	public void Resize() {
+	/**
+	 * 
+	 * @param width the canvas width
+	 * @param height the canvas height
+	 */
+	public float cameraXposition = 0.0f;							// default values
+	public float cameraYposition = 0.0f;							// default values
+	public float camWidth = Gdx.graphics.getWidth();				// default values
+	public float camHeight = Gdx.graphics.getHeight();				// default values
+	public void Resize(int width, int height) {
 		//## UI CAMERA STUFF
-		uiCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		uiCamera = new OrthographicCamera(width, height);
 		
 		//## GAME CAMERA STUFF
-		float w = Gdx.graphics.getWidth();
-		float h = Gdx.graphics.getHeight();
+		float screen_ratio = (float)width / (float)height;
+		float camera_ratio = (float)camWidth / (float)camHeight;
 		
-		float real_w;// = 1;
-		float real_h;// = real_w*h/w;
+		float real_w;
+		float real_h;
 		
-		//quero encaixar da melhor maneira o board 15x15
-		if (w<h) {
-			real_w = GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY;
-			real_h = real_w*h/w;
-		} else {
-			real_h = GAME_CONSTANTS.MODEL_SCREEN_WIDTH_CAPACITY;
-			real_w = real_h*w/h;
+		if ((camera_ratio >= 1.0) && screen_ratio < camera_ratio) { // FIT WIDTH
+			real_w = camWidth;
+			real_h = camWidth / screen_ratio;
+			
+		} else { 													// FIT HEIGHT
+			real_w = camHeight * screen_ratio;
+			real_h = camHeight;
 		}
-		
+			
 		float fovy = 67; // mudando o fov, muda imenso a distância da camera ao viewport - calculo em camRadius
 		gameCamera = new PerspectiveCamera(fovy, real_w, real_h);
 		
 		theta = 0;
 		phi = (float)Math.PI/2;
-		if (real_w < real_h)
-			camCenter = new Vector3(real_w/2, real_w/2, 0.0f);
-		else
-			camCenter = new Vector3(real_h/2, real_h/2, 0.0f);
+
+		camCenter = new Vector3(cameraXposition, cameraYposition, 0.0f);
 		
 		camRadius = (float)( (real_h/2f) / Math.tan(Math.toRadians(fovy/2f)));  // tendo em conta o fov, a que distância está a camara do "near clipping plan" - viewport	
 		
@@ -124,9 +137,9 @@ public class CameraModel extends AbstractModel {
 		otherSymbols.setGroupingSeparator(' '); 
 		DecimalFormat fmt = new DecimalFormat("0.00", otherSymbols);
 		
-		Gdx.app.log(TAG, "cam position: " + fmt.format(gameCamera.position.x) + ", " + fmt.format(gameCamera.position.y) + ", " + fmt.format(gameCamera.position.z));
-		Gdx.app.log(TAG, "cam direction: " + fmt.format(gameCamera.direction.x) + ", " + fmt.format(gameCamera.direction.y) + ", " + fmt.format(gameCamera.direction.z));
-		Gdx.app.log(TAG, "cam up: " + fmt.format(gameCamera.up.x) + ", " + fmt.format(gameCamera.up.y) + ", " + fmt.format(gameCamera.up.z));	
+		logger.info("cam position: " + fmt.format(gameCamera.position.x) + ", " + fmt.format(gameCamera.position.y) + ", " + fmt.format(gameCamera.position.z));
+		logger.info("cam direction: " + fmt.format(gameCamera.direction.x) + ", " + fmt.format(gameCamera.direction.y) + ", " + fmt.format(gameCamera.direction.z));
+		logger.info("cam up: " + fmt.format(gameCamera.up.x) + ", " + fmt.format(gameCamera.up.y) + ", " + fmt.format(gameCamera.up.z));	
 	}
 	
 	
@@ -171,7 +184,6 @@ public class CameraModel extends AbstractModel {
 	public void stopRotateRight() {
 		flags &= ~CAM_ROTATE_RIGHT;
 	}
-	
 	
 	public void startMoveCameraLeft() {
 		flags |= CAM_MOVE_LEFT;
@@ -248,7 +260,6 @@ public class CameraModel extends AbstractModel {
 			gameCamera.rotate(gameCamera.direction, 1.0f*ROTSPD);
 		}
 					
-		
 		if ((flags & CAM_MOVE_LEFT) != 0) {
 			temp = gameCamera.up.cpy();
 			temp.crs(gameCamera.direction); 
@@ -295,6 +306,134 @@ public class CameraModel extends AbstractModel {
 		if (GameMicroM.FLAG_DEV_ELEMENTS_B)
 			gameCamera.update(); // faz update às matrizes da camera após os movimentos
 		
+	}
+
+	
+	// InputProcessor interface implementation
+	@Override
+	public boolean keyDown(int keycode) {
+
+		if (logger.getLevel() >= Logger.DEBUG) logger.debug("[KEY]: " + Integer.toString(keycode));
+		
+		if (keycode == Keys.P)
+			printCameraValues();
+		
+		if (keycode == Keys.Q)
+			startZoomIn();
+		if (keycode == Keys.A)
+			startZoomOut();
+		
+		if (keycode == Keys.W)
+			startLeanFwd();
+		if (keycode == Keys.S)
+			startLeanBck();		
+
+		if (keycode == Keys.Z)
+			startRotateLeft();
+		if (keycode == Keys.X)
+			startRotateRight();		
+
+		if (keycode == Keys.E)
+			startTiltLeft();
+		if (keycode == Keys.R)
+			startTiltRight();
+		
+		
+		if (keycode == Keys.LEFT) {
+			startMoveCameraLeft();
+		}
+		
+		if (keycode == Keys.RIGHT) {
+			startMoveCameraRight();
+
+		}
+		if (keycode == Keys.DOWN) {
+			startMoveCameraDown();
+		}
+		if (keycode == Keys.UP) {
+			startMoveCameraUp();
+		}
+		
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+
+		if (keycode == Keys.Q)
+			stopZoomIn();
+		if (keycode == Keys.A)
+			stopZoomOut();
+		
+		if (keycode == Keys.W)
+			stopLeanFwd();
+		if (keycode == Keys.S)
+			stopLeanBck();
+		
+		if (keycode == Keys.Z)
+			stopRotateLeft();
+		if (keycode == Keys.X)
+			stopRotateRight();		
+		
+		if (keycode == Keys.E)
+			stopTiltLeft();
+		if (keycode == Keys.R)
+			stopTiltRight();		
+		
+		if (keycode == Keys.LEFT) {
+			stopMoveCameraLeft();
+		}
+		if (keycode == Keys.RIGHT) {
+			stopMoveCameraRight();
+		}
+		if (keycode == Keys.UP) {
+			stopMoveCameraUp();
+		}
+		if (keycode == Keys.DOWN) {
+			stopMoveCameraDown();
+		}
+		
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+
+		return false;
+	}
+	
+	/*
+	 * this method will not be called on android 
+	 */
+	@Override
+	public boolean mouseMoved(int x, int y) {
+		return false;
+	}
+	
+	/*
+	 * this method will not be called on android 
+	 */
+	@Override
+	public boolean scrolled(int amount) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDown (int x, int y, int pointer, int button) {
+
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged (int x, int y, int pointer) {
+		
+		return false;
+	}
+
+	@Override
+	public boolean touchUp (int x, int y, int pointer, int button) {
+		
+		return false;
 	}
 
 

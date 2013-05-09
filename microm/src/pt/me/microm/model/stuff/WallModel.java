@@ -58,7 +58,7 @@ public class WallModel extends AbstractModel implements IActorBody {
 				fixDef.friction = 0.0f;
 				fixDef.restitution = 0.0f;		
 				wallBody.createFixture(fixDef);
-					
+				
 				wallBody.setUserData(WallModel.this); // relacionar com o modelo
 				
 				// Sinaliza os subscritores de que a construção do modelo terminou.
