@@ -185,16 +185,16 @@ public class UIView  extends AbstractView {
 		/* renderização das flashmessages */
 		batch.begin();
 
-			Camera ca;
-			for (UIModel.FlashMessage fm : uiSrc.afm) {
-				
-				batch.setProjectionMatrix((ca = e.getCamera().getUiCamera()).combined);
-				Vector3 blah = new Vector3(fm.position.x, fm.position.y, 0.0f);
-				ca.unproject(blah);
-
-				tweenFont.setScale(fm.scale);
-				tweenFont.draw(batch, fm.dataSource.get().toString(), blah.x, blah.y);
-			}
+//			Camera ca;
+//			for (UIModel.FlashMessage fm : uiSrc.afm) {
+//				
+//				batch.setProjectionMatrix((ca = e.getCamera().getUiCamera()).combined);
+//				Vector3 blah = new Vector3(fm.position.x, fm.position.y, 0.0f);
+//				ca.unproject(blah);
+//
+//				tweenFont.setScale(fm.scale);
+//				tweenFont.draw(batch, fm.dataSource.get().toString(), blah.x, blah.y);
+//			}
 		
 		batch.end();
 		

@@ -1,20 +1,14 @@
 package pt.me.microm.model.ui;
 
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
-
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenAccessor;
-import aurelienribon.tweenengine.TweenCallback;
+import pt.me.microm.model.ui.utils.FlashMessageManagerModel;
+import pt.me.microm.model.ui.utils.IDataSourceObject;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Plane;
@@ -55,7 +49,6 @@ public class UIModel extends AbstractModel implements InputProcessor{
 	public UIModel(CameraModel cam, WorldModel wm) {
 		this.cam = cam;
 		this.wm = wm;
-		wm.ui = this;
 		
 		hitBody = new Body[GAME_CONSTANTS.MAX_TOUCH_POINTS];
 		mouseJoint = new MouseJoint[GAME_CONSTANTS.MAX_TOUCH_POINTS];
@@ -66,9 +59,6 @@ public class UIModel extends AbstractModel implements InputProcessor{
 		
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
-		
-		// regista no tween manager o accessor para as FlashMessages
-		Tween.registerAccessor(FlashMessage.class, new FlashMessageAccessor());
 	}
 	
 	
@@ -93,25 +83,24 @@ public class UIModel extends AbstractModel implements InputProcessor{
 		getTestPoint()[pointer] = new Vector3(positionX, positionY, 0);
 		getOriginalTestPoint()[pointer] = new Vector3(positionX, positionY, 0);
 
-
 		logger.info("touchDown: " + getTestPoint()[pointer].x + ", " + getTestPoint()[pointer].y);
 		
-		addFlashMessage(new Accessor<String>() {
+		FlashMessageManagerModel.getInstance(wm.tweenManager).addFlashMessage(new IDataSourceObject<String>() {
 
 			@Override
 			public void set(String obj) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public String get() {
-				// TODO Auto-generated method stub
+				
 				return "Hello World";
 			}
 
-		}, new Vector2(getTestPoint()[pointer].x, getTestPoint()[pointer].y), 1.0f, false);
+		}, new Vector2(0.0f, 0.0f), 1.0f, false);
 		
+
 		
 		
 //		Vector3 vec = getTestPoint()[pointer];
@@ -202,9 +191,6 @@ public class UIModel extends AbstractModel implements InputProcessor{
 			mouseJoint[pointer] = null;
 		}
 		
-		
-
-		
 	}
 
 	
@@ -232,85 +218,17 @@ public class UIModel extends AbstractModel implements InputProcessor{
 		return originalTestPoint;
 	}
 	
-	// este interface deve ser utilizado pelos metodos flashMessage para fazer o fetch das propriedades e ir actualizando à responsabilidade do UI
-	public interface Accessor<OBJECT_TYPE> {
-		public void set(OBJECT_TYPE obj);
-		public OBJECT_TYPE get();
-	}	
-	
-	public class FlashMessage {
-		public float scale;
-		public Accessor<?> dataSource;
-		public Vector2 position;
-
-	}
-	private class FlashMessageAccessor implements TweenAccessor<FlashMessage> {
-		public static final int SCALE = 1;
-
-		@Override
-		public int getValues(FlashMessage target, int tweenType, float[] returnValues) {
-			switch (tweenType) {
-				case SCALE:
-					float scale = target.scale;
-					returnValues[0] = scale;
-					return 1;
-				default:
-					assert false;
-					return -1;					
-			}
-		}
-
-		@Override
-		public void setValues(FlashMessage target, int tweenType, float[] newValues) {
-			switch (tweenType) {				
-				case SCALE:
-					target.scale = newValues[0];
-					break;
-			}
-		}
-		
-	}
-	
-	
-	private static int MAX_FLASH_MESSAGES = 5;
-	public Queue<UIModel.FlashMessage> afm = new ArrayBlockingQueue<UIModel.FlashMessage>(MAX_FLASH_MESSAGES);
-	
-	public void addFlashMessage(Accessor<?> a, Vector2 position, float duration, boolean worldCoord) {
-		if (worldCoord) {
-			float scale = Gdx.graphics.getHeight()/GAME_CONSTANTS.TO_REMOVE_MODEL_SCREEN_WIDTH_CAPACITY;
-			position.mul(scale);
-			position.add((Gdx.graphics.getWidth()-GAME_CONSTANTS.TO_REMOVE_MODEL_SCREEN_WIDTH_CAPACITY*scale)/2, 0.0f);
-			position.y = Gdx.graphics.getHeight() - position.y;
-		}
-			
-		
-		final FlashMessage fm = new FlashMessage();
-		fm.dataSource = a;
-		fm.position = position;
-		fm.scale = 1.0f;
-		
-		afm.offer(fm);
-		
-		Tween.to(fm, FlashMessageAccessor.SCALE, duration).target(3.0f)
-				.ease(aurelienribon.tweenengine.equations.Elastic.INOUT)
-				.setCallback(new TweenCallback() {
-					@Override
-					public void onEvent(int type, BaseTween<?> source) {
-						afm.remove(fm);
-					}
-				})
-				.start(wm.tweenManager);
-		
-	}
 
 	
-	// falta fazer idêntico para as static messages (essas tem a naunce dos triggers)
 	
 	
 	
 	@Override
 	public void dispose() {
-		Tween.registerAccessor(FlashMessage.class, null);
+	
+		wm = null;
+		cam = null;
+		
 		super.dispose();
 	}
 
@@ -318,19 +236,16 @@ public class UIModel extends AbstractModel implements InputProcessor{
 	// InputProcessor interface implementation
 	@Override
 	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -354,13 +269,11 @@ public class UIModel extends AbstractModel implements InputProcessor{
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	

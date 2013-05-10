@@ -9,7 +9,8 @@ import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IActorBody;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.dev.BallModel;
-import pt.me.microm.model.ui.UIModel.Accessor;
+import pt.me.microm.model.ui.utils.FlashMessageManagerModel;
+import pt.me.microm.model.ui.utils.IDataSourceObject;
 import pt.me.microm.tools.levelloader.BasicShape;
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
@@ -120,7 +121,7 @@ public class SpawnModel extends AbstractModel implements IActorBody {
 		TweenCallback middleCB = new TweenCallback() {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
-				wm.ui.addFlashMessage(new Accessor<String>() {
+				FlashMessageManagerModel.getInstance(wm.tweenManager).addFlashMessage(new IDataSourceObject<String>() {
 
 					@Override
 					public void set(String obj) {

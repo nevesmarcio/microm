@@ -18,7 +18,6 @@ public class GAME_CONSTANTS {
 	
 	public static final int GAME_TICK_MILI = 16;//32
 	
-	public static final float TO_REMOVE_MODEL_SCREEN_WIDTH_CAPACITY = 15.0f; // must be able to represent 15 units on full width
 	public static final float DIPIXELS_PER_METER = 85.3f; 	// device independent pixels per meter:: these pixels are the ones used on editor
 														  	// then, the camera has to scale accordingly, but that's another story
 	

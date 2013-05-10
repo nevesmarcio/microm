@@ -318,8 +318,28 @@ http://stackoverflow.com/questions/5646221/delaunay-triangulating-the-2d-polygon
 
 09-05-2013
 # refactorizações:
-	ver o canvas de forma diferente (sem a complicação dos offsets): usar um mecanismo diferente para localizar a camera
-	definição de DIps, scaling da camera de acordo... etc. fazer o homework! 
+	* ver o canvas de forma diferente (sem a complicação dos offsets): usar um mecanismo diferente para localizar a camera
+	* definição de DIps, scaling da camera de acordo...etc. 
+
+
+10-05-2013
+# refactorizações: 
+	* desenho do texto e fontes revisitado
+	* mecanismo das flashmessages
+	
+	* revisitado o mecanismo do ui que permite pegar nos objectos e criar o mousejoint
+	* criado o LightSourceModel
+
+
+
+
+
+
+
+
+
+
+
 
 
 

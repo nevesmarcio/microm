@@ -174,12 +174,15 @@ public class ScreenTheJuice implements Screen {
 	@Override
 	public void dispose() {
 		worldModel.dispose();
+		ui.dispose();
+		grid.dispose();
 		
 		GameTickGenerator.getInstance().dispose();
 		ScreenTickManager.getInstance().dispose();
 		JsBridgeSingleton.getInstance(worldModel).dispose();
 
 		
+
 		Gdx.input.setInputProcessor(new InputMultiplexer());
 		
 

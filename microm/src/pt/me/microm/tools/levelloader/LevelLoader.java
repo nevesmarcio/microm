@@ -1,5 +1,6 @@
 package pt.me.microm.tools.levelloader;
 
+import java.awt.font.TextMeasurer;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,6 +34,7 @@ import pt.me.microm.model.stuff.PortalModel;
 import pt.me.microm.model.stuff.SpawnModel;
 import pt.me.microm.model.stuff.WallModel;
 import pt.me.microm.model.trigger.SimpleTriggerModel;
+import pt.me.microm.model.ui.TextModel;
 import pt.me.microm.model.ui.UIModel;
 
 import com.badlogic.gdx.Gdx;
@@ -239,6 +241,31 @@ public class LevelLoader {
 		
 	}
 	
+	private static TextModel addTextToWorld(WorldModel wm, BasicShape sh, String text_name, final String content) {
+
+		for (Vector2 ap : sh.getPointsArray()) {
+			DebugModel m = DebugModel.getNewInstance(wm, ap.x+sh.getCentroid().x, ap.y+sh.getCentroid().y);
+			m.setColor(Color.PINK);
+		}					
+		
+//		wm.ui.addFlashMessage(new UIModel.Accessor<String>() {
+//
+//			@Override
+//			public void set(String obj) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//
+//			@Override
+//			public String get() {
+//				return content;
+//			}
+//		}, sh.getCentroid(), 5.0f, true);
+		
+		return TextModel.getNewInstance(wm, sh, text_name, content);
+		
+	}
+	
 	
 	
 	/**
@@ -326,6 +353,7 @@ public class LevelLoader {
 				String dabox_name = dabox.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
 				daBoxRef = addDaBoxToWorld(wm, s, dabox_name);
+				
 				nrElements+=1;
 			}			
 			
@@ -344,6 +372,7 @@ public class LevelLoader {
 				String spawn_name = spawn.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
 				addSpawnToWorld(wm, daBoxRef, s, spawn_name);
+				
 				nrElements+=1;
 			}
 			
@@ -362,6 +391,7 @@ public class LevelLoader {
 				String goal_name = goals.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
 				addGoalToWorld(wm, s, goal_name);
+				
 				nrElements+=1;
 			}
 
@@ -380,6 +410,7 @@ public class LevelLoader {
 				String ground_name = grounds.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
 				addGroundToWorld(wm, s, ground_name);
+				
 				nrElements+=1;
 			}
 
@@ -399,6 +430,7 @@ public class LevelLoader {
 				String portal_name = portals.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
 				addPortalToWorld(wm, s, portal_name);
+				
 				nrElements+=1;
 			}
 
@@ -418,6 +450,7 @@ public class LevelLoader {
 				String wall_name = walls.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
 				addWallToWorld(wm, s, wall_name);
+				
 				nrElements+=1;
 			}
 			
@@ -437,6 +470,7 @@ public class LevelLoader {
 				String star_name = stars.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
 				addStarToWorld(wm, s, star_name);
+				
 				nrElements+=1;
 			}
 			
@@ -451,31 +485,13 @@ public class LevelLoader {
 				
 				String x = text.item(i).getAttributes().getNamedItem("x").getNodeValue();
 				String y = text.item(i).getAttributes().getNamedItem("y").getNodeValue();
-				final String s = text.item(i).getTextContent();
+				String s = text.item(i).getTextContent();
 				
 				if (logger.getLevel() >= Logger.INFO) logger.info("[" + id + "] = x: " + x + "; y: " + y + "; ==> '" + s + "'" );
-				
 				BasicShape sh = new BasicShape("m " + x + "," + y, "", ObjectType.NONE);
-				for (Vector2 ap : sh.getPointsArray()) {
-					DebugModel m = DebugModel.getNewInstance(wm, ap.x+sh.getCentroid().x, ap.y+sh.getCentroid().y);
-					m.setColor(Color.PINK);
-				}					
-				
 				if (logger.getLevel() >= Logger.INFO) logger.info(".:.:.:. " + sh.getCentroid() + " .:.:.:.");
 				
-				wm.ui.addFlashMessage(new UIModel.Accessor<String>() {
-
-					@Override
-					public void set(String obj) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public String get() {
-						return s;
-					}
-				}, sh.getCentroid(), 5.0f, true);
+				addTextToWorld(wm, sh, id, s);
 				
 				nrElements+=1;
 			}

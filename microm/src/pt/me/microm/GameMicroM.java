@@ -52,8 +52,8 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 		Gdx.input.setCatchBackKey(true);
 		Gdx.input.setCatchMenuKey(true);			
 		
-		splash();
-//		theJuice("world.1.justforkicks", "level#1.0.svg");
+//		splash();
+		theJuice("world.1.justforkicks", "level#1.0.svg");
 	}
 
 

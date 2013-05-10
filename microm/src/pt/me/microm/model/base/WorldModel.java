@@ -1,27 +1,19 @@
 package pt.me.microm.model.base;
 
-import pt.me.microm.GameMicroM;
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.MyContactListener;
-import pt.me.microm.model.dev.BallModel;
-import pt.me.microm.model.dev.CoisaModel;
-import pt.me.microm.model.dev.GridModel;
 import pt.me.microm.model.stuff.BoardModel;
 import pt.me.microm.model.stuff.DaBoxModel;
 import pt.me.microm.model.stuff.PortalModel;
 import pt.me.microm.model.stuff.PortalModelManager;
 import pt.me.microm.model.stuff.SpawnModel;
-import pt.me.microm.model.ui.UIModel;
-import pt.me.microm.tools.levelloader.LevelLoader;
 import aurelienribon.tweenengine.TweenManager;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -46,8 +38,6 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 		
 	};
 	
-	public UIModel ui;
-
 	private BoardModel board;
 	
 	public SpawnModel spawnModel;
