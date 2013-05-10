@@ -326,11 +326,12 @@ http://stackoverflow.com/questions/5646221/delaunay-triangulating-the-2d-polygon
 # refactorizações: 
 	* desenho do texto e fontes revisitado
 	* mecanismo das flashmessages
-	
-	* revisitado o mecanismo do ui que permite pegar nos objectos e criar o mousejoint
+	* revisitado o mecanismo do ui que permite pegar nos objectos e criar o mousejoint	
+
+
 	* criado o LightSourceModel
 
-
+-->isto tudo para a seguir pegar nos meshes/ postprocessing/ gles2.0/ etc...
 
 
 

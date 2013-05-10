@@ -4,6 +4,7 @@ import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import pt.me.microm.controller.loop.event.GameTickEvent;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import aurelienribon.tweenengine.BaseTween;
@@ -18,20 +19,20 @@ public class FlashMessageManagerModel extends AbstractModel {
 	
 	private static FlashMessageManagerModel instance = null;
 	
-	private TweenManager tm;
+	private TweenManager tweenManager = new TweenManager();
 	
-	private FlashMessageManagerModel(TweenManager tm) {
-		// Exists only to defeat instantiation.
-		this.tm = tm;
+	private FlashMessageManagerModel() { // Exists only to defeat instantiation.
 		
+		// regista no tween manager o accessor para as FlashMessages
+		Tween.registerAccessor(FlashMessage.class, new FlashMessageAccessor());		
 		
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
 	}
 	
-	public static FlashMessageManagerModel getInstance(TweenManager tm) {
+	public static FlashMessageManagerModel getInstance() {
 		if (instance == null) {
-			instance = new FlashMessageManagerModel(tm);
+			instance = new FlashMessageManagerModel();
 			
 		}
 		return instance;
@@ -47,6 +48,7 @@ public class FlashMessageManagerModel extends AbstractModel {
 		fm.dataSource = a;
 		fm.position = position;
 		fm.scale = 1.0f;
+		fm.worldCoord = worldCoord;
 		
 		afm.offer(fm);
 		
@@ -58,17 +60,26 @@ public class FlashMessageManagerModel extends AbstractModel {
 						afm.remove(fm);
 					}
 				})
-				.start(tm);
+				.start(tweenManager);
 		
 	}
 	
 	
 	@Override
 	public void handleGameTick(GameTickEvent e) {
+		float elapsedNanoTime = e.getElapsedNanoTime();
 		
+		// Faz o step das "animações"
+		tweenManager.update(elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO);
 	}
 	
-	
+	@Override
+	public void dispose() {
+		
+		Tween.registerAccessor(FlashMessage.class, null);
+		
+		super.dispose();
+	}
 	
 	
 	

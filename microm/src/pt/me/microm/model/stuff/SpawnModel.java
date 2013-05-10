@@ -16,6 +16,7 @@ import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Timeline;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
+import aurelienribon.tweenengine.TweenManager;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -38,7 +39,9 @@ public class SpawnModel extends AbstractModel implements IActorBody {
 	private WorldModel wm;
 	private BasicShape spawn;
 	
-	private int countdown = 4;
+	private TweenManager tweenManager = new TweenManager();
+	
+	private int countdown = 5;
 	private SpawnModel(final WorldModel wm, final DaBoxModel dbm, final BasicShape spawn, final String spawn_name) {
 		this.wm = wm;
 		this.spawn = spawn;
@@ -121,7 +124,7 @@ public class SpawnModel extends AbstractModel implements IActorBody {
 		TweenCallback middleCB = new TweenCallback() {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
-				FlashMessageManagerModel.getInstance(wm.tweenManager).addFlashMessage(new IDataSourceObject<String>() {
+				FlashMessageManagerModel.getInstance().addFlashMessage(new IDataSourceObject<String>() {
 
 					@Override
 					public void set(String obj) {
@@ -141,10 +144,10 @@ public class SpawnModel extends AbstractModel implements IActorBody {
 		
 		Timeline.createSequence()
 			.beginParallel()
-				.push(Tween.call(middleCB).repeat(2, 1.0f))
-				.push(Tween.call(endCB).delay(3.0f))
+				.push(Tween.call(middleCB).repeat(countdown-1, 1.0f))
+				.push(Tween.call(endCB).delay(countdown))
 			.end()
-			.start(wm.tweenManager);
+			.start(tweenManager);
 		//Tween.call(endCB).start(wm.tweenManager);
 //		Tween.call(middleCB).repeat(3, 0.0f).setCallback(endCB).start(wm.tweenManager);
 
@@ -167,6 +170,10 @@ public class SpawnModel extends AbstractModel implements IActorBody {
 						+ " Angle:" + String.format("%.2f", spawnBody.getAngle())
 						+ " Mass:" + spawnBody.getMass()
 						+ " Type:" + spawnBody.getType());			
+	
+		// Faz o step das "animações"
+		tweenManager.update(elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO);	
+	
 	}
 
 	

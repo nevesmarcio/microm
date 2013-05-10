@@ -10,6 +10,7 @@ import pt.me.microm.model.ui.utils.FlashMessageManagerModel;
 import pt.me.microm.model.ui.utils.IDataSourceObject;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector2;
@@ -42,9 +43,6 @@ public class UIModel extends AbstractModel implements InputProcessor{
 	protected MouseJoint[] mouseJoint = null;
 	
 	private float ups;
-	
-	int pntr;
-
 
 	public UIModel(CameraModel cam, WorldModel wm) {
 		this.cam = cam;
@@ -61,16 +59,16 @@ public class UIModel extends AbstractModel implements InputProcessor{
 		this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
 	}
 	
-	
 	// variable used to memorize positions
-	private Vector3[] testPoint = new Vector3[GAME_CONSTANTS.MAX_TOUCH_POINTS];
-	private Vector3[] originalTestPoint = new Vector3[GAME_CONSTANTS.MAX_TOUCH_POINTS];
+	private Vector3[] worldCoordTestPoint = new Vector3[GAME_CONSTANTS.MAX_TOUCH_POINTS];
+	private Vector3[] windowCoordTestPoint = new Vector3[GAME_CONSTANTS.MAX_TOUCH_POINTS];
+	private int pntr;
 	QueryCallback callback = new QueryCallback() {
 		@Override
 		public boolean reportFixture (Fixture fixture) {
 			// if the hit point is inside the fixture of the body
 			// we report it
-			if (fixture.testPoint(getTestPoint()[pntr].x, getTestPoint()[pntr].y)) {
+			if (fixture.testPoint(worldCoordTestPoint[pntr].x, worldCoordTestPoint[pntr].y)) {
 				hitBody[pntr] = fixture.getBody();
 				return false;
 			} else
@@ -78,121 +76,9 @@ public class UIModel extends AbstractModel implements InputProcessor{
 		}
 	};
 
-	public void _touchDown (float positionX, float positionY, int pointer){
+	
 
-		getTestPoint()[pointer] = new Vector3(positionX, positionY, 0);
-		getOriginalTestPoint()[pointer] = new Vector3(positionX, positionY, 0);
-
-		logger.info("touchDown: " + getTestPoint()[pointer].x + ", " + getTestPoint()[pointer].y);
-		
-		FlashMessageManagerModel.getInstance(wm.tweenManager).addFlashMessage(new IDataSourceObject<String>() {
-
-			@Override
-			public void set(String obj) {
-
-			}
-
-			@Override
-			public String get() {
-				
-				return "Hello World";
-			}
-
-		}, new Vector2(0.0f, 0.0f), 1.0f, false);
-		
-
-		
-		
-//		Vector3 vec = getTestPoint()[pointer];
-//		vec.z = 0.0f;
-//
-//		cam.getCamera().near = cam.getCamera().position.len(); //10.0f
-//		cam.getCamera().update();
-//		cam.getCamera().unproject(vec);
-//		
-//		vec.z = 0.0f; // força a renderização ao plano certo.
-//		
-//		cam.getCamera().near = 0.10f;
-//		cam.getCamera().update();
-//		
-		
-		
-		Ray rr = cam.getGameCamera().getPickRay(getOriginalTestPoint()[pointer].x, getOriginalTestPoint()[pointer].y);
-		Vector3 v = getTestPoint()[pointer];
-		Intersector.intersectRayPlane(rr, new Plane(new Vector3(0f,0f,1f), 0.0f), v);		
-		
-		
-		// ask the world which bodies are within the given
-		// bounding box around the mouse pointer
-		hitBody[pointer] = null;
-		this.pntr = pointer;		
-		wm.getPhysicsWorld().QueryAABB(callback, getTestPoint()[pointer].x - 0.1f, getTestPoint()[pointer].y - 0.1f, getTestPoint()[pointer].x + 0.1f, getTestPoint()[pointer].y + 0.1f);
-
-		if (hitBody[pointer] == dummyBody) hitBody[pointer] = null;
-
-		// ignore kinematic bodies, they don't work with the mouse joint
-		if (hitBody[pointer] != null && hitBody[pointer].getType() == BodyType.KinematicBody) return;
-
-		// if we hit something we create a new mouse joint
-		// and attach it to the hit body.
-		if (hitBody[pointer] != null) {
-			MouseJointDef def = new MouseJointDef();
-			def.bodyA = dummyBody;
-			def.bodyB = hitBody[pointer];
-			def.collideConnected = true;
-			def.target.set(getTestPoint()[pntr].x, getTestPoint()[pntr].y);
-			def.maxForce = 1000.0f * hitBody[pointer].getMass();
-
-			mouseJoint[pointer] = (MouseJoint)wm.getPhysicsWorld().createJoint(def);
-			hitBody[pointer].setAwake(true);
-		}
-	}
-
-	/** another temporary vector **/
-	Vector2 target = new Vector2();
-	public void _touchDragged(float positionX, float positionY, int pointer) {
-
-		testPoint[pointer].x = positionX;
-		testPoint[pointer].y = positionY;
-
-		originalTestPoint[pointer].x = positionX;
-		originalTestPoint[pointer].y = positionY;
-
-//		Vector3 vec = getTestPoint()[pointer];
-//		vec.z = 0.0f;
-//
-//		cam.getCamera().near = cam.getCamera().position.len();//10f;
-//		cam.getCamera().update();
-//		cam.getCamera().unproject(vec);
-//		
-//		vec.z = 0.0f; // força a renderização ao plano certo.
-//		
-//		cam.getCamera().near = 0.10f;
-//		cam.getCamera().update();
-		
-		Ray rr = cam.getGameCamera().getPickRay(getOriginalTestPoint()[pointer].x, getOriginalTestPoint()[pointer].y);
-		Vector3 v = getTestPoint()[pointer];
-		Intersector.intersectRayPlane(rr, new Plane(new Vector3(0f,0f,1f), 0.0f), v);
-		
-		
-		if (mouseJoint[pointer] != null) {
-			mouseJoint[pointer].setTarget(target.set(getTestPoint()[pointer].x, getTestPoint()[pointer].y));
-		}
-
-	}
-		
-	public void _touchUp(float positionX, float positionY, int pointer){
-		getTestPoint()[pointer] = null;
-		getOriginalTestPoint()[pointer] = null;
-		
-		// if a mouse joint exists we simply destroy it
-		if (mouseJoint[pointer] != null) {
-			wm.getPhysicsWorld().destroyJoint(mouseJoint[pointer]);
-			mouseJoint[pointer] = null;
-		}
-		
-	}
-
+	
 	
 	@Override
 	public void handleGameTick(GameTickEvent e) {
@@ -202,6 +88,7 @@ public class UIModel extends AbstractModel implements InputProcessor{
 		
 	}
 
+	
 	// Updates Per Second (relativo à cadência dos cálculos físicos)
 	public float getUps() {
 		return ups;
@@ -210,17 +97,15 @@ public class UIModel extends AbstractModel implements InputProcessor{
 		this.ups = ups;
 	}	
 	
-	public Vector3[] getTestPoint() {
-		return testPoint;
+	public Vector3[] getWorldCoordTestPoint() {
+		return worldCoordTestPoint;
 	}
 	
-	public Vector3[] getOriginalTestPoint() {
-		return originalTestPoint;
+	public Vector3[] getWindowCoordTestPoint() {
+		return windowCoordTestPoint;
 	}
 	
 
-	
-	
 	
 	
 	@Override
@@ -250,20 +135,120 @@ public class UIModel extends AbstractModel implements InputProcessor{
 	}
 
 	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		this._touchDown(screenX, screenY, pointer);
+	public boolean touchDown(int positionX, int positionY, int pointer, int button) {
+		worldCoordTestPoint[pointer] = new Vector3(positionX, positionY, 0);
+		windowCoordTestPoint[pointer] = new Vector3(positionX, positionY, 0);
+
+		logger.info("touchDown: " + worldCoordTestPoint[pointer].x + ", " + worldCoordTestPoint[pointer].y);
+		
+		
+//		Vector3 vec = getTestPoint()[pointer];
+//		vec.z = 0.0f;
+//
+//		cam.getCamera().near = cam.getCamera().position.len(); //10.0f
+//		cam.getCamera().update();
+//		cam.getCamera().unproject(vec);
+//		
+//		vec.z = 0.0f; // força a renderização ao plano certo.
+//		
+//		cam.getCamera().near = 0.10f;
+//		cam.getCamera().update();
+//		
+		
+		
+		Ray rr = cam.getGameCamera().getPickRay(windowCoordTestPoint[pointer].x, windowCoordTestPoint[pointer].y);
+		Intersector.intersectRayPlane(rr, new Plane(new Vector3(0f,0f,1f), 0.0f), worldCoordTestPoint[pointer]);		
+		
+		
+		// ask the world which bodies are within the given
+		// bounding box around the mouse pointer
+		hitBody[pointer] = null;
+		this.pntr = pointer;		
+		wm.getPhysicsWorld().QueryAABB(callback, worldCoordTestPoint[pointer].x - 0.1f, worldCoordTestPoint[pointer].y - 0.1f, worldCoordTestPoint[pointer].x + 0.1f, worldCoordTestPoint[pointer].y + 0.1f);
+
+		if (hitBody[pointer] == dummyBody) hitBody[pointer] = null;
+
+		// ignore kinematic bodies, they don't work with the mouse joint
+		if (hitBody[pointer] != null && hitBody[pointer].getType() == BodyType.KinematicBody) return false;
+
+		// if we hit something we create a new mouse joint
+		// and attach it to the hit body.
+		if (hitBody[pointer] != null) {
+			MouseJointDef def = new MouseJointDef();
+			def.bodyA = dummyBody;
+			def.bodyB = hitBody[pointer];
+			def.collideConnected = true;
+			def.target.set(worldCoordTestPoint[pntr].x, worldCoordTestPoint[pntr].y);
+			def.maxForce = 1000.0f * hitBody[pointer].getMass();
+
+			mouseJoint[pointer] = (MouseJoint)wm.getPhysicsWorld().createJoint(def);
+			hitBody[pointer].setAwake(true);
+		}
+		
+		
+		FlashMessageManagerModel.getInstance().addFlashMessage(new IDataSourceObject<String>() {
+
+			@Override
+			public void set(String obj) {
+
+			}
+
+			@Override
+			public String get() {
+				
+				return "Hello World";
+			}
+
+		}, new Vector2(worldCoordTestPoint[pntr].x, worldCoordTestPoint[pntr].y), 1.0f, button == Buttons.LEFT);
+				
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		this._touchUp(screenX, screenY, pointer);
+		worldCoordTestPoint[pointer] = null;
+		windowCoordTestPoint[pointer] = null;
+		
+		// if a mouse joint exists we simply destroy it
+		if (mouseJoint[pointer] != null) {
+			wm.getPhysicsWorld().destroyJoint(mouseJoint[pointer]);
+			mouseJoint[pointer] = null;
+		}
 		return false;
 	}
 
+
+	/** another temporary vector **/
+	private Vector2 target = new Vector2();
 	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		this._touchDragged(screenX, screenY, pointer);
+	public boolean touchDragged(int positionX, int positionY, int pointer) {
+
+		worldCoordTestPoint[pointer].x = positionX;
+		worldCoordTestPoint[pointer].y = positionY;
+
+		windowCoordTestPoint[pointer].x = positionX;
+		windowCoordTestPoint[pointer].y = positionY;
+
+//		Vector3 vec = getTestPoint()[pointer];
+//		vec.z = 0.0f;
+//
+//		cam.getCamera().near = cam.getCamera().position.len();//10f;
+//		cam.getCamera().update();
+//		cam.getCamera().unproject(vec);
+//		
+//		vec.z = 0.0f; // força a renderização ao plano certo.
+//		
+//		cam.getCamera().near = 0.10f;
+//		cam.getCamera().update();
+		
+		Ray rr = cam.getGameCamera().getPickRay(windowCoordTestPoint[pointer].x, windowCoordTestPoint[pointer].y);
+		Intersector.intersectRayPlane(rr, new Plane(new Vector3(0f,0f,1f), 0.0f), worldCoordTestPoint[pointer]);
+		
+		
+		if (mouseJoint[pointer] != null) {
+			mouseJoint[pointer].setTarget(target.set(worldCoordTestPoint[pointer].x, worldCoordTestPoint[pointer].y));
+		}
+
 		return false;
 	}
 

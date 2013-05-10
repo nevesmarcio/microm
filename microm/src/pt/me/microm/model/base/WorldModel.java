@@ -42,7 +42,7 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 	
 	public SpawnModel spawnModel;
 	public  DaBoxModel player;
-	public PortalModelManager portalManager;
+	private PortalModelManager portalManager;
 	
 	public Vector2 waypoint;
 	
@@ -53,7 +53,7 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 	
 	private boolean pauseSim = false;
 
-	public TweenManager tweenManager = new TweenManager();
+	private TweenManager tweenManager = new TweenManager();
 	
 	public WorldModelManager wmManager = new WorldModelManager();
 	

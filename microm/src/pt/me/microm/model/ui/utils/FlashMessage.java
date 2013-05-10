@@ -6,7 +6,7 @@ public class FlashMessage {
 	public float scale;
 	public IDataSourceObject<?> dataSource;
 	public Vector2 position;
-
+	public boolean worldCoord;
 	
 	
 	
