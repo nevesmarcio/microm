@@ -25,6 +25,7 @@ import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.collectible.StarModel;
 import pt.me.microm.model.dev.DebugModel;
+import pt.me.microm.model.phenomenon.LightSourceModel;
 import pt.me.microm.model.stuff.BoardModel;
 import pt.me.microm.model.stuff.DaBoxModel;
 import pt.me.microm.model.stuff.GoalModel;
@@ -248,22 +249,24 @@ public class LevelLoader {
 			m.setColor(Color.PINK);
 		}					
 		
-//		wm.ui.addFlashMessage(new UIModel.Accessor<String>() {
-//
-//			@Override
-//			public void set(String obj) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//
-//			@Override
-//			public String get() {
-//				return content;
-//			}
-//		}, sh.getCentroid(), 5.0f, true);
-		
 		return TextModel.getNewInstance(wm, sh, text_name, content);
 		
+	}
+
+	private static LightSourceModel addLightSourceToWorld(WorldModel wm, BasicShape sh, String light_name) {
+		
+		DebugModel m;
+		for (Vector2 ap : sh.getPointsArray()) {
+			m = DebugModel.getNewInstance(wm, ap.x+sh.getCentroid().x, ap.y+sh.getCentroid().y);
+			m.setColor(Color.YELLOW);
+		}
+		m = DebugModel.getNewInstance(wm, sh.getCentroid().x, sh.getCentroid().y);
+		m.setColor(Color.YELLOW);
+		
+		m = DebugModel.getNewInstance(wm,  sh.getRotationPivot().x, sh.getRotationPivot().y);
+		m.setColor(Color.YELLOW);
+		
+		return LightSourceModel.getNewInstance(wm, sh, light_name);
 	}
 	
 	
@@ -536,6 +539,28 @@ public class LevelLoader {
 				
 				nrElements+=1;
 			}					
+			
+			// Get lights
+			if (logger.getLevel() >= Logger.INFO) logger.info("Lights...");
+			expr = xpath.compile("//svg/g/path[contains(@id,'lightsource')]");
+			NodeList lightsources = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
+			for (int i = 0; i < lightsources.getLength(); i++) {
+				String d = lightsources.item(i).getAttributes().getNamedItem("d").getNodeValue();
+				String style = lightsources.item(i).getAttributes().getNamedItem("style").getNodeValue();
+				String offsetX = lightsources.item(i).getAttributes().getNamedItem("inkscape:transform-center-x").getNodeValue();
+				String offsetY = lightsources.item(i).getAttributes().getNamedItem("inkscape:transform-center-y").getNodeValue();
+				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + "; offset=(" + offsetX + ", " + offsetY + ")");
+				
+				BasicShape s = new BasicShape(d, offsetX + "," + offsetY, style, ObjectType.LIGHTSOURCE);
+
+				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
+				String light_name = lightsources.item(i).getAttributes().getNamedItem("id").getNodeValue();
+				
+				addLightSourceToWorld(wm, s, light_name);
+				
+				nrElements+=1;
+			}								
+			
 			
 			
 			if (logger.getLevel() >= Logger.INFO) logger.info("Finished Loading level: " + h.name());

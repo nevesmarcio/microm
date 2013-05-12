@@ -40,8 +40,12 @@ public class FlashMessageManagerModel extends AbstractModel {
 		
 
 	private static int MAX_FLASH_MESSAGES = 5;
-	public Queue<FlashMessage> afm = new ArrayBlockingQueue<FlashMessage>(MAX_FLASH_MESSAGES);
+	private Queue<FlashMessage> afm = new ArrayBlockingQueue<FlashMessage>(MAX_FLASH_MESSAGES);
 	
+	public Queue<FlashMessage> getAfm() {
+		return afm;
+	}
+
 	public void addFlashMessage(IDataSourceObject<?> a, Vector2 position, float duration, boolean worldCoord) {
 		
 		final FlashMessage fm = new FlashMessage();
@@ -75,9 +79,9 @@ public class FlashMessageManagerModel extends AbstractModel {
 	
 	@Override
 	public void dispose() {
-		
 		Tween.registerAccessor(FlashMessage.class, null);
 		
+		instance = null;
 		super.dispose();
 	}
 	

@@ -33,16 +33,33 @@ public class BasicShape {
 	private ArrayList<Vector2> points;
 	private ObjectType type;
 	private Vector2 centroid;
+	private Vector2 rotationPivot;
 
 	private Color color;
 	
 	private float width;
 	private float height;
 	
-	public BasicShape() {
+	private BasicShape() {
 		points = new ArrayList<Vector2>();
 	}
 
+	/**
+	 * This constructor comes with an adition: it allows to offset the rotation point away from the centroid
+	 * @param d
+	 * @param pivotOffsetFromCentroid
+	 * @param style
+	 * @param type
+	 */
+	public BasicShape(String d, String pivotOffsetFromCentroid, String style, ObjectType type) {
+		this(d, style, type);
+		
+		float scale = 1.0f/GAME_CONSTANTS.DIPIXELS_PER_METER;
+		rotationPivot.x = Float.parseFloat(pivotOffsetFromCentroid.split(",")[0]) * scale;
+		rotationPivot.y = Float.parseFloat(pivotOffsetFromCentroid.split(",")[1]) * scale;
+		rotationPivot.add(getCentroid());
+	}
+	
 	/**
 	 * This constructor builds a shape using the points specified by a SVG 'd'
 	 * element 
@@ -83,6 +100,7 @@ public class BasicShape {
 	
 		// calc centroid of the shape, considering the minimum rectangle that can be created to inscribe the shape into
 		centroid = inscribedPolygonCenter();
+		rotationPivot = centroid.cpy();
 
 		//coordenadas do objecto definidas em torno do ponto 0.0f, 0.0f -- mais fácil para a renderização e rotações?
 		for (Vector2 v : points) {
@@ -131,6 +149,9 @@ public class BasicShape {
 	 */
 	public Vector2 getCentroid() {
 		return centroid;
+	}
+	public Vector2 getRotationPivot() {
+		return rotationPivot;
 	}
 	
 	public ObjectType getType() {

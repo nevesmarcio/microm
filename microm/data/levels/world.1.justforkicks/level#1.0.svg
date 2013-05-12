@@ -127,15 +127,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.5"
-     inkscape:cx="741.65864"
-     inkscape:cy="148.20653"
+     inkscape:zoom="0.35355339"
+     inkscape:cx="955.10775"
+     inkscape:cy="-59.787717"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1618"
+     inkscape:window-width="1680"
      inkscape:window-height="1028"
-     inkscape:window-x="54"
+     inkscape:window-x="1592"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
   <metadata
@@ -289,8 +289,8 @@
        d="m -1.3856549,443.04192 188.0904049,0 0,178.191 -188.0904049,0 z"
        style="opacity:0.8;fill:#ffd42a;fill-opacity:1;stroke:none" />
     <path
-       style="opacity:0.8;fill:none;stroke:#322192;stroke-width:29.74616814;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:178.47696558, 29.74616092;stroke-dashoffset:0"
-       d="m -16.567779,426.71114 1317.346779,0 0,1306.13486 -1317.346779,0 z"
+       style="opacity:0.8;fill:none;stroke:#322192;stroke-width:29.8352356;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:179.01137277, 29.83522879;stroke-dashoffset:0"
+       d="m -18.540024,424.75568 1321.291324,0 0,1310.04582 -1321.291324,0 z"
        id="camera_1610"
        inkscape:connector-curvature="0" />
     <path
@@ -299,12 +299,12 @@
        id="wall_3017"
        inkscape:connector-curvature="0" />
     <path
-       style="opacity:0.29203539;fill:#ffff00;stroke:#000000;stroke-width:13.78021336;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:13.78021419, 55.12085675;stroke-dashoffset:0"
-       d="M 534.88414,1014.296 1203.2141,594.07491 989.36995,1358.3014 z"
+       style="opacity:0.29203539;fill:#ffff00;stroke:#000000;stroke-width:7.33365774;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:7.33365823, 29.33463294;stroke-dashoffset:0"
+       d="m 961.0307,985.5265 360.6865,-215.4631 -123.0548,404.0094 z"
        id="lightsource_3069"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc"
-       inkscape:transform-center-y="381.76497"
-       inkscape:transform-center-x="333.76568" />
+       inkscape:transform-center-x="120.02273"
+       inkscape:transform-center-y="125.45672"
+       sodipodi:nodetypes="cccc" />
   </g>
 </svg>

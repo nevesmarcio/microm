@@ -15,6 +15,7 @@ import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.dev.GridModel;
 import pt.me.microm.model.ui.UIModel;
+import pt.me.microm.model.ui.utils.FlashMessageManagerModel;
 import pt.me.microm.tools.levelloader.LevelLoader;
 
 import com.badlogic.gdx.Gdx;
@@ -181,10 +182,10 @@ public class ScreenTheJuice implements Screen {
 		ScreenTickManager.getInstance().dispose();
 		JsBridgeSingleton.getInstance(worldModel).dispose();
 
-		
 
 		Gdx.input.setInputProcessor(new InputMultiplexer());
-		
+
+		FlashMessageManagerModel.getInstance().dispose();
 
 //		cameraModel.dispose();
 //		cameraModel = null;

@@ -45,7 +45,7 @@ public class FlashMessageManagerView extends AbstractView {
 		Camera c1 = e.getCamera().getGameCamera();
 		Camera c2 = e.getCamera().getUiCamera();
 		
-		for (FlashMessage fm : fmmmSrc.afm) {
+		for (FlashMessage fm : fmmmSrc.getAfm()) {
 			
 			if (fm.worldCoord) {
 				batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);

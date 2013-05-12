@@ -328,8 +328,14 @@ http://stackoverflow.com/questions/5646221/delaunay-triangulating-the-2d-polygon
 	* mecanismo das flashmessages
 	* revisitado o mecanismo do ui que permite pegar nos objectos e criar o mousejoint	
 
+11-05-2013
+# refactorizações:
+	* criado o LightSourceModel (terminar esta cena)
 
-	* criado o LightSourceModel
+12-05-2013
+#
+
+
 
 -->isto tudo para a seguir pegar nos meshes/ postprocessing/ gles2.0/ etc...
 
