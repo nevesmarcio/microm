@@ -30,5 +30,10 @@ public class CameraView extends AbstractView {
 		/* no representation of camera */
 	}
 
+	@Override
+	public void draw20(ScreenTickEvent e) {
+		/* no representation of camera */
+	}
+
 	
 }

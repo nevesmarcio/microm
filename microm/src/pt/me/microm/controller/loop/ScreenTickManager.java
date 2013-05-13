@@ -81,7 +81,7 @@ public class ScreenTickManager implements IProcessRunnable, Disposable {
 	private Iterator<Map.Entry<Integer, List<IScreenTick>>> i; 			// reutilização da variável do iterator
 	private boolean print = false;
 	private ArrayList<IScreenTick> x; 
-	public synchronized void fireEvent(CameraModel camModel, long elapsedNanoTime) {
+	public synchronized void fireEvent(boolean drawGL20, CameraModel camModel, long elapsedNanoTime) {
 		event.setCamera(camModel);
 		event.setElapsedNanoTime(elapsedNanoTime);
 		
@@ -102,7 +102,7 @@ public class ScreenTickManager implements IProcessRunnable, Disposable {
 				x = (ArrayList<IScreenTick>) i.next().getValue();
 				
 				for (IScreenTick it : x) {
-					it.draw(event);
+					if (drawGL20) it.draw20(event); else it.draw(event);
 					if (print) {
 						if (logger.getLevel() >= Logger.DEBUG) logger.debug(x.getClass().getName());
 					}					

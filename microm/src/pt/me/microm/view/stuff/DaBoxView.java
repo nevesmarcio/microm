@@ -10,6 +10,7 @@ import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.dev.BallModel;
 import pt.me.microm.model.stuff.DaBoxModel;
 import pt.me.microm.view.AbstractView;
+import pt.me.microm.view.helper.MeshHelper;
 
 import box2dLight.ConeLight;
 import box2dLight.PointLight;
@@ -197,6 +198,13 @@ public class DaBoxView extends AbstractView {
 		
 	}
 
+	@Override
+	public void draw20(ScreenTickEvent e) {
+		
+		
+		
+	}	
+	
 	@Override
 	public void dispose() {
 		super.dispose();

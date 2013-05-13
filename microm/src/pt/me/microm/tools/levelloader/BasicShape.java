@@ -130,11 +130,11 @@ public class BasicShape {
 			color.b = (float)Integer.parseInt(aux.substring(4, 6), 16) / (float)0xFF;
 		}
 		// color fill opacity
-		pattern = Pattern.compile("fill-opacity:[01][\\.0-9]*;*");
+		pattern = Pattern.compile("(?<!fill-)opacity:[01][\\.0-9]*;*"); // positive lookbehind
 		matcher = pattern.matcher(style);
 		while (matcher.find()) {
 			String aux = matcher.group();
-			aux = aux.replace("fill-opacity:", "");
+			aux = aux.replace("opacity:", "");
 			aux = aux.replace(";", "");
 			color.a = Float.parseFloat(aux);
 		}

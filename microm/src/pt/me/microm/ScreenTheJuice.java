@@ -23,7 +23,9 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.utils.Logger;
@@ -119,6 +121,7 @@ public class ScreenTheJuice implements Screen {
 	}
 
 
+	String clear_color = "0606020F";
 	@Override
 	// the main loop - maximum fps possible (Update rate para a View)
 	public void render(float delta) {
@@ -133,11 +136,23 @@ public class ScreenTheJuice implements Screen {
     		callback.handler("pause", this);
     	}
 		
-		// Clean do gl context
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1); // cinza escuro
-		
-		ScreenTickManager.getInstance().fireEvent(cameraModel, elapsedNanoTime);
+    	if (Gdx.graphics.isGL20Available()) {
+			// Clean do gl context
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			//Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1); // cinza escuro
+			Gdx.gl.glClearColor(Color.valueOf(clear_color).r, Color.valueOf(clear_color).g, Color.valueOf(clear_color).b, Color.valueOf(clear_color).a);
+			
+			ScreenTickManager.getInstance().fireEvent(true, cameraModel, elapsedNanoTime);
+			
+    	} else {
+			// Clean do gl context
+			Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+			//Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1); // cinza escuro
+			Gdx.gl.glClearColor(Color.valueOf(clear_color).r, Color.valueOf(clear_color).g, Color.valueOf(clear_color).b, Color.valueOf(clear_color).a);
+			
+    		ScreenTickManager.getInstance().fireEvent(false, cameraModel, elapsedNanoTime);    		
+    	}
+
 	}
 
 	@Override

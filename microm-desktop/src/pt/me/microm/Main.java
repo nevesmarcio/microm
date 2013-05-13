@@ -11,7 +11,7 @@ public class Main {
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "microm-game";
-		cfg.useGL20 = false;
+		cfg.useGL20 = true;
 		cfg.width = 1024;//1600;//800;// 240 480 480 800
 		cfg.height = 768;//1200;//480;// 320 800 854 1280
 //		cfg.vSyncEnabled = true;

@@ -56,8 +56,6 @@ public class GridView  extends AbstractView {
 
 		myMesh.setVertices(points);   
 		myMesh.setIndices(indexes);				
-		
-		Gdx.graphics.getGL10().glPointSize(1.5f);		
 
 	}
 	
@@ -68,10 +66,16 @@ public class GridView  extends AbstractView {
 		// aplica os parâmetros da camera ao contexto GL - equivalente ao set das "Projection Matrix"?
 		e.getCamera().getGameCamera().apply(Gdx.gl10);
 		
+		Gdx.graphics.getGL10().glPointSize(1.5f);	
 		if (myMesh != null)
 				myMesh.render(GL10.GL_POINTS, 0, (int)Math.pow(nr_points,3));
 			
 		//myMesh.render(GL10.GL_LINE_STRIP, 0, (int)Math.pow(nr_points,3)*4);
 	}
-
+	
+	@Override
+	public void draw20(ScreenTickEvent e) {
+		
+	}
+	
 }

@@ -51,6 +51,11 @@ public class TextView extends AbstractView {
 		batch.end();		
 
 	}
-
+	
+	@Override
+	public void draw20(ScreenTickEvent e) {
+		draw(e);
+		
+	}
 
 }

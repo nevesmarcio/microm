@@ -9,6 +9,7 @@ import pt.me.microm.model.dev.BallModel;
 import pt.me.microm.model.stuff.DaBoxModel;
 import pt.me.microm.model.stuff.WallModel;
 import pt.me.microm.view.AbstractView;
+import pt.me.microm.view.helper.MeshHelper;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -23,6 +24,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.loaders.wavefront.ObjLoader;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -40,6 +42,8 @@ public class WallView extends AbstractView {
 
 	SpriteBatch batch = new SpriteBatch();
 	
+	MeshHelper meshHelper = new MeshHelper();
+	
 	public WallView(WallModel wallmSrc) {
 		super(wallmSrc);
 		this.wallmSrc = wallmSrc;
@@ -55,9 +59,11 @@ public class WallView extends AbstractView {
 		wallSprite.setOrigin(wallmSrc.getBasicShape().getWidth()/2, wallmSrc.getBasicShape().getHeight()/2);		
 		
 		float[] vertexes;
+		float[] meshVertexes;
 		short[] indexes;
 		int nr_points = wallmSrc.getBasicShape().getPointsArray().length;
-		vertexes = new float[nr_points*4];		
+		vertexes = new float[nr_points*4];
+		meshVertexes = new float[nr_points*3];
 		indexes = new short[nr_points];
 		
 		for (int i = 0; i < nr_points; i++) {
@@ -70,6 +76,10 @@ public class WallView extends AbstractView {
 												wallmSrc.getBasicShape().getFillColor().g,
 												wallmSrc.getBasicShape().getFillColor().b,
 												wallmSrc.getBasicShape().getFillColor().a);
+			
+			meshVertexes[i*3] = wallmSrc.getBasicShape().getPointsArray()[i].x;
+			meshVertexes[i*3+1] = wallmSrc.getBasicShape().getPointsArray()[i].y;
+			meshVertexes[i*3+2] = 0.0f;
 		}
 
 		wallMesh = new Mesh(true, nr_points, nr_points, 
@@ -79,7 +89,8 @@ public class WallView extends AbstractView {
         wallMesh.setVertices(vertexes);
         wallMesh.setIndices(indexes);		
 		
-		
+		meshHelper.createMesh(meshVertexes);
+        
 	}
 
 	
@@ -142,7 +153,7 @@ public class WallView extends AbstractView {
 			}
 		}
 		
-		if (GameMicroM.FLAG_DISPLAY_ACTOR_TEXTURES && false) {
+		if (GameMicroM.FLAG_DISPLAY_ACTOR_TEXTURES) {
 			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 			batch.begin();
 				wallSprite.setPosition(wallmSrc.getBody().getPosition().x-wallmSrc.getBasicShape().getWidth()/2,  wallmSrc.getBody().getPosition().y-wallmSrc.getBasicShape().getHeight()/2);
@@ -152,5 +163,28 @@ public class WallView extends AbstractView {
 		}
 	}
 
-
+	Matrix4 prj = new Matrix4();
+	Matrix4 vw = new Matrix4();
+	Matrix4 mdl = new Matrix4();
+	@Override
+	public void draw20(ScreenTickEvent e) {
+		
+	    Gdx.graphics.getGL20().glEnable(GL10.GL_BLEND);
+	    Gdx.graphics.getGL20().glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);		
+		
+		prj.set(e.getCamera().getGameCamera().projection);
+		vw.set(e.getCamera().getGameCamera().view);
+		mdl.idt().translate(wallmSrc.getBody().getPosition().x, wallmSrc.getBody().getPosition().y, 0.0f);
+		
+		meshHelper.drawMesh(prj, vw, mdl, wallmSrc.getBasicShape().getFillColor());
+		
+	}
+	
+	
+	@Override
+	public void dispose() {
+		meshHelper.dispose();
+		super.dispose();
+	}
+	
 }

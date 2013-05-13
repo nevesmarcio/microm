@@ -91,5 +91,9 @@ public class MagnetView extends AbstractView {
 		}
 	}
 
+	@Override
+	public void draw20(ScreenTickEvent e) {
+		
+	}
 
 }

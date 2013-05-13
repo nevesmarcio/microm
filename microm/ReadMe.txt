@@ -333,7 +333,17 @@ http://stackoverflow.com/questions/5646221/delaunay-triangulating-the-2d-polygon
 	* criado o LightSourceModel (terminar esta cena)
 
 12-05-2013
-#
+--- technology evaluation ---
+# shaders ... ok, fiquei gago...
+
+
+
+13-05-2013
+# branching do mecanismo de draw para GL20 
+# validado o funcionamento das transparências: corrigida a regex que apanha a opacidade
+
+<<<<TODO>>>>: depois de triar o que funciona em gl20 e o que não funciona, dado que os métodos draw20 são praticamente todos iguais aos metodos draw10,
+usar o mecanismo do abstractview para reduzir o código (só fazer override aos que são efectivamente diferentes)
 
 
 
