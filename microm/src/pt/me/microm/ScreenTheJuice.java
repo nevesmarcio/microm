@@ -121,7 +121,7 @@ public class ScreenTheJuice implements Screen {
 	}
 
 
-	String clear_color = "0606020F";
+	String clear_color = "5F3F2FF0";//"0606020F";
 	@Override
 	// the main loop - maximum fps possible (Update rate para a View)
 	public void render(float delta) {
@@ -137,11 +137,12 @@ public class ScreenTheJuice implements Screen {
     	}
 		
     	if (Gdx.graphics.isGL20Available()) {
-			// Clean do gl context
+    		
+    		// Clean do gl context
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-			//Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1); // cinza escuro
+//			Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1); // cinza escuro
 			Gdx.gl.glClearColor(Color.valueOf(clear_color).r, Color.valueOf(clear_color).g, Color.valueOf(clear_color).b, Color.valueOf(clear_color).a);
-			
+    		
 			ScreenTickManager.getInstance().fireEvent(true, cameraModel, elapsedNanoTime);
 			
     	} else {

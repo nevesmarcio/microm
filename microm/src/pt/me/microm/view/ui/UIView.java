@@ -107,7 +107,7 @@ public class UIView  extends AbstractView {
 		renderer.end();				
 
 		
-		if (GameMicroM.FLAG_DEV_ELEMENTS_A) {
+		if (GameMicroM.FLAG_DEV_ELEMENTS_A || true) {
 			/* renderização dos status fps + ups */
 			long elapsedNanoTime = e.getElapsedNanoTime();
 			

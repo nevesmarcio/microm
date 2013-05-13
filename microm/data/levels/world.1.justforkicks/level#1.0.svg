@@ -287,14 +287,14 @@
        inkscape:connector-curvature="0"
        id="wall_3061"
        d="m -1.3856549,443.04192 188.0904049,0 0,178.191 -188.0904049,0 z"
-       style="opacity:0.9;fill:#ffd42a;fill-opacity:1;stroke:none" />
+       style="opacity:0.2;fill:#ffd42a;fill-opacity:1;stroke:none" />
     <path
        style="opacity:0.8;fill:none;stroke:#322192;stroke-width:29.8352356;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:179.01137277, 29.83522879;stroke-dashoffset:0"
        d="m -18.540024,424.75568 1321.291324,0 0,1310.04582 -1321.291324,0 z"
        id="camera_1610"
        inkscape:connector-curvature="0" />
     <path
-       style="opacity:0.7;fill:#ffd42a;fill-opacity:1;stroke:none"
+       style="opacity:0.5;fill:#ffd42a;fill-opacity:1;stroke:none"
        d="m 1101.7009,1560.7559 176.7767,0 0,155.5636 -176.7767,0 z"
        id="wall_3017"
        inkscape:connector-curvature="0" />

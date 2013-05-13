@@ -7,13 +7,16 @@ import pt.me.microm.model.stuff.BoardModel;
 import pt.me.microm.model.stuff.GoalModel;
 import pt.me.microm.model.stuff.SpawnModel;
 import pt.me.microm.view.AbstractView;
+import pt.me.microm.view.helper.MeshHelper;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -28,6 +31,7 @@ public class SpawnView extends AbstractView {
 	Sprite spawnSprite;
 	SpriteBatch batch = new SpriteBatch();	
 	
+	MeshHelper meshHelper;
 	
 	public SpawnView(SpawnModel spawnmSrc) {
 		super(spawnmSrc);
@@ -41,7 +45,14 @@ public class SpawnView extends AbstractView {
 		spawnSprite = GAME_CONSTANTS.devAtlas.createSprite("square1");		
 		
 		spawnSprite.setSize(spawnmSrc.getBasicShape().getWidth(), spawnmSrc.getBasicShape().getHeight());
-		spawnSprite.setOrigin(spawnmSrc.getBasicShape().getWidth()/2, spawnmSrc.getBasicShape().getHeight()/2);				
+		spawnSprite.setOrigin(spawnmSrc.getBasicShape().getWidth()/2, spawnmSrc.getBasicShape().getHeight()/2);
+		
+		
+		if (Gdx.graphics.isGL20Available()) {
+			meshHelper = new MeshHelper();
+			meshHelper.createMesh(spawnmSrc.getBasicShape().getMeshValues());
+		}
+
 	}
 	
 	private Vector2 pointA = new Vector2();
@@ -76,9 +87,18 @@ public class SpawnView extends AbstractView {
 		
 		
 	}
-
+	
+	
+	Matrix4 prj = new Matrix4();
+	Matrix4 vw = new Matrix4();
+	Matrix4 mdl = new Matrix4();
 	@Override
 	public void draw20(ScreenTickEvent e) {
+		prj.set(e.getCamera().getGameCamera().projection);
+		vw.set(e.getCamera().getGameCamera().view);
+		mdl.idt().translate(spawnmSrc.getBody().getPosition().x, spawnmSrc.getBody().getPosition().y, 0.0f);
+		
+		meshHelper.drawMesh(prj, vw, mdl, spawnmSrc.getBasicShape().getFillColor());
 		
 	}	
 }

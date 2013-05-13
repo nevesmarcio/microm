@@ -31,6 +31,7 @@ public class BasicShape {
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private ArrayList<Vector2> points;
+	private float[] meshValues;
 	private ObjectType type;
 	private Vector2 centroid;
 	private Vector2 rotationPivot;
@@ -117,8 +118,16 @@ public class BasicShape {
 		width = calcWidth();
 		height = calcHeight();
 		
-		color = new Color();
+		// converted mesh values init
+		meshValues = new float[points.size()*3];
+		for (int ii = 0; ii < points.size(); ii++) {
+			meshValues[ii*3] = points.get(ii).x;
+			meshValues[ii*3+1] = points.get(ii).y;
+			meshValues[ii*3+2] = 0.0f;
+		}
+		
 		// color fill
+		color = new Color();
 		pattern = Pattern.compile("fill:#([0-9a-fA-F]){6};*");
 		matcher = pattern.matcher(style);
 		while (matcher.find()) {
@@ -138,6 +147,7 @@ public class BasicShape {
 			aux = aux.replace(";", "");
 			color.a = Float.parseFloat(aux);
 		}
+		
 		
 		
 	}	
@@ -185,7 +195,10 @@ public class BasicShape {
 		return color;
 	}
 	
-
+	public float[] getMeshValues() {
+		return meshValues;
+	}
+	
 	/////////////// Auxiliar functions /////////////////// 
     
     /**

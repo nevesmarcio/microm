@@ -1,9 +1,6 @@
 package pt.me.microm.tools.levelloader;
 
-import java.awt.font.TextMeasurer;
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,7 +16,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import pt.me.microm.GameMicroM;
-import pt.me.microm.api.JsBridgeSingleton;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
@@ -36,7 +32,6 @@ import pt.me.microm.model.stuff.SpawnModel;
 import pt.me.microm.model.stuff.WallModel;
 import pt.me.microm.model.trigger.SimpleTriggerModel;
 import pt.me.microm.model.ui.TextModel;
-import pt.me.microm.model.ui.UIModel;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;

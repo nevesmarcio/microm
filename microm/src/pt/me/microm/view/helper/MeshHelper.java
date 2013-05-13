@@ -40,7 +40,7 @@ public class MeshHelper {
 		// this shader tells opengl where to put things
 		String vertexShader = "uniform mat4 u_mvpMatrix;                   \n" 
 							+ "attribute vec4 a_position;                  \n"
-							+ "attribute vec4 a_color;					   \n"
+							+ "uniform vec4 a_color;					   \n"
 							+ "varying vec4 v_color;  					   \n"
 							+ "void main()                                 \n" 
 							+ "{                                           \n"
@@ -50,11 +50,14 @@ public class MeshHelper {
 
 		// this one tells it what goes in between the points (i.e
 		// colour/texture)
-		String fragmentShader = "#ifdef GL_ES                \n"
-							  + "precision mediump float;    \n"
+		String fragmentShader = "#ifdef GL_FRAGMENT_PRECISION_HIGH                \n"
+							  + "precision highp float;      \n"
+							  + "#else                       \n"
+							  + "precision mediump float;     \n"
 							  + "#endif                      \n"
+							  + " 							 \n"
 							  + "varying vec4 v_color;		 \n"
-							  + "void main()                 \n"
+							  + "void main(void)             \n"
 							  + "{                           \n"
 							  + "  gl_FragColor = v_color;       // vec4(1.0,0.0,0.0,1.0);	\n"
 							  + "}";
@@ -76,7 +79,7 @@ public class MeshHelper {
 		meshShader.begin();
 		combined.set(projection).mul(view).mul(model);
 		meshShader.setUniformMatrix("u_mvpMatrix", combined);
-		meshShader.setAttributef("a_color", c.r, c.g, c.b, c.a);
+		meshShader.setUniformf("a_color", c.r, c.g, c.b, c.a);
 		mesh.render(meshShader, GL20.GL_TRIANGLE_FAN);
 		meshShader.end();
 	}	

@@ -29,12 +29,12 @@ public class LightSourceView extends AbstractView {
 	@Override
 	public void DelayedInit() {
 	    rayHandler = new RayHandler(lightsourcemSrc.wm.getPhysicsWorld());
-	    rayHandler.setBlur(true);
-	    rayHandler.setShadows(true);
-	    rayHandler.setAmbientLight(0.75f);
-	    RayHandler.useDiffuseLight(false);
+	    rayHandler.setBlur(false);
+	    rayHandler.setShadows(false);
+	    rayHandler.setAmbientLight(0.74f);
+	    RayHandler.useDiffuseLight(true);
 	    //new PointLight(rayHandler, 36*10, new Color(1,1,1,0.75f), 30.0f, 10.0f, 7.0f);
-	    new ConeLight(rayHandler, 36*10, new Color(0.1f, 0.29f, 0.75f, 0.90f), 60.0f, lightsourcemSrc.sh.getRotationPivot().x, lightsourcemSrc.sh.getRotationPivot().y, 225, 30);
+	    new ConeLight(rayHandler, 36*2, new Color(0.1f, 0.29f, 0.75f, 0.90f), 60.0f, lightsourcemSrc.sh.getRotationPivot().x, lightsourcemSrc.sh.getRotationPivot().y, 225, 30);
 
 
 	}

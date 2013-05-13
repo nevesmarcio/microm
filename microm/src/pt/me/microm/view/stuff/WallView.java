@@ -14,6 +14,7 @@ import pt.me.microm.view.helper.MeshHelper;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttribute;
@@ -42,7 +43,7 @@ public class WallView extends AbstractView {
 
 	SpriteBatch batch = new SpriteBatch();
 	
-	MeshHelper meshHelper = new MeshHelper();
+	MeshHelper meshHelper;
 	
 	public WallView(WallModel wallmSrc) {
 		super(wallmSrc);
@@ -59,11 +60,10 @@ public class WallView extends AbstractView {
 		wallSprite.setOrigin(wallmSrc.getBasicShape().getWidth()/2, wallmSrc.getBasicShape().getHeight()/2);		
 		
 		float[] vertexes;
-		float[] meshVertexes;
 		short[] indexes;
 		int nr_points = wallmSrc.getBasicShape().getPointsArray().length;
 		vertexes = new float[nr_points*4];
-		meshVertexes = new float[nr_points*3];
+
 		indexes = new short[nr_points];
 		
 		for (int i = 0; i < nr_points; i++) {
@@ -76,10 +76,6 @@ public class WallView extends AbstractView {
 												wallmSrc.getBasicShape().getFillColor().g,
 												wallmSrc.getBasicShape().getFillColor().b,
 												wallmSrc.getBasicShape().getFillColor().a);
-			
-			meshVertexes[i*3] = wallmSrc.getBasicShape().getPointsArray()[i].x;
-			meshVertexes[i*3+1] = wallmSrc.getBasicShape().getPointsArray()[i].y;
-			meshVertexes[i*3+2] = 0.0f;
 		}
 
 		wallMesh = new Mesh(true, nr_points, nr_points, 
@@ -89,7 +85,10 @@ public class WallView extends AbstractView {
         wallMesh.setVertices(vertexes);
         wallMesh.setIndices(indexes);		
 		
-		meshHelper.createMesh(meshVertexes);
+        if (Gdx.graphics.isGL20Available()) {
+	        meshHelper = new MeshHelper();
+			meshHelper.createMesh(wallmSrc.getBasicShape().getMeshValues());
+        }
         
 	}
 
@@ -168,10 +167,10 @@ public class WallView extends AbstractView {
 	Matrix4 mdl = new Matrix4();
 	@Override
 	public void draw20(ScreenTickEvent e) {
-		
-	    Gdx.graphics.getGL20().glEnable(GL10.GL_BLEND);
-	    Gdx.graphics.getGL20().glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);		
-		
+		// Enable da transparência
+		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+	    Gdx.graphics.getGL20().glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+	    
 		prj.set(e.getCamera().getGameCamera().projection);
 		vw.set(e.getCamera().getGameCamera().view);
 		mdl.idt().translate(wallmSrc.getBody().getPosition().x, wallmSrc.getBody().getPosition().y, 0.0f);

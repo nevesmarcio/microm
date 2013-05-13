@@ -9,6 +9,7 @@ import pt.me.microm.view.AbstractView;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -31,6 +32,7 @@ public class FlashMessageManagerView extends AbstractView {
 	public void DelayedInit() {
 		
 		batch = new SpriteBatch();
+
 		font = new BitmapFont(Gdx.files.internal("data/fonts/monospaced-56-bold.fnt"), false);
 		
 		font.setColor(Color.RED);
