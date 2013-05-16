@@ -19,6 +19,9 @@ public class Main {
 		cfg.samples = 8;
 		
 		new LwjglApplication(new GameMicroM(), cfg);
+//		new LwjglApplication(new ShaderLesson5(), cfg);
+//		new LwjglApplication(new GpuShadows(), cfg);
+		
 		
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 

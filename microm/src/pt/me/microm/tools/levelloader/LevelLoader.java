@@ -238,28 +238,29 @@ public class LevelLoader {
 	}
 	
 	private static TextModel addTextToWorld(WorldModel wm, BasicShape sh, String text_name, final String content) {
-
-		for (Vector2 ap : sh.getPointsArray()) {
-			DebugModel m = DebugModel.getNewInstance(wm, ap.x+sh.getCentroid().x, ap.y+sh.getCentroid().y);
-			m.setColor(Color.PINK);
-		}					
+		if (GameMicroM.FLAG_DEV_ELEMENTS_A)
+			for (Vector2 ap : sh.getPointsArray()) {
+				DebugModel m = DebugModel.getNewInstance(wm, ap.x+sh.getCentroid().x, ap.y+sh.getCentroid().y);
+				m.setColor(Color.PINK);
+			}					
 		
 		return TextModel.getNewInstance(wm, sh, text_name, content);
 		
 	}
 
 	private static LightSourceModel addLightSourceToWorld(WorldModel wm, BasicShape sh, String light_name) {
-		
-		DebugModel m;
-		for (Vector2 ap : sh.getPointsArray()) {
-			m = DebugModel.getNewInstance(wm, ap.x+sh.getCentroid().x, ap.y+sh.getCentroid().y);
+		if (GameMicroM.FLAG_DEV_ELEMENTS_A) {
+			DebugModel m;
+			for (Vector2 ap : sh.getPointsArray()) {
+				m = DebugModel.getNewInstance(wm, ap.x+sh.getCentroid().x, ap.y+sh.getCentroid().y);
+				m.setColor(Color.YELLOW);
+			}
+			m = DebugModel.getNewInstance(wm, sh.getCentroid().x, sh.getCentroid().y);
+			m.setColor(Color.YELLOW);
+			
+			m = DebugModel.getNewInstance(wm,  sh.getRotationPivot().x, sh.getRotationPivot().y);
 			m.setColor(Color.YELLOW);
 		}
-		m = DebugModel.getNewInstance(wm, sh.getCentroid().x, sh.getCentroid().y);
-		m.setColor(Color.YELLOW);
-		
-		m = DebugModel.getNewInstance(wm,  sh.getRotationPivot().x, sh.getRotationPivot().y);
-		m.setColor(Color.YELLOW);
 		
 		return LightSourceModel.getNewInstance(wm, sh, light_name);
 	}

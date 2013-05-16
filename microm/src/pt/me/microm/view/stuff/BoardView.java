@@ -5,9 +5,11 @@ import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.stuff.BoardModel;
 import pt.me.microm.view.AbstractView;
+import pt.me.microm.view.helper.MeshHelper;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -15,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -30,6 +33,8 @@ public class BoardView extends AbstractView {
 	
 	ShapeRenderer renderer;
 	
+	MeshHelper meshHelper;
+	
 	public BoardView(BoardModel boardmSrc) {
 		super(boardmSrc);
 		this.boardmSrc = boardmSrc;
@@ -43,6 +48,12 @@ public class BoardView extends AbstractView {
 		
 		boardSprite.setSize(boardmSrc.getBasicShape().getWidth(), boardmSrc.getBasicShape().getHeight());
 		boardSprite.setOrigin(boardmSrc.getBasicShape().getWidth()/2, boardmSrc.getBasicShape().getHeight()/2);
+		
+		
+        if (Gdx.graphics.isGL20Available()) {
+	        meshHelper = new MeshHelper();
+			meshHelper.createMesh(boardmSrc.getBasicShape().getMeshValues());
+        }
 		
 	}
 	
@@ -89,9 +100,29 @@ public class BoardView extends AbstractView {
 		
 	}
 
+	
+	Matrix4 prj = new Matrix4();
+	Matrix4 vw = new Matrix4();
+	Matrix4 mdl = new Matrix4();	
 	@Override
 	public void draw20(ScreenTickEvent e) {
+		// Enable da transparência
+		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+	    Gdx.graphics.getGL20().glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+	    
+		prj.set(e.getCamera().getGameCamera().projection);
+		vw.set(e.getCamera().getGameCamera().view);
+		mdl.idt().translate(boardmSrc.getBody().getPosition().x, boardmSrc.getBody().getPosition().y, 0.0f);
 		
-	}	
+		meshHelper.drawMesh(prj, vw, mdl, boardmSrc.getBasicShape().getFillColor());
+		
+	}
+	
+	
+	@Override
+	public void dispose() {
+		meshHelper.dispose();
+		super.dispose();
+	}
 	
 }

@@ -85,8 +85,8 @@ public class MeshHelper {
 	}	
 	
 	
-	 public void dispose() {
-	        mesh.dispose();
-	        meshShader.dispose();
-	    }	
+	public void dispose() {
+		mesh.dispose();
+		meshShader.dispose();
+	}
 }

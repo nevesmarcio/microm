@@ -22,7 +22,7 @@ public class TextView extends AbstractView {
 	private SpriteBatch batch;
 	
 	public TextView(TextModel textmSrc) {
-		super(textmSrc);
+		super(textmSrc,100);
 		this.textmSrc = textmSrc;
 	}
 	

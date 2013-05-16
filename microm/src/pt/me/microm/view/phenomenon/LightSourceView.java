@@ -1,14 +1,19 @@
 package pt.me.microm.view.phenomenon;
 
+import pt.me.microm.GameMicroM;
 import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.phenomenon.LightSourceModel;
 import pt.me.microm.view.AbstractView;
 
 import box2dLight.ConeLight;
+import box2dLight.Light;
+import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Logger;
 
@@ -16,27 +21,18 @@ public class LightSourceView extends AbstractView {
 	private static final String TAG = LightSourceView.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
-	private RayHandler rayHandler;
-	
 	private LightSourceModel lightsourcemSrc;
 	
 	public LightSourceView(LightSourceModel lightsourcemSrc) {
-		super(lightsourcemSrc, 0);
+		super(lightsourcemSrc, 2);
 		this.lightsourcemSrc = lightsourcemSrc;
 		
 	}
 
 	@Override
 	public void DelayedInit() {
-	    rayHandler = new RayHandler(lightsourcemSrc.wm.getPhysicsWorld());
-	    rayHandler.setBlur(false);
-	    rayHandler.setShadows(false);
-	    rayHandler.setAmbientLight(0.74f);
-	    RayHandler.useDiffuseLight(true);
-	    //new PointLight(rayHandler, 36*10, new Color(1,1,1,0.75f), 30.0f, 10.0f, 7.0f);
-	    new ConeLight(rayHandler, 36*2, new Color(0.1f, 0.29f, 0.75f, 0.90f), 60.0f, lightsourcemSrc.sh.getRotationPivot().x, lightsourcemSrc.sh.getRotationPivot().y, 225, 30);
 
-
+	    
 	}
 	
 
@@ -45,19 +41,19 @@ public class LightSourceView extends AbstractView {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
 		//////// LIGHTING ///////////
-		rayHandler.setCombinedMatrix(e.getCamera().getGameCamera().combined);
-		rayHandler.updateAndRender();
+		lightsourcemSrc.rayHandler.setCombinedMatrix(e.getCamera().getGameCamera().combined);
+		lightsourcemSrc.rayHandler.render();
 	}
 	
 	@Override
 	public void draw20(ScreenTickEvent e) {
-		draw(e);
+		if (GameMicroM.FLAG_CALC_LIGHTING)
+			draw(e);
 	}
 	
 
 	@Override
 	public void dispose() {
-		rayHandler.dispose();
 		super.dispose();
 	}
 	

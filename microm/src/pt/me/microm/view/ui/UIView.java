@@ -42,7 +42,7 @@ public class UIView  extends AbstractView {
 	ShapeRenderer renderer;
 	
 	public UIView(UIModel uiSrc) {  
-		super(uiSrc, 2); // FIXME: arranjar umas constantes para definir o zOrder
+		super(uiSrc, 100); // FIXME: arranjar umas constantes para definir o zOrder
 		this.uiSrc = uiSrc;
 	}
 	

@@ -46,7 +46,7 @@ public class WallView extends AbstractView {
 	MeshHelper meshHelper;
 	
 	public WallView(WallModel wallmSrc) {
-		super(wallmSrc);
+		super(wallmSrc, 0);
 		this.wallmSrc = wallmSrc;
 	}
 	

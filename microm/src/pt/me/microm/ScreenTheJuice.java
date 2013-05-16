@@ -121,7 +121,7 @@ public class ScreenTheJuice implements Screen {
 	}
 
 
-	String clear_color = "5F3F2FF0";//"0606020F";
+	String clear_color = "0606060F";//"0606020F";
 	@Override
 	// the main loop - maximum fps possible (Update rate para a View)
 	public void render(float delta) {

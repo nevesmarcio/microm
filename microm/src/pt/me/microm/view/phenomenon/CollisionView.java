@@ -8,6 +8,7 @@ import pt.me.microm.model.phenomenon.CollisionModel;
 import pt.me.microm.view.AbstractView;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Logger;
@@ -23,7 +24,7 @@ public class CollisionView extends AbstractView {
 	public ParticleEffect particleEffect;
 	
 	public CollisionView(CollisionModel collisionmSrc) {
-		super(collisionmSrc);
+		super(collisionmSrc, 100);
 		this.collisionmSrc = collisionmSrc;
 		
 	}
@@ -42,6 +43,9 @@ public class CollisionView extends AbstractView {
 	public void draw(ScreenTickEvent e) {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 
+		// Enable da transparência
+		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+	    Gdx.graphics.getGL20().glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);		
 		
 		if (GameMicroM.FLAG_DISPLAY_PARTICLES) {
 			if (particleEffect != null) {
@@ -49,6 +53,7 @@ public class CollisionView extends AbstractView {
 				// renderização das particles
 				float delta = Gdx.graphics.getDeltaTime();
 				batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+
 				batch.begin();
 					particleEffect.setPosition(collisionmSrc.position.x, collisionmSrc.position.y);
 					particleEffect.draw(batch, delta);

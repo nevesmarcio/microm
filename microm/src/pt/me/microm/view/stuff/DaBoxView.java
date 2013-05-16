@@ -19,6 +19,7 @@ import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -71,7 +72,7 @@ public class DaBoxView extends AbstractView {
 	
 	
 	public DaBoxView(DaBoxModel daBoxmSrc) {
-		super(daBoxmSrc);
+		super(daBoxmSrc, 10);
 		this.daBoxmSrc = daBoxmSrc;
 	}
 
@@ -201,7 +202,20 @@ public class DaBoxView extends AbstractView {
 	@Override
 	public void draw20(ScreenTickEvent e) {
 		
-		
+//		// Enable da transparência
+//		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+//	    Gdx.graphics.getGL20().glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);	
+//		
+//		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined.cpy().scale(racioW, racioH, 1)); // .cpy().scale(0.01f, 0.01f, 0.01f)
+//		if (GameMicroM.FLAG_DISPLAY_PARTICLES) {
+//			// renderização das particles
+//			float delta = Gdx.graphics.getDeltaTime();
+//			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+//			batch.begin();
+//				particleEffect.setPosition(daBoxmSrc.getPosition().x, daBoxmSrc.getPosition().y);
+//				particleEffect.draw(batch, delta);
+//			batch.end();		
+//		}
 		
 	}	
 	

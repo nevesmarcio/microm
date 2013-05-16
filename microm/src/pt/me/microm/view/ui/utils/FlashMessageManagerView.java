@@ -24,7 +24,7 @@ public class FlashMessageManagerView extends AbstractView {
 	private SpriteBatch batch;
 	
 	public FlashMessageManagerView(FlashMessageManagerModel fmmmSrc) {
-		super(fmmmSrc);
+		super(fmmmSrc, 100);
 		this.fmmmSrc = fmmmSrc;
 		}
 	

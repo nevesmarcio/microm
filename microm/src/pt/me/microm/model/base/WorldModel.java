@@ -68,7 +68,9 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 	}
 
 	private void PopulateWorld() {
-
+		
+//		setPauseSim(true);
+		
 		portalManager = new PortalModelManager();
 
 		// regista o contactListener para que este notifique os objectos quando há choques 
@@ -77,8 +79,6 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 		// treshold de velocidade para considerar colisões inelásticas
 		//World.setVelocityThreshold(1.0f);//0.001f
 		
-		//setPauseSim(false);
-
 	}
 	
 
