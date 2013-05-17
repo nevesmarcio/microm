@@ -356,9 +356,11 @@ usar o mecanismo do abstractview para reduzir o código (só fazer override aos 
 # desenhado um lore/ titulo alternativo (mais intelectual)
 
 16-05-2013
-# 
+# wireframe do menu (with animation)
+# preenchimento de cor de fundo dos botões
 
-
+17-05-2013
+# desenhada a border 
 
 
 
