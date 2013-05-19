@@ -1,21 +1,28 @@
 package pt.me.microm.view.dev;
 
 import pt.me.microm.controller.loop.event.ScreenTickEvent;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.dev.GridModel;
 import pt.me.microm.view.AbstractView;
+import pt.me.microm.view.helper.MeshHelper;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.utils.Logger;
 
 public class GridView  extends AbstractView {
 	private static final String TAG = GridView.class.getSimpleName();
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private GridModel gridSrc;
 	private Mesh myMesh;
+	private MeshHelper meshHelper;
 	
 	private int nr_points;
 	
@@ -57,6 +64,9 @@ public class GridView  extends AbstractView {
 		myMesh.setVertices(points);   
 		myMesh.setIndices(indexes);				
 
+		meshHelper = new MeshHelper();
+		meshHelper.createMesh(points);
+		
 	}
 	
 
@@ -72,10 +82,24 @@ public class GridView  extends AbstractView {
 			
 		//myMesh.render(GL10.GL_LINE_STRIP, 0, (int)Math.pow(nr_points,3)*4);
 	}
+
 	
+	Matrix4 prj = new Matrix4();
+	Matrix4 vw = new Matrix4();
+	Matrix4 mdl = new Matrix4();
 	@Override
 	public void draw20(ScreenTickEvent e) {
+		prj.set(e.getCamera().getGameCamera().projection);
+		vw.set(e.getCamera().getGameCamera().view);
+		mdl.idt();
 		
+		meshHelper.drawMesh(prj, vw, mdl, Color.GREEN, true);
 	}
+	
+	@Override
+	public void dispose() {
+		meshHelper.dispose();
+		super.dispose();
+	}	
 	
 }

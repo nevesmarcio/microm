@@ -26,7 +26,7 @@ public class CameraModel extends AbstractModel implements InputProcessor {
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private OrthographicCamera uiCamera; 	// camera dedicada ao UI
-	private Camera gameCamera;				// game camera
+	private PerspectiveCamera gameCamera;	// game camera
 	
 	private static int CAM_MOVE_LEFT = 		0x00000001;
 	private static int CAM_MOVE_RIGHT = 	0x00000002;
@@ -47,15 +47,21 @@ public class CameraModel extends AbstractModel implements InputProcessor {
 	
 	private int flags = 0x00000000;
 
+	private float fovy;
 	private float theta;
 	private float phi;
 	private Vector3 camCenter;
 	private float camRadius;
 	
 	public CameraModel() {
-		//FIXME:: se não colocar isto aqui tenho uma data de excepções. Analisar!!
-		// provavelmente o objecto cameraview começa a pedir coisas que ainda n existem devido a ser indicado que a cameraModel está pronto, sem estar.
-		this.Resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	
+		//## UI CAMERA STUFF
+		uiCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		
+		
+		//## GAME CAMERA STUFF
+		fovy = 67; // mudando o fov, muda imenso a distância da camera ao viewport - calculo em camRadius
+		gameCamera = new PerspectiveCamera(fovy, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
@@ -83,7 +89,8 @@ public class CameraModel extends AbstractModel implements InputProcessor {
 	public float camHeight = Gdx.graphics.getHeight();				// default values
 	public void Resize(int width, int height) {
 		//## UI CAMERA STUFF
-		uiCamera = new OrthographicCamera(width, height);
+		uiCamera.viewportWidth = width;
+		uiCamera.viewportHeight = height;
 		
 		//## GAME CAMERA STUFF
 		float screen_ratio = (float)width / (float)height;
@@ -101,8 +108,9 @@ public class CameraModel extends AbstractModel implements InputProcessor {
 			real_h = camHeight;
 		}
 			
-		float fovy = 67; // mudando o fov, muda imenso a distância da camera ao viewport - calculo em camRadius
-		gameCamera = new PerspectiveCamera(fovy, real_w, real_h);
+		gameCamera.viewportWidth = real_w;
+		gameCamera.viewportHeight = real_h;
+		
 		
 		theta = 0;
 		phi = (float)Math.PI/2;
@@ -127,7 +135,7 @@ public class CameraModel extends AbstractModel implements InputProcessor {
 	public OrthographicCamera getUiCamera() {
 		return uiCamera;
 	}
-	public Camera getGameCamera() {
+	public PerspectiveCamera getGameCamera() {
 		return gameCamera;
 	}
 
@@ -264,6 +272,8 @@ public class CameraModel extends AbstractModel implements InputProcessor {
 			temp = gameCamera.up.cpy();
 			temp.crs(gameCamera.direction); 
 			temp.mul(1.0f*MVSPD);
+			
+			System.out.println(gameCamera);
 			
 			gameCamera.translate(temp);
 		}

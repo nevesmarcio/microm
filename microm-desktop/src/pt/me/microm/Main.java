@@ -18,6 +18,7 @@ public class Main {
 		cfg.fullscreen = false;
 		cfg.samples = 8;
 		
+//		new LwjglApplication(new SimpleDecalTest(), cfg);
 		new LwjglApplication(new GameMicroM(), cfg);
 //		new LwjglApplication(new ShaderLesson5(), cfg);
 //		new LwjglApplication(new GpuShadows(), cfg);

@@ -25,7 +25,8 @@ public class GridModel extends AbstractModel {
 	
 	@Override
 	public void handleGameTick(GameTickEvent e) {
-		// TODO Auto-generated method stub
+		if (logger.getLevel() >= Logger.DEBUG)
+			logger.debug("GridModel tick occured");
 	}
 	
 	public float getGridSpacing() {

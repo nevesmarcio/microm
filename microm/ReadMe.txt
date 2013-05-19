@@ -355,13 +355,25 @@ usar o mecanismo do abstractview para reduzir o código (só fazer override aos 
 15-05-2013
 # desenhado um lore/ titulo alternativo (mais intelectual)
 
+
 16-05-2013
-# wireframe do menu (with animation)
-# preenchimento de cor de fundo dos botões
+# MenuScreen: wireframe dos botões (with animation)
+# MenuScreen: preenchimento de cor de fundo dos botões
+
 
 17-05-2013
-# desenhada a border 
+# MenuScreen: desenho da border
 
+
+18-05-2013
+# MenuScreen: desenho do title
+# MenuScreen: desenho da grid a rodar (código a metro)
+
+
+19-05-2013
+# MenuScreen: implementado o decal com o background
+# corrigido o problema do resize no CameraModel que instanciava novas cameras
+# adicionada uma classe que lida com o movimento da camera - PerspectiveCamController
 
 
 

@@ -2,16 +2,25 @@ package pt.me.microm;
 
 import java.util.UUID;
 
+import pt.me.microm.controller.loop.GameTickGenerator;
+import pt.me.microm.controller.loop.ScreenTickManager;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
+import pt.me.microm.model.base.CameraModel;
+import pt.me.microm.model.dev.GridModel;
 import pt.me.microm.session.PlayerProgress;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.decals.CameraGroupStrategy;
+import com.badlogic.gdx.graphics.g3d.decals.Decal;
+import com.badlogic.gdx.graphics.g3d.decals.DecalBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -37,15 +46,26 @@ public class ScreenMenu implements Screen {
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private Stage stage;
-	private Table table;
+	private Table menuTable;
+	private Table titleTable;
 	
 	private PlayerProgress playerProgress;
 	private ICommand callback;
 	
-	Image imgNorth = new Image(GAME_CONSTANTS.devAtlas.createSprite("txr_daBox"));
-	Image imgSouth = new Image(GAME_CONSTANTS.devAtlas.createSprite("txr_daBox"));
-	Image imgWest = new Image(GAME_CONSTANTS.devAtlas.createSprite("txr_daBox")); 
-	Image imgEast = new Image(GAME_CONSTANTS.devAtlas.createSprite("txr_daBox")); 
+	private Image imgNorth = new Image(GAME_CONSTANTS.devAtlas.createSprite("txr_daBox"));
+	private Image imgSouth = new Image(GAME_CONSTANTS.devAtlas.createSprite("txr_daBox"));
+	private Image imgWest = new Image(GAME_CONSTANTS.devAtlas.createSprite("txr_daBox")); 
+	private Image imgEast = new Image(GAME_CONSTANTS.devAtlas.createSprite("txr_daBox")); 
+	private Image imgTitle = new Image(GAME_CONSTANTS.devAtlas.createSprite("txr_wall"));
+	
+	private CameraModel cameraModel; 
+	private GridModel gridModel;
+	
+	PerspectiveCamController pcamcontroller;
+	
+	private Decal background;
+	private Texture bg;
+	private DecalBatch decalBatch;
 	
 	private UUID devID;
 	private ScreenMenu(PlayerProgress playerProgress, ICommand callback) {
@@ -54,6 +74,21 @@ public class ScreenMenu implements Screen {
 		this.playerProgress = playerProgress;
 		this.callback = callback;
 		
+		cameraModel = new CameraModel();
+		cameraModel.camWidth /= 50;
+		cameraModel.camHeight /= 50;
+		cameraModel.cameraXposition += cameraModel.camWidth/2;
+		cameraModel.cameraYposition += cameraModel.camHeight/2;
+		
+		gridModel = new GridModel();
+
+		GameTickGenerator.getInstance(); //responsável pela actualizacao dos modelos
+		ScreenTickManager.getInstance(); //responsável pela actualizacao das views
+
+
+		TextureAtlas t = new TextureAtlas(Gdx.files.internal("data/scene2d/uiskin.atlas"), Gdx.files.internal("data/scene2d/"));
+		Skin skin = new Skin(Gdx.files.internal("data/scene2d/uiskin.json"), t);		
+		
 		stage = new Stage();
 		
 //		InputMultiplexer im = (InputMultiplexer) Gdx.input.getInputProcessor();
@@ -61,24 +96,37 @@ public class ScreenMenu implements Screen {
 //		im.addProcessor(stage);
 //		Gdx.input.setInputProcessor(im);
 		
-		table = new Table();
-		if (GameMicroM.FLAG_DEV_ELEMENTS_B)
-			table.debugWidget();//table.debug();//
+		menuTable = new Table();
+		menuTable.debugWidget();//table.debug();//
 		
-		table.setFillParent(true);
-		table.bottom().right().padBottom(50.0f);//.padRight(120.0f).padBottom(50.0f);
-		table.setWidth(180f);
+		menuTable.setFillParent(true);
+		menuTable.bottom().right().padBottom(50.0f);//.padRight(120.0f).padBottom(50.0f);
+		menuTable.setWidth(180f);
 
 		stage.addActor(imgNorth);
 		stage.addActor(imgSouth);
 		stage.addActor(imgWest);
-		stage.addActor(imgEast);		
+		stage.addActor(imgEast);
 		
+		
+		titleTable = new Table();
+		titleTable.setFillParent(true);
+		titleTable.debug();
+		titleTable.bottom().right().padBottom(150.0f).size(200f, 80f);
+		//imgTitle.setSize(550f, 80f);
+		titleTable.row().height(80f).width(200f);
+		Stack stkTitle = new Stack();
+		stkTitle.add(imgTitle);
+		Label lblTitle = new Label("seeds ", skin);
+		lblTitle.setAlignment(Align.bottom | Align.right);
+		stkTitle.add(lblTitle);
+		
+		titleTable.add(stkTitle).align(Align.right);
+		
+		stage.addActor(titleTable);
 
-		// Add widgets to the table here
 		
-		TextureAtlas t = new TextureAtlas(Gdx.files.internal("data/scene2d/uiskin.atlas"), Gdx.files.internal("data/scene2d/"));
-		Skin skin = new Skin(Gdx.files.internal("data/scene2d/uiskin.json"), t);
+		// Add widgets to the table here
 		
 		final Actor b;
 		stage.addActor(b = new Label("#: "+playerProgress.getScreenFlowService().getWorldByName("world.1.justforkicks").getCurrentDeathCount(), skin));
@@ -95,12 +143,12 @@ public class ScreenMenu implements Screen {
 		});
 		b.setPosition(0f, 100f);
 		
-		stage.addActor(table);		
+		stage.addActor(menuTable);		
 		
 		
 		//types of listeners
 		//ActorGestureListener, ChangeListener, ClickListener, DragListener, DragScrollListener, FocusListener, InputListener
-		table.row().height(16.0f).padTop(5.0f);
+		menuTable.row().height(16.0f).padTop(5.0f);
 			final Actor a_1;
 			final Stack stk_1 = new Stack();
 			final Label lbl_1;
@@ -112,7 +160,7 @@ public class ScreenMenu implements Screen {
 			a_1 = lbl_1;
 			stk_1.add(img_1);
 			stk_1.add(a_1);
-			c_1 = table.add(stk_1).width(120f).align(Align.right);
+			c_1 = menuTable.add(stk_1).width(120f).align(Align.right);
 			a_1.addListener(new EventListener() {
 				@Override
 				public boolean handle(Event event) {
@@ -157,7 +205,7 @@ public class ScreenMenu implements Screen {
 			
 			
 			
-		table.row().height(16.0f).padTop(5.0f);
+		menuTable.row().height(16.0f).padTop(5.0f);
 			final Actor a_2;
 			final Stack stk_2 = new Stack();
 			final Label lbl_2;
@@ -169,7 +217,7 @@ public class ScreenMenu implements Screen {
 			a_2 = lbl_2;
 			stk_2.add(img_2);
 			stk_2.add(a_2);
-			c_2 = table.add(stk_2).width(120f).align(Align.right);
+			c_2 = menuTable.add(stk_2).width(120f).align(Align.right);
 			a_2.addListener(new EventListener() {
 				@Override
 				public boolean handle(Event event) {
@@ -210,7 +258,7 @@ public class ScreenMenu implements Screen {
 				}
 			});
 		
-		table.row().height(16.0f).padTop(5.0f);
+		menuTable.row().height(16.0f).padTop(5.0f);
 			final Actor a_3;
 			final Stack stk_3 = new Stack();
 			final Label lbl_3;
@@ -222,7 +270,7 @@ public class ScreenMenu implements Screen {
 			a_3 = lbl_3;
 			stk_3.add(img_3);
 			stk_3.add(a_3);
-			c_3 = table.add(stk_3).width(120f).align(Align.right);
+			c_3 = menuTable.add(stk_3).width(120f).align(Align.right);
 			a_3.addListener(new EventListener() {
 				@Override
 				public boolean handle(Event event) {
@@ -264,7 +312,7 @@ public class ScreenMenu implements Screen {
 			});
 		
 			
-		table.row().height(16.0f).padTop(5.0f);
+		menuTable.row().height(16.0f).padTop(5.0f);
 			final Actor a_4;
 			final Stack stk_4 = new Stack();
 			final Label lbl_4;
@@ -276,7 +324,7 @@ public class ScreenMenu implements Screen {
 			a_4 = lbl_4;
 			stk_4.add(img_4);
 			stk_4.add(a_4);
-			c_4 = table.add(stk_4).width(120f).align(Align.right);
+			c_4 = menuTable.add(stk_4).width(120f).align(Align.right);
 			a_4.addListener(new EventListener() {
 				@Override
 				public boolean handle(Event event) {
@@ -316,7 +364,17 @@ public class ScreenMenu implements Screen {
 					return false;
 				}
 			});		
-				
+
+			pcamcontroller = new PerspectiveCamController(cameraModel.getGameCamera());
+			
+			bg = new Texture(Gdx.files.internal("data/textures/dev/input/bg.png"));
+//			bg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+//			bg.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
+			//background = Decal.newDecal(GAME_CONSTANTS.devAtlas.createSprite("bg"), true);
+			background = Decal.newDecal(100f, 100f, new TextureRegion(bg), true);
+			background.setPosition(0f, 0f, -50f);
+			
+			decalBatch = new DecalBatch(new CameraGroupStrategy(cameraModel.getGameCamera()));
 	}
 
 	public static Screen showMenu(PlayerProgress playerProgress, ICommand callback) {
@@ -325,30 +383,55 @@ public class ScreenMenu implements Screen {
 	}
 	
 	
-	
+	private String clear_color = "0000000F";//"0606020F";
 	@Override
 	public void render(float delta) {
-
+		long elapsedNanoTime = (long)(Gdx.graphics.getDeltaTime()*GAME_CONSTANTS.ONE_SECOND_TO_NANO);
+		
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);		
+		
 		if (Gdx.input.isKeyPressed(Keys.BACKSPACE) || Gdx.input.isKeyPressed(Keys.BACK)) // use your own criterion here
 			callback.handler("back");
 		
-	
+    	if (Gdx.graphics.isGL20Available()) {
+    		
+//    		 Clean do gl context
+//			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+//			Gdx.gl.glClearColor(Color.valueOf(clear_color).r, Color.valueOf(clear_color).g, Color.valueOf(clear_color).b, Color.valueOf(clear_color).a);
+    		
+			ScreenTickManager.getInstance().fireEvent(true, cameraModel, elapsedNanoTime);
+			
+    	} else {
+			// Clean do gl context
+//			Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+//			Gdx.gl.glClearColor(Color.valueOf(clear_color).r, Color.valueOf(clear_color).g, Color.valueOf(clear_color).b, Color.valueOf(clear_color).a);
+			
+    		ScreenTickManager.getInstance().fireEvent(false, cameraModel, elapsedNanoTime);    		
+    	}
 		
-		// Clean do gl context
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		Gdx.gl.glClearColor(0.3f, 0.15f, 0.10f, 0.8f); // brown
-		
-        Table.drawDebug(stage); // This is optional, but enables debug lines for tables.
+      background.lookAt(cameraModel.getGameCamera().position, cameraModel.getGameCamera().up);
+      decalBatch.add(background);
+      decalBatch.flush();		
+    	
+    	
+    	if (GameMicroM.FLAG_DEV_ELEMENTS_B)
+			Table.drawDebug(stage); // This is optional, but enables debug lines for tables.
         
         stage.act(delta);
         stage.draw();
         
+
+
         
+
         
 	}
 
 	@Override
 	public void resize(int width, int height) {
+		cameraModel.Resize(width, height);
+		
 		//stage.setViewport(width, height, true);
 		stage.setViewport(1280/3, 800/3, true);// fixando o viewport permite que se fique com um sistema de coordenadas independente da resolução
 		
@@ -375,6 +458,8 @@ public class ScreenMenu implements Screen {
 		
 		InputMultiplexer im = new InputMultiplexer();
 		im.addProcessor(stage);
+		im.addProcessor(cameraModel);
+		im.addProcessor(pcamcontroller);
 		Gdx.input.setInputProcessor(im);		
 	}
 
@@ -400,7 +485,7 @@ public class ScreenMenu implements Screen {
 	@Override
 	public void dispose() {
 		// clean actor listeners
-		SnapshotArray<Actor> items = table.getChildren();
+		SnapshotArray<Actor> items = menuTable.getChildren();
 		for (int i = 0; i<items.size; i++) {
 			Array<EventListener> el = items.get(i).getListeners();
 			for (int j = 0; j<el.size; j++){
@@ -411,10 +496,12 @@ public class ScreenMenu implements Screen {
 				items.get(i).removeCaptureListener(ecl.get(j));
 			}
 		}
-		table.clear();
+		menuTable.clear();
+		titleTable.clear();
 		stage.clear();
 		stage.dispose();
-		
+	
+		decalBatch.dispose();
 	}
 	
 	@Override

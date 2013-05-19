@@ -72,6 +72,10 @@ public class MeshHelper {
 
 	
 	public void drawMesh(Matrix4 projection, Matrix4 view, Matrix4 model, Color c) {
+		drawMesh(projection, view, model, c, false);
+	}
+	
+	public void drawMesh(Matrix4 projection, Matrix4 view, Matrix4 model, Color c, boolean onlyPoints) {
 		// this should be called in render()
 		if (mesh == null)
 			throw new IllegalStateException("drawMesh called before a mesh has been created.");
@@ -80,10 +84,9 @@ public class MeshHelper {
 		combined.set(projection).mul(view).mul(model);
 		meshShader.setUniformMatrix("u_mvpMatrix", combined);
 		meshShader.setUniformf("a_color", c.r, c.g, c.b, c.a);
-		mesh.render(meshShader, GL20.GL_TRIANGLE_FAN);
-		meshShader.end();
-	}	
-	
+		mesh.render(meshShader, onlyPoints ? GL20.GL_POINTS : GL20.GL_TRIANGLE_FAN);
+		meshShader.end();		
+	}
 	
 	public void dispose() {
 		mesh.dispose();
