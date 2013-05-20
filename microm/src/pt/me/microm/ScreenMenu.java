@@ -6,14 +6,19 @@ import pt.me.microm.controller.loop.GameTickGenerator;
 import pt.me.microm.controller.loop.ScreenTickManager;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
+import pt.me.microm.model.base.CameraControllerDrag;
+import pt.me.microm.model.base.CameraControllerStrafe;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.dev.GridModel;
+import pt.me.microm.model.ui.UIMetricsModel;
+import pt.me.microm.model.ui.UIModel;
 import pt.me.microm.session.PlayerProgress;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -60,8 +65,10 @@ public class ScreenMenu implements Screen {
 	
 	private CameraModel cameraModel; 
 	private GridModel gridModel;
+	private UIMetricsModel uiMetricsModel;
 	
-	PerspectiveCamController pcamcontroller;
+	private CameraControllerDrag camcontrollerDrag;
+	private CameraControllerStrafe camcontrollerStrafe;
 	
 	private Decal background;
 	private Texture bg;
@@ -75,12 +82,12 @@ public class ScreenMenu implements Screen {
 		this.callback = callback;
 		
 		cameraModel = new CameraModel();
-		cameraModel.camWidth /= 50;
-		cameraModel.camHeight /= 50;
-		cameraModel.cameraXposition += cameraModel.camWidth/2;
-		cameraModel.cameraYposition += cameraModel.camHeight/2;
+//		cameraModel.setWindowSize(Gdx.graphics.getWidth()/50, Gdx.graphics.getHeight()/50);
+//		cameraModel.cameraXposition += cameraModel.camWidth/2;
+//		cameraModel.cameraYposition += cameraModel.camHeight/2;
 		
 		gridModel = new GridModel();
+		uiMetricsModel = new UIMetricsModel();
 
 		GameTickGenerator.getInstance(); //responsável pela actualizacao dos modelos
 		ScreenTickManager.getInstance(); //responsável pela actualizacao das views
@@ -320,7 +327,7 @@ public class ScreenMenu implements Screen {
 			final Cell<?> c_4;
 			lbl_4 = new Label("EXIT ",skin);
 			img_4 = new Image(GAME_CONSTANTS.devAtlas.createSprite("txr_daBox"));
-			lbl_4.setAlignment(Align.right);	
+			lbl_4.setAlignment(Align.right);
 			a_4 = lbl_4;
 			stk_4.add(img_4);
 			stk_4.add(a_4);
@@ -365,14 +372,19 @@ public class ScreenMenu implements Screen {
 				}
 			});		
 
-			pcamcontroller = new PerspectiveCamController(cameraModel.getGameCamera());
+			camcontrollerDrag = new CameraControllerDrag(cameraModel);
+			camcontrollerStrafe = new CameraControllerStrafe(cameraModel);
 			
-			bg = new Texture(Gdx.files.internal("data/textures/dev/input/bg.png"));
-//			bg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-//			bg.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
+//			bg = new Texture(Gdx.files.internal("data/textures/dev/input/bg.png"));
+			bg = new Texture(Gdx.files.internal("data/textures/menuEgg.png"));
+			
+			bg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+			//bg.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
 			//background = Decal.newDecal(GAME_CONSTANTS.devAtlas.createSprite("bg"), true);
-			background = Decal.newDecal(100f, 100f, new TextureRegion(bg), true);
-			background.setPosition(0f, 0f, -50f);
+//			background = Decal.newDecal(800f, 800f, new TextureRegion(bg), true);
+//			background = Decal.newDecal(bg.getWidth()/2, bg.getHeight()/2, new TextureRegion(bg), true);
+			background = Decal.newDecal(new TextureRegion(bg), true);
+			background.setPosition(0f, 0f, 0f);
 			
 			decalBatch = new DecalBatch(new CameraGroupStrategy(cameraModel.getGameCamera()));
 	}
@@ -383,7 +395,7 @@ public class ScreenMenu implements Screen {
 	}
 	
 	
-	private String clear_color = "0000000F";//"0606020F";
+	private String clear_color = "ffffffff";//"0606020F";
 	@Override
 	public void render(float delta) {
 		long elapsedNanoTime = (long)(Gdx.graphics.getDeltaTime()*GAME_CONSTANTS.ONE_SECOND_TO_NANO);
@@ -394,23 +406,8 @@ public class ScreenMenu implements Screen {
 		if (Gdx.input.isKeyPressed(Keys.BACKSPACE) || Gdx.input.isKeyPressed(Keys.BACK)) // use your own criterion here
 			callback.handler("back");
 		
-    	if (Gdx.graphics.isGL20Available()) {
-    		
-//    		 Clean do gl context
-//			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//			Gdx.gl.glClearColor(Color.valueOf(clear_color).r, Color.valueOf(clear_color).g, Color.valueOf(clear_color).b, Color.valueOf(clear_color).a);
-    		
-			ScreenTickManager.getInstance().fireEvent(true, cameraModel, elapsedNanoTime);
-			
-    	} else {
-			// Clean do gl context
-//			Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-//			Gdx.gl.glClearColor(Color.valueOf(clear_color).r, Color.valueOf(clear_color).g, Color.valueOf(clear_color).b, Color.valueOf(clear_color).a);
-			
-    		ScreenTickManager.getInstance().fireEvent(false, cameraModel, elapsedNanoTime);    		
-    	}
 		
-      background.lookAt(cameraModel.getGameCamera().position, cameraModel.getGameCamera().up);
+//      background.lookAt(cameraModel.getGameCamera().position, cameraModel.getGameCamera().up);
       decalBatch.add(background);
       decalBatch.flush();		
     	
@@ -420,20 +417,33 @@ public class ScreenMenu implements Screen {
         
         stage.act(delta);
         stage.draw();
+
+    	if (Gdx.graphics.isGL20Available()) {
+    		
+//   		 Clean do gl context
+//			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			Gdx.gl.glClearColor(Color.valueOf(clear_color).r, Color.valueOf(clear_color).g, Color.valueOf(clear_color).b, Color.valueOf(clear_color).a);
+   		
+			ScreenTickManager.getInstance().fireEvent(true, cameraModel, elapsedNanoTime);
+			
+   	} else {
+			// Clean do gl context
+//			Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+			Gdx.gl.glClearColor(Color.valueOf(clear_color).r, Color.valueOf(clear_color).g, Color.valueOf(clear_color).b, Color.valueOf(clear_color).a);
+			
+   		ScreenTickManager.getInstance().fireEvent(false, cameraModel, elapsedNanoTime);    		
+   	}
+        
         
 
-
-        
-
-        
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		cameraModel.Resize(width, height);
+		cameraModel.resize(width, height);
 		
 		//stage.setViewport(width, height, true);
-		stage.setViewport(1280/3, 800/3, true);// fixando o viewport permite que se fique com um sistema de coordenadas independente da resolução
+		stage.setViewport(1280/2, 800/2, true);// fixando o viewport permite que se fique com um sistema de coordenadas independente da resolução
 		
 		imgNorth.setSize(stage.getWidth(), 10f);
 		imgNorth.setPosition(0f, stage.getHeight()-imgNorth.getHeight());
@@ -458,8 +468,10 @@ public class ScreenMenu implements Screen {
 		
 		InputMultiplexer im = new InputMultiplexer();
 		im.addProcessor(stage);
-		im.addProcessor(cameraModel);
-		im.addProcessor(pcamcontroller);
+
+		im.addProcessor(camcontrollerDrag);
+		im.addProcessor(camcontrollerStrafe);
+		
 		Gdx.input.setInputProcessor(im);		
 	}
 

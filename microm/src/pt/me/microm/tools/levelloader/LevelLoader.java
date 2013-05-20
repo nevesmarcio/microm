@@ -307,11 +307,7 @@ public class LevelLoader {
 				String camera_name = camera.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
 				// here we configure the camera
-				cm.camWidth = s.getWidth();
-				cm.camHeight = s.getHeight();
-				cm.cameraXposition = s.getCentroid().x;
-				cm.cameraYposition = s.getCentroid().y;
-				cm.Resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+				cm.adjustCamera(s.getWidth(), s.getHeight(), s.getCentroid().x, s.getCentroid().y);
 				
 				nrElements+=1;
 			}

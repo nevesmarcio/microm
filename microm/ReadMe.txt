@@ -346,11 +346,6 @@ http://stackoverflow.com/questions/5646221/delaunay-triangulating-the-2d-polygon
 14-05-2013
 # testes com o mecanismo de lighting
 
-<<<<TODO>>>>: depois de triar o que funciona em gl20 e o que não funciona, dado que os métodos draw20 são praticamente todos iguais aos metodos draw10,
-usar o mecanismo do abstractview para reduzir o código (só fazer override aos que são efectivamente diferentes)
-
--->isto tudo para a seguir pegar nos meshes/ postprocessing/ gles2.0/ etc...
-
 
 15-05-2013
 # desenhado um lore/ titulo alternativo (mais intelectual)
@@ -376,11 +371,18 @@ usar o mecanismo do abstractview para reduzir o código (só fazer override aos 
 # adicionada uma classe que lida com o movimento da camera - PerspectiveCamController
 
 
+20-05-2013
+# refactoring do CameraModel e CameraControllers (Drag + Strafe)
+# refactoring do UIModel: criada uma UIMetrics que não depende da camera para fazer o overlay dos fps e ups
 
 
 
 
 
+<<<<TODO>>>>: depois de triar o que funciona em gl20 e o que não funciona, dado que os métodos draw20 são praticamente todos iguais aos metodos draw10,
+usar o mecanismo do abstractview para reduzir o código (só fazer override aos que são efectivamente diferentes)
+
+-->isto tudo para a seguir pegar nos meshes/ postprocessing/ gles2.0/ etc...
 
 
 ------>> O mecanismo de pausa, como pára o render, também pára os efeitos das partículas. No entanto não pára o motor fisico.

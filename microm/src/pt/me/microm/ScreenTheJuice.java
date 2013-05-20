@@ -110,7 +110,7 @@ public class ScreenTheJuice implements Screen {
 		multiplexer.addProcessor(new GestureDetector(1, 1.0f, 1.0f, 1.0f, myGestureListener));
 		multiplexer.addProcessor(myInputProcessor);
 		multiplexer.addProcessor(worldModel);
-		multiplexer.addProcessor(cameraModel);
+//		multiplexer.addProcessor(cameraModel);
 		multiplexer.addProcessor(ui);
 
 	}
@@ -158,7 +158,7 @@ public class ScreenTheJuice implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		cameraModel.Resize(width, height);
+		cameraModel.resize(width, height);
 		
 	}
 

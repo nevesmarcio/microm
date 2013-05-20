@@ -14,7 +14,8 @@
  * limitations under the License.
  ******************************************************************************/
 
-package pt.me.microm;
+package pt.me.microm.model.base;
+
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
@@ -24,8 +25,8 @@ import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-public class PerspectiveCamController extends InputAdapter {
-	public PerspectiveCamera cam;
+public class CameraControllerDrag extends InputAdapter {
+	public CameraModel cam;
 
 	enum TransformMode {
 		Rotate, Translate, Zoom, None
@@ -35,7 +36,7 @@ public class PerspectiveCamController extends InputAdapter {
 	TransformMode mode = TransformMode.Translate;
 	boolean translated = false;
 
-	public PerspectiveCamController (PerspectiveCamera cam) {
+	public CameraControllerDrag (CameraModel cam) {
 		this.cam = cam;
 	}
 
@@ -72,10 +73,10 @@ public class PerspectiveCamController extends InputAdapter {
 		delta.set(x, y).sub(last);
 
 		if (mode == TransformMode.Rotate) {
-			point.set(cam.position).sub(lookAt);
+			point.set(cam.getGameCamera().position).sub(lookAt);
 
 			if (point.tmp().nor().dot(yAxis) < 0.9999f) {
-				xAxis.set(cam.direction).crs(yAxis).nor();
+				xAxis.set(cam.getGameCamera().direction).crs(yAxis).nor();
 				rotMatrix.setToRotation(xAxis, delta.y / 5);
 				point.mul(rotMatrix);
 			}
@@ -83,28 +84,27 @@ public class PerspectiveCamController extends InputAdapter {
 			rotMatrix.setToRotation(yAxis, -delta.x / 5);
 			point.mul(rotMatrix);
 
-			cam.position.set(point.add(lookAt));
-			cam.lookAt(lookAt.x, lookAt.y, lookAt.z);
+			cam.getGameCamera().position.set(point.add(lookAt));
+			cam.getGameCamera().lookAt(lookAt.x, lookAt.y, lookAt.z);
 		}
 		if (mode == TransformMode.Zoom) {
-			cam.fieldOfView -= -delta.y / 10;
+			cam.getGameCamera().fieldOfView -= -delta.y / 10;
 		}
 		if (mode == TransformMode.Translate) {
 			tCurr.set(x, y);
 			translated = true;
 		}
 
-		cam.update();
+		cam.getGameCamera().update();
 		last.set(x, y);
 		return true;
 	}
 
 	@Override
 	public boolean scrolled (int amount) {
-		cam.fieldOfView -= -amount * Gdx.graphics.getDeltaTime() * 100;
-		cam.update();
+		cam.getGameCamera().fieldOfView -= -amount * Gdx.graphics.getDeltaTime() * 100;
+		cam.getGameCamera().update();
 		
-		System.out.println(cam);
 		return true;
 	}
 

@@ -1,4 +1,4 @@
-package pt.me.microm;
+package atests;
 import pt.me.microm.view.helper.MeshHelper;
 
 import com.badlogic.gdx.ApplicationListener;

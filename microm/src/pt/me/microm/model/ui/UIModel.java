@@ -25,7 +25,7 @@ import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
 import com.badlogic.gdx.utils.Logger;
 
-public class UIModel extends AbstractModel implements InputProcessor{
+public class UIModel extends AbstractModel implements InputProcessor {
 	// Esta classe deverá ter um objecto visual independente da camera sobre o mundo.
 	// O UI deverá permanecer inalterado independentemente do zoom/ pan, etc.
 	private static final String TAG = UIModel.class.getSimpleName();
@@ -42,8 +42,6 @@ public class UIModel extends AbstractModel implements InputProcessor{
 
 	protected MouseJoint[] mouseJoint = null;
 	
-	private float ups;
-
 	public UIModel(CameraModel cam, WorldModel wm) {
 		this.cam = cam;
 		this.wm = wm;
@@ -77,25 +75,13 @@ public class UIModel extends AbstractModel implements InputProcessor{
 	};
 
 	
-
-	
-	
 	@Override
 	public void handleGameTick(GameTickEvent e) {
 		float elapsedNanoTime = e.getElapsedNanoTime();
 		
-		setUps((float) (1000.0 / (elapsedNanoTime / GAME_CONSTANTS.ONE_MILISECOND_TO_NANO)));		
-		
 	}
 
 	
-	// Updates Per Second (relativo à cadência dos cálculos físicos)
-	public float getUps() {
-		return ups;
-	}
-	public void setUps(float ups) {
-		this.ups = ups;
-	}	
 	
 	public Vector3[] getWorldCoordTestPoint() {
 		return worldCoordTestPoint;
