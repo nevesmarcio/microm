@@ -374,6 +374,13 @@ http://stackoverflow.com/questions/5646221/delaunay-triangulating-the-2d-polygon
 20-05-2013
 # refactoring do CameraModel e CameraControllers (Drag + Strafe)
 # refactoring do UIModel: criada uma UIMetrics que não depende da camera para fazer o overlay dos fps e ups
+# inicio do desenho do ecrã de escolha do mundo e level
+
+
+23-05-2013
+# definido o esqueleto do ecrã de escolha do mundo e level
+# desenho do package-by-feature no WorldNavigatorScreen
+# estrutura MVC para o WorldNavigatorScreen
 
 
 

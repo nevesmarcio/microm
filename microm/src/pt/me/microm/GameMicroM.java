@@ -2,6 +2,7 @@ package pt.me.microm;
 
 import java.util.UUID;
 
+import pt.me.microm._package_by_feature_.screen.WorldNavigatorController;
 import pt.me.microm.controller.loop.ScreenTickManager;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
@@ -52,9 +53,11 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 		
 		Gdx.input.setCatchBackKey(true);
 		Gdx.input.setCatchMenuKey(true);			
-		
+
 //		splash();
-		menu(playerProgress);
+//		menu(playerProgress);
+		world();
+//		level("world.1.justforkicks");
 //		theJuice("world.1.justforkicks", "level#1.0.svg");
 	}
 
@@ -87,7 +90,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 	}
 	
 	private void world() {
-		setScreen(ScreenWorldSelect.selectAWorld(new ICommand() {
+		setScreen(WorldNavigatorController.selectAWorld(new ICommand() {
 			@Override
 			public Object handler(Object... a) {
 				logger.info("selectAWorld ending!");
