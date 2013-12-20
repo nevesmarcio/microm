@@ -413,6 +413,8 @@ pe. trigger :: path_to_script
 
 
 [TODO] 
+# Start using MAVEN with android projects - it will help not to upload libs and stuff
+
 # Gostava de implementar uma protecção de thread para garantir que determinado código só corre numa thread e outro código noutra.
 
 # Construir o splashscreen!!
