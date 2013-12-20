@@ -1,15 +1,10 @@
 package pt.me.microm.controller.loop;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
@@ -19,7 +14,6 @@ import pt.me.microm.controller.loop.itf.IGameTick;
 import pt.me.microm.controller.loop.itf.IProcessRunnable;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Logger;

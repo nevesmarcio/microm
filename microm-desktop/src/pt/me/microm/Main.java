@@ -1,5 +1,7 @@
 package pt.me.microm;
 
+import atests.GpuShadows;
+
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;

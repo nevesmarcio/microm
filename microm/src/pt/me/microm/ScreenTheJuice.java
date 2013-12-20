@@ -126,6 +126,7 @@ public class ScreenTheJuice implements Screen {
 	// the main loop - maximum fps possible (Update rate para a View)
 	public void render(float delta) {
 		long elapsedNanoTime = (long)(Gdx.graphics.getDeltaTime()*GAME_CONSTANTS.ONE_SECOND_TO_NANO);
+		Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
 		
         // use your own criterion here
     	if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {

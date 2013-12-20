@@ -1,4 +1,4 @@
-OneButton Game
+﻿OneButton Game
 
 Physics Editor
 http://code.google.com/p/box2d-editor/
@@ -382,7 +382,10 @@ http://stackoverflow.com/questions/5646221/delaunay-triangulating-the-2d-polygon
 # desenho do package-by-feature no WorldNavigatorScreen
 # estrutura MVC para o WorldNavigatorScreen
 
+[amanhã desenhar 1 widget para navegar nos mundos]
 
+07-06-2013
+# Está dificil de retomar... xessuis! 
 
 
 

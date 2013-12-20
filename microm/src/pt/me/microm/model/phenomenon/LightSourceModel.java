@@ -9,6 +9,7 @@ import pt.me.microm.tools.levelloader.BasicShape;
 
 import box2dLight.ConeLight;
 import box2dLight.DirectionalLight;
+import box2dLight.PointLight;
 import box2dLight.RayHandler;
 
 import com.badlogic.gdx.Gdx;
@@ -49,14 +50,14 @@ public class LightSourceModel extends AbstractModel {
 		rayHandler.setAmbientLight(new Color(0.10f, 0.10f, 0.10f, 0.00f));
 //	    rayHandler.setAmbientLight(new Color(0.5f, 0.5f, 0.5f, 0.5f));
 	    
-//	    new PointLight(rayHandler, 36*20, new Color(1.00f, 1.00f, 1.00f, 0.25f), 55.0f, lightsourcemSrc.sh.getRotationPivot().x, lightsourcemSrc.sh.getRotationPivot().y);
-//	    new PointLight(rayHandler, 36*20, new Color(1.00f, 1.00f, 1.00f, 0.25f), 55.0f, lightsourcemSrc.sh.getRotationPivot().x/100, lightsourcemSrc.sh.getRotationPivot().y);
-//	    new PointLight(rayHandler, 36*20, new Color(1.00f, 1.00f, 1.00f, 0.25f), 55.0f, lightsourcemSrc.sh.getRotationPivot().x/2, lightsourcemSrc.sh.getRotationPivot().y);
+	    new PointLight(rayHandler, 36*20, new Color(1.00f, 1.00f, 1.00f, 0.25f), 55.0f, sh.getRotationPivot().x, sh.getRotationPivot().y);
+//	    new PointLight(rayHandler, 36*20, new Color(1.00f, 1.00f, 1.00f, 0.25f), 55.0f, sh.getRotationPivot().x/100, sh.getRotationPivot().y);
+//	    new PointLight(rayHandler, 36*20, new Color(1.00f, 1.00f, 1.00f, 0.25f), 55.0f, sh.getRotationPivot().x/2, sh.getRotationPivot().y);
 //	    new ConeLight(rayHandler, 30*5, new Color(1.00f, 1.00f, 1.00f, 0.55f), 30.0f, sh.getRotationPivot().x, sh.getRotationPivot().y, 225, 30);
 //	    new ConeLight(rayHandler, 30*5, new Color(1.00f, 1.00f, 1.00f, 0.55f), 30.0f, sh.getRotationPivot().x/100, sh.getRotationPivot().y, 315, 30);
 		
 		
-		new DirectionalLight(rayHandler, 100, new Color(1.00f, 1.00f, 1.00f, 0.55f), 90);
+//		new DirectionalLight(rayHandler, 100, new Color(1.00f, 1.00f, 1.00f, 0.55f), 90);
 		
 	    		
 		

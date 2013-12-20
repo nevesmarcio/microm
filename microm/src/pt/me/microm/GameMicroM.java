@@ -26,7 +26,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 	public static final boolean FLAG_DISPLAY_ACTOR_SHAPES = true;		// mostra o desenho das shapes dos actores: walls, dabox, etc.
 	public static final boolean FLAG_DISPLAY_ACTOR_TEXTURES = true;		// liga a texturização dos actores
 	public static final boolean FLAG_DISPLAY_PARTICLES = true;			// liga o desenho de particulas
-	public static final boolean FLAG_CALC_LIGHTING = false;				// liga o mecanismo de lighting
+	public static final boolean FLAG_CALC_LIGHTING = true;				// liga o mecanismo de lighting
 	
 	private static final String TAG = GameMicroM.class.getSimpleName();
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
@@ -54,9 +54,9 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 		Gdx.input.setCatchBackKey(true);
 		Gdx.input.setCatchMenuKey(true);			
 
-//		splash();
+		splash();
 //		menu(playerProgress);
-		world();
+//		world();
 //		level("world.1.justforkicks");
 //		theJuice("world.1.justforkicks", "level#1.0.svg");
 	}
