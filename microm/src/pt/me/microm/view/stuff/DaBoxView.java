@@ -7,13 +7,10 @@ import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.stuff.DaBoxModel;
 import pt.me.microm.view.AbstractView;
+import pt.me.microm.view.helper.SimpleRendererHelper;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -31,6 +28,8 @@ public class DaBoxView extends AbstractView {
 	
 	private ShapeRenderer renderer;
 	
+	private Mesh daBoxMesh;
+	
 	private SpriteBatch batch;
 	
 	private ParticleEffect particleEffect;
@@ -45,35 +44,10 @@ public class DaBoxView extends AbstractView {
 
 		renderer = new ShapeRenderer();
 		batch = new SpriteBatch();
+		
+		///////////////////////////////
 	
-		float[] vertexes;
-		short[] indexes;
-		int nr_points = daBoxmSrc.getBasicShape().getPointsArray().length;
-		vertexes = new float[nr_points*4];
-
-		indexes = new short[nr_points];
-		
-		for (int i = 0; i < nr_points; i++) {
-			indexes[i] = (short)i;
-			
-			vertexes[i*4] = daBoxmSrc.getBasicShape().getPointsArray()[i].x;
-			vertexes[i*4+1] = daBoxmSrc.getBasicShape().getPointsArray()[i].y;
-			vertexes[i*4+2] = 0.0f;
-			vertexes[i*4+3] = Color.toFloatBits(daBoxmSrc.getBasicShape().getFillColor().r,
-												daBoxmSrc.getBasicShape().getFillColor().g,
-												daBoxmSrc.getBasicShape().getFillColor().b,
-												daBoxmSrc.getBasicShape().getFillColor().a);
-		}
-
-		daBoxMesh = new Mesh(true, nr_points, nr_points, 
-                new VertexAttribute(Usage.Position, 3, "a_position"),
-                new VertexAttribute(Usage.ColorPacked, 4, "a_color"));
-
-		daBoxMesh.setVertices(vertexes);
-		daBoxMesh.setIndices(indexes);
-		
-		
-		
+		daBoxMesh = SimpleRendererHelper.buildMesh(daBoxmSrc.getBasicShape());
 		
 		///////////////////////////////
 	
@@ -83,7 +57,7 @@ public class DaBoxView extends AbstractView {
 				
 	}
 	
-	private Mesh daBoxMesh;
+	
 	
 	
 	Vector2 pointA = new Vector2();
@@ -92,23 +66,8 @@ public class DaBoxView extends AbstractView {
 	public void draw(ScreenTickEvent e) {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
-		Gdx.gl10.glPushMatrix();
-		Gdx.gl10.glMatrixMode(GL10.GL_PROJECTION);
-//		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().projection.cpy().translate(0.0f, 0.0f, 0.0f).val, 0); // poupa umas alocaçoes e memória
-		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().projection.translate(0.0f, 0.0f, 0.0f).val, 0);
+		SimpleRendererHelper.drawMesh(e.getCamera(), daBoxmSrc, daBoxMesh);
 		
-		Gdx.gl10.glPushMatrix();
-		Gdx.gl10.glMatrixMode(GL10.GL_MODELVIEW);
-		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().view.cpy().translate(daBoxmSrc.getPosition().x, daBoxmSrc.getPosition().y, 0.0f).val, 0);
-		
-	    //mesh.render(GL10.GL_TRIANGLES, 0, 3);
-	    if (daBoxMesh != null)
-	    	daBoxMesh.render(GL10.GL_TRIANGLE_FAN); //GL10.GL_TRIANGLE_FAN //GL10.GL_TRIANGLES //GL10.GL_TRIANGLE_STRIP  
-		
-	    Gdx.gl10.glPopMatrix();
-	    Gdx.gl10.glPopMatrix();			
-		
-
 		if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
 			renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 

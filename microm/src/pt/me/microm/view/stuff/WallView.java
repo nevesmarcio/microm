@@ -6,7 +6,9 @@ import pt.me.microm.GameMicroM;
 import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.stuff.WallModel;
+import pt.me.microm.tools.levelloader.BasicShape;
 import pt.me.microm.view.AbstractView;
+import pt.me.microm.view.helper.SimpleRendererHelper;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -27,7 +29,9 @@ public class WallView extends AbstractView {
 	
 	private WallModel wallmSrc;
 	
-	ShapeRenderer renderer;
+	private ShapeRenderer renderer;
+	
+	private Mesh wallMesh;
 	
 	public WallView(WallModel wallmSrc) {
 		super(wallmSrc, 0);
@@ -38,35 +42,11 @@ public class WallView extends AbstractView {
 	public void DelayedInit() {
 		renderer = new ShapeRenderer();
 		
-		float[] vertexes;
-		short[] indexes;
-		int nr_points = wallmSrc.getBasicShape().getPointsArray().length;
-		vertexes = new float[nr_points*4];
-
-		indexes = new short[nr_points];
-		
-		for (int i = 0; i < nr_points; i++) {
-			indexes[i] = (short)i;
-			
-			vertexes[i*4] = wallmSrc.getBasicShape().getPointsArray()[i].x;
-			vertexes[i*4+1] = wallmSrc.getBasicShape().getPointsArray()[i].y;
-			vertexes[i*4+2] = 0.0f;
-			vertexes[i*4+3] = Color.toFloatBits(wallmSrc.getBasicShape().getFillColor().r,
-												wallmSrc.getBasicShape().getFillColor().g,
-												wallmSrc.getBasicShape().getFillColor().b,
-												wallmSrc.getBasicShape().getFillColor().a);
-		}
-
-		wallMesh = new Mesh(true, nr_points, nr_points, 
-                new VertexAttribute(Usage.Position, 3, "a_position"),
-                new VertexAttribute(Usage.ColorPacked, 4, "a_color"));
-
-        wallMesh.setVertices(vertexes);
-        wallMesh.setIndices(indexes);		
+        wallMesh = SimpleRendererHelper.buildMesh(wallmSrc.getBasicShape());		
 	}
 
 	
-	private Mesh wallMesh;
+	
 	
 	
 	Vector2 pointA = new Vector2();
@@ -74,22 +54,7 @@ public class WallView extends AbstractView {
 	@Override
 	public void draw(ScreenTickEvent e) {
 
-		Gdx.gl10.glPushMatrix();
-		Gdx.gl10.glMatrixMode(GL10.GL_PROJECTION);
-//		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().projection.cpy().translate(0.0f, 0.0f, 0.0f).val, 0); // poupa umas alocaçoes e memória
-		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().projection.translate(0.0f, 0.0f, 0.0f).val, 0);
-		
-		Gdx.gl10.glPushMatrix();
-		Gdx.gl10.glMatrixMode(GL10.GL_MODELVIEW);
-		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().view.cpy().translate(wallmSrc.getPosition().x, wallmSrc.getPosition().y, 0.0f).val, 0);
-		
-	    //mesh.render(GL10.GL_TRIANGLES, 0, 3);
-	    if (wallMesh != null)
-	    	wallMesh.render(GL10.GL_TRIANGLE_FAN); //GL10.GL_TRIANGLE_FAN //GL10.GL_TRIANGLES //GL10.GL_TRIANGLE_STRIP  
-		
-	    Gdx.gl10.glPopMatrix();
-	    Gdx.gl10.glPopMatrix();		
-		
+		SimpleRendererHelper.drawMesh(e.getCamera(), wallmSrc, wallMesh);
 
 		if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
 			renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);

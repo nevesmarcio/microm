@@ -7,14 +7,9 @@ import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.trigger.SimpleTriggerModel;
 import pt.me.microm.view.AbstractView;
+import pt.me.microm.view.helper.SimpleRendererHelper;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.VertexAttributes.Usage;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
@@ -28,9 +23,9 @@ public class SimpleTriggerView extends AbstractView {
 	
 	private SimpleTriggerModel triggermSrc;
 	
-	ShapeRenderer renderer;
+	private ShapeRenderer renderer;
 	
-	SpriteBatch batch = new SpriteBatch();
+	private Mesh triggerMesh;
 	
 	public SimpleTriggerView(SimpleTriggerModel triggermSrc) {
 		super(triggermSrc);
@@ -41,57 +36,16 @@ public class SimpleTriggerView extends AbstractView {
 	public void DelayedInit() {
 		renderer = new ShapeRenderer();
 		
-		float[] vertexes;
-		short[] indexes;
-		int nr_points = triggermSrc.getBasicShape().getPointsArray().length;
-		vertexes = new float[nr_points*4];
-
-		indexes = new short[nr_points];
+		triggerMesh = SimpleRendererHelper.buildMesh(triggermSrc.getBasicShape());
 		
-		for (int i = 0; i < nr_points; i++) {
-			indexes[i] = (short)i;
-			
-			vertexes[i*4] = triggermSrc.getBasicShape().getPointsArray()[i].x;
-			vertexes[i*4+1] = triggermSrc.getBasicShape().getPointsArray()[i].y;
-			vertexes[i*4+2] = 0.0f;
-			vertexes[i*4+3] = Color.toFloatBits(triggermSrc.getBasicShape().getFillColor().r,
-												triggermSrc.getBasicShape().getFillColor().g,
-												triggermSrc.getBasicShape().getFillColor().b,
-												triggermSrc.getBasicShape().getFillColor().a);
-		}
-
-		triggerMesh = new Mesh(true, nr_points, nr_points, 
-                new VertexAttribute(Usage.Position, 3, "a_position"),
-                new VertexAttribute(Usage.ColorPacked, 4, "a_color"));
-
-		triggerMesh.setVertices(vertexes);
-		triggerMesh.setIndices(indexes);		
 	}
-	
-	private Mesh triggerMesh;
-	
+
 	Vector2 pointA = new Vector2();
 	Vector2 pointB = new Vector2();
 	@Override
 	public void draw(ScreenTickEvent e) {
 		
-		Gdx.gl10.glPushMatrix();
-		Gdx.gl10.glMatrixMode(GL10.GL_PROJECTION);
-//		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().projection.cpy().translate(0.0f, 0.0f, 0.0f).val, 0); // poupa umas alocaçoes e memória
-		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().projection.translate(0.0f, 0.0f, 0.0f).val, 0);
-		
-		Gdx.gl10.glPushMatrix();
-		Gdx.gl10.glMatrixMode(GL10.GL_MODELVIEW);
-		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().view.cpy().translate(triggermSrc.getPosition().x, triggermSrc.getPosition().y, 0.0f).val, 0);
-		
-	    //mesh.render(GL10.GL_TRIANGLES, 0, 3);
-	    if (triggerMesh != null)
-	    	triggerMesh.render(GL10.GL_TRIANGLE_FAN); //GL10.GL_TRIANGLE_FAN //GL10.GL_TRIANGLES //GL10.GL_TRIANGLE_STRIP  
-		
-	    Gdx.gl10.glPopMatrix();
-	    Gdx.gl10.glPopMatrix();	
-	    
-	    
+    	SimpleRendererHelper.drawMesh(e.getCamera(), triggermSrc, triggerMesh);
 		
 		if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
 			renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);

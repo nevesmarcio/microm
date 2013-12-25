@@ -3,6 +3,8 @@ package pt.me.microm.tools.levelloader;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 public enum ObjectType {
+	NONE(null, 0.0f, 0.0f, 0.0f, false),
+	DEBUG(BodyType.StaticBody, 1.0f, 1.0f, 0.75f, false),
 	TEXT(null, 0.0f, 0.0f, 0.0f, false),
 	CAMERA(null, 0.0f, 0.0f, 0.0f, false), 
 	BOARD(BodyType.StaticBody, 1.0f, 0.0f, 0.0f, false), 

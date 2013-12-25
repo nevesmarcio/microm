@@ -5,6 +5,7 @@ import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.stuff.GroundModel;
 import pt.me.microm.view.AbstractView;
+import pt.me.microm.view.helper.SimpleRendererHelper;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -25,7 +26,9 @@ public class GroundView extends AbstractView {
 	
 	private GroundModel groundmSrc;
 	
-	ShapeRenderer renderer;
+	private ShapeRenderer renderer;
+	
+	private Mesh groundMesh;
 	
 	public GroundView(GroundModel groundmSrc) {
 		super(groundmSrc);
@@ -36,58 +39,16 @@ public class GroundView extends AbstractView {
 	public void DelayedInit() {
 		renderer = new ShapeRenderer();
 		
-		float[] vertexes;
-		short[] indexes;
-		int nr_points = groundmSrc.getBasicShape().getPointsArray().length;
-		vertexes = new float[nr_points*4];
-
-		indexes = new short[nr_points];
-		
-		for (int i = 0; i < nr_points; i++) {
-			indexes[i] = (short)i;
-			
-			vertexes[i*4] = groundmSrc.getBasicShape().getPointsArray()[i].x;
-			vertexes[i*4+1] = groundmSrc.getBasicShape().getPointsArray()[i].y;
-			vertexes[i*4+2] = 0.0f;
-			vertexes[i*4+3] = Color.toFloatBits(groundmSrc.getBasicShape().getFillColor().r,
-												groundmSrc.getBasicShape().getFillColor().g,
-												groundmSrc.getBasicShape().getFillColor().b,
-												groundmSrc.getBasicShape().getFillColor().a);
-		}
-
-		groundMesh = new Mesh(true, nr_points, nr_points, 
-                new VertexAttribute(Usage.Position, 3, "a_position"),
-                new VertexAttribute(Usage.ColorPacked, 4, "a_color"));
-
-		groundMesh.setVertices(vertexes);
-		groundMesh.setIndices(indexes);		
-		
+		groundMesh = SimpleRendererHelper.buildMesh(groundmSrc.getBasicShape());		
 	}
-	
-	
-	private Mesh groundMesh;
 	
 	private Vector2 pointA = new Vector2();
 	private Vector2 pointB = new Vector2();
 	@Override
 	public void draw(ScreenTickEvent e) {
 		
-		Gdx.gl10.glPushMatrix();
-		Gdx.gl10.glMatrixMode(GL10.GL_PROJECTION);
-//		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().projection.cpy().translate(0.0f, 0.0f, 0.0f).val, 0); // poupa umas alocaçoes e memória
-		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().projection.translate(0.0f, 0.0f, 0.0f).val, 0);
-		
-		Gdx.gl10.glPushMatrix();
-		Gdx.gl10.glMatrixMode(GL10.GL_MODELVIEW);
-		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().view.cpy().translate(groundmSrc.getPosition().x, groundmSrc.getPosition().y, 0.0f).val, 0);
-		
-	    //mesh.render(GL10.GL_TRIANGLES, 0, 3);
-	    if (groundMesh != null)
-	    	groundMesh.render(GL10.GL_TRIANGLE_FAN); //GL10.GL_TRIANGLE_FAN //GL10.GL_TRIANGLES //GL10.GL_TRIANGLE_STRIP  
-		
-	    Gdx.gl10.glPopMatrix();
-	    Gdx.gl10.glPopMatrix();	
-		
+
+		SimpleRendererHelper.drawMesh(e.getCamera(), groundmSrc, groundMesh);
 		
 		if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
 			renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);

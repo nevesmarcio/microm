@@ -1,14 +1,12 @@
 package pt.me.microm.view.phenomenon;
 
 import pt.me.microm.GameMicroM;
-import pt.me.microm.controller.loop.ScreenTickManager;
 import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.phenomenon.CollisionModel;
 import pt.me.microm.view.AbstractView;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Logger;

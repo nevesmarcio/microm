@@ -7,13 +7,9 @@ import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.collectible.StarModel;
 import pt.me.microm.view.AbstractView;
+import pt.me.microm.view.helper.SimpleRendererHelper;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
@@ -27,9 +23,9 @@ public class StarView extends AbstractView {
 	
 	private StarModel starmSrc;
 	
-	ShapeRenderer renderer;
+	private ShapeRenderer renderer;
 
-	
+	private Mesh starMesh;
 	
 	public StarView(StarModel starmSrc) {
 		super(starmSrc, 1); // FIXME: arranjar umas constantes para definir o zOrder
@@ -40,36 +36,9 @@ public class StarView extends AbstractView {
 	public void DelayedInit() {
 		renderer = new ShapeRenderer();
 		
-		float[] vertexes;
-		short[] indexes;
-		int nr_points = starmSrc.getBasicShape().getPointsArray().length;
-		vertexes = new float[nr_points*4];
+		starMesh = SimpleRendererHelper.buildMesh(starmSrc.getBasicShape());
 
-		indexes = new short[nr_points];
-		
-		for (int i = 0; i < nr_points; i++) {
-			indexes[i] = (short)i;
-			
-			vertexes[i*4] = starmSrc.getBasicShape().getPointsArray()[i].x;
-			vertexes[i*4+1] = starmSrc.getBasicShape().getPointsArray()[i].y;
-			vertexes[i*4+2] = 0.0f;
-			vertexes[i*4+3] = Color.toFloatBits(starmSrc.getBasicShape().getFillColor().r,
-												starmSrc.getBasicShape().getFillColor().g,
-												starmSrc.getBasicShape().getFillColor().b,
-												starmSrc.getBasicShape().getFillColor().a);
-		}
-
-		starMesh = new Mesh(true, nr_points, nr_points, 
-                new VertexAttribute(Usage.Position, 3, "a_position"),
-                new VertexAttribute(Usage.ColorPacked, 4, "a_color"));
-
-		starMesh.setVertices(vertexes);
-		starMesh.setIndices(indexes);
-		
-	
 	}
-	
-	private Mesh starMesh;
 	
 	
 	Vector2 pointA = new Vector2();
@@ -77,22 +46,7 @@ public class StarView extends AbstractView {
 	@Override
 	public void draw(ScreenTickEvent e) {
 
-		Gdx.gl10.glPushMatrix();
-		Gdx.gl10.glMatrixMode(GL10.GL_PROJECTION);
-//		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().projection.cpy().translate(0.0f, 0.0f, 0.0f).val, 0); // poupa umas alocaçoes e memória
-		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().projection.translate(0.0f, 0.0f, 0.0f).val, 0);
-		
-		Gdx.gl10.glPushMatrix();
-		Gdx.gl10.glMatrixMode(GL10.GL_MODELVIEW);
-		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().view.cpy().translate(starmSrc.getPosition().x, starmSrc.getPosition().y, 0.0f).val, 0);
-		
-	    //mesh.render(GL10.GL_TRIANGLES, 0, 3);
-	    if (starMesh != null)
-	    	starMesh.render(GL10.GL_TRIANGLE_FAN); //GL10.GL_TRIANGLE_FAN //GL10.GL_TRIANGLES //GL10.GL_TRIANGLE_STRIP  
-		
-	    Gdx.gl10.glPopMatrix();
-	    Gdx.gl10.glPopMatrix();		
-		
+		SimpleRendererHelper.drawMesh(e.getCamera(), starmSrc, starMesh);
 
 		if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
 			renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
