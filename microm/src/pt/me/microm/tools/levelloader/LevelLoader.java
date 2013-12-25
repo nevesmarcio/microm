@@ -21,19 +21,16 @@ import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.collectible.StarModel;
 import pt.me.microm.model.dev.DebugModel;
-import pt.me.microm.model.phenomenon.LightSourceModel;
 import pt.me.microm.model.stuff.BoardModel;
 import pt.me.microm.model.stuff.DaBoxModel;
 import pt.me.microm.model.stuff.GoalModel;
 import pt.me.microm.model.stuff.GroundModel;
-import pt.me.microm.model.stuff.MagnetModel;
 import pt.me.microm.model.stuff.PortalModel;
 import pt.me.microm.model.stuff.SpawnModel;
 import pt.me.microm.model.stuff.WallModel;
 import pt.me.microm.model.trigger.SimpleTriggerModel;
 import pt.me.microm.model.ui.TextModel;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
@@ -111,7 +108,7 @@ public class LevelLoader {
 		}
 
 		SpawnModel sm = SpawnModel.getNewInstance(wm, dbm, spawn, spawn_name);
-		wm.spawnModel = sm;
+		wm.setSpawnModel(sm);
 		return sm;
 	}
 
@@ -220,22 +217,7 @@ public class LevelLoader {
 		
 	}
 	
-	/**
-	 * 
-	 * @param magnet
-	 * @param wm
-	 */
-	private static MagnetModel addMagnetToWorld(WorldModel wm, BasicShape magnet, String magnet_name) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS_A)
-		for (Vector2 ap : magnet.getPointsArray()) {
-			DebugModel m = DebugModel.getNewInstance(wm, ap.x+magnet.getCentroid().x, ap.y+magnet.getCentroid().y);
-			m.setColor(Color.MAGENTA);
-		}
-		
-		MagnetModel mModel = MagnetModel.getNewInstance(wm, magnet, magnet_name);
-		return mModel;
-		
-	}
+
 	
 	private static TextModel addTextToWorld(WorldModel wm, BasicShape sh, String text_name, final String content) {
 		if (GameMicroM.FLAG_DEV_ELEMENTS_A)
@@ -248,22 +230,7 @@ public class LevelLoader {
 		
 	}
 
-	private static LightSourceModel addLightSourceToWorld(WorldModel wm, BasicShape sh, String light_name) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS_A) {
-			DebugModel m;
-			for (Vector2 ap : sh.getPointsArray()) {
-				m = DebugModel.getNewInstance(wm, ap.x+sh.getCentroid().x, ap.y+sh.getCentroid().y);
-				m.setColor(Color.YELLOW);
-			}
-			m = DebugModel.getNewInstance(wm, sh.getCentroid().x, sh.getCentroid().y);
-			m.setColor(Color.YELLOW);
-			
-			m = DebugModel.getNewInstance(wm,  sh.getRotationPivot().x, sh.getRotationPivot().y);
-			m.setColor(Color.YELLOW);
-		}
-		
-		return LightSourceModel.getNewInstance(wm, sh, light_name);
-	}
+
 	
 	
 	
@@ -483,7 +450,7 @@ public class LevelLoader {
 				String s = text.item(i).getTextContent();
 				
 				if (logger.getLevel() >= Logger.INFO) logger.info("[" + id + "] = x: " + x + "; y: " + y + "; ==> '" + s + "'" );
-				BasicShape sh = new BasicShape("m " + x + "," + y, "", ObjectType.NONE);
+				BasicShape sh = new BasicShape("m " + x + "," + y, "", ObjectType.TEXT);
 				if (logger.getLevel() >= Logger.INFO) logger.info(".:.:.:. " + sh.getCentroid() + " .:.:.:.");
 				
 				addTextToWorld(wm, sh, id, s);
@@ -501,7 +468,7 @@ public class LevelLoader {
 				String style = triggers.item(i).getAttributes().getNamedItem("style").getNodeValue();
 				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
 				
-				BasicShape s = new BasicShape(d, style, ObjectType.NONE);
+				BasicShape s = new BasicShape(d, style, ObjectType.TRIGGER);
 
 				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
 				String trigger_name = triggers.item(i).getAttributes().getNamedItem("id").getNodeValue();
@@ -513,47 +480,9 @@ public class LevelLoader {
 			}			
 			
 
-			// Get magnets
-			if (logger.getLevel() >= Logger.INFO) logger.info("Magnets...");
-			expr = xpath.compile("//svg/g/path[contains(@id,'magnet')]");
-			NodeList magnets = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-			for (int i = 0; i < magnets.getLength(); i++) {
-				String d = magnets.item(i).getAttributes().getNamedItem("d").getNodeValue();
-				String style = magnets.item(i).getAttributes().getNamedItem("style").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
 				
-				BasicShape s = new BasicShape(d, style, ObjectType.MAGNET);
+			
 
-				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
-				String magnet_name = magnets.item(i).getAttributes().getNamedItem("id").getNodeValue();
-				
-				addMagnetToWorld(wm, s, magnet_name);
-				
-				nrElements+=1;
-			}					
-			
-			// Get lights
-			if (logger.getLevel() >= Logger.INFO) logger.info("Lights...");
-			expr = xpath.compile("//svg/g/path[contains(@id,'lightsource')]");
-			NodeList lightsources = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-			for (int i = 0; i < lightsources.getLength(); i++) {
-				String d = lightsources.item(i).getAttributes().getNamedItem("d").getNodeValue();
-				String style = lightsources.item(i).getAttributes().getNamedItem("style").getNodeValue();
-				String offsetX = lightsources.item(i).getAttributes().getNamedItem("inkscape:transform-center-x").getNodeValue();
-				String offsetY = lightsources.item(i).getAttributes().getNamedItem("inkscape:transform-center-y").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + "; offset=(" + offsetX + ", " + offsetY + ")");
-				
-				BasicShape s = new BasicShape(d, offsetX + "," + offsetY, style, ObjectType.LIGHTSOURCE);
-
-				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
-				String light_name = lightsources.item(i).getAttributes().getNamedItem("id").getNodeValue();
-				
-				addLightSourceToWorld(wm, s, light_name);
-				
-				nrElements+=1;
-			}								
-			
-			
 			
 			if (logger.getLevel() >= Logger.INFO) logger.info("Finished Loading level: " + h.name());
 		

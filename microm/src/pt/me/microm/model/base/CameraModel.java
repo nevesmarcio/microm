@@ -317,7 +317,10 @@ public class CameraModel extends AbstractModel {
 	}
 	public void stopZoomIn() {
 		flags &= ~CAM_ZOOM_IN;
-	}		
+	}
+
+
+	
 
 //	@Override
 //	public Body getBody() {

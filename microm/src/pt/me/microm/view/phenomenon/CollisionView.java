@@ -42,10 +42,6 @@ public class CollisionView extends AbstractView {
 	@Override
 	public void draw(ScreenTickEvent e) {
 		long elapsedNanoTime = e.getElapsedNanoTime();
-
-		// Enable da transparência
-		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
-	    Gdx.graphics.getGL20().glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);		
 		
 		if (GameMicroM.FLAG_DISPLAY_PARTICLES) {
 			if (particleEffect != null) {

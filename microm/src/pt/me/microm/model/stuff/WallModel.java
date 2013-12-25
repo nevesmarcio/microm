@@ -21,10 +21,6 @@ public class WallModel extends AbstractModel implements IActorBody {
 	private static final String TAG = WallModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 
-	private Vector2[] silhouetteVertex;
-	
-	private BodyDef wallBodyDef = new BodyDef();
-	private ChainShape wallShape; // Fronteira do tabuleiro
 	private Body wallBody;
 	
 	private WorldModel wm;
@@ -35,38 +31,10 @@ public class WallModel extends AbstractModel implements IActorBody {
 		this.wall = wall;
 		setName(wall_name);
 		
-		wm.wmManager.add(new ICommand() {
-			
-			@Override
-			public Object handler(Object ... a) {
-				
-				silhouetteVertex = wall.getPointsArray();
-				
-				wallShape = new ChainShape();
-				wallShape.createLoop(silhouetteVertex);
-								
+		wallBody = wm.getWorldPhysicsManager().addBody(wall, this);
 
-				// não esquecer que é este start-position que fode com a porca toda!
-				wallBodyDef.position.set(wall.getCentroid()); // aqui devia calcular a posicao do centro de massa
-				wallBodyDef.type = BodyType.StaticBody;
-				
-				wallBody = wm.getPhysicsWorld().createBody(wallBodyDef);
-
-				FixtureDef fixDef = new FixtureDef();
-				fixDef.shape = wallShape;
-				fixDef.density = 1.0f;
-				fixDef.friction = 0.0f;
-				fixDef.restitution = 0.0f;		
-				wallBody.createFixture(fixDef);
-				
-				wallBody.setUserData(WallModel.this); // relacionar com o modelo
-				
-				// Sinaliza os subscritores de que a construção do modelo terminou.
-				WallModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));		
-				
-				return null;
-			}
-		});
+		// Sinaliza os subscritores de que a construção do modelo terminou.
+		WallModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
 		
 	}
 	
@@ -90,16 +58,14 @@ public class WallModel extends AbstractModel implements IActorBody {
 
 		// Corre a lógica de teleportação
 		if ((boxTouchMyTralala > 0) && (box!=null)) {
-			box.getBody().setTransform(wm.waypoint, box.getBody().getAngle());
+			box.getBody().setTransform(wm.getWaypoint(), box.getBody().getAngle());
 			box = null;
 		}
-		
-		
-		
+
 	}
 
 	
-	// BodyInterface implementation
+	// BodyInterface implementation - delegation pattern
 	@Override
 	public String getName() {
 		return super.getName();
@@ -122,7 +88,6 @@ public class WallModel extends AbstractModel implements IActorBody {
 	}
 
 
-	
 	private int boxTouchMyTralala = 0;
 	IActorBody box = null;
 	@Override

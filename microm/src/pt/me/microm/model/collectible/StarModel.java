@@ -8,15 +8,10 @@ import pt.me.microm.model.IActorBody;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.phenomenon.CollisionModel;
 import pt.me.microm.tools.levelloader.BasicShape;
-import aurelienribon.bodyeditor.BodyEditorLoader;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
 public class StarModel extends AbstractModel implements IActorBody {
@@ -26,7 +21,6 @@ public class StarModel extends AbstractModel implements IActorBody {
 	private Color color = new Color(0.5f,0.5f,0.5f,0.5f);
 	
 	private Body starBody;	
-	private Vector2 starModelOrigin;
 	
 	private WorldModel wm;
 	private BasicShape star;
@@ -36,40 +30,11 @@ public class StarModel extends AbstractModel implements IActorBody {
 		this.star = star;
 		setName(star_name);
 		
-		// 0. Create a loader for the file saved from the editor.
-		BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("data/bodies/collectibles/collectibles.json"));
-
-		// 1. Create a BodyDef, as usual.
-		BodyDef bd = new BodyDef();
-		bd.type = BodyType.KinematicBody;
-
-		// 2. Create a FixtureDef, as usual.
-		FixtureDef fd = new FixtureDef();
-		fd.density = 1;
-		fd.friction = 0.5f;
-		fd.restitution = 0.3f;
-		fd.isSensor = true;
-
-		// 3. Create a Body, as usual.
-		starBody = wm.getPhysicsWorld().createBody(bd);
-
-		float modelScale = star.getWidth(); // The width returned by the BodyEditorLoader is normalized to 1. Thats why the scale = <basicshape>.getWidth. 
-		
-		// 4. Create the body fixture automatically by using the loader.
-		loader.attachFixture(starBody, "star", fd, modelScale);
-		
-		float xOffset = star.getCentroid().x;
-		float yOffset = star.getCentroid().y;
-		
-		// offset
-		starModelOrigin = loader.getOrigin("star", modelScale).cpy().add(xOffset-star.getWidth()/2, yOffset-star.getHeight()/2);
-		starBody.setTransform(starModelOrigin, starBody.getAngle());
-
-		starBody.setUserData(this); // relacionar com o modelo
-		
+		starBody = wm.getWorldPhysicsManager().addBody(star, this);
 		
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));		
+		
 	}
 
 	public static StarModel getNewInstance(WorldModel wm, BasicShape star, String star_name){
@@ -88,7 +53,7 @@ public class StarModel extends AbstractModel implements IActorBody {
 //				+ " Mass:" + ballBody.getMass()
 //				+ " Type:" + ballBody.getType());
 		
-		starBody.setAngularVelocity(8.0f);
+		starBody.setAngularVelocity(2.0f);
 		
 	}
 

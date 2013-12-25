@@ -382,18 +382,28 @@ http://stackoverflow.com/questions/5646221/delaunay-triangulating-the-2d-polygon
 # desenho do package-by-feature no WorldNavigatorScreen
 # estrutura MVC para o WorldNavigatorScreen
 
-[amanhã desenhar 1 widget para navegar nos mundos]
 
 07-06-2013
 # Está dificil de retomar... xessuis! 
 
 
+21-12-2013
+23-12-2013
+25-12-2013
+# 2 step back refactoring - created a branch in the development repository to store the simplified version of the game. Got rid of a lot of entities and techniques (entities: GridModel, MagnetModel, etc. techniques: GL20, Shaders, etc.)
+
+
+
+
+
+-------------------------------
 
 <<<<TODO>>>>: depois de triar o que funciona em gl20 e o que não funciona, dado que os métodos draw20 são praticamente todos iguais aos metodos draw10,
 usar o mecanismo do abstractview para reduzir o código (só fazer override aos que são efectivamente diferentes)
 
 -->isto tudo para a seguir pegar nos meshes/ postprocessing/ gles2.0/ etc...
 
+[amanhã desenhar 1 widget para navegar nos mundos]
 
 ------>> O mecanismo de pausa, como pára o render, também pára os efeitos das partículas. No entanto não pára o motor fisico.
 ------>> Podem ser os ScreenTickManager e o GameTickGenerator que orquestram o shutdown de tudo. P.e. podem lançar eventos de shutdown tal como há objectos com eventos de startup para quem os quer subscrever! 
@@ -413,7 +423,14 @@ pe. trigger :: path_to_script
 
 
 [TODO] 
+23-12-2013
+# http://www.kongregate.com/games/keybol/pretentious-game
+
+21-12-2013
 # Start using MAVEN with android projects - it will help not to upload libs and stuff
+
+
+
 
 # Gostava de implementar uma protecção de thread para garantir que determinado código só corre numa thread e outro código noutra.
 

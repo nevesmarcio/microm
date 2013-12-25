@@ -49,7 +49,7 @@ public class UIModel extends AbstractModel implements InputProcessor {
 		hitBody = new Body[GAME_CONSTANTS.MAX_TOUCH_POINTS];
 		mouseJoint = new MouseJoint[GAME_CONSTANTS.MAX_TOUCH_POINTS];
 		
-		dummyBody = wm.getPhysicsWorld().createBody(dummyBodyDef);
+		dummyBody = wm.getWorldPhysicsManager().getPhysicsWorld().createBody(dummyBodyDef);
 		
 		dummyBody.setUserData(this);
 		
@@ -150,7 +150,7 @@ public class UIModel extends AbstractModel implements InputProcessor {
 		// bounding box around the mouse pointer
 		hitBody[pointer] = null;
 		this.pntr = pointer;		
-		wm.getPhysicsWorld().QueryAABB(callback, worldCoordTestPoint[pointer].x - 0.1f, worldCoordTestPoint[pointer].y - 0.1f, worldCoordTestPoint[pointer].x + 0.1f, worldCoordTestPoint[pointer].y + 0.1f);
+		wm.getWorldPhysicsManager().getPhysicsWorld().QueryAABB(callback, worldCoordTestPoint[pointer].x - 0.1f, worldCoordTestPoint[pointer].y - 0.1f, worldCoordTestPoint[pointer].x + 0.1f, worldCoordTestPoint[pointer].y + 0.1f);
 
 		if (hitBody[pointer] == dummyBody) hitBody[pointer] = null;
 
@@ -167,7 +167,7 @@ public class UIModel extends AbstractModel implements InputProcessor {
 			def.target.set(worldCoordTestPoint[pntr].x, worldCoordTestPoint[pntr].y);
 			def.maxForce = 1000.0f * hitBody[pointer].getMass();
 
-			mouseJoint[pointer] = (MouseJoint)wm.getPhysicsWorld().createJoint(def);
+			mouseJoint[pointer] = (MouseJoint)wm.getWorldPhysicsManager().getPhysicsWorld().createJoint(def);
 			hitBody[pointer].setAwake(true);
 		}
 		
@@ -197,7 +197,7 @@ public class UIModel extends AbstractModel implements InputProcessor {
 		
 		// if a mouse joint exists we simply destroy it
 		if (mouseJoint[pointer] != null) {
-			wm.getPhysicsWorld().destroyJoint(mouseJoint[pointer]);
+			wm.getWorldPhysicsManager().getPhysicsWorld().destroyJoint(mouseJoint[pointer]);
 			mouseJoint[pointer] = null;
 		}
 		return false;

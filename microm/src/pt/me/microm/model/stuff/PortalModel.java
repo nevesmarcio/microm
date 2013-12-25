@@ -2,7 +2,6 @@ package pt.me.microm.model.stuff;
 
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IActorBody;
@@ -11,10 +10,6 @@ import pt.me.microm.tools.levelloader.BasicShape;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.ChainShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
 public class PortalModel extends AbstractModel implements IActorBody {
@@ -23,10 +18,6 @@ public class PortalModel extends AbstractModel implements IActorBody {
 
 	public static enum PortalType {PORTAL_ENTRY, PORTAL_EXIT};
 	
-	private Vector2[] silhouetteVertex;
-	
-	private BodyDef portalBodyDef = new BodyDef();
-	private ChainShape portalShape; // Fronteira do tabuleiro
 	private Body portalBody;
 	
 	private WorldModel wm;
@@ -39,39 +30,12 @@ public class PortalModel extends AbstractModel implements IActorBody {
 		this.portal = portal;
 		setName(portal_name);
 		
-		wm.wmManager.add(new ICommand() {
-			
-			@Override
-			public Object handler(Object ... a) {
-				
-				silhouetteVertex = portal.getPointsArray();
-				
-				portalShape = new ChainShape();
-				portalShape.createLoop(silhouetteVertex);
-								
-				portalBodyDef.position.set(portal.getCentroid()); // aqui devia calcular a posicao do centro de massa
-				portalBodyDef.type = BodyType.StaticBody;
-				
-				portalBody = wm.getPhysicsWorld().createBody(portalBodyDef);
-
-				FixtureDef fixDef = new FixtureDef();
-				fixDef.shape = portalShape;
-				fixDef.isSensor = true;
-				fixDef.density = 1.0f;
-				fixDef.friction = 0.0f;
-				fixDef.restitution = 0.0f;		
-				portalBody.createFixture(fixDef);
-					
-				getBody().setUserData(PortalModel.this); // relacionar com o modelo
-				
-				wm.addPortal(PortalModel.this);
-				
-				// Sinaliza os subscritores de que a construção do modelo terminou.
-				PortalModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));		
-
-				return null;
-			}
-		});
+		portalBody = wm.getWorldPhysicsManager().addBody(portal, this);
+		
+		wm.addPortal(PortalModel.this);
+		
+		// Sinaliza os subscritores de que a construção do modelo terminou.
+		PortalModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));		
 		
 	}
 	
@@ -96,7 +60,7 @@ public class PortalModel extends AbstractModel implements IActorBody {
 		if ((boxTouchMyTralala > 0) && (box!=null)) {
 			box.getBody().setTransform(wm.getLinkedPortal(this).getPosition(), box.getBody().getAngle());
 			box = null;
-			wm.waypoint = wm.getLinkedPortal(this).getPosition();
+			wm.setWaypoint(wm.getLinkedPortal(this).getPosition());
 		}
 		
 	}

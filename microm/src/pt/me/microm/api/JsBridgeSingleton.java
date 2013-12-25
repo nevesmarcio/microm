@@ -51,10 +51,10 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
 
 		this.wm = wm;
 		
-		wm.myContactListener.addListener(MyContactListener.EventType.ON_COLLISION_BEGIN, JsBridgeSingleton.this);
-		wm.myContactListener.addListener(MyContactListener.EventType.ON_COLLISION_END, JsBridgeSingleton.this);		
+		wm.getWorldPhysicsManager().myContactListener.addListener(MyContactListener.EventType.ON_COLLISION_BEGIN, JsBridgeSingleton.this);
+		wm.getWorldPhysicsManager().myContactListener.addListener(MyContactListener.EventType.ON_COLLISION_END, JsBridgeSingleton.this);		
 		
-		m = wm.player;
+		m = wm.getPlayer();
 		
 		/*Example invocation of javascript engine!*/
 		GameTickGenerator.PostRunnable(new Runnable() {
@@ -198,7 +198,7 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
 	 * method to list objects by name
 	 */
 	public void listBodies() {
-		Iterator<Body> it = wm.getPhysicsWorld().getBodies();
+		Iterator<Body> it = wm.getWorldPhysicsManager().getPhysicsWorld().getBodies();
 		out("start listing...");
 		while (it.hasNext()) {
 			Body b = it.next();
@@ -216,7 +216,7 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
 	 * method to lookup for an object given its name
 	 */
 	public Body findBodyByName(String searchName) {
-		Iterator<Body> it = wm.getPhysicsWorld().getBodies();
+		Iterator<Body> it = wm.getWorldPhysicsManager().getPhysicsWorld().getBodies();
 
 		while (it.hasNext()) {
 			Body b = it.next();

@@ -19,7 +19,7 @@ public class DebugModel extends AbstractModel {
 	private static final String TAG = DebugModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
-	private float radius = 0.075f;
+	private float radius = 0.025f;
 	
 	private Color color = new Color(1.0f,0.0f,0.0f,1.0f);
 	
@@ -30,7 +30,7 @@ public class DebugModel extends AbstractModel {
 	private DebugModel(final WorldModel wm, final float x, final float y) {
 		
 		
-		wm.wmManager.add(new ICommand() {
+		wm.getWorldPhysicsManager().add(new ICommand() {
 			@Override
 			public Object handler(Object ... a) {
 				debugBodyDef.type = BodyType.StaticBody;
@@ -38,7 +38,7 @@ public class DebugModel extends AbstractModel {
 
 				debugBodyDef.active = false;
 				
-				debugBody = wm.getPhysicsWorld().createBody(debugBodyDef);
+				debugBody = wm.getWorldPhysicsManager().getPhysicsWorld().createBody(debugBodyDef);
 
 				debugShape.setRadius(radius);
 				/*fixture*/

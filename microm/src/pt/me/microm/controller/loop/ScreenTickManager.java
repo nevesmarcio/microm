@@ -12,9 +12,7 @@ import pt.me.microm.controller.loop.itf.IProcessRunnable;
 import pt.me.microm.controller.loop.itf.IScreenTick;
 import pt.me.microm.model.base.CameraModel;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Logger;
 /**

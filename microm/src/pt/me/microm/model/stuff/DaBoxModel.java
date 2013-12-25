@@ -2,7 +2,6 @@ package pt.me.microm.model.stuff;
 
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IActorBody;
@@ -12,10 +11,6 @@ import pt.me.microm.tools.levelloader.BasicShape;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Logger;
 
 public class DaBoxModel extends AbstractModel implements IActorBody {
@@ -24,10 +19,6 @@ public class DaBoxModel extends AbstractModel implements IActorBody {
 	
 	private Color color = new Color(0.5f,0.5f,0.5f,0.5f);
 	
-	private Vector2[] silhouetteVertex;
-	 
-	private BodyDef daBoxBodyDef = new BodyDef();
-	private PolygonShape daBoxShape;
 	private Body daBoxBody;	
 
 	public WorldModel wm;
@@ -44,55 +35,11 @@ public class DaBoxModel extends AbstractModel implements IActorBody {
 		this.dabox = dabox; 
 		setName(dabox_name);
 
-		wm.wmManager.add(new ICommand() {
-			
-			@Override
-			public Object handler(Object... a) {
-
-				// FIXME:: fazer isto sem ser às cegas!
-				// CCW vertices
-				silhouetteVertex = dabox.getPointsArray();
-				Vector2[] t = new Vector2[silhouetteVertex.length];
-				for (int i = 0; i < silhouetteVertex.length; i++)
-					t[silhouetteVertex.length - 1 - i] = silhouetteVertex[i];
-
-				daBoxShape = new PolygonShape();
-				daBoxShape.set(t);
-				
-//				float newRadius = 0.001f;
-//				logger.debug(">>>>>>> setting radius of DaBox from ...... " + daBoxShape.getRadius() + " ....... to " + newRadius);
-//				daBoxShape.setRadius(newRadius);
-				
-				daBoxBodyDef.position.set(dabox.getCentroid());
-				daBoxBodyDef.type = BodyType.DynamicBody;
-
-				daBoxBody = wm.getPhysicsWorld().createBody(daBoxBodyDef);
-
-				/* fixture */
-				FixtureDef fixDef = new FixtureDef();
-				fixDef.shape = daBoxShape;
-				fixDef.density = 1.0f;
-				fixDef.friction = 0.0f;
-				fixDef.restitution = 0.0f;
-
-				daBoxBody.createFixture(fixDef);
-
-				daBoxBody.setUserData(DaBoxModel.this); // relacionar com o modelo
-
-				daBoxBody.setSleepingAllowed(true);		
-				
-				daBoxBody.setBullet(false);
-						
-				daBoxBody.setActive(false);
-			    
-				// Sinaliza os subscritores de que a construção do modelo terminou.
-				DaBoxModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));	    				
-				
-				return null;
-			}
-		});
+		daBoxBody = wm.getWorldPhysicsManager().addBodyDynamic(dabox, this);
 		
-
+		// Sinaliza os subscritores de que a construção do modelo terminou.
+		DaBoxModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));	    				
+		
 	}
 
 	public static DaBoxModel getNewInstance(WorldModel wm, BasicShape dabox, String dabox_name){

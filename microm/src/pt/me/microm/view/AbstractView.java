@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import pt.me.microm.controller.loop.ScreenTickManager;
 import pt.me.microm.controller.loop.itf.IScreenTick;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.IEvent;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
 import pt.me.microm.model.AbstractModel;
@@ -13,7 +14,7 @@ import com.badlogic.gdx.utils.Logger;
 
 public abstract class AbstractView implements Disposable, IScreenTick {
 	private static final String TAG = AbstractView.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private AbstractModel model;
 	
@@ -27,7 +28,7 @@ public abstract class AbstractView implements Disposable, IScreenTick {
 		
 		this.model = model;
 
-		model.addListener(AbstractModel.EventType.ON_MODEL_INSTANTIATED, new IEventListener() {
+		this.model.addListener(AbstractModel.EventType.ON_MODEL_INSTANTIATED, new IEventListener() {
 
 			@Override
 			public void onEvent(IEvent event) {

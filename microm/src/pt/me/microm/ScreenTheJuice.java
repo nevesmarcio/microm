@@ -11,9 +11,10 @@ import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.event.IEvent;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
+import pt.me.microm.model.base.CameraControllerDrag;
+import pt.me.microm.model.base.CameraControllerStrafe;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
-import pt.me.microm.model.dev.GridModel;
 import pt.me.microm.model.ui.UIModel;
 import pt.me.microm.model.ui.utils.FlashMessageManagerModel;
 import pt.me.microm.tools.levelloader.LevelLoader;
@@ -41,8 +42,7 @@ public class ScreenTheJuice implements Screen {
 	// MODEL RELATED
 	private WorldModel worldModel;
 	private CameraModel cameraModel;
-	private GridModel grid;
-	private UIModel ui;	
+	private UIModel uiModel;	
 	
 	// VIEW RELATED
 	// Todas as views são instanciadas por "reflection"
@@ -55,12 +55,12 @@ public class ScreenTheJuice implements Screen {
 		
 		this.callback = callback;
 
-		Texture.setEnforcePotImages(true); // ver o melhor sitio para enfiar isto, dado que as texturas estão nas constantes.
+		Texture.setEnforcePotImages(false); // ver o melhor sitio para enfiar isto, dado que as texturas estão nas constantes.
 		
 		// MODELS ///////////////////////////////////////////////////////////////
 		cameraModel = new CameraModel();
 		worldModel = new WorldModel();
-		ui = new UIModel(cameraModel, worldModel); // constroi o painel informativo?
+		uiModel = new UIModel(cameraModel, worldModel); // constroi o painel informativo?
 		
 		
 		FileHandle h = Gdx.files.internal("data/levels/" + world + "/" + level);
@@ -76,12 +76,6 @@ public class ScreenTheJuice implements Screen {
 		});
 		
 		
-		// Modelos complementares ao WorldModel
-		if (GameMicroM.FLAG_DEV_ELEMENTS_B)
-			grid = new GridModel(); // constroi a grid sobre a qual estão renderizados os objectos - debug purposes		
-
-			
-		
 		// VIEWS  ///////////////////////////////////////////////////////////////
 		// Todas as views são instanciadas por "reflection"
 
@@ -92,6 +86,8 @@ public class ScreenTheJuice implements Screen {
 		
 		//responsável pela extensibilidade do controller: delega o controlo a entidades externas (javascript + terminal)
 		JsBridgeSingleton cs = JsBridgeSingleton.getInstance(worldModel);
+		
+		
 		
 //		//FIXME: for development purposes only
 //		RemoteInput receiver = new RemoteInput(7777);
@@ -110,9 +106,9 @@ public class ScreenTheJuice implements Screen {
 		multiplexer.addProcessor(new GestureDetector(1, 1.0f, 1.0f, 1.0f, myGestureListener));
 		multiplexer.addProcessor(myInputProcessor);
 		multiplexer.addProcessor(worldModel);
-//		multiplexer.addProcessor(cameraModel);
-		multiplexer.addProcessor(ui);
-
+		multiplexer.addProcessor(uiModel);
+		multiplexer.addProcessor(new CameraControllerDrag(cameraModel));
+		multiplexer.addProcessor(new CameraControllerStrafe(cameraModel));
 	}
 	
 	public static Screen playground(ICommand callback, String world, String level) {
@@ -192,8 +188,7 @@ public class ScreenTheJuice implements Screen {
 	@Override
 	public void dispose() {
 		worldModel.dispose();
-		ui.dispose();
-		grid.dispose();
+		uiModel.dispose();
 		
 		GameTickGenerator.getInstance().dispose();
 		ScreenTickManager.getInstance().dispose();

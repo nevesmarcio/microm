@@ -132,15 +132,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.5"
-     inkscape:cx="329.75803"
-     inkscape:cy="-74.626711"
+     inkscape:cx="978.51714"
+     inkscape:cy="146.37253"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1680"
-     inkscape:window-height="1028"
-     inkscape:window-x="1672"
-     inkscape:window-y="-8"
+     inkscape:window-width="1440"
+     inkscape:window-height="837"
+     inkscape:window-x="1276"
+     inkscape:window-y="-4"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
@@ -207,7 +207,7 @@
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
        id="goal"
-       d="m 1256.4313,1415 24.716,-35 -24.716,-35 z"
+       d="m 1256.4313,1293 24.716,-35 -24.716,-35 z"
        style="fill:#000000;fill-opacity:1;stroke:none" />
     <path
        style="fill:#00ff00;fill-opacity:1;stroke:none"
@@ -235,18 +235,18 @@
        id="star"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:#ff0000;fill-opacity:1;stroke:none"
-       d="m 242.5,1288.5229 16.5,0 m 0,0 -8.1267,-20.9375 8.1267,-20.9375 -16.5,0 8.10428,20.9375 -8.10428,20.9375"
+       style="fill:#803300;fill-opacity:1;stroke:none"
+       d="m 242.5,1288.5229 16.5,0 m 0,0 0,-41.875 -16.5,0 0,41.875"
        id="trigger_1"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccccccc"
+       sodipodi:nodetypes="cccccc"
        custom-script="cs.out(&quot;trigger_1&quot;); function add(a,b){return a + '&lt;---&gt;' + b;}; cs.out(&quot;puff&gt;&gt;&gt; &quot; + add(__ACTOR_A, __ACTOR_B)); if (__EVENT_TYPE.indexOf(&quot;ON_COLLISION_BEGIN&quot;) !== -1)  if ((__ACTOR_A.indexOf(&quot;trigger&quot;) !== -1) || (__ACTOR_B.indexOf(&quot;trigger&quot;) !== -1))   cs.m.jump();" />
     <path
-       sodipodi:nodetypes="cccccccc"
+       sodipodi:nodetypes="cccccc"
        inkscape:connector-curvature="0"
        id="trigger_2"
-       d="m 909.8125,1259.3354 0,16.5 m 0,0 20.9375,-8.1267 20.9375,8.1267 0,-16.5 -20.9375,8.1043 -20.9375,-8.1043"
-       style="fill:#ff0000;fill-opacity:1;stroke:none"
+       d="m 909.8125,1259.3354 0,16.5 m 0,0 41.875,0 0,-16.5 -41.875,0"
+       style="fill:#803300;fill-opacity:1;stroke:none"
        custom-script="cs.out(&quot;trigger_2&quot;); function add(a,b){return a + '&lt;---&gt;' + b;}; cs.out(&quot;puff&gt;&gt;&gt; &quot; + add(__ACTOR_A, __ACTOR_B)); if (__EVENT_TYPE.indexOf(&quot;ON_COLLISION_BEGIN&quot;) !== -1)  if ((__ACTOR_A.indexOf(&quot;trigger&quot;) !== -1) || (__ACTOR_B.indexOf(&quot;trigger&quot;) !== -1))   cs.m.jump();" />
     <path
        inkscape:connector-curvature="0"
@@ -565,5 +565,17 @@
        d="m 1204.6143,683.04192 76.2016,0 0,72.191 -76.2015,0 z"
        id="wall_3940"
        inkscape:connector-curvature="0" />
+    <path
+       style="fill:#0000ff;fill-opacity:1;stroke:none"
+       d="m 1135.9834,1291.009 24.716,-35 -24.716,-35 z"
+       id="portal_entry_1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc" />
+    <path
+       sodipodi:nodetypes="cccc"
+       inkscape:connector-curvature="0"
+       id="portal_exit_1"
+       d="m 448.67563,788.25963 24.716,35 -24.716,35 z"
+       style="fill:#0000ff;fill-opacity:1;stroke:none" />
   </g>
 </svg>

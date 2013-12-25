@@ -14,8 +14,6 @@ import pt.me.microm.infrastructure.event.dispatcher.EventDispatcher;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
 import pt.me.microm.view.AbstractView;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Logger;
 

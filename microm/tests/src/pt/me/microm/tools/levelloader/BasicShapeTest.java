@@ -1,6 +1,4 @@
 package pt.me.microm.tools.levelloader;
-import static org.junit.Assert.*;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,7 +46,7 @@ public class BasicShapeTest {
 	public void testGetFillColor() {
 		basicShape = new BasicShape("m 425.67827,432.93665 89.09545,0 0,118.79393 -89.09545,0 z",
 									"fill:#ff6600;fill-opacity:0.71;stroke:none",
-									ObjectType.NONE);
+									ObjectType.TEXT);
 		
 		if (log.isLoggable(Level.INFO)) log.info("Read color: " + basicShape.getFillColor().toString());
 		
@@ -65,7 +63,7 @@ public class BasicShapeTest {
 	public void testInitialization_0() {
 		basicShape = new BasicShape("m 0,-1280 1280,0 0,1280 0,0 z",
 									"fill:#ff6600;fill-opacity:0.71;stroke:none",
-									ObjectType.NONE);
+									ObjectType.TEXT);
 		
 		log.info( basicShape.getCentroid().toString() );
 		String aux = "";
@@ -79,7 +77,7 @@ public class BasicShapeTest {
 	public void testInitialization_1() {
 		basicShape = new BasicShape("m 0.0,0.0 1280,0 0,1280 -1280,0 z",
 									"fill:#ff6600;fill-opacity:0.71;stroke:none",
-									ObjectType.NONE);
+									ObjectType.TEXT);
 		
 		log.info( basicShape.getCentroid().toString() );
 		String aux = "";
@@ -93,7 +91,7 @@ public class BasicShapeTest {
 	public void testInitialization_2() {
 		basicShape = new BasicShape("m 640.0,640.0 640,0 0,640 -640,0 z",
 									"fill:#ff6600;fill-opacity:0.71;stroke:none",
-									ObjectType.NONE);
+									ObjectType.TEXT);
 		
 		log.info( basicShape.getCentroid().toString() );
 		String aux = "";
@@ -107,7 +105,7 @@ public class BasicShapeTest {
 	public void testInitialization_3() {
 		basicShape = new BasicShape("m 640.0,0.0 640,0 0,-640 -640,0 z",
 									"fill:#ff6600;fill-opacity:0.71;stroke:none",
-									ObjectType.NONE);
+									ObjectType.TEXT);
 		
 		log.info( basicShape.getCentroid().toString() );
 		String aux = "";

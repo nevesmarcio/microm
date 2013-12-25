@@ -38,20 +38,10 @@ import com.badlogic.gdx.utils.Logger;
 
 public class PortalView extends AbstractView {
 	private static final String TAG = PortalView.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private PortalModel portalmSrc;
 	ShapeRenderer renderer;
-	
-	Texture texture;
-	Sprite sprite;
-
-	SpriteBatch batch;
-	Mesh mesh;
-//	SubMesh sm;
-	
-	float[] vertexes;
-	short[] indexes;
 	
 	public PortalView(PortalModel portalmSrc) {
 		super(portalmSrc);
@@ -61,139 +51,41 @@ public class PortalView extends AbstractView {
 	@Override
 	public void DelayedInit() {
 		renderer = new ShapeRenderer();
-		batch = new SpriteBatch();
 		
-		final AtlasRegion r = GAME_CONSTANTS.devAtlas.findRegion("square2");
-		// Fixme: avaliar 
-		texture = r.getTexture(); // isto devolve sempre a textura inteira e não o quadradinho que pretendo... isto para ficar resolvido tem que se usar o UV MAP!!
+		float[] vertexes;
+		short[] indexes;
+		int nr_points = portalmSrc.getBasicShape().getPointsArray().length;
+		vertexes = new float[nr_points*4];
+
+		indexes = new short[nr_points];
 		
-//		ScreenTickManager.PostRunnable(new Runnable() { //Garante que as instrucções OPENGL correm na thread do GUI, onde existe um contexto OPENGL
-//
-//			@Override
-//			public void run() {
-				// texture stuff
-				texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-				texture.setWrap(TextureWrap.ClampToEdge, TextureWrap.ClampToEdge);
-				
-				Gdx.graphics.getGL10().glEnable(GL10.GL_TEXTURE_2D);
-				Gdx.graphics.getGL10().glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_MODULATE); // GL10.GL_REPLACE ou GL10.GL_BLEND n funca bem... (ainda n percebo nada disto de opengl)
-			    Gdx.graphics.getGL10().glEnable(GL10.GL_BLEND);
-			    Gdx.graphics.getGL10().glBlendFunc(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		for (int i = 0; i < nr_points; i++) {
+			indexes[i] = (short)i;
+			
+			vertexes[i*4] = portalmSrc.getBasicShape().getPointsArray()[i].x;
+			vertexes[i*4+1] = portalmSrc.getBasicShape().getPointsArray()[i].y;
+			vertexes[i*4+2] = 0.0f;
+			vertexes[i*4+3] = Color.toFloatBits(portalmSrc.getBasicShape().getFillColor().r,
+												portalmSrc.getBasicShape().getFillColor().g,
+												portalmSrc.getBasicShape().getFillColor().b,
+												portalmSrc.getBasicShape().getFillColor().a);
+		}
 
-				
-			    // mesh & uvmap stuff
-				vertexes = new float[] { 
-//						-0.25f, 0.5f, 0, /*Color.toFloatBits(0, 0, 255, 255),*/ 0.5f, 0, 
-//						-0.5f, -0.5f, 0, /*Color.toFloatBits(255, 0, 0, 255),*/ 0, 2,
-//		                0.5f, -0.5f, 0, /*Color.toFloatBits(0, 255, 0, 255),*/ 2, 2,
-//		                0.25f, 0.5f, 0, /*Color.toFloatBits(0, 0, 255, 255),*/ 1.5f, 0,
+		portalMesh = new Mesh(true, nr_points, nr_points, 
+                new VertexAttribute(Usage.Position, 3, "a_position"),
+                new VertexAttribute(Usage.ColorPacked, 4, "a_color"));
 
-//						-0.25f, 0.5f, 0, /*Color.toFloatBits(0, 0, 255, 255),*/ 0.5f, 0, 
-//						0.25f, 0.5f, 0, /*Color.toFloatBits(0, 0, 255, 255),*/ 1.5f, 0,
-//						0.5f, -0.5f, 0, /*Color.toFloatBits(0, 255, 0, 255),*/ 2, 2,
-//						-0.5f, -0.5f, 0, /*Color.toFloatBits(255, 0, 0, 255),*/ 0, 2,
-
-//						-0.25f, 0.5f, 0, /*Color.toFloatBits(0, 0, 255, 255),*/ -0.5f, -1.0f, 
-//						0.25f, 0.5f, 0, /*Color.toFloatBits(0, 0, 255, 255),*/ 0.5f, -1.0f,
-//						0.5f, -0.5f, 0, /*Color.toFloatBits(0, 255, 0, 255),*/ 1.0f, 1.0f,
-//						-0.5f, -0.5f, 0, /*Color.toFloatBits(255, 0, 0, 255),*/ -1.0f, 1.0f,
-
-//						-0.25f, 0.5f, 0, /*Color.toFloatBits(0, 0, 255, 255),*/ 0.0f, -0.5f, 
-//						0.25f, 0.5f, 0, /*Color.toFloatBits(0, 0, 255, 255),*/ 1.0f, -0.5f,
-//						0.5f, -0.5f, 0, /*Color.toFloatBits(0, 255, 0, 255),*/ 1.5f, 1.5f,
-//						-0.5f, -0.5f, 0, /*Color.toFloatBits(255, 0, 0, 255),*/ -0.5f, 1.5f,
-
-						-0.25f, 0.5f, 0, /*Color.toFloatBits(0, 0, 255, 255),*/ 0.0f, 0.0f, 
-						0.25f, 0.5f, 0, /*Color.toFloatBits(0, 0, 255, 255),*/ 0.02f, 0.0f,
-						0.5f, -0.5f, 0, /*Color.toFloatBits(0, 255, 0, 255),*/ 0.03f, 0.04f,
-						-0.5f, -0.5f, 0, /*Color.toFloatBits(255, 0, 0, 255),*/ -0.01f, 0.04f,				
-
-//						-0.25f, 0.5f, 0, /*Color.toFloatBits(0, 0, 255, 255),*/ 0.0f, 0.0f, 
-//						0.25f, 0.5f, 0, /*Color.toFloatBits(0, 0, 255, 255),*/ 0.2f, 0.0f,
-//						0.5f, -0.5f, 0, /*Color.toFloatBits(0, 255, 0, 255),*/ 0.3f, 0.4f,
-//						-0.5f, -0.5f, 0, /*Color.toFloatBits(255, 0, 0, 255),*/ -0.1f, 0.4f,				
-						
-		                };
-				indexes = new short[] { 0, 1, 2, 3 };			    
-			    
-				Iterator<Fixture> it1 = portalmSrc.getBody().getFixtureList().iterator();
-				while (it1.hasNext()) {
-					Fixture aux = it1.next();
-
-					ChainShape cs = (ChainShape)aux.getShape();
-					int vCnt = cs.getVertexCount();
-					
-					float[] uvmap = new float[vCnt*2];
-					Vector2 temp = new Vector2();
-					for (int i = 0; i<vCnt; i++) {
-						cs.getVertex(i, temp);	
-						logger.info(">>" + temp.toString());
-						uvmap[2*i] = temp.x;
-						uvmap[2*i+1] = temp.y;
-					}
-
-					vertexes = new float[vCnt*5];
-					
-					indexes = new short[vCnt];
-					for (int i = 0; i < vCnt; i++) {
-						cs.getVertex(i, temp); //pointA.add(portalmSrc.getPortalBody().getPosition());
-							vertexes[i*5+0] = temp.x;
-							vertexes[i*5+1] = temp.y;
-							vertexes[i*5+2] = 0;
-							switch (i) {
-							case 0:
-								vertexes[i*5+3] = r.getU(); //0,0 ; 1,0; 1,1; 0,1
-								vertexes[i*5+4] = r.getV();								
-								break;
-							case 1:
-								vertexes[i*5+3] = r.getU2(); //0,0 ; 1,0; 1,1; 0,1
-								vertexes[i*5+4] = r.getV();
-								break;
-							case 2:
-								vertexes[i*5+3] = r.getU2(); //0,0 ; 1,0; 1,1; 0,1
-								vertexes[i*5+4] = r.getV2();
-								break;
-							case 3:
-								vertexes[i*5+3] = r.getU(); //0,0 ; 1,0; 1,1; 0,1
-								vertexes[i*5+4] = r.getV2();
-								break;
-							default:
-								break;
-							}
-
-							indexes[i] = (short)i;
-						}
-				}	        
-			        
-			        
-			        
-		        mesh = new Mesh(true, 4, 4, 
-		                new VertexAttribute(Usage.Position, 3, "a_position"),
-		                /*new VertexAttribute(Usage.ColorPacked, 4, "a_color"),*/
-		                new VertexAttribute(Usage.TextureCoordinates, 2, "a_texCoords"));
-	
-		        mesh.setVertices(vertexes);
-		        mesh.setIndices(indexes);
-
-			    
-//			}
-//		});	
-		
-
-		
+		portalMesh.setVertices(vertexes);
+		portalMesh.setIndices(indexes);
 	}
 	
+	private Mesh portalMesh;
 	
 	private Vector2 pointA = new Vector2();
 	private Vector2 pointB = new Vector2();
 	@Override
 	public void draw(ScreenTickEvent e) {
-		//MESH STYLE
 
-		//FIXME:: o que é que está a desligar esta opção? (e que me obriga a repetir isto a cada ciclo?)
-		Gdx.graphics.getGL10().glEnable(GL10.GL_TEXTURE_2D);
-
-		
 		Gdx.gl10.glPushMatrix();
 		Gdx.gl10.glMatrixMode(GL10.GL_PROJECTION);
 //		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().projection.cpy().translate(0.0f, 0.0f, 0.0f).val, 0); // poupa umas alocaçoes e memória
@@ -201,18 +93,15 @@ public class PortalView extends AbstractView {
 		
 		Gdx.gl10.glPushMatrix();
 		Gdx.gl10.glMatrixMode(GL10.GL_MODELVIEW);
-		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().view.cpy().translate(portalmSrc.getBody().getPosition().x, portalmSrc.getBody().getPosition().y, 0.0f).val, 0);
+		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().view.cpy().translate(portalmSrc.getPosition().x, portalmSrc.getPosition().y, 0.0f).val, 0);
 		
-	    texture.bind();
 	    //mesh.render(GL10.GL_TRIANGLES, 0, 3);
-	    if (mesh != null)
-	    	mesh.render(GL10.GL_TRIANGLE_FAN); //GL10.GL_TRIANGLE_FAN //GL10.GL_TRIANGLES //GL10.GL_TRIANGLE_STRIP  
+	    if (portalMesh != null)
+	    	portalMesh.render(GL10.GL_TRIANGLE_FAN); //GL10.GL_TRIANGLE_FAN //GL10.GL_TRIANGLES //GL10.GL_TRIANGLE_STRIP  
 		
 	    Gdx.gl10.glPopMatrix();
-	    Gdx.gl10.glPopMatrix();
+	    Gdx.gl10.glPopMatrix();			
 		
-
-	    
 	    
 	    //DEBUG STYLE 			-- desenha a "Shape" do portal
 		if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
@@ -241,14 +130,6 @@ public class PortalView extends AbstractView {
 			}
 		}
 
-		// BATCH STYLE 			-- desenha a texturazinha prequenina centrada no portal
-//		batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
-//		
-//		batch.begin();
-//			batch.draw(texture, portalmSrc.getPosition().x, portalmSrc.getPosition().y, (float)1/(float)5, (float)1/(float)5);
-//		batch.end();
-
-		
 	}
 
 	@Override

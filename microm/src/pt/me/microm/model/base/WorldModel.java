@@ -4,7 +4,6 @@ import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.MyContactListener;
 import pt.me.microm.model.stuff.BoardModel;
 import pt.me.microm.model.stuff.DaBoxModel;
 import pt.me.microm.model.stuff.PortalModel;
@@ -16,7 +15,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Logger;
 
 
@@ -37,78 +35,54 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 		ON_WORLD_COMPLETED	 	// Event raised when the player successfully completes this world
 		
 	};
-	
-	private BoardModel board;
-	
-	public SpawnModel spawnModel;
-	public  DaBoxModel player;
-	private PortalModelManager portalManager;
-	
-	public Vector2 waypoint;
-	
-	// testes física
-	private Vector2 gravity = new Vector2(0.0f, -30.0f);//-9.8f
-	private boolean doSleep = true;
-	private World physicsWorld = new World(gravity, doSleep);
-	
-	private boolean pauseSim = false;
 
-	private TweenManager tweenManager = new TweenManager();
+	// inner workings 
+	private WorldPhysicsManager worldPhysicsManager;
+	private PortalModelManager portalManager;
+	private TweenManager tweenManager;
 	
-	public WorldModelManager wmManager = new WorldModelManager();
-	
-	public MyContactListener myContactListener;
+	// in-game models
+	private BoardModel board;
+	private SpawnModel spawnModel;
+	private DaBoxModel player;
+	private Vector2 waypoint;
+
 	
 	public WorldModel() {
-	
-		PopulateWorld();
+		worldPhysicsManager = new WorldPhysicsManager();
+		portalManager = new PortalModelManager();
+		tweenManager = new TweenManager();
 		
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
 	}
 
-	private void PopulateWorld() {
-		
-//		setPauseSim(true);
-		
-		portalManager = new PortalModelManager();
-
-		// regista o contactListener para que este notifique os objectos quando há choques 
-		getPhysicsWorld().setContactListener(myContactListener = new MyContactListener()); //new ContactListenerImpl() 
-	
-		// treshold de velocidade para considerar colisões inelásticas
-		//World.setVelocityThreshold(1.0f);//0.001f
-		
-	}
-	
-
-	 
-	
 	@Override
 	public void handleGameTick(GameTickEvent e) {
 		float elapsedNanoTime = e.getElapsedNanoTime();
 
-		if (logger.getLevel() == Logger.DEBUG) logger.debug("[WorldModel timestep]: time elapsed=" + elapsedNanoTime/GAME_CONSTANTS.ONE_SECOND_TO_NANO + "s");
+		// Excites physical engine
+		worldPhysicsManager.update(e);
 		
-		// testes de física
-		if ((getPhysicsWorld() != null) && !isPauseSim()){
-//			getPhysicsWorld().step(elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO, 8, 3);
-			physicsWorld.step((float)GAME_CONSTANTS.GAME_TICK_MILI/(float)GAME_CONSTANTS.ONE_SECOND_TO_MILI, 8, 3);
-			
-			//TODO: Não entendo pq é que o elapsed nanotime escavaca o esquema todo... :: não é o elapsednanotime. é o cálculo da força a aplicar. com velocidade constante já n se verifica?!?
-			//physicsWorld.step(elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO, 12, 6);
-			if (logger.getLevel() == Logger.DEBUG) logger.debug("[physics-step]: step=" + elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO);
-		
-			//É após o step que se pode processar o adicionar/ remover objectos no physicsWorld
-			wmManager.process();
-			
-			// Faz o step das "animações"
-			tweenManager.update(elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO);
-		}
+		// Excites animation/ tweening engine 
+		tweenManager.update(elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO);
 
 	}
 
-	
+	// inner workings getters	
+	public WorldPhysicsManager getWorldPhysicsManager() {
+		return worldPhysicsManager;
+	}
+
+	public PortalModelManager getPortalManager() {
+		return portalManager;
+	}
+
+	public TweenManager getTweenManager() {
+		return tweenManager;
+	}
+
+
 	/* 
 	 * Getters + Setters 
 	 */
@@ -116,10 +90,28 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 		this.board = b;
 	}
 	
+	public void setSpawnModel(SpawnModel spawnModel) {
+		this.spawnModel = spawnModel;
+	}
+	
+	public DaBoxModel getPlayer() {
+		return player;
+	}
+
 	public void setPlayer(DaBoxModel p) {
 		this.player = p;
 	}
 	
+
+	public Vector2 getWaypoint() {
+		return waypoint;
+	}
+
+	public void setWaypoint(Vector2 waypoint) {
+		this.waypoint = waypoint;
+	}
+
+
 	public void addPortal(PortalModel pm) {
 		this.portalManager.portals.add(pm);
 	}
@@ -135,21 +127,14 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 		return null;
 	}
 	
-	// Objecto que trata dos cálculos físicos
-	public World getPhysicsWorld() {
-		return physicsWorld;
-	}
-	private void setPhysicsWorld(World physicsWorld) {
-		this.physicsWorld = physicsWorld;
-	}
 
-	// Pausa a simulação física
-	private boolean isPauseSim() {
-		return pauseSim;
-	}
-	public void setPauseSim(boolean pauseSim) {
-		this.pauseSim = pauseSim;
-	}
+//	// Pausa a simulação física
+//	private boolean isPauseSim() {
+//		return pauseSim;
+//	}
+//	public void setPauseSim(boolean pauseSim) {
+//		this.pauseSim = pauseSim;
+//	}
 	
 
 //	@Override
@@ -225,7 +210,7 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 				player.jump();
 		
 		if (keycode == Keys.P) {
-			setPauseSim(true);
+//			setPauseSim(true);
 		}
 		
 		return false;
@@ -235,7 +220,7 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 	public boolean keyUp(int keycode) {
 
 		if (keycode == Keys.P) {
-			setPauseSim(false);
+//			setPauseSim(false);
 		}	
 		
 		return false;

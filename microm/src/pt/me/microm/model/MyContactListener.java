@@ -2,11 +2,9 @@ package pt.me.microm.model;
 
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.CollisionEvent;
-import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.infrastructure.event.dispatcher.EventDispatcher;
 import pt.me.microm.model.trigger.SimpleTriggerModel;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -17,8 +15,8 @@ import com.badlogic.gdx.utils.Logger;
  * 
  * @author Márcio Neves
  * 
- *         Esta classe deve ser registada no Physics World. Ela contém os
- *         handlers para quando há choques entre objectos
+ * Esta classe deve ser registada no Physics World. Ela contém os
+ * handlers para quando há choques entre objectos
  * 
  */
 public class MyContactListener extends EventDispatcher implements ContactListener {

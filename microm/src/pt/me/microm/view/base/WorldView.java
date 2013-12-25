@@ -27,7 +27,7 @@ import com.badlogic.gdx.utils.Logger;
 
 public class WorldView extends AbstractView {
 	private static final String TAG = WorldView.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 
 	private WorldModel wmSrc;
 	
@@ -60,7 +60,7 @@ public class WorldView extends AbstractView {
 //FIXME:Uma catreifada dos estouros fora da VM bate aqui 
 //      Em principio este pedaço de código provoca os estouros fora da VM!! (devido ao array estar a ser manipulado sem cópia?)		
 //
-//		if (GameMicroM.FLAG_DEV_ELEMENTS) {
+//		if (GameMicroM.FLAG_DEV_ELEMENTS_A) {
 //			/* renderização do world sprite... nem faz mto sentido isto, mas pronto */
 //			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 //			batch.begin();
@@ -93,7 +93,7 @@ public class WorldView extends AbstractView {
 		
 		renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 		/* renderização dos joints */
-		Iterator<Joint> it = wmSrc.getPhysicsWorld().getJoints(); 
+		Iterator<Joint> it = wmSrc.getWorldPhysicsManager().getPhysicsWorld().getJoints(); 
 		while (it.hasNext()){
 			Joint aux = it.next();
 			

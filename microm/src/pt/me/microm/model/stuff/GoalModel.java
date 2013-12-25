@@ -2,30 +2,20 @@ package pt.me.microm.model.stuff;
 
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IActorBody;
-import pt.me.microm.model.MyContactListener.EventType;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.tools.levelloader.BasicShape;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.ChainShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Logger;
 
 public class GoalModel extends AbstractModel implements IActorBody {
 	private static final String TAG = GoalModel.class.getSimpleName();
 	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
-	private Vector2[] silhouetteVertex;
-	
-	private BodyDef goalBodyDef = new BodyDef();
-	private ChainShape goalShape; // Fronteira do tabuleiro
 	private Body goalBody;
 	
 	private WorldModel wm;
@@ -36,38 +26,11 @@ public class GoalModel extends AbstractModel implements IActorBody {
 		this.goal = goal;
 		setName(goal_name);
 		
-		wm.wmManager.add(new ICommand() {
-			
-			@Override
-			public Object handler(Object ... a) {
-				
-				silhouetteVertex = goal.getPointsArray();
-				
-				goalShape = new ChainShape();
-				goalShape.createLoop(silhouetteVertex);
-				
-				goalBodyDef.position.set(goal.getCentroid()); // posição inicial do tabuleiro
-				goalBodyDef.type = BodyType.StaticBody;
-				
-				goalBody = wm.getPhysicsWorld().createBody(goalBodyDef);
-
-				FixtureDef fixDef = new FixtureDef();
-				fixDef.isSensor = true;
-				fixDef.shape = goalShape;
-				fixDef.density = 1.0f;
-				fixDef.friction = 0.0f;
-				fixDef.restitution = 0.0f;		
-				goalBody.createFixture(fixDef);
-					
-				goalBody.setUserData(GoalModel.this); // relacionar com o modelo
-				
-				// Sinaliza os subscritores de que a construção do modelo terminou.
-				GoalModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));		
-				
-				return null;
-			}
-		});
+		goalBody = wm.getWorldPhysicsManager().addBody(goal, this);
 		
+		// Sinaliza os subscritores de que a construção do modelo terminou.
+		GoalModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));		
+
 	}
 	
 	public static GoalModel getNewInstance(WorldModel wm, BasicShape goal, String goal_name){

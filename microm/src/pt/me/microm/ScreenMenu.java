@@ -9,9 +9,7 @@ import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.model.base.CameraControllerDrag;
 import pt.me.microm.model.base.CameraControllerStrafe;
 import pt.me.microm.model.base.CameraModel;
-import pt.me.microm.model.dev.GridModel;
 import pt.me.microm.model.ui.UIMetricsModel;
-import pt.me.microm.model.ui.UIModel;
 import pt.me.microm.session.PlayerProgress;
 
 import com.badlogic.gdx.Gdx;
@@ -20,11 +18,8 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.CameraGroupStrategy;
-import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.graphics.g3d.decals.DecalBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -64,14 +59,14 @@ public class ScreenMenu implements Screen {
 	private Image imgTitle = new Image(GAME_CONSTANTS.devAtlas.createSprite("txr_wall"));
 	
 	private CameraModel cameraModel; 
-	private GridModel gridModel;
+//	private GridModel gridModel;
 	private UIMetricsModel uiMetricsModel;
 	
 	private CameraControllerDrag camcontrollerDrag;
 	private CameraControllerStrafe camcontrollerStrafe;
 	
-	private Decal background;
-	private Texture bg;
+//	private Decal background;
+//	private Texture bg;
 	private DecalBatch decalBatch;
 	
 	private UUID devID;
@@ -86,7 +81,7 @@ public class ScreenMenu implements Screen {
 //		cameraModel.cameraXposition += cameraModel.camWidth/2;
 //		cameraModel.cameraYposition += cameraModel.camHeight/2;
 		
-		gridModel = new GridModel();
+//		gridModel = new GridModel();
 		uiMetricsModel = new UIMetricsModel();
 
 		GameTickGenerator.getInstance(); //responsável pela actualizacao dos modelos
@@ -376,15 +371,15 @@ public class ScreenMenu implements Screen {
 			camcontrollerStrafe = new CameraControllerStrafe(cameraModel);
 			
 //			bg = new Texture(Gdx.files.internal("data/textures/dev/input/bg.png"));
-			bg = new Texture(Gdx.files.internal("data/textures/menuEgg.png"));
+//			bg = new Texture(Gdx.files.internal("data/textures/menuEgg.png"));
 			
-			bg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+//			bg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 			//bg.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
 			//background = Decal.newDecal(GAME_CONSTANTS.devAtlas.createSprite("bg"), true);
 //			background = Decal.newDecal(800f, 800f, new TextureRegion(bg), true);
 //			background = Decal.newDecal(bg.getWidth()/2, bg.getHeight()/2, new TextureRegion(bg), true);
-			background = Decal.newDecal(new TextureRegion(bg), true);
-			background.setPosition(0f, 0f, 0f);
+//			background = Decal.newDecal(new TextureRegion(bg), true);
+//			background.setPosition(0f, 0f, 0f);
 			
 			decalBatch = new DecalBatch(new CameraGroupStrategy(cameraModel.getGameCamera()));
 	}
@@ -408,7 +403,7 @@ public class ScreenMenu implements Screen {
 		
 		
 //      background.lookAt(cameraModel.getGameCamera().position, cameraModel.getGameCamera().up);
-      decalBatch.add(background);
+//      decalBatch.add(background);
       decalBatch.flush();		
     	
     	

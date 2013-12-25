@@ -1,6 +1,7 @@
 package pt.me.microm.view.base;
 
 import pt.me.microm.controller.loop.event.ScreenTickEvent;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.view.AbstractView;
 
@@ -10,7 +11,7 @@ import com.badlogic.gdx.utils.Logger;
 
 public class CameraView extends AbstractView {
 	private static final String TAG = CameraView.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private CameraModel camSrc;
 	

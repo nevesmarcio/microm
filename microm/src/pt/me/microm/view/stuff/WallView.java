@@ -5,27 +5,17 @@ import java.util.Iterator;
 import pt.me.microm.GameMicroM;
 import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.model.dev.BallModel;
-import pt.me.microm.model.stuff.DaBoxModel;
 import pt.me.microm.model.stuff.WallModel;
 import pt.me.microm.view.AbstractView;
-import pt.me.microm.view.helper.MeshHelper;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.loaders.wavefront.ObjLoader;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -39,12 +29,6 @@ public class WallView extends AbstractView {
 	
 	ShapeRenderer renderer;
 	
-	Sprite wallSprite;
-
-	SpriteBatch batch = new SpriteBatch();
-	
-	MeshHelper meshHelper;
-	
 	public WallView(WallModel wallmSrc) {
 		super(wallmSrc, 0);
 		this.wallmSrc = wallmSrc;
@@ -53,11 +37,6 @@ public class WallView extends AbstractView {
 	@Override
 	public void DelayedInit() {
 		renderer = new ShapeRenderer();
-		
-		wallSprite = GAME_CONSTANTS.devAtlas.createSprite("txr_wall");
-
-		wallSprite.setSize(wallmSrc.getBasicShape().getWidth(), wallmSrc.getBasicShape().getHeight());
-		wallSprite.setOrigin(wallmSrc.getBasicShape().getWidth()/2, wallmSrc.getBasicShape().getHeight()/2);		
 		
 		float[] vertexes;
 		short[] indexes;
@@ -84,12 +63,6 @@ public class WallView extends AbstractView {
 
         wallMesh.setVertices(vertexes);
         wallMesh.setIndices(indexes);		
-		
-        if (Gdx.graphics.isGL20Available()) {
-	        meshHelper = new MeshHelper();
-			meshHelper.createMesh(wallmSrc.getBasicShape().getMeshValues());
-        }
-        
 	}
 
 	
@@ -101,8 +74,6 @@ public class WallView extends AbstractView {
 	@Override
 	public void draw(ScreenTickEvent e) {
 
-		
-		
 		Gdx.gl10.glPushMatrix();
 		Gdx.gl10.glMatrixMode(GL10.GL_PROJECTION);
 //		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().projection.cpy().translate(0.0f, 0.0f, 0.0f).val, 0); // poupa umas alocaçoes e memória
@@ -110,7 +81,7 @@ public class WallView extends AbstractView {
 		
 		Gdx.gl10.glPushMatrix();
 		Gdx.gl10.glMatrixMode(GL10.GL_MODELVIEW);
-		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().view.cpy().translate(wallmSrc.getBody().getPosition().x, wallmSrc.getBody().getPosition().y, 0.0f).val, 0);
+		Gdx.gl10.glLoadMatrixf(e.getCamera().getGameCamera().view.cpy().translate(wallmSrc.getPosition().x, wallmSrc.getPosition().y, 0.0f).val, 0);
 		
 	    //mesh.render(GL10.GL_TRIANGLES, 0, 3);
 	    if (wallMesh != null)
@@ -118,9 +89,6 @@ public class WallView extends AbstractView {
 		
 	    Gdx.gl10.glPopMatrix();
 	    Gdx.gl10.glPopMatrix();		
-		
-		
-		
 		
 
 		if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
@@ -143,46 +111,21 @@ public class WallView extends AbstractView {
 						cs.getVertex(i, pointA); //pointA.add(portalmSrc.getPortalBody().getPosition());
 						cs.getVertex(i==vCnt-1 ? 0 : i + 1, pointB); //pointB.add(portalmSrc.getPortalBody().getPosition());
 						renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
-						
-						
 					}
 				renderer.end();
-
-				
 			}
 		}
 		
-		if (GameMicroM.FLAG_DISPLAY_ACTOR_TEXTURES) {
-			batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
-			batch.begin();
-				wallSprite.setPosition(wallmSrc.getBody().getPosition().x-wallmSrc.getBasicShape().getWidth()/2,  wallmSrc.getBody().getPosition().y-wallmSrc.getBasicShape().getHeight()/2);
-				wallSprite.setRotation((float)Math.toDegrees(wallmSrc.getBody().getAngle()));
-				wallSprite.draw(batch);
-			batch.end();		
-		}
 	}
 
-	Matrix4 prj = new Matrix4();
-	Matrix4 vw = new Matrix4();
-	Matrix4 mdl = new Matrix4();
 	@Override
 	public void draw20(ScreenTickEvent e) {
-		// Enable da transparência
-		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
-	    Gdx.graphics.getGL20().glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-	    
-		prj.set(e.getCamera().getGameCamera().projection);
-		vw.set(e.getCamera().getGameCamera().view);
-		mdl.idt().translate(wallmSrc.getBody().getPosition().x, wallmSrc.getBody().getPosition().y, 0.0f);
-		
-		meshHelper.drawMesh(prj, vw, mdl, wallmSrc.getBasicShape().getFillColor());
 		
 	}
 	
 	
 	@Override
 	public void dispose() {
-		meshHelper.dispose();
 		super.dispose();
 	}
 	

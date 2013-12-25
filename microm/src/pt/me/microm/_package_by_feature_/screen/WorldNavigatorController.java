@@ -2,18 +2,13 @@ package pt.me.microm._package_by_feature_.screen;
 
 import java.util.UUID;
 
-import org.mozilla.javascript.ast.NewExpression;
-
-import pt.me.microm.GameMicroM;
 import pt.me.microm.controller.loop.GameTickGenerator;
 import pt.me.microm.controller.loop.ScreenTickManager;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.model.base.CameraControllerDrag;
 import pt.me.microm.model.base.CameraModel;
-import pt.me.microm.model.dev.GridModel;
 import pt.me.microm.model.ui.UIMetricsModel;
-import pt.me.microm.session.MyWorld;
 import pt.me.microm.session.PlayerProgress;
 
 import com.badlogic.gdx.Gdx;
@@ -22,26 +17,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Widget;
-import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Logger;
-import com.badlogic.gdx.utils.SnapshotArray;
-import com.esotericsoftware.tablelayout.Cell;
 
 public class WorldNavigatorController implements Screen {
 	
@@ -49,7 +25,7 @@ public class WorldNavigatorController implements Screen {
 	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
 	
 	private CameraModel cameraModel;
-	private GridModel gridModel;
+//	private GridModel gridModel;
 	private UIMetricsModel uiMetricsModel;
 	
 	private CameraControllerDrag camcontrollerDrag;
@@ -94,7 +70,7 @@ public class WorldNavigatorController implements Screen {
 		this.callback = callback;
 		
 		cameraModel = new CameraModel();
-		gridModel = new GridModel();
+//		gridModel = new GridModel();
 		uiMetricsModel = new UIMetricsModel();
 		
 		GameTickGenerator.getInstance(); //responsável pela actualizacao dos modelos
