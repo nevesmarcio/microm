@@ -28,7 +28,7 @@ public class CellWidthToAction extends TemporalAction {
 		endWidth = width;
 	}
 
-	public void setCell(Cell cell) {
+	public void setCell(Cell<?> cell) {
 		this.cell = cell;
 	}
 	

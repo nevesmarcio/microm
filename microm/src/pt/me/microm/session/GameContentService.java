@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.event.dispatcher.EventDispatcher;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -52,7 +53,23 @@ public class GameContentService {
 		return auxWorld;
 	}
 	
-	public GameContentService() {
+	public String[] getNextLevel() {
+		//todo: implement this
+		return new String[] {"world.1.justforkicks", "level#1.0.svg"};
+	}
+	
+	
+	private static GameContentService instance = null;
+	
+	public static GameContentService getInstance() {
+		if (instance == null) {
+			instance = new GameContentService();
+		}
+		return instance;
+	}
+	
+	private GameContentService() {
+		availableWorlds = new ArrayList<MyWorld>();
 		readAvailableWorlds();
 		
 		Iterator<MyWorld> itMyWorld = availableWorlds.iterator();
@@ -60,6 +77,7 @@ public class GameContentService {
 			readAvailableLevels(itMyWorld.next());
 		}
 		
+		logger.info("finished searching for levels...");
 	}	
 	
 	
@@ -77,8 +95,7 @@ public class GameContentService {
 				MyWorld toAdd = new MyWorld();
 				toAdd.setName(matcher.group());
 				logger.info("\tfound>> "+toAdd.getName());
-				readAvailableLevels(toAdd);
-				
+
 				availableWorlds.add(toAdd);
 			}
 		}

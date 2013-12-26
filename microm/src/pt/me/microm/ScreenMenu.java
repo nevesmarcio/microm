@@ -2,25 +2,16 @@ package pt.me.microm;
 
 import java.util.UUID;
 
-import pt.me.microm.controller.loop.GameTickGenerator;
-import pt.me.microm.controller.loop.ScreenTickManager;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
-import pt.me.microm.model.base.CameraControllerDrag;
-import pt.me.microm.model.base.CameraControllerStrafe;
-import pt.me.microm.model.base.CameraModel;
-import pt.me.microm.model.ui.UIMetricsModel;
 import pt.me.microm.session.PlayerProgress;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g3d.decals.CameraGroupStrategy;
-import com.badlogic.gdx.graphics.g3d.decals.DecalBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -35,9 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Logger;
-import com.badlogic.gdx.utils.SnapshotArray;
 import com.esotericsoftware.tablelayout.Cell;
 
 public class ScreenMenu implements Screen {
@@ -58,45 +47,19 @@ public class ScreenMenu implements Screen {
 	private Image imgEast = new Image(GAME_CONSTANTS.devAtlas.createSprite("txr_daBox")); 
 	private Image imgTitle = new Image(GAME_CONSTANTS.devAtlas.createSprite("txr_wall"));
 	
-	private CameraModel cameraModel; 
-//	private GridModel gridModel;
-	private UIMetricsModel uiMetricsModel;
-	
-	private CameraControllerDrag camcontrollerDrag;
-	private CameraControllerStrafe camcontrollerStrafe;
-	
-//	private Decal background;
-//	private Texture bg;
-	private DecalBatch decalBatch;
 	
 	private UUID devID;
 	private ScreenMenu(PlayerProgress playerProgress, ICommand callback) {
+		logger.info("showMenu start!");
 		logger.info("ALLOC:" + (devID = UUID.randomUUID()).toString());
 		
 		this.playerProgress = playerProgress;
 		this.callback = callback;
 		
-		cameraModel = new CameraModel();
-//		cameraModel.setWindowSize(Gdx.graphics.getWidth()/50, Gdx.graphics.getHeight()/50);
-//		cameraModel.cameraXposition += cameraModel.camWidth/2;
-//		cameraModel.cameraYposition += cameraModel.camHeight/2;
-		
-//		gridModel = new GridModel();
-		uiMetricsModel = new UIMetricsModel();
-
-		GameTickGenerator.getInstance(); //responsável pela actualizacao dos modelos
-		ScreenTickManager.getInstance(); //responsável pela actualizacao das views
-
-
 		TextureAtlas t = new TextureAtlas(Gdx.files.internal("data/scene2d/uiskin.atlas"), Gdx.files.internal("data/scene2d/"));
 		Skin skin = new Skin(Gdx.files.internal("data/scene2d/uiskin.json"), t);		
 		
 		stage = new Stage();
-		
-//		InputMultiplexer im = (InputMultiplexer) Gdx.input.getInputProcessor();
-//		if (im == null) im = new InputMultiplexer();
-//		im.addProcessor(stage);
-//		Gdx.input.setInputProcessor(im);
 		
 		menuTable = new Table();
 		menuTable.debugWidget();//table.debug();//
@@ -171,7 +134,6 @@ public class ScreenMenu implements Screen {
 
 						switch (((InputEvent)event).getType()) {
 						case enter:
-						case touchDown:
 							aux = new CellWidthToAction();
 							aux.setCell(c_1);
 							aux.setWidget(lbl_1);
@@ -190,16 +152,23 @@ public class ScreenMenu implements Screen {
 							lbl_1.invalidateHierarchy();
 							
 							break;
-							
+						
+						case touchDown:
+							break;
+						
 						case touchUp:
-							ScreenMenu.this.callback.handler(null);							
+							a_1.clearActions();
+							a_1.removeListener(this);
+							ScreenMenu.this.callback.handler("play", ScreenMenu.this);							
 							break;
 						default:
 							break;
 						}
-						
 					}
 					
+					if (event instanceof ChangeEvent) {
+						
+					}
 					return true;
 				}
 			});		
@@ -226,7 +195,6 @@ public class ScreenMenu implements Screen {
 					if (event instanceof InputEvent) {
 						switch (((InputEvent)event).getType()) {
 						case enter:
-						case touchDown:
 							aux = new CellWidthToAction();
 							aux.setCell(c_2);
 							aux.setWidget(lbl_2);
@@ -246,16 +214,25 @@ public class ScreenMenu implements Screen {
 							lbl_2.invalidateHierarchy();
 							
 							break;
+						
+						case touchDown:
+							break;
+						
+						case touchUp:
+							a_2.clearActions();
+							a_2.removeListener(this);
+							ScreenMenu.this.callback.handler("supportus", ScreenMenu.this);
+							
+							break;
 						default:
 							break;
 						}
-						
 					}
 					
 					if (event instanceof ChangeEvent) {
 						
 					}
-					return false;
+					return true;
 				}
 			});
 		
@@ -279,7 +256,6 @@ public class ScreenMenu implements Screen {
 					if (event instanceof InputEvent) {
 						switch (((InputEvent)event).getType()) {
 						case enter:
-						case touchDown:
 							aux = new CellWidthToAction();
 							aux.setCell(c_3);
 							aux.setWidget(lbl_3);
@@ -299,16 +275,25 @@ public class ScreenMenu implements Screen {
 							lbl_3.invalidateHierarchy();
 							
 							break;
+						
+						case touchDown:
+							break;
+						
+						case touchUp:
+							a_3.clearActions();
+							a_3.removeListener(this);
+							ScreenMenu.this.callback.handler("share", ScreenMenu.this);
+							
+							break;
 						default:
 							break;
 						}
-						
 					}
 					
 					if (event instanceof ChangeEvent) {
 						
 					}
-					return false;
+					return true;
 				}
 			});
 		
@@ -333,7 +318,6 @@ public class ScreenMenu implements Screen {
 					if (event instanceof InputEvent) {
 						switch (((InputEvent)event).getType()) {
 						case enter:
-						case touchDown:
 							aux = new CellWidthToAction();
 							aux.setCell(c_4);
 							aux.setWidget(lbl_4);
@@ -344,6 +328,7 @@ public class ScreenMenu implements Screen {
 							a_4.addAction(aux);
 							
 							break;
+							
 						case exit:
 							for (Action a: a_4.getActions()) {
 								a_4.removeAction(a);
@@ -351,6 +336,16 @@ public class ScreenMenu implements Screen {
 							
 							c_4.width(120f);
 							lbl_4.invalidateHierarchy();
+							
+							break;
+
+						case touchDown:
+							break;
+							
+						case touchUp:
+							a_4.clearActions();
+							a_4.removeListener(this);
+							ScreenMenu.this.callback.handler("back", ScreenMenu.this);
 							
 							break;
 						default:
@@ -362,82 +357,41 @@ public class ScreenMenu implements Screen {
 					if (event instanceof ChangeEvent) {
 						
 					}
-					return false;
+					return true;
 				}
 			});		
 
-			camcontrollerDrag = new CameraControllerDrag(cameraModel);
-			camcontrollerStrafe = new CameraControllerStrafe(cameraModel);
-			
-//			bg = new Texture(Gdx.files.internal("data/textures/dev/input/bg.png"));
-//			bg = new Texture(Gdx.files.internal("data/textures/menuEgg.png"));
-			
-//			bg.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-			//bg.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
-			//background = Decal.newDecal(GAME_CONSTANTS.devAtlas.createSprite("bg"), true);
-//			background = Decal.newDecal(800f, 800f, new TextureRegion(bg), true);
-//			background = Decal.newDecal(bg.getWidth()/2, bg.getHeight()/2, new TextureRegion(bg), true);
-//			background = Decal.newDecal(new TextureRegion(bg), true);
-//			background.setPosition(0f, 0f, 0f);
-			
-			decalBatch = new DecalBatch(new CameraGroupStrategy(cameraModel.getGameCamera()));
 	}
 
 	public static Screen showMenu(PlayerProgress playerProgress, ICommand callback) {
-		logger.info("showMenu start!");
 		return new ScreenMenu(playerProgress, callback);
 	}
 	
 	
-	private String clear_color = "ffffffff";//"0606020F";
+	private String clear_color = "0606020F";
 	@Override
 	public void render(float delta) {
 		long elapsedNanoTime = (long)(Gdx.graphics.getDeltaTime()*GAME_CONSTANTS.ONE_SECOND_TO_NANO);
-		
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
-		
-		if (Gdx.input.isKeyPressed(Keys.BACKSPACE) || Gdx.input.isKeyPressed(Keys.BACK)) // use your own criterion here
-			callback.handler("back");
+
+		// Clean do gl context
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClearColor(Color.valueOf(clear_color).r, Color.valueOf(clear_color).g, Color.valueOf(clear_color).b, Color.valueOf(clear_color).a);
 		
 		
-//      background.lookAt(cameraModel.getGameCamera().position, cameraModel.getGameCamera().up);
-//      decalBatch.add(background);
-      decalBatch.flush();		
-    	
-    	
     	if (GameMicroM.FLAG_DEV_ELEMENTS_B)
 			Table.drawDebug(stage); // This is optional, but enables debug lines for tables.
         
         stage.act(delta);
         stage.draw();
 
-    	if (Gdx.graphics.isGL20Available()) {
-    		
-//   		 Clean do gl context
-//			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-			Gdx.gl.glClearColor(Color.valueOf(clear_color).r, Color.valueOf(clear_color).g, Color.valueOf(clear_color).b, Color.valueOf(clear_color).a);
-   		
-			ScreenTickManager.getInstance().fireEvent(true, cameraModel, elapsedNanoTime);
-			
-   	} else {
-			// Clean do gl context
-//			Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-			Gdx.gl.glClearColor(Color.valueOf(clear_color).r, Color.valueOf(clear_color).g, Color.valueOf(clear_color).b, Color.valueOf(clear_color).a);
-			
-   		ScreenTickManager.getInstance().fireEvent(false, cameraModel, elapsedNanoTime);    		
-   	}
-        
-        
-
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		cameraModel.resize(width, height);
 		
 		//stage.setViewport(width, height, true);
-		stage.setViewport(1280/2, 800/2, true);// fixando o viewport permite que se fique com um sistema de coordenadas independente da resolução
+		// fixando o viewport permite que se fique com um sistema de coordenadas independente da resolução
+		stage.setViewport(1280/2, 800/2, true);
 		
 		imgNorth.setSize(stage.getWidth(), 10f);
 		imgNorth.setPosition(0f, stage.getHeight()-imgNorth.getHeight());
@@ -463,51 +417,32 @@ public class ScreenMenu implements Screen {
 		InputMultiplexer im = new InputMultiplexer();
 		im.addProcessor(stage);
 
-		im.addProcessor(camcontrollerDrag);
-		im.addProcessor(camcontrollerStrafe);
-		
 		Gdx.input.setInputProcessor(im);		
 	}
 
 	@Override
 	public void hide() {
 		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->hide()");
-		this.dispose();
 	}
 
 	@Override
 	public void pause() {
 		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->pause()");
-		
 	}
 
 	@Override
 	public void resume() {
 		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->resume()");
-		
 	}
 
 
 	@Override
 	public void dispose() {
-		// clean actor listeners
-		SnapshotArray<Actor> items = menuTable.getChildren();
-		for (int i = 0; i<items.size; i++) {
-			Array<EventListener> el = items.get(i).getListeners();
-			for (int j = 0; j<el.size; j++){
-				items.get(i).removeListener(el.get(j));
-			}
-			Array<EventListener> ecl = items.get(i).getCaptureListeners();
-			for (int j = 0; j<ecl.size; j++){
-				items.get(i).removeCaptureListener(ecl.get(j));
-			}
-		}
 		menuTable.clear();
 		titleTable.clear();
 		stage.clear();
-		stage.dispose();
-	
-		decalBatch.dispose();
+		
+		logger.info("showMenu disposed!");
 	}
 	
 	@Override

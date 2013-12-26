@@ -17,6 +17,7 @@ import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.ui.UIModel;
 import pt.me.microm.model.ui.utils.FlashMessageManagerModel;
+import pt.me.microm.session.PlayerProgress;
 import pt.me.microm.tools.levelloader.LevelLoader;
 
 import com.badlogic.gdx.Gdx;
@@ -111,7 +112,7 @@ public class ScreenTheJuice implements Screen {
 		multiplexer.addProcessor(new CameraControllerStrafe(cameraModel));
 	}
 	
-	public static Screen playground(ICommand callback, String world, String level) {
+	public static Screen playground(PlayerProgress playerProgress, String world, String level, ICommand callback) {
 		logger.info("playground start!");
 		return new ScreenTheJuice(callback, world, level);
 	}
@@ -122,7 +123,7 @@ public class ScreenTheJuice implements Screen {
 	// the main loop - maximum fps possible (Update rate para a View)
 	public void render(float delta) {
 		long elapsedNanoTime = (long)(Gdx.graphics.getDeltaTime()*GAME_CONSTANTS.ONE_SECOND_TO_NANO);
-		Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
+
 		
         // use your own criterion here
     	if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
@@ -133,23 +134,12 @@ public class ScreenTheJuice implements Screen {
     		callback.handler("pause", this);
     	}
 		
-    	if (Gdx.graphics.isGL20Available()) {
-    		
-    		// Clean do gl context
-			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//			Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1); // cinza escuro
-			Gdx.gl.glClearColor(Color.valueOf(clear_color).r, Color.valueOf(clear_color).g, Color.valueOf(clear_color).b, Color.valueOf(clear_color).a);
-    		
-			ScreenTickManager.getInstance().fireEvent(true, cameraModel, elapsedNanoTime);
-			
-    	} else {
-			// Clean do gl context
-			Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-			//Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1); // cinza escuro
-			Gdx.gl.glClearColor(Color.valueOf(clear_color).r, Color.valueOf(clear_color).g, Color.valueOf(clear_color).b, Color.valueOf(clear_color).a);
-			
-    		ScreenTickManager.getInstance().fireEvent(false, cameraModel, elapsedNanoTime);    		
-    	}
+		// Clean do gl context
+		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		//Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1); // cinza escuro
+		Gdx.gl.glClearColor(Color.valueOf(clear_color).r, Color.valueOf(clear_color).g, Color.valueOf(clear_color).b, Color.valueOf(clear_color).a);
+		
+		ScreenTickManager.getInstance().fireEvent(false, cameraModel, elapsedNanoTime);    		
 
 	}
 
@@ -199,13 +189,6 @@ public class ScreenTheJuice implements Screen {
 
 		FlashMessageManagerModel.getInstance().dispose();
 
-//		cameraModel.dispose();
-//		cameraModel = null;
-//		
-//		Gdx.input.setInputProcessor(null);
-//		myGestureListener = null;
-//		myInputProcessor = null;
-//		worldModel = null;
 	}
 
 	@Override

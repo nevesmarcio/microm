@@ -36,6 +36,8 @@ public class PlayerProgress {
 	public void save() {
 		String json = this.toJson();
 		Gdx.files.local(GAME_CONSTANTS.SAVEGAME_FILE_V1).writeString(json, false);
+		
+    	logger.info("saved state: dc: " + this.getDeathCount() + "; lpl: " + this.getLastPlayed() + ";");
 	}
 
 	public static PlayerProgress Load() throws Exception {
@@ -50,6 +52,8 @@ public class PlayerProgress {
 		
 		String json = Gdx.files.local(GAME_CONSTANTS.SAVEGAME_FILE_V1).readString();
 		PlayerProgress toReturn = getObjectFromJSON(json); 
+		
+		logger.info("loaded state: dc: " + toReturn.getDeathCount() + "; lpl: " + toReturn.getLastPlayed() + ";");
 		
 		return toReturn;
 	}
