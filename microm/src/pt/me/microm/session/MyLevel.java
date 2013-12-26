@@ -1,11 +1,12 @@
 package pt.me.microm.session;
 
-import java.util.Date;
-import java.util.HashMap;
-
 import com.google.gson.annotations.Expose;
 
-
+/**
+ * 
+ * @author Marcio
+ *
+ */
 public class MyLevel {
 	private MyWorld parentWorld;
 	@Expose private String name;
@@ -25,20 +26,4 @@ public class MyLevel {
 		this.name = name;
 	}
 	
-
-	
-	/////// Data properties ////////
-	@Expose protected boolean unlocked;				// indica se o nível já foi desbloqueado
-	@Expose protected HashMap<Date, Integer> scores; 	// número mínimo de mortes com que o nível foi completo	
-
-	public boolean isUnlocked() {
-		return unlocked;
-	}
-	
-	protected void completeDataFrom(MyLevel destMyLevel) {
-		this.unlocked = destMyLevel.unlocked;
-		
-		if (destMyLevel.scores != null)
-			this.scores = new HashMap<Date, Integer>(destMyLevel.scores);		
-	}
 }

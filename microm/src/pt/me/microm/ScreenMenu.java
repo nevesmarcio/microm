@@ -131,11 +131,11 @@ public class ScreenMenu implements Screen {
 		// Add widgets to the table here
 		
 		final Actor b;
-		stage.addActor(b = new Label("#: "+playerProgress.getScreenFlowService().getWorldByName("world.1.justforkicks").getCurrentDeathCount(), skin));
+		stage.addActor(b = new Label("#: "+playerProgress.getDeathCount(), skin));
 		b.addAction(new Action() {
 			@Override
 			public boolean act(float delta) {
-				String text = "#: "+ScreenMenu.this.playerProgress.getScreenFlowService().getWorldByName("world.1.justforkicks").getCurrentDeathCount();
+				String text = "#: "+ScreenMenu.this.playerProgress.getDeathCount();
 				text+="\nstageW: " + stage.getWidth() + " stageH: " + stage.getHeight();
 				text+="\nstageGW: " + stage.getGutterWidth()*2 + " stageGH: " + stage.getGutterHeight()*2;
 				
@@ -192,7 +192,6 @@ public class ScreenMenu implements Screen {
 							break;
 							
 						case touchUp:
-							ScreenMenu.this.playerProgress.getScreenFlowService().getSessionState().gameMode = 0;
 							ScreenMenu.this.callback.handler(null);							
 							break;
 						default:

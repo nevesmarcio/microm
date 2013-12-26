@@ -42,7 +42,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 		try {
 			playerProgress = PlayerProgress.Load();
 			
-			logger.info("loaded: " + playerProgress.getScreenFlowService().getWorldByName("world.1.justforkicks").getCurrentDeathCount());
+			logger.info("loaded state: dc: " + playerProgress.getDeathCount() + "; lpl: " + playerProgress.getLastPlayed() + ";");
 			
 		} catch (Exception e) {
 			if (logger.getLevel() >= Logger.ERROR) logger.error("Cannot load savegame: " + e.getMessage());
@@ -123,15 +123,14 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 //		Gdx.gl.glClearColor(0.90f, 0.90f, 0.90f, 1); // almost white
         
 		if (Gdx.input.isKeyPressed(Keys.I))
-			playerProgress.getScreenFlowService().getWorldByName("world.1.justforkicks").addCurrentDeathCount();
+			playerProgress.setDeathCount(playerProgress.getDeathCount() + 1);
 			
-
 		
 		if (Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isKeyPressed(Keys.MENU)) { // use your own criterion here
         	if (logger.getLevel() >= Logger.INFO) logger.info("SessionID = " + devID);
 			
         	playerProgress.save();
-        	logger.info("saved: " + playerProgress.getScreenFlowService().getWorldByName("world.1.justforkicks").getCurrentDeathCount());
+        	logger.info("saved state: dc: " + playerProgress.getDeathCount() + "; lpl: " + playerProgress.getLastPlayed() + ";");
 		}
 		
 		super.render();
