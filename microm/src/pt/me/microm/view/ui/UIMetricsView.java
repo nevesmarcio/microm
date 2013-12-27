@@ -1,5 +1,8 @@
 package pt.me.microm.view.ui;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.GameMicroM;
 import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
@@ -11,11 +14,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Logger;
+
 
 public class UIMetricsView  extends AbstractView {
 	private static final String TAG = UIMetricsView.class.getSimpleName();
-	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	private BitmapFont font;
 	private BitmapFont pulsingFont;

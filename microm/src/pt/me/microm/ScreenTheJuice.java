@@ -2,6 +2,9 @@ package pt.me.microm;
 
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.api.JsBridgeSingleton;
 import pt.me.microm.controller.MyGestureListener;
 import pt.me.microm.controller.MyInputProcessor;
@@ -27,15 +30,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.utils.Logger;
 
 public class ScreenTheJuice implements Screen {
 
 	private static final String TAG = ScreenTheJuice.class.getSimpleName();
-	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	// CONTROLLER RELATED
 	private InputMultiplexer multiplexer;
@@ -66,7 +67,7 @@ public class ScreenTheJuice implements Screen {
 		
 		FileHandle h = Gdx.files.internal("data/levels/" + world + "/" + level);
 		int nr_elements_loaded = LevelLoader.LoadLevel(h, worldModel, cameraModel);
-		if (logger.getLevel() == Logger.INFO) logger.info("Nr elements loaded: " + nr_elements_loaded);		
+		if (logger.isInfoEnabled()) logger.info("Nr elements loaded: " + nr_elements_loaded);		
 		
 		worldModel.addListener(WorldModel.EventType.ON_WORLD_COMPLETED, new IEventListener() {
 			@Override
@@ -151,7 +152,7 @@ public class ScreenTheJuice implements Screen {
 
 	@Override
 	public void show() {
-		if (logger.getLevel() >= Logger.DEBUG) logger.debug("-->show()");
+		if (logger.isDebugEnabled()) logger.debug("-->show()");
 		
 		Gdx.input.setInputProcessor(multiplexer);		
 			
@@ -159,19 +160,19 @@ public class ScreenTheJuice implements Screen {
 
 	@Override
 	public void hide() {
-		if (logger.getLevel() >= Logger.INFO) logger.info("-->hide()");
+		if (logger.isInfoEnabled()) logger.info("-->hide()");
 		
 	}
 
 	@Override
 	public void pause() {
-		if (logger.getLevel() >= Logger.DEBUG) logger.debug("-->pause()");
+		if (logger.isDebugEnabled()) logger.debug("-->pause()");
 		
 	}
 
 	@Override
 	public void resume() {
-		if (logger.getLevel() >= Logger.DEBUG) logger.debug("-->resume()");
+		if (logger.isDebugEnabled()) logger.debug("-->resume()");
 		
 	}
 

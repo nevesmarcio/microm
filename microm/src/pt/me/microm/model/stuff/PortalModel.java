@@ -1,7 +1,9 @@
 package pt.me.microm.model.stuff;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.controller.loop.event.GameTickEvent;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IActorBody;
@@ -10,11 +12,11 @@ import pt.me.microm.tools.levelloader.BasicShape;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Logger;
+
 
 public class PortalModel extends AbstractModel implements IActorBody {
 	private static final String TAG = PortalModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 
 	public static enum PortalType {PORTAL_ENTRY, PORTAL_EXIT};
 	
@@ -95,7 +97,7 @@ public class PortalModel extends AbstractModel implements IActorBody {
 	@Override
 	public void beginContactWith(IActorBody oModel) {
 		if (boxTouchMyTralala == 0) 
-			if (logger.getLevel() >= Logger.INFO) logger.info("daBox touched my trálálá!! says: " + this.getName() + ". Should be teleported to: " + this.getName().replace("entry", "exit"));
+			if (logger.isDebugEnabled()) logger.info("daBox touched my trálálá!! says: " + this.getName() + ". Should be teleported to: " + this.getName().replace("entry", "exit"));
 		boxTouchMyTralala +=1;
 		box = oModel;
 	}
@@ -104,7 +106,7 @@ public class PortalModel extends AbstractModel implements IActorBody {
 	public void endContactWith(IActorBody oModel) {
 		boxTouchMyTralala -=1;
 		if (boxTouchMyTralala == 0) 
-			if (logger.getLevel() >= Logger.INFO) logger.info("daBox left my trálálá!! says: " + this.getName());
+			if (logger.isDebugEnabled()) logger.info("daBox left my trálálá!! says: " + this.getName());
 	}
 	
 }

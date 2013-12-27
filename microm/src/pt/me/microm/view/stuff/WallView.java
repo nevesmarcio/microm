@@ -2,30 +2,26 @@ package pt.me.microm.view.stuff;
 
 import java.util.Iterator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.GameMicroM;
 import pt.me.microm.controller.loop.event.ScreenTickEvent;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.stuff.WallModel;
-import pt.me.microm.tools.levelloader.BasicShape;
 import pt.me.microm.view.AbstractView;
 import pt.me.microm.view.helper.SimpleRendererHelper;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.utils.Logger;
+
 
 public class WallView extends AbstractView {
 	private static final String TAG = WallView.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	private WallModel wallmSrc;
 	

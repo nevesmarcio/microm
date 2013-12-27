@@ -1,5 +1,9 @@
 package pt.me.microm.view.ui;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.ui.UIModel;
@@ -14,11 +18,11 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
-import com.badlogic.gdx.utils.Logger;
+
 
 public class UIView  extends AbstractView {
 	private static final String TAG = UIView.class.getSimpleName();
-	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	private UIModel uiSrc;
 	
@@ -48,10 +52,10 @@ public class UIView  extends AbstractView {
 
 			if (uiSrc.getWindowCoordTestPoint()[i]!=null) {
 				rr = e.getCamera().getGameCamera().getPickRay(uiSrc.getWindowCoordTestPoint()[i].x, uiSrc.getWindowCoordTestPoint()[i].y);
-				if (logger.getLevel() == Logger.DEBUG) logger.debug("PickingTest - ray: " + rr);
+				if (logger.isDebugEnabled()) logger.debug("PickingTest - ray: " + rr);
 				
 				Intersector.intersectRayPlane(rr, intersect_plane, intersection_point);
-				if (logger.getLevel() == Logger.DEBUG) logger.debug("Intersect: " + intersection_point);
+				if (logger.isDebugEnabled()) logger.debug("Intersect: " + intersection_point);
 	
 				renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 				

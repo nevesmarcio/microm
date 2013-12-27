@@ -11,6 +11,8 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -34,7 +36,6 @@ import pt.me.microm.model.ui.TextModel;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Logger;
 
 /**
  * This class exposes a static method that allows the reading of a Level from an
@@ -45,7 +46,7 @@ import com.badlogic.gdx.utils.Logger;
  */
 public class LevelLoader {
 	private static final String TAG = LevelLoader.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	private LevelLoader() {}
 	
@@ -260,17 +261,17 @@ public class LevelLoader {
 
 			XPathExpression expr; 
 			// Get Camera
-			if (logger.getLevel() >= Logger.INFO) logger.info("Camera...");
+			if (logger.isInfoEnabled()) logger.info("Camera...");
 			expr = xpath.compile("//svg/g/path[contains(@id,'camera')]");
 			NodeList camera = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < camera.getLength(); i++) {
 				String d = camera.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				String style = camera.item(i).getAttributes().getNamedItem("style").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 
 				BasicShape s = new BasicShape(d, style, ObjectType.CAMERA);
 
-				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
+				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String camera_name = camera.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
 				// here we configure the camera
@@ -281,17 +282,17 @@ public class LevelLoader {
 			
 			
 			// Get Board
-			if (logger.getLevel() >= Logger.INFO) logger.info("Board...");
+			if (logger.isInfoEnabled()) logger.info("Board...");
 			expr = xpath.compile("//svg/g/path[contains(@id,'board')]");
 			NodeList board = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < board.getLength(); i++) {
 				String d = board.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				String style = board.item(i).getAttributes().getNamedItem("style").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 
 				BasicShape s = new BasicShape(d, style, ObjectType.BOARD);
 
-				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
+				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String board_name = board.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
 				addBoardToWorld(wm, s, board_name);
@@ -301,17 +302,17 @@ public class LevelLoader {
 			
 			// Get DaBox
 			DaBoxModel daBoxRef = null;
-			if (logger.getLevel() >= Logger.INFO) logger.info("DaBox...");
+			if (logger.isInfoEnabled()) logger.info("DaBox...");
 			expr = xpath.compile("//svg/g/path[contains(@id,'daBox')]");
 			NodeList dabox = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < dabox.getLength(); i++) {
 				String d = dabox.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				String style = dabox.item(i).getAttributes().getNamedItem("style").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 				
 				BasicShape s = new BasicShape(d, style, ObjectType.DABOX);
 				
-				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
+				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String dabox_name = dabox.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
 				daBoxRef = addDaBoxToWorld(wm, s, dabox_name);
@@ -320,17 +321,17 @@ public class LevelLoader {
 			}			
 			
 			// Get Spawn
-			if (logger.getLevel() >= Logger.INFO) logger.info("Spawn...");
+			if (logger.isInfoEnabled()) logger.info("Spawn...");
 			expr = xpath.compile("//svg/g/path[contains(@id,'spawn')]");
 			NodeList spawn = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < spawn.getLength(); i++) {
 				String d = spawn.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				String style = spawn.item(i).getAttributes().getNamedItem("style").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 				
 				BasicShape s = new BasicShape(d, style, ObjectType.SPAWN);
 
-				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
+				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String spawn_name = spawn.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
 				addSpawnToWorld(wm, daBoxRef, s, spawn_name);
@@ -339,17 +340,17 @@ public class LevelLoader {
 			}
 			
 			// Get Goals
-			if (logger.getLevel() >= Logger.INFO) logger.info("Goals...");
+			if (logger.isInfoEnabled()) logger.info("Goals...");
 			expr = xpath.compile("//svg/g/path[contains(@id,'goal')]");
 			NodeList goals = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < goals.getLength(); i++) {
 				String d = goals.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				String style = goals.item(i).getAttributes().getNamedItem("style").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 				
 				BasicShape s = new BasicShape(d, style, ObjectType.GOAL);
 
-				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
+				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String goal_name = goals.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
 				addGoalToWorld(wm, s, goal_name);
@@ -358,17 +359,17 @@ public class LevelLoader {
 			}
 
 			// Get Grounds
-			if (logger.getLevel() >= Logger.INFO) logger.info("Grounds...");
+			if (logger.isInfoEnabled()) logger.info("Grounds...");
 			expr = xpath.compile("//svg/g/path[contains(@id,'ground')]");
 			NodeList grounds = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < grounds.getLength(); i++) {
 				String d = grounds.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				String style = grounds.item(i).getAttributes().getNamedItem("style").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 				
 				BasicShape s = new BasicShape(d, style, ObjectType.GROUND);
 				
-				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
+				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String ground_name = grounds.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
 				addGroundToWorld(wm, s, ground_name);
@@ -377,18 +378,18 @@ public class LevelLoader {
 			}
 
 			// Get portals
-			if (logger.getLevel() >= Logger.INFO) logger.info("Portals...");
+			if (logger.isInfoEnabled()) logger.info("Portals...");
 			//expr = xpath.compile("//svg/g/path[contains(@id,'portal')]/@d");
 			expr = xpath.compile("//svg/g/path[contains(@id,'portal')]");
 			NodeList portals = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < portals.getLength(); i++) {
 				String d = portals.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				String style = portals.item(i).getAttributes().getNamedItem("style").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 				
 				BasicShape s = new BasicShape(d, style, ObjectType.PORTAL);
 
-				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
+				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String portal_name = portals.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
 				addPortalToWorld(wm, s, portal_name);
@@ -397,18 +398,18 @@ public class LevelLoader {
 			}
 
 			// Get walls
-			if (logger.getLevel() >= Logger.INFO) logger.info("Walls...");
+			if (logger.isInfoEnabled()) logger.info("Walls...");
 			//expr = xpath.compile("//svg/g/path[contains(@id,'portal')]/@d");
 			expr = xpath.compile("//svg/g/path[contains(@id,'wall')]");
 			NodeList walls = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < walls.getLength(); i++) {
 				String d = walls.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				String style = walls.item(i).getAttributes().getNamedItem("style").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 				
 				BasicShape s = new BasicShape(d, style, ObjectType.WALL);
 
-				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
+				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String wall_name = walls.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
 				addWallToWorld(wm, s, wall_name);
@@ -417,18 +418,18 @@ public class LevelLoader {
 			}
 			
 			// Get stars
-			if (logger.getLevel() >= Logger.INFO) logger.info("Stars...");
+			if (logger.isInfoEnabled()) logger.info("Stars...");
 			//expr = xpath.compile("//svg/g/path[contains(@id,'portal')]/@d");
 			expr = xpath.compile("//svg/g/path[contains(@id,'star')]");
 			NodeList stars = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < stars.getLength(); i++) {
 				String d = stars.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				String style = stars.item(i).getAttributes().getNamedItem("style").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 				
 				BasicShape s = new BasicShape(d, style, ObjectType.STAR);
 
-				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
+				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String star_name = stars.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
 				addStarToWorld(wm, s, star_name);
@@ -438,20 +439,20 @@ public class LevelLoader {
 			
 			
 			// Get text
-			if (logger.getLevel() >= Logger.INFO) logger.info("Text...");
+			if (logger.isInfoEnabled()) logger.info("Text...");
 			expr = xpath.compile("//svg/g/text[contains(@id,'text')]/tspan");
 			NodeList text = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < text.getLength(); i++) {
 				String id = text.item(i).getAttributes().getNamedItem("id").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info("[" + id + "]");
+				if (logger.isInfoEnabled()) logger.info("[" + id + "]");
 				
 				String x = text.item(i).getAttributes().getNamedItem("x").getNodeValue();
 				String y = text.item(i).getAttributes().getNamedItem("y").getNodeValue();
 				String s = text.item(i).getTextContent();
 				
-				if (logger.getLevel() >= Logger.INFO) logger.info("[" + id + "] = x: " + x + "; y: " + y + "; ==> '" + s + "'" );
+				if (logger.isInfoEnabled()) logger.info("[" + id + "] = x: " + x + "; y: " + y + "; ==> '" + s + "'" );
 				BasicShape sh = new BasicShape("m " + x + "," + y, "", ObjectType.TEXT);
-				if (logger.getLevel() >= Logger.INFO) logger.info(".:.:.:. " + sh.getCentroid() + " .:.:.:.");
+				if (logger.isInfoEnabled()) logger.info(".:.:.:. " + sh.getCentroid() + " .:.:.:.");
 				
 				addTextToWorld(wm, sh, id, s);
 				
@@ -460,17 +461,17 @@ public class LevelLoader {
 			
 			
 			// Get triggers
-			if (logger.getLevel() >= Logger.INFO) logger.info("Triggers...");
+			if (logger.isInfoEnabled()) logger.info("Triggers...");
 			expr = xpath.compile("//svg/g/path[contains(@id,'trigger')]");
 			NodeList triggers = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 			for (int i = 0; i < triggers.getLength(); i++) {
 				String d = triggers.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				String style = triggers.item(i).getAttributes().getNamedItem("style").getNodeValue();
-				if (logger.getLevel() >= Logger.INFO) logger.info("d= " + d + "; style= " + style + ";");
+				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 				
 				BasicShape s = new BasicShape(d, style, ObjectType.TRIGGER);
 
-				if (logger.getLevel() >= Logger.INFO) logger.info(s.toString());
+				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String trigger_name = triggers.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				String script = triggers.item(i).getAttributes().getNamedItem("custom-script").getNodeValue();
 				
@@ -484,19 +485,19 @@ public class LevelLoader {
 			
 
 			
-			if (logger.getLevel() >= Logger.INFO) logger.info("Finished Loading level: " + h.name());
+			if (logger.isInfoEnabled()) logger.info("Finished Loading level: " + h.name());
 		
 		} catch (ParserConfigurationException e) {
-			if (logger.getLevel() >= Logger.ERROR) logger.error(e.getMessage());
+			if (logger.isErrorEnabled()) logger.error(e.getMessage());
 			e.printStackTrace();
 		} catch (SAXException e) {
-			if (logger.getLevel() >= Logger.ERROR) logger.error(e.getMessage());
+			if (logger.isErrorEnabled()) logger.error(e.getMessage());
 			e.printStackTrace();
 		} catch (IOException e) {
-			if (logger.getLevel() >= Logger.ERROR) logger.error(e.getMessage());
+			if (logger.isErrorEnabled()) logger.error(e.getMessage());
 			e.printStackTrace();
 		} catch (XPathExpressionException e) {
-			if (logger.getLevel() >= Logger.ERROR) logger.error(e.getMessage());
+			if (logger.isErrorEnabled()) logger.error(e.getMessage());
 			e.printStackTrace();
 		}
 		return nrElements;

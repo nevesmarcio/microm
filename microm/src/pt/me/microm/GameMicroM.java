@@ -2,7 +2,9 @@ package pt.me.microm;
 
 import java.util.UUID;
 
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.session.GameContentService;
 import pt.me.microm.session.PlayerProgress;
@@ -12,7 +14,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.utils.Logger;
 
 /**
  * This class maintain the context across the life time of the session!
@@ -27,7 +28,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 	public static final boolean FLAG_DISPLAY_PARTICLES = true;			// liga o desenho de particulas
 	
 	private static final String TAG = GameMicroM.class.getSimpleName();
-	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 
 	private PlayerProgress playerProgress;
 	private GameContentService gameContentService;
@@ -43,7 +44,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 		try {
 			playerProgress = PlayerProgress.Load();
 		} catch (Exception e) {
-			if (logger.getLevel() >= Logger.ERROR) logger.error("Cannot load savegame: " + e.getMessage());
+			logger.error("Cannot load savegame: " + e.getMessage());
 		}
 		gameContentService = GameContentService.getInstance();
 		
@@ -181,7 +182,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 			
 		
 		if (Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isKeyPressed(Keys.MENU)) { // use your own criterion here
-        	if (logger.getLevel() >= Logger.INFO) logger.info("SessionID = " + devID);
+        	logger.info("SessionID = " + devID);
 			
         	playerProgress.save();
 		}
@@ -202,7 +203,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 			// Clean do gl context
 			Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 			Gdx.gl.glClearColor(0.090f, 0.090f, 0.090f, 1); // almost white
-			Gdx.app.exit();
+//			Gdx.app.exit();
 		}
 	}
 	

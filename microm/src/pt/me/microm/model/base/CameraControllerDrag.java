@@ -17,15 +17,20 @@
 package pt.me.microm.model.base;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class CameraControllerDrag extends InputAdapter {
+	private static final String TAG = CameraControllerDrag.class.getSimpleName();
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
+	
 	public CameraModel cam;
 
 	enum TransformMode {

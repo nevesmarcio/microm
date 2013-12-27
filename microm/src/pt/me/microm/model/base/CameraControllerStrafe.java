@@ -4,16 +4,15 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.utils.Logger;
 
 public class CameraControllerStrafe extends InputAdapter {
 	private static final String TAG = CameraControllerStrafe.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
-	
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	public CameraModel cam;
 
@@ -37,7 +36,7 @@ public class CameraControllerStrafe extends InputAdapter {
 	@Override
 	public boolean keyDown(int keycode) {
 
-		if (logger.getLevel() >= Logger.DEBUG) logger.debug("[KEY]: " + Integer.toString(keycode));
+		if (logger.isDebugEnabled()) logger.debug("[KEY]: " + Integer.toString(keycode));
 		
 		if (keycode == Keys.P)
 			printCameraValues();

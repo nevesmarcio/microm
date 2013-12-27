@@ -9,6 +9,9 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.controller.loop.itf.IGameTick;
 import pt.me.microm.controller.loop.itf.IProcessRunnable;
@@ -16,12 +19,11 @@ import pt.me.microm.infrastructure.GAME_CONSTANTS;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.Logger;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameTickGenerator implements IProcessRunnable, Disposable {
 	private static final String TAG = GameTickGenerator.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 
 	private final List<IGameTick> _listeners = new ArrayList<IGameTick>();
 
@@ -31,18 +33,18 @@ public class GameTickGenerator implements IProcessRunnable, Disposable {
 	
 	public synchronized void addEventListener(IGameTick listener) {
 
-		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-addEventListener-begin]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
+		if (logger.isDebugEnabled()) logger.debug("[TickGen-addEventListener-begin]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 		_listeners.add(listener);
 		isTempListenersDirty = true;
-		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-addEventListener-end]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
+		if (logger.isDebugEnabled()) logger.debug("[TickGen-addEventListener-end]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 	}
 
 	public synchronized void removeEventListener(IGameTick listener) {
 
-		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-removeEventListener-begin]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
+		if (logger.isDebugEnabled()) logger.debug("[TickGen-removeEventListener-begin]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 		_listeners.remove(listener);
 		isTempListenersDirty = true;
-		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-removeEventListener-end]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
+		if (logger.isDebugEnabled()) logger.debug("[TickGen-removeEventListener-end]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 	}
 
 	/**
@@ -57,7 +59,7 @@ public class GameTickGenerator implements IProcessRunnable, Disposable {
 			new ArrayList<IGameTick>();							// reutilização da lista de listeners
 	private boolean isTempListenersDirty = true;				// variável de controlo para saber se a lista de listeners mudou
 	private synchronized void fireEvent(long elapsedNanoTime) {
-		if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-fireEvent]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
+		if (logger.isDebugEnabled()) logger.debug("[TickGen-fireEvent]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 		
 		event.setElapsedNanoTime(elapsedNanoTime);
 
@@ -72,12 +74,12 @@ public class GameTickGenerator implements IProcessRunnable, Disposable {
 			i = temp_listeners.iterator();
 			while (i.hasNext()) {
 				gti = i.next();
-				if (logger.getLevel() == Logger.DEBUG) logger.debug("\t[TickGen]" + gti.getClass().getName());
+				if (logger.isDebugEnabled()) logger.debug("\t[TickGen]" + gti.getClass().getName());
 				
 				gti.handleGameTick(event);
 			}
 		} catch (ConcurrentModificationException ex) {
-			if (logger.getLevel() == Logger.DEBUG) logger.debug("[TickGen-EXCEPTION]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
+			if (logger.isDebugEnabled()) logger.debug("[TickGen-EXCEPTION]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 			ex.printStackTrace();
 			throw ex;
 		}
@@ -142,10 +144,10 @@ public class GameTickGenerator implements IProcessRunnable, Disposable {
 				
 				
 			} catch (Exception e) {
-				if (logger.getLevel() >= Logger.ERROR) logger.error("Something fishy is going on here... Ex:" + e.getMessage());
+				if (logger.isErrorEnabled()) logger.error("Something fishy is going on here... Ex:" + e.getMessage());
 			}
 
-			if (logger.getLevel() >= Logger.DEBUG) logger.debug("Time's up (miliseconds)!" + elapsedNanoTime / GAME_CONSTANTS.ONE_MILISECOND_TO_NANO);
+			if (logger.isDebugEnabled()) logger.debug("Time's up (miliseconds)!" + elapsedNanoTime / GAME_CONSTANTS.ONE_MILISECOND_TO_NANO);
 
 			lastTick = thisTick;
 		}

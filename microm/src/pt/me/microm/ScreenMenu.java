@@ -2,6 +2,9 @@ package pt.me.microm;
 
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.session.PlayerProgress;
@@ -26,13 +29,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
-import com.badlogic.gdx.utils.Logger;
+
 import com.esotericsoftware.tablelayout.Cell;
 
 public class ScreenMenu implements Screen {
 	
 	private static final String TAG = ScreenMenu.class.getSimpleName();
-	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	private Stage stage;
 	private Table menuTable;
@@ -411,7 +414,7 @@ public class ScreenMenu implements Screen {
 
 	@Override
 	public void show() {
-		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->show()");
+		logger.debug("-->show()");
 		
 		InputMultiplexer im = new InputMultiplexer();
 		im.addProcessor(stage);
@@ -421,17 +424,17 @@ public class ScreenMenu implements Screen {
 
 	@Override
 	public void hide() {
-		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->hide()");
+		logger.debug("-->hide()");
 	}
 
 	@Override
 	public void pause() {
-		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->pause()");
+		logger.debug("-->pause()");
 	}
 
 	@Override
 	public void resume() {
-		if (logger.getLevel() == Logger.DEBUG) logger.debug("-->resume()");
+		logger.debug("-->resume()");
 	}
 
 

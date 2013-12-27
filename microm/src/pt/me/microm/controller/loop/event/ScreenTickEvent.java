@@ -2,15 +2,17 @@ package pt.me.microm.controller.loop.event;
 
 import java.util.EventObject;
 
-import com.badlogic.gdx.utils.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.base.CameraModel;
+
+
 
 public class ScreenTickEvent extends EventObject {
 	
 	private static final String TAG = ScreenTickEvent.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	private static final long serialVersionUID = 1L;
 	

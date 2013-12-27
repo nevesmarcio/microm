@@ -1,9 +1,11 @@
 package pt.me.microm.session;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Logger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
@@ -11,7 +13,7 @@ import com.google.gson.annotations.Expose;
 public class PlayerProgress {
 
 	private static final String TAG = PlayerProgress.class.getSimpleName();
-	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);	
+	private static final Logger logger = LoggerFactory.getLogger(TAG);	
 	
 	/* Json serialization */
 	private static Gson jsonFacility = new GsonBuilder()
@@ -23,7 +25,7 @@ public class PlayerProgress {
 		try {
 			aux = jsonFacility.fromJson(json, PlayerProgress.class);
 		} catch (Exception e) {
-			if (logger.getLevel() >= Logger.ERROR) logger.error(e.getMessage());
+			if (logger.isErrorEnabled()) logger.error(e.getMessage());
 		}
 		return aux;
 	}

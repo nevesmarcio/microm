@@ -1,6 +1,8 @@
 package pt.me.microm.model;
 
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.infrastructure.event.CollisionEvent;
 import pt.me.microm.infrastructure.event.dispatcher.EventDispatcher;
 import pt.me.microm.model.trigger.SimpleTriggerModel;
@@ -9,7 +11,6 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.utils.Logger;
 
 /**
  * 
@@ -21,13 +22,13 @@ import com.badlogic.gdx.utils.Logger;
  */
 public class MyContactListener extends EventDispatcher implements ContactListener {
 	private static final String TAG = MyContactListener.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	@Override /* related to MyContactListener interface */
 	public void beginContact(Contact contact) {
 		// Por defeito, as classes do model só logam os contactos
 		// Cada model deverá fazer o override a este método para tratar dos contactos		
-		if (logger.getLevel() >= Logger.DEBUG) logger.debug("[default-contact-handler] : BeginContact => ("+contact.getChildIndexA()+","+contact.getChildIndexB()+") => " + contact.getFixtureA().toString() +" :: "+ contact.getFixtureB() );
+		if (logger.isDebugEnabled()) logger.debug("[default-contact-handler] : BeginContact => ("+contact.getChildIndexA()+","+contact.getChildIndexB()+") => " + contact.getFixtureA().toString() +" :: "+ contact.getFixtureB() );
 		
 		int a=-1,b=-1;
 		a=((IContact)contact.getFixtureA().getBody().getUserData()).addPointOfContactWith((IActorBody)contact.getFixtureB().getBody().getUserData());
@@ -51,7 +52,7 @@ public class MyContactListener extends EventDispatcher implements ContactListene
 			e.setB(((IActorBody)contact.getFixtureB().getBody().getUserData()).getName());
 			this.dispatchEvent(e);
 
-			logger.debug((IContact)contact.getFixtureA().getBody().getUserData() + " -x- " + (IContact)contact.getFixtureB().getBody().getUserData());
+			if (logger.isDebugEnabled()) logger.debug((IContact)contact.getFixtureA().getBody().getUserData() + " -x- " + (IContact)contact.getFixtureB().getBody().getUserData());
 		}
 		
 		
@@ -61,7 +62,7 @@ public class MyContactListener extends EventDispatcher implements ContactListene
 	public void endContact(Contact contact) {
 		// Por defeito, as classes do model só logam os contactos
 		// Cada model deverá fazer o override a este método para tratar dos contactos		
-		if (logger.getLevel() >= Logger.DEBUG) logger.debug("[default-contact-handler] : EndContact => ("+contact.getChildIndexA()+","+contact.getChildIndexB()+") => " + contact.getFixtureA().toString() +" :: "+ contact.getFixtureB() );
+		if (logger.isDebugEnabled()) logger.debug("[default-contact-handler] : EndContact => ("+contact.getChildIndexA()+","+contact.getChildIndexB()+") => " + contact.getFixtureA().toString() +" :: "+ contact.getFixtureB() );
 
 		int a=-1,b=-1;
 		a=((IContact)contact.getFixtureA().getBody().getUserData()).subtractPointOfContactWith((IActorBody)contact.getFixtureB().getBody().getUserData());
@@ -85,7 +86,7 @@ public class MyContactListener extends EventDispatcher implements ContactListene
 			e.setB(((IActorBody)contact.getFixtureB().getBody().getUserData()).getName());
 			this.dispatchEvent(e);
 			
-			logger.debug((IContact)contact.getFixtureA().getBody().getUserData() + " -o- " + (IActorBody)contact.getFixtureB().getBody().getUserData());
+			if (logger.isDebugEnabled()) logger.debug((IContact)contact.getFixtureA().getBody().getUserData() + " -o- " + (IActorBody)contact.getFixtureB().getBody().getUserData());
 		}
 		
 	

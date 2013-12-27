@@ -1,12 +1,14 @@
 package pt.me.microm.model.phenomenon;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.controller.loop.event.GameTickEvent;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Logger;
+
 
 /**
  * Renderiza uma "explosão de estrelas" numa dada coordenada
@@ -19,7 +21,7 @@ import com.badlogic.gdx.utils.Logger;
  */
 public class CollisionModel extends AbstractModel {
 	private static final String TAG = CollisionModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	public Vector2 position;
 	

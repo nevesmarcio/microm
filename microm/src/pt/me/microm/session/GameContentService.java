@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.event.dispatcher.EventDispatcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.Logger;
+
 
 /**
  * 
@@ -23,7 +23,7 @@ import com.badlogic.gdx.utils.Logger;
 public class GameContentService {
 	
 	private static final String TAG = GameContentService .class.getSimpleName();
-	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);	
+	private static final Logger logger = LoggerFactory.getLogger(TAG);	
 
 	private List<MyWorld> availableWorlds;
 	

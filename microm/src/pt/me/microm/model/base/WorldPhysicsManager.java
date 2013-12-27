@@ -4,6 +4,9 @@ import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
@@ -18,7 +21,7 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Logger;
+
 
 /**
  * 
@@ -32,7 +35,7 @@ import com.badlogic.gdx.utils.Logger;
  */
 public class WorldPhysicsManager {
 	private static final String TAG = WorldPhysicsManager.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	// testes física
 	private Vector2 gravity = new Vector2(0.0f, -30.0f);//-9.8f
@@ -169,7 +172,7 @@ public class WorldPhysicsManager {
 	public void update(GameTickEvent e) {
 		float elapsedNanoTime = e.getElapsedNanoTime();
 		
-		if (logger.getLevel() == Logger.DEBUG) logger.debug("[WorldModel timestep]: time elapsed=" + elapsedNanoTime/GAME_CONSTANTS.ONE_SECOND_TO_NANO + "s");
+		if (logger.isDebugEnabled()) logger.debug("[WorldModel timestep]: time elapsed=" + elapsedNanoTime/GAME_CONSTANTS.ONE_SECOND_TO_NANO + "s");
 		
 		// testes de física
 //		if ((getPhysicsWorld() != null) && !isPauseSim()){
@@ -178,7 +181,7 @@ public class WorldPhysicsManager {
 			
 			//TODO: Não entendo pq é que o elapsed nanotime escavaca o esquema todo... :: não é o elapsednanotime. é o cálculo da força a aplicar. com velocidade constante já n se verifica?!?
 			//physicsWorld.step(elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO, 12, 6);
-			if (logger.getLevel() == Logger.DEBUG) logger.debug("[physics-step]: step=" + elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO);
+			if (logger.isDebugEnabled()) logger.debug("[physics-step]: step=" + elapsedNanoTime/(float)GAME_CONSTANTS.ONE_SECOND_TO_NANO);
 //		}		
 		
 		// É após o step que se pode processar o adicionar/ remover objectos no physicsWorld		

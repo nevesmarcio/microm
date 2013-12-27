@@ -1,7 +1,9 @@
 package pt.me.microm.model.trigger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.controller.loop.event.GameTickEvent;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IActorBody;
@@ -10,11 +12,11 @@ import pt.me.microm.tools.levelloader.BasicShape;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Logger;
+
 
 public class SimpleTriggerModel extends AbstractModel implements IActorBody {
 	private static final String TAG = SimpleTriggerModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 
 	private Body triggerBody;
 	
@@ -44,7 +46,7 @@ public class SimpleTriggerModel extends AbstractModel implements IActorBody {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
 		if (triggerBody != null)
-			if (logger.getLevel() >= Logger.DEBUG)
+			if (logger.isDebugEnabled())
 				logger.debug("[Physics-room]: Pos.x:" + String.format("%.2f", getBody().getPosition().x)
 					+ " Pos.y:" + String.format("%.2f", getBody().getPosition().y) 
 					+ " Angle:" + String.format("%.2f", getBody().getAngle())
@@ -88,12 +90,12 @@ public class SimpleTriggerModel extends AbstractModel implements IActorBody {
 
 	@Override
 	public void beginContactWith(IActorBody oModel) {
-		if (logger.getLevel() >= Logger.DEBUG) logger.debug("da trigger has been hitted!");
+		if (logger.isDebugEnabled()) logger.debug("da trigger has been hitted!");
 	}
 	
 	@Override
 	public void endContactWith(IActorBody oModel) {
-		if (logger.getLevel() >= Logger.DEBUG) logger.debug("da trigger has been cleared!");
+		if (logger.isDebugEnabled()) logger.debug("da trigger has been cleared!");
 	}
 
 }

@@ -8,6 +8,8 @@ import java.util.Iterator;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import pt.me.microm.GameMicroM;
 import pt.me.microm.controller.loop.GameTickGenerator;
@@ -22,7 +24,6 @@ import pt.me.microm.model.stuff.DaBoxModel;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.Logger;
 
 
 /**
@@ -34,7 +35,7 @@ import com.badlogic.gdx.utils.Logger;
 public class JsBridgeSingleton implements IEventListener, Disposable {
 	
 	private static final String TAG = JsBridgeSingleton.class.getSimpleName();
-	private static Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 
 	private static JsBridgeSingleton instance = null;
 
@@ -222,7 +223,7 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
 			Body b = it.next();
 			String name = ((AbstractModel) b.getUserData()).getName();
 			try {
-				if (logger.getLevel() >= Logger.DEBUG) logger.debug("searching...  [" + name + "]");
+				logger.debug("searching...  [" + name + "]");
 				if (name.equals(searchName)) 
 					return b;
 			} catch (Exception e) {

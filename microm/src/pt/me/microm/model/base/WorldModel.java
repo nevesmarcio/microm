@@ -1,5 +1,8 @@
 package pt.me.microm.model.base;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
@@ -15,7 +18,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Logger;
+
 
 
 /* 
@@ -25,7 +28,7 @@ import com.badlogic.gdx.utils.Logger;
  */
 public class WorldModel extends AbstractModel implements GestureListener, InputProcessor {
 	private static final String TAG = WorldModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 //	private static WorldModel instance = null;
 	public static enum EventType {

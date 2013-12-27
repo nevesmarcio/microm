@@ -1,8 +1,9 @@
 package pt.me.microm.model.stuff;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.controller.loop.event.GameTickEvent;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IActorBody;
@@ -11,15 +12,11 @@ import pt.me.microm.tools.levelloader.BasicShape;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.ChainShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.utils.Logger;
+
 
 public class WallModel extends AbstractModel implements IActorBody {
 	private static final String TAG = WallModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 
 	private Body wallBody;
 	
@@ -48,7 +45,7 @@ public class WallModel extends AbstractModel implements IActorBody {
 		long elapsedNanoTime = e.getElapsedNanoTime();
 		
 		if (wallBody != null)
-			if (logger.getLevel() >= Logger.DEBUG)
+			if (logger.isDebugEnabled())
 				logger.debug("[Physics-room]: Pos.x:" + String.format("%.2f", getBody().getPosition().x)
 					+ " Pos.y:" + String.format("%.2f", getBody().getPosition().y) 
 					+ " Angle:" + String.format("%.2f", getBody().getAngle())
@@ -93,7 +90,7 @@ public class WallModel extends AbstractModel implements IActorBody {
 	@Override
 	public void beginContactWith(IActorBody oModel) {
 		if (boxTouchMyTralala == 0) 
-			if (logger.getLevel() >= Logger.INFO) logger.info("daBox hit da wall!");
+			if (logger.isInfoEnabled()) logger.info("daBox hit da wall!");
 		boxTouchMyTralala +=1;
 		box = oModel;
 	}
@@ -102,7 +99,7 @@ public class WallModel extends AbstractModel implements IActorBody {
 	public void endContactWith(IActorBody oModel) {
 		boxTouchMyTralala -=1;
 		if (boxTouchMyTralala == 0) 
-			if (logger.getLevel() >= Logger.INFO) logger.info("daBox left the wall!");
+			if (logger.isInfoEnabled()) logger.info("daBox left the wall!");
 	}
 	
 }

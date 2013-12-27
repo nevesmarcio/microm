@@ -1,17 +1,13 @@
 package pt.me.microm.controller;
 
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.model.base.CameraModel;
-import pt.me.microm.model.base.WorldModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.utils.Logger;
 
 public class MyInputProcessor implements InputProcessor {
 	private static final String TAG = MyInputProcessor.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	public MyInputProcessor() {
 
@@ -19,7 +15,7 @@ public class MyInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if (logger.getLevel() >= Logger.DEBUG) logger.debug("[KEY]: " + Integer.toString(keycode));
+		logger.debug("[KEY]: " + Integer.toString(keycode));
 		
 		return false;
 	}

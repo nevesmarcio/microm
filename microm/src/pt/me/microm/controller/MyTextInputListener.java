@@ -1,14 +1,17 @@
 package pt.me.microm.controller;
 
-import com.badlogic.gdx.Gdx;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.badlogic.gdx.Input.TextInputListener;
 
 public class MyTextInputListener implements TextInputListener {
 	private static final String TAG = MyTextInputListener.class.getSimpleName();
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	@Override
 	public void input(String text) {
-		Gdx.app.log(TAG, "[text]: " + text);
+		logger.info("[text]: " + text);
 	}
 
 	@Override

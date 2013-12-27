@@ -1,17 +1,20 @@
 package pt.me.microm.model.ui;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 
-import com.badlogic.gdx.utils.Logger;
+
 
 public class UIMetricsModel extends AbstractModel {
 	// Esta classe deverá ter um objecto visual independente da camera sobre o mundo.
 	// O UI deverá permanecer inalterado independentemente do zoom/ pan, etc.
 	private static final String TAG = UIMetricsModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	private float ups;
 

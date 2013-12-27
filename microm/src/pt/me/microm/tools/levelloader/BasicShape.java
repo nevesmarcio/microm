@@ -5,11 +5,14 @@ import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Logger;
+
 
 /**
  * BasicShape is an object that is initialized with an SVG "d" string.
@@ -27,7 +30,7 @@ import com.badlogic.gdx.utils.Logger;
  */
 public class BasicShape {
 	private static final String TAG = BasicShape.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	private ArrayList<Vector2> points;
 	private float[] meshValues;
@@ -81,7 +84,7 @@ public class BasicShape {
 		int i = 0;
 		while (matcher.find()) {
 			s = matcher.group();
-			if (logger.getLevel() >= Logger.DEBUG) logger.debug("val: " + s);
+			if (logger.isDebugEnabled()) logger.debug("val: " + s);
 			ssplit = s.split(",");
 			
 			pt = new Vector2();

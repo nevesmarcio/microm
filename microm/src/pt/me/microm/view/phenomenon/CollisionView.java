@@ -1,19 +1,22 @@
 package pt.me.microm.view.phenomenon;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.GameMicroM;
 import pt.me.microm.controller.loop.event.ScreenTickEvent;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.phenomenon.CollisionModel;
 import pt.me.microm.view.AbstractView;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Logger;
+
 
 public class CollisionView extends AbstractView {
 	private static final String TAG = CollisionView.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	SpriteBatch batch;
 

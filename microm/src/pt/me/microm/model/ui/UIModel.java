@@ -1,5 +1,9 @@
 package pt.me.microm.model.ui;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
@@ -9,8 +13,8 @@ import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.ui.utils.FlashMessageManagerModel;
 import pt.me.microm.model.ui.utils.IDataSourceObject;
 
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector2;
@@ -23,13 +27,13 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
-import com.badlogic.gdx.utils.Logger;
+
 
 public class UIModel extends AbstractModel implements InputProcessor {
 	// Esta classe deverá ter um objecto visual independente da camera sobre o mundo.
 	// O UI deverá permanecer inalterado independentemente do zoom/ pan, etc.
 	private static final String TAG = UIModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	private WorldModel wm;
 	private CameraModel cam;

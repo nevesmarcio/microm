@@ -5,17 +5,18 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.GameMicroM;
 import pt.me.microm.controller.loop.GameTickGenerator;
 import pt.me.microm.controller.loop.itf.IGameTick;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.IEvent;
 import pt.me.microm.infrastructure.event.dispatcher.EventDispatcher;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
 import pt.me.microm.view.AbstractView;
 
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.Logger;
 
 /*
  * Esta classe abstracta garante que por cada modelo é automaticamente instanciada uma view
@@ -24,7 +25,7 @@ import com.badlogic.gdx.utils.Logger;
  */
 public abstract class AbstractModel extends EventDispatcher implements Disposable, IGameTick, IContact {
 	private static final String TAG = AbstractModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	public static enum EventType {
 		ON_MODEL_INSTANTIATED // Event raised when model finishes its instantiation
@@ -48,7 +49,7 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 		//Notifica terceiros da criação deste objecto
 		String model = this.getClass().getName();
 		setName(model); // default name
-		if (logger.getLevel() >= Logger.DEBUG) logger.debug("++abstract ctor! - " + model);
+		if (logger.isDebugEnabled()) logger.debug("++abstract ctor! - " + model);
 		
 		model = model.replaceAll("model", "view"); //package part
 		model = model.replaceAll("Model", "View"); //ClassName part
@@ -62,12 +63,12 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 			viewRef = (AbstractView) o;
 		}
 		catch (InvocationTargetException ite) {
-			if (logger.getLevel() >= Logger.ERROR) logger.error("Error \"reflecting\" view: " + ite.getTargetException().getMessage());
+			if (logger.isDebugEnabled()) logger.error("Error \"reflecting\" view: " + ite.getTargetException().getMessage());
 			if (GameMicroM.FLAG_DEV_ELEMENTS_A)
 				ite.getTargetException().printStackTrace();
 		}
 		catch (Exception ex) {
-			if (logger.getLevel() >= Logger.ERROR) logger.error("Serious error \"reflecting\" view: " + ex.getMessage());
+			if (logger.isDebugEnabled()) logger.error("Serious error \"reflecting\" view: " + ex.getMessage());
 		}
 		
 		// Tanto a abstractView como o abstractModel escutam o ON_MODEL_INSTANTIATED 
@@ -92,7 +93,7 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	
 	@Override /* related to Disposable interface */
 	public void dispose() {
-		if (logger.getLevel() >= Logger.DEBUG) logger.debug("--abstract dispose!");
+		if (logger.isDebugEnabled()) logger.debug("--abstract dispose!");
 
 		//Notifica terceiros da remoção deste objecto
 		//-----
@@ -115,7 +116,7 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	public int addPointOfContactWith(IActorBody oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
-		if (logger.getLevel() >= Logger.DEBUG) logger.debug("abstract beginContactWith: " + this.getClass().getName());
+		if (logger.isDebugEnabled()) logger.debug("abstract beginContactWith: " + this.getClass().getName());
 		
 		int incrementedValue = -1;
 		try {
@@ -135,7 +136,7 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	public int subtractPointOfContactWith(IActorBody oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
-		if (logger.getLevel() >= Logger.DEBUG) logger.debug("abstract endContactWith: " + this.getClass().getName());
+		if (logger.isDebugEnabled()) logger.debug("abstract endContactWith: " + this.getClass().getName());
 		
 		int decrementedValue = -1;
 		try {

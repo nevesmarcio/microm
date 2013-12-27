@@ -1,17 +1,19 @@
 package pt.me.microm.model.ui;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.controller.loop.event.GameTickEvent;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.tools.levelloader.BasicShape;
 
-import com.badlogic.gdx.utils.Logger;
+
 
 public class TextModel extends AbstractModel {
 	private static final String TAG = TextModel.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 
 	private BasicShape sh;
 	private String content;

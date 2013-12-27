@@ -3,10 +3,9 @@ package pt.me.microm.infrastructure.event.dispatcher;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.IEvent;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
 
@@ -18,7 +17,7 @@ import pt.me.microm.infrastructure.event.listener.IEventListener;
  */
 public class EventDispatcher implements IDispatcher {
 	private static final String TAG = EventDispatcher.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 
 	private HashMap<Enum<?>, CopyOnWriteArrayList<IEventListener>> listenerMap;
 	private IDispatcher target;

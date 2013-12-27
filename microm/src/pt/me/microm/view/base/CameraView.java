@@ -1,17 +1,16 @@
 package pt.me.microm.view.base;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.controller.loop.event.ScreenTickEvent;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.view.AbstractView;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.utils.Logger;
 
 public class CameraView extends AbstractView {
 	private static final String TAG = CameraView.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG, GAME_CONSTANTS.LOG_LEVEL);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	private CameraModel camSrc;
 	
