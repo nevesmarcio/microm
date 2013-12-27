@@ -1,5 +1,8 @@
 package pt.me.microm;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -13,9 +16,9 @@ public class MainActivity extends AndroidApplication {
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.useGL20 = false;
         
+		Logger logger = LoggerFactory.getLogger(MainActivity.class.getSimpleName());
+		logger.debug("Hello world.");
+        
         initialize(new GameMicroM(), cfg);
-//        initialize(new ShaderLesson5(), cfg);
-//        initialize(new GpuShadows(), cfg);
- 
     }
 }

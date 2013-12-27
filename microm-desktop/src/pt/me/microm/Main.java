@@ -1,7 +1,8 @@
 package pt.me.microm;
 
-import com.badlogic.gdx.Application;
-import com.badlogic.gdx.Gdx;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -18,11 +19,9 @@ public class Main {
 		cfg.fullscreen = false;
 		cfg.samples = 1;
 
+		Logger logger = LoggerFactory.getLogger(Main.class.getSimpleName());
+		logger.debug("Hello world.");
 		
 		new LwjglApplication(new GameMicroM(), cfg);
-		
-		Gdx.app.setLogLevel(Application.LOG_DEBUG);
-
-		
 	}
 }

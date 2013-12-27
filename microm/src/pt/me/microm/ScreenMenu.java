@@ -73,7 +73,6 @@ public class ScreenMenu implements Screen {
 		stage.addActor(imgWest);
 		stage.addActor(imgEast);
 		
-		
 		titleTable = new Table();
 		titleTable.setFillParent(true);
 		titleTable.debug();

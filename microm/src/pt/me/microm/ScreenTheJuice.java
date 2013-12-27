@@ -126,12 +126,12 @@ public class ScreenTheJuice implements Screen {
 
 		
         // use your own criterion here
-    	if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-    		callback.handler("exit");
+    	if (Gdx.input.isKeyPressed(Keys.BACKSPACE)) {
+    		callback.handler("exit", ScreenTheJuice.this);
     	}
     	
-    	if (Gdx.input.isKeyPressed(Keys.PLUS) || Gdx.input.isKeyPressed(Keys.BACK)) {
-    		callback.handler("pause", this);
+    	if (Gdx.input.isKeyPressed(Keys.PLUS)) {
+    		callback.handler("pause", ScreenTheJuice.this);
     	}
 		
 		// Clean do gl context

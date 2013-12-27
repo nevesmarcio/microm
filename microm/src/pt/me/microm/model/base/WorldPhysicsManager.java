@@ -10,9 +10,7 @@ import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.MyContactListener;
 import pt.me.microm.tools.levelloader.BasicShape;
-import aurelienribon.bodyeditor.BodyEditorLoader;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;

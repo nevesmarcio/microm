@@ -176,7 +176,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 	public void render() {
 
 
-		if (Gdx.input.isKeyPressed(Keys.I))
+		if (Gdx.input.isKeyPressed(Keys.I) || Gdx.input.isKeyPressed(Keys.BACK))
 			playerProgress.setDeathCount(playerProgress.getDeathCount() + 1);
 			
 		
@@ -193,7 +193,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 		
 		if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
 			logger.info("..about to quit app");
-			Gdx.app.exit();
+//			Gdx.app.exit();
 		}
 		
 		super.render();
@@ -202,6 +202,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 			// Clean do gl context
 			Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 			Gdx.gl.glClearColor(0.090f, 0.090f, 0.090f, 1); // almost white
+			Gdx.app.exit();
 		}
 	}
 	
