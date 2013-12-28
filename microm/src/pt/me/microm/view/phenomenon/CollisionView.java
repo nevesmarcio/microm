@@ -18,7 +18,7 @@ public class CollisionView extends AbstractView {
 	private static final String TAG = CollisionView.class.getSimpleName();
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
-	SpriteBatch batch;
+	private SpriteBatch batch;
 
 	private CollisionModel collisionmSrc;
 	

@@ -112,9 +112,10 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
 							}
 						}
 					} catch (InterruptedException ie) { 
-						ie.printStackTrace();
+						if (logger.isWarnEnabled()) logger.warn("Its cool! Thread was interrupted by developer: ", ie);
 					} catch (Exception e) {
-						e.printStackTrace();
+						if (logger.isErrorEnabled()) logger.error("Fuck!! What did just happen? ", e);
+						throw new RuntimeException("Exception " + e.getMessage() + " was thrown");
 					} 
 					
 					

@@ -1,5 +1,6 @@
 package pt.me.microm;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.event.IEvent;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
+import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.base.CameraControllerDrag;
 import pt.me.microm.model.base.CameraControllerStrafe;
 import pt.me.microm.model.base.CameraModel;
@@ -30,7 +32,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.input.GestureDetector;
 
 public class ScreenTheJuice implements Screen {
@@ -39,12 +40,17 @@ public class ScreenTheJuice implements Screen {
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	// CONTROLLER RELATED
+	private GameTickGenerator gameTickGenerator;
+	private ScreenTickManager screenTickManager;
 	private InputMultiplexer multiplexer;
+	private JsBridgeSingleton cs;
 
 	// MODEL RELATED
 	private WorldModel worldModel;
 	private CameraModel cameraModel;
-	private UIModel uiModel;	
+	private UIModel uiModel;
+	private FlashMessageManagerModel flashMessageManagerModel;
+	private ArrayList<AbstractModel> modelBag;
 	
 	// VIEW RELATED
 	// Todas as views são instanciadas por "reflection"
@@ -53,27 +59,28 @@ public class ScreenTheJuice implements Screen {
 	
 	private UUID devID;
 	private ScreenTheJuice(ICommand callback, String world, String level) {
-		logger.info("ALLOC:" + (devID = UUID.randomUUID()).toString());
-		
 		this.callback = callback;
+		if (logger.isDebugEnabled()) logger.debug("ALLOC: {}", (devID = UUID.randomUUID()).toString());
 
-		Texture.setEnforcePotImages(false); // ver o melhor sitio para enfiar isto, dado que as texturas estão nas constantes.
-		
-		// MODELS ///////////////////////////////////////////////////////////////
-		cameraModel = new CameraModel();
-		worldModel = new WorldModel();
-		uiModel = new UIModel(cameraModel, worldModel); // constroi o painel informativo?
-		
+		// CONTROLLERS - The GLUE ///////////////////////////////////////////////////////////////
+		// Lança o controller dos ticks temporais : x second tick
+		gameTickGenerator = GameTickGenerator.getInstance(); //responsável pela actualizacao dos modelos
+		screenTickManager = ScreenTickManager.getInstance(); //responsável pela actualizacao das views
+
+		// MODELS ////////////////////////////////////////////////////////////////
+		cameraModel = new CameraModel();										// camera model
+		worldModel = new WorldModel();											// world model
+		uiModel = new UIModel(cameraModel, worldModel); 						// constroi o painel informativo?
+		flashMessageManagerModel = FlashMessageManagerModel.getInstance(); 		// responsavel para apresentacao de flash messages
 		
 		FileHandle h = Gdx.files.internal("data/levels/" + world + "/" + level);
-		int nr_elements_loaded = LevelLoader.LoadLevel(h, worldModel, cameraModel);
-		if (logger.isInfoEnabled()) logger.info("Nr elements loaded: " + nr_elements_loaded);		
+		modelBag = LevelLoader.LoadLevel(h, worldModel, cameraModel);
+		if (logger.isInfoEnabled()) logger.info("Nr elements loaded: " + modelBag.size());		
 		
 		worldModel.addListener(WorldModel.EventType.ON_WORLD_COMPLETED, new IEventListener() {
 			@Override
 			public void onEvent(IEvent event) {
 				ScreenTheJuice.this.callback.handler("completed", ScreenTheJuice.this);
-
 			}
 		});
 		
@@ -81,15 +88,11 @@ public class ScreenTheJuice implements Screen {
 		// VIEWS  ///////////////////////////////////////////////////////////////
 		// Todas as views são instanciadas por "reflection"
 
-		// CONTROLLERS - The GLUE ///////////////////////////////////////////////////////////////
-		// Lança o controller dos ticks temporais : x second tick
-		GameTickGenerator.getInstance(); //responsável pela actualizacao dos modelos
-		ScreenTickManager.getInstance(); //responsável pela actualizacao das views
-		
-		//responsável pela extensibilidade do controller: delega o controlo a entidades externas (javascript + terminal)
-		JsBridgeSingleton cs = JsBridgeSingleton.getInstance(worldModel);
-		
-		
+
+		// CONTROLLER EXTENSIBILITY ////////
+		// responsável pela extensibilidade do controller: delega o controlo a entidades externas (javascript + terminal)
+		cs = JsBridgeSingleton.getInstance(worldModel);
+
 		
 //		//FIXME: for development purposes only
 //		RemoteInput receiver = new RemoteInput(7777);
@@ -97,8 +100,6 @@ public class ScreenTheJuice implements Screen {
 		
 		
 		// Cria o controller dos gestos e regista-o --> este pode actuar quer ao nivel do modelo quer ao nivel da view
-//		multiplexer = (InputMultiplexer) Gdx.input.getInputProcessor();
-//		if (multiplexer == null) multiplexer = new InputMultiplexer();
 		multiplexer = new InputMultiplexer();
 		Gdx.input.setInputProcessor(multiplexer);
 		
@@ -109,15 +110,15 @@ public class ScreenTheJuice implements Screen {
 		multiplexer.addProcessor(myInputProcessor);
 		multiplexer.addProcessor(worldModel);
 		multiplexer.addProcessor(uiModel);
-		multiplexer.addProcessor(new CameraControllerDrag(cameraModel));
-		multiplexer.addProcessor(new CameraControllerStrafe(cameraModel));
+//		multiplexer.addProcessor(new CameraControllerDrag(cameraModel));
+//		multiplexer.addProcessor(new CameraControllerStrafe(cameraModel));
+
 	}
 	
 	public static Screen playground(PlayerProgress playerProgress, String world, String level, ICommand callback) {
-		logger.info("playground start!");
+		if (logger.isInfoEnabled()) logger.info("playground start!");
 		return new ScreenTheJuice(callback, world, level);
 	}
-
 
 	String clear_color = "0606060F";//"0606020F";
 	@Override
@@ -125,9 +126,8 @@ public class ScreenTheJuice implements Screen {
 	public void render(float delta) {
 		long elapsedNanoTime = (long)(Gdx.graphics.getDeltaTime()*GAME_CONSTANTS.ONE_SECOND_TO_NANO);
 
-		
         // use your own criterion here
-    	if (Gdx.input.isKeyPressed(Keys.BACKSPACE)) {
+    	if (Gdx.input.isKeyPressed(Keys.BACKSPACE) || Gdx.input.isKeyPressed(Keys.BACK)) {
     		callback.handler("exit", ScreenTheJuice.this);
     	}
     	
@@ -137,64 +137,64 @@ public class ScreenTheJuice implements Screen {
 		
 		// Clean do gl context
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		//Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1); // cinza escuro
 		Gdx.gl.glClearColor(Color.valueOf(clear_color).r, Color.valueOf(clear_color).g, Color.valueOf(clear_color).b, Color.valueOf(clear_color).a);
 		
-		ScreenTickManager.getInstance().fireEvent(false, cameraModel, elapsedNanoTime);    		
 
+		if ((screenTickManager != null) && screenTickManager.isAvailable())	
+			screenTickManager.fireEvent(false, cameraModel, elapsedNanoTime);
+		else
+			if (logger.isWarnEnabled()) logger.warn("screenTickManager not available");
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		cameraModel.resize(width, height);
-		
 	}
 
 	@Override
 	public void show() {
 		if (logger.isDebugEnabled()) logger.debug("-->show()");
-		
-		Gdx.input.setInputProcessor(multiplexer);		
-			
 	}
 
 	@Override
 	public void hide() {
-		if (logger.isInfoEnabled()) logger.info("-->hide()");
-		
+		if (logger.isDebugEnabled()) logger.debug("-->hide()");
 	}
 
 	@Override
 	public void pause() {
 		if (logger.isDebugEnabled()) logger.debug("-->pause()");
-		
 	}
 
 	@Override
 	public void resume() {
 		if (logger.isDebugEnabled()) logger.debug("-->resume()");
-		
 	}
 
 	@Override
 	public void dispose() {
+		if (logger.isInfoEnabled()) logger.info("disposing...");
+
+		// Do not dispose this ones! They are to be reused as long as the app is running
+//		gameTickGenerator.dispose();
+//		screenTickManager.dispose();
+		
+		cameraModel.dispose();
 		worldModel.dispose();
 		uiModel.dispose();
+		flashMessageManagerModel.dispose();
 		
-		GameTickGenerator.getInstance().dispose();
-		ScreenTickManager.getInstance().dispose();
-		JsBridgeSingleton.getInstance(worldModel).dispose();
-
-
-		Gdx.input.setInputProcessor(new InputMultiplexer());
-
-		FlashMessageManagerModel.getInstance().dispose();
-
+		// dispose of modelBag
+		if (modelBag != null)
+			for (AbstractModel m : modelBag)
+				m.dispose();
+		
+		cs.dispose();
 	}
 
 	@Override
 	protected void finalize() throws Throwable {
-		logger.info("GC'ed:"+devID);
+		if (logger.isDebugEnabled()) logger.debug("GC'ed: {}", devID);
 		super.finalize();
 	}
 	

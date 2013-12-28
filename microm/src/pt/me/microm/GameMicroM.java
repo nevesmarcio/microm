@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.GL10;
  */
 public class GameMicroM extends Game/*implements ApplicationListener*/ { // it extends the Game so it can handle Screens
 	// FLAGS
+	public static final boolean FLAG_DEBUG_POINTS = true; 				// show circles around every point loaded from level designer
 	public static final boolean FLAG_DEV_ELEMENTS_A = true; 			// "pre-compiler" equivalent for branching development-only code (lvl A)
 	public static final boolean FLAG_DEV_ELEMENTS_B = true; 			// "pre-compiler" equivalent for branching development-only code (lvl B)
 	public static final boolean FLAG_DISPLAY_ACTOR_SHAPES = true;		// mostra o desenho das shapes dos actores: walls, dabox, etc.
@@ -44,7 +45,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 		try {
 			playerProgress = PlayerProgress.Load();
 		} catch (Exception e) {
-			logger.error("Cannot load savegame: " + e.getMessage());
+			if (logger.isErrorEnabled()) logger.error("Cannot load savegame: ", e);
 		}
 		gameContentService = GameContentService.getInstance();
 		
@@ -59,17 +60,15 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 		setScreen(ScreenMenu.showMenu(playerProgress, new ICommand() {
 			@Override
 			public Object handler(final Object... a) {
-				logger.info("-->> ScreenMenu callback called!");
+				logger.info("-->> ScreenMenu callback called with '{}' command!", (String)a[0]);
 				
 				if (a!=null && ((String)a[0]).equalsIgnoreCase("back")) {
-					logger.info("back");
 					
 					((Screen)a[1]).hide();
 					((Screen)a[1]).dispose();
 
 					setScreen(null);
 				} else if (((String)a[0]).equalsIgnoreCase("play")) {
-					logger.info("play");
 					
 					((Screen)a[1]).hide();
 					((Screen)a[1]).dispose();
@@ -78,13 +77,11 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 					theJuice(playerProgress, b[0], b[1]);
 					
 				} else if (((String)a[0]).equalsIgnoreCase("supportus")) { 
-					logger.info("supportus");
 					((Screen)a[1]).hide();
 					((Screen)a[1]).dispose();
 
 					dummyScreen(playerProgress);
 				} else if (((String)a[0]).equalsIgnoreCase("share")) { 
-					logger.info("share");
 
 					((Screen)a[1]).hide();
 					((Screen)a[1]).dispose();
@@ -104,10 +101,9 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 			
 			@Override
 			public Object handler(Object... a) {
-				logger.info("-->> ScreenDummy callback called!");
+				logger.info("-->> ScreenDummy callback called with '{}' command!", (String)a[0]);
 				
 				if (a!=null && ((String)a[0]).equalsIgnoreCase("back")) {
-					logger.info("back");
 					
 					((Screen)a[1]).hide();
 					((Screen)a[1]).dispose();
@@ -124,12 +120,14 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 		setScreen(ScreenTheJuice.playground(playerProgress, world, level, new ICommand() {
 			@Override
 			public Object handler(final Object... a) {
-				logger.info("-->> ScreenTheJuice callback called!");
+				logger.info("-->> ScreenTheJuice callback called with '{}' command!", (String)a[0]);
 
 				((Screen)a[1]).hide();
 				((Screen)a[1]).dispose();
 				
-				setScreen(null);
+				menu(playerProgress);
+//				setScreen(null);
+				
 				
 //				if (a!=null && ((String)a[0]).equalsIgnoreCase("exit")) {
 //					
@@ -158,7 +156,8 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 		setScreen(ScreenPause.pauseGame(new ICommand() {
 			@Override
 			public Object handler(Object... a) {
-				logger.info("pause ending!");
+				logger.info("-->> ScreenPause callback called with '{}' command!", (String)a[0]);
+				
 				if (a!=null && ((String)a[0]).equalsIgnoreCase("goto_menu")) {
 					theJuice.dispose();
 					menu(playerProgress);
@@ -166,7 +165,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 				else
 					setScreen(theJuice);
 				
-				logger.info("pause returning!");				
+				logger.info("-->> ScreenPause callback ending!");				
 				return null;
 			}
 		}));

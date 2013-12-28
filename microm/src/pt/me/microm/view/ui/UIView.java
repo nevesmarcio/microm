@@ -27,7 +27,6 @@ public class UIView  extends AbstractView {
 	private UIModel uiSrc;
 	
 	SpriteBatch batch;
-	ShapeRenderer renderer;
 	
 	public UIView(UIModel uiSrc) {  
 		super(uiSrc, 100); // FIXME: arranjar umas constantes para definir o zOrder
@@ -37,7 +36,6 @@ public class UIView  extends AbstractView {
 	@Override
 	public void DelayedInit() {
 		batch = new SpriteBatch();
-		renderer = new ShapeRenderer();
 		
 	}
 	

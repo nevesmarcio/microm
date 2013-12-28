@@ -96,15 +96,21 @@ public class ScreenMenu implements Screen {
 		// Add widgets to the table here
 		
 		final Actor b;
-		stage.addActor(b = new Label("#: "+playerProgress.getDeathCount(), skin));
+		final StringBuilder sb = new StringBuilder();
+		sb.append("#: ");
+		sb.append(playerProgress.getDeathCount());
+		stage.addActor(b = new Label(sb, skin));
 		b.addAction(new Action() {
 			@Override
 			public boolean act(float delta) {
-				String text = "#: "+ScreenMenu.this.playerProgress.getDeathCount();
-				text+="\nstageW: " + stage.getWidth() + " stageH: " + stage.getHeight();
-				text+="\nstageGW: " + stage.getGutterWidth()*2 + " stageGH: " + stage.getGutterHeight()*2;
+				sb.delete(0, sb.length());
+				sb.append("#: "); sb.append(ScreenMenu.this.playerProgress.getDeathCount());
+				sb.append("\nstageW: "); sb.append(stage.getWidth());
+				sb.append(" stageH: "); sb.append(stage.getHeight());
+				sb.append("\nstageGW: "); sb.append(stage.getGutterWidth()*2);
+				sb.append(" stageGH: "); sb.append(stage.getGutterHeight()*2);
 				
-				((Label)b).setText(text);
+				((Label)b).setText(sb);
 				return false;
 			}
 		});

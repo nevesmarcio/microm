@@ -8,7 +8,6 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pt.me.microm.GameMicroM;
 import pt.me.microm.controller.loop.GameTickGenerator;
 import pt.me.microm.controller.loop.itf.IGameTick;
 import pt.me.microm.infrastructure.event.IEvent;
@@ -44,12 +43,10 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	
 	private UUID devID;
 	public AbstractModel() {
-		logger.info("ALLOC:" + (devID = UUID.randomUUID()).toString());
-		
 		//Notifica terceiros da criação deste objecto
 		String model = this.getClass().getName();
 		setName(model); // default name
-		if (logger.isDebugEnabled()) logger.debug("++abstract ctor! - " + model);
+		if (logger.isDebugEnabled()) logger.debug("++abstract ctor of {} | allocID: {}", this.getClass().getSimpleName(), (devID=UUID.randomUUID()).toString());
 		
 		model = model.replaceAll("model", "view"); //package part
 		model = model.replaceAll("Model", "View"); //ClassName part
@@ -63,12 +60,11 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 			viewRef = (AbstractView) o;
 		}
 		catch (InvocationTargetException ite) {
-			if (logger.isDebugEnabled()) logger.error("Error \"reflecting\" view: " + ite.getTargetException().getMessage());
-			if (GameMicroM.FLAG_DEV_ELEMENTS_A)
-				ite.getTargetException().printStackTrace();
+			if (logger.isErrorEnabled()) logger.error("Error \"reflecting\" view: ", ite.getTargetException());
+			if (logger.isErrorEnabled()) logger.error("exception: ", ite.getTargetException());
 		}
 		catch (Exception ex) {
-			if (logger.isDebugEnabled()) logger.error("Serious error \"reflecting\" view: " + ex.getMessage());
+			if (logger.isErrorEnabled()) logger.error("Serious error \"reflecting\" view: ", ex);
 		}
 		
 		// Tanto a abstractView como o abstractModel escutam o ON_MODEL_INSTANTIATED 
@@ -87,23 +83,19 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 		// this.dispatchEvent(new SimpleEvent(EventType.ON_MODEL_INSTANTIATED));
 	}
 
-	//public abstract Body getBody();
-	//public abstract Vector2 getPosition();
-	//public abstract float getAngle();
 	
 	@Override /* related to Disposable interface */
 	public void dispose() {
-		if (logger.isDebugEnabled()) logger.debug("--abstract dispose!");
+		if (logger.isDebugEnabled()) logger.debug("--abstract dispose of {} | allocID: {}", this.getClass().getSimpleName(), devID);
 
-		//Notifica terceiros da remoção deste objecto
-		//-----
+		//Notifica a view instanciada por reflection para tambem seja removida
 		viewRef.dispose();
+		viewRef = null;
 		
 		// para todos os objectos referenciados como colisões, tem que haver a respectiva remoção
 		for (IActorBody element : currentContactStatus.keySet()) {
 			((AbstractModel)element).disposeNotif(this);
 		}
-		
 		
 		//Elimina o registo deste objecto para ser informado dos game ticks
 		GameTickGenerator.getInstance().removeEventListener(this);
@@ -126,7 +118,7 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 			incrementedValue = new Integer(1);
 			currentContactStatus.put(oModel, incrementedValue);
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			if (logger.isErrorEnabled()) logger.error("exception: ", e);
 		}
 		
 		return incrementedValue;		
@@ -145,7 +137,7 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 			if (currentContactStatus.get(oModel).intValue() == 0) currentContactStatus.remove(oModel);
 			
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			if (logger.isErrorEnabled()) logger.error("exception: ", e);
 		}
 		
 		return decrementedValue;
@@ -168,7 +160,7 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	
 	@Override
 	protected void finalize() throws Throwable {
-		logger.info("GC'ed:"+devID);
+		if (logger.isDebugEnabled()) logger.debug("{} was GC'ed | allocID: {}", this.getClass().getSimpleName(), devID);
 		super.finalize();
 	}
 	

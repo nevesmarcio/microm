@@ -34,7 +34,7 @@ public class UIMetricsView  extends AbstractView {
 	private UIMetricsModel uiSrc;
 	
 	private SpriteBatch batch;
-	private ShapeRenderer renderer;
+
 	
 	public UIMetricsView(UIMetricsModel uiSrc) {  
 		super(uiSrc, 100); // FIXME: arranjar umas constantes para definir o zOrder
@@ -48,7 +48,6 @@ public class UIMetricsView  extends AbstractView {
 
 		
 		batch = new SpriteBatch();
-		renderer = new ShapeRenderer();
 	}
 	
 	private String xx = "X--X";

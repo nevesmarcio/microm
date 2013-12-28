@@ -38,12 +38,6 @@ public interface IContact {
 	public void endContactWith(IActorBody oModel);
 	
 	
-	
-	
-	
-	
-	
-	
 	public void disposeNotif(AbstractModel oModel);
 	
 }

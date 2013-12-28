@@ -22,8 +22,6 @@ public class SpawnView extends AbstractView {
 	
 	private SpawnModel spawnmSrc;
 
-	private ShapeRenderer renderer;
-	
 	private Mesh spawnMesh;
 	
 	public SpawnView(SpawnModel spawnmSrc) {
@@ -33,7 +31,6 @@ public class SpawnView extends AbstractView {
 
 	@Override
 	public void DelayedInit() {
-		renderer = new ShapeRenderer();
 
 		spawnMesh = SimpleRendererHelper.buildMesh(spawnmSrc.getBasicShape());
 	}

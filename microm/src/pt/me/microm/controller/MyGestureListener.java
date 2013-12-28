@@ -3,11 +3,6 @@ package pt.me.microm.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.model.base.CameraModel;
-import pt.me.microm.model.base.WorldModel;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
 

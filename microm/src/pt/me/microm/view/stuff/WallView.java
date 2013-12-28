@@ -25,8 +25,6 @@ public class WallView extends AbstractView {
 	
 	private WallModel wallmSrc;
 	
-	private ShapeRenderer renderer;
-	
 	private Mesh wallMesh;
 	
 	public WallView(WallModel wallmSrc) {
@@ -36,8 +34,7 @@ public class WallView extends AbstractView {
 	
 	@Override
 	public void DelayedInit() {
-		renderer = new ShapeRenderer();
-		
+
         wallMesh = SimpleRendererHelper.buildMesh(wallmSrc.getBasicShape());		
 	}
 

@@ -27,7 +27,4 @@ public class GAME_CONSTANTS {
 	// Musics LOAD
 	//public static final Music MUSIC_BACKGROUND = Gdx.audio.newMusic(Gdx.files.internal("data/music/01 me and my social anxiety.mp3"));
 	
-	public static void dispose() {
-	
-	}
 }

@@ -35,5 +35,4 @@ public class CameraView extends AbstractView {
 		/* no representation of camera */
 	}
 
-	
 }

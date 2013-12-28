@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.controller.loop.itf.IProcessRunnable;
 import pt.me.microm.controller.loop.itf.IScreenTick;
@@ -14,7 +17,6 @@ import pt.me.microm.model.base.CameraModel;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.Logger;
 /**
  * documentar esta merda, senão daqui a uns tempos (horas), não percebo bolha do que escrevi
  * 
@@ -23,8 +25,9 @@ import com.badlogic.gdx.utils.Logger;
  *
  */
 public class ScreenTickManager implements IProcessRunnable, Disposable {
+	private static int dbg = 0;
 	private static final String TAG = ScreenTickManager.class.getSimpleName();
-	private static final Logger logger = new Logger(TAG);
+	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	private final TreeMap<Integer, List<IScreenTick>> _listeners = new TreeMap<Integer, List<IScreenTick>>();
 	
@@ -42,26 +45,32 @@ public class ScreenTickManager implements IProcessRunnable, Disposable {
 	 * @param zIndex
 	 */
 	public synchronized void addEventListener(IScreenTick listener, int zIndex) {
+		if (logger.isInfoEnabled()) logger.info("{} is now receiving draw events", listener);
 		try {
 			_listeners.get(zIndex).add(listener);
-		} catch (Exception e) { //FIXME: especificar a excepção
+		} catch (NullPointerException npe) { // if no listeners are registered for a given z-index create a new array to support them
 			_listeners.put(zIndex, new ArrayList<IScreenTick>());
 			_listeners.get(zIndex).add(listener);
+		} catch (Exception e) {
+			if (logger.isErrorEnabled()) logger.error("exception: ", e);
 		}
 		
 		isTempListenersDirty = true;
 	}
 
 	public synchronized void removeEventListener(IScreenTick listener) {
+		boolean result = false;
+		
 		for (List<IScreenTick> subList : _listeners.values()) {
-			try {
-				subList.remove(listener);
-				isTempListenersDirty = true;
-			} catch (Exception e) { //FIXME: especificar a excepção
-				if (logger.getLevel() >= Logger.DEBUG) logger.debug(e.getMessage());
+			result = subList.remove(listener);
+			if (result) {
+				if (logger.isInfoEnabled()) logger.info("{} is no longer receiving draw events", listener);
+				isTempListenersDirty = true;	
+				break;
 			}
 		}
-
+		if (!result && logger.isWarnEnabled())
+			logger.warn("listener {} was not registered", listener);
 	}
 
 
@@ -78,7 +87,7 @@ public class ScreenTickManager implements IProcessRunnable, Disposable {
 	private boolean isTempListenersDirty = true;
 	private Iterator<Map.Entry<Integer, List<IScreenTick>>> i; 			// reutilização da variável do iterator
 	private boolean print = false;
-	private ArrayList<IScreenTick> x; 
+	private ArrayList<IScreenTick> sti; 
 	public synchronized void fireEvent(boolean drawGL20, CameraModel camModel, long elapsedNanoTime) {
 		event.setCamera(camModel);
 		event.setElapsedNanoTime(elapsedNanoTime);
@@ -86,7 +95,7 @@ public class ScreenTickManager implements IProcessRunnable, Disposable {
 		try {
 			/* cria uma copia para iterar */
 			if (isTempListenersDirty) {
-				if (logger.getLevel() >= Logger.DEBUG) logger.debug("[diff] _listeners|temp_listeners: " + _listeners.size() + "|" + temp_listeners.size());
+				if (logger.isDebugEnabled()) logger.debug("[diff] _listeners|temp_listeners: " + _listeners.size() + "|" + temp_listeners.size());
 				temp_listeners.clear();
 				for (Map.Entry<Integer, List<IScreenTick>> zGroup : _listeners.entrySet())
 					temp_listeners.put(zGroup.getKey(), zGroup.getValue());
@@ -97,44 +106,66 @@ public class ScreenTickManager implements IProcessRunnable, Disposable {
 			
 			i = temp_listeners.entrySet().iterator();
 			while (i.hasNext()) {
-				x = (ArrayList<IScreenTick>) i.next().getValue();
+				sti = (ArrayList<IScreenTick>) i.next().getValue();
 				
-				for (IScreenTick it : x) {
+				for (IScreenTick it : sti) {
 					if (drawGL20) it.draw20(event); else it.draw(event);
 					if (print) {
-						if (logger.getLevel() >= Logger.DEBUG) logger.debug(x.getClass().getName());
+						if (logger.isDebugEnabled()) logger.debug(sti.getClass().getName());
 					}					
 				}
 
 			}
 			print = false;
 		} catch (ConcurrentModificationException ex) {
-			if (logger.getLevel() >= Logger.DEBUG) logger.debug("[ScreenTickGen-EXCEPTION] CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
+			if (logger.isErrorEnabled()) logger.error("[EXCEPTION]: ", ex);
 			throw ex;
-		}		
-
+		}
+		
+		// release to allow GC		
+		sti.clear();
+		sti = null;
+		event.setCamera(null);
 	}
 	
 	private static ScreenTickManager instance = null;
 
 	private ScreenTickManager() {
+		if (logger.isInfoEnabled()) logger.info("warming up draw machine...");
 	}
 	
 	public static ScreenTickManager getInstance() {
 		if (instance == null) {
+			StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+			if (logger.isInfoEnabled()) logger.info("called by: {}.{}", stackTraceElements[2].getClassName(), stackTraceElements[2].getMethodName());
+			
+			if (dbg>0) throw new RuntimeException("Nope! Not again!");
+			dbg+=1;			
+			
 			instance = new ScreenTickManager();
 		}
 		return instance;
 	}
-
+	
+	public synchronized boolean isAvailable() {
+		return instance == null ? false : true;
+	}
+	
 	@Override
 	public synchronized void dispose() {
+		if (logger.isInfoEnabled()) logger.info("shutting down draw machine...");
+		
 		event = null;
 		_listeners.clear();
 		instance = null;
-		
 	}
 
+	@Override
+	protected void finalize() throws Throwable {
+		if (logger.isInfoEnabled()) logger.info("GC'ed!");
+		super.finalize();
+	}	
+	
 	/**
 	 * This method allows that external code adds a runnable to be executed on
 	 * the ScreenTickManager's thread context

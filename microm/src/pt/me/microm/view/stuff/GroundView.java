@@ -23,8 +23,6 @@ public class GroundView extends AbstractView {
 	
 	private GroundModel groundmSrc;
 	
-	private ShapeRenderer renderer;
-	
 	private Mesh groundMesh;
 	
 	public GroundView(GroundModel groundmSrc) {
@@ -34,7 +32,6 @@ public class GroundView extends AbstractView {
 
 	@Override
 	public void DelayedInit() {
-		renderer = new ShapeRenderer();
 		
 		groundMesh = SimpleRendererHelper.buildMesh(groundmSrc.getBasicShape());		
 	}

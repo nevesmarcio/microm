@@ -25,8 +25,6 @@ public class PortalView extends AbstractView {
 	
 	private PortalModel portalmSrc;
 	
-	private ShapeRenderer renderer;
-	
 	private Mesh portalMesh;
 	
 	public PortalView(PortalModel portalmSrc) {
@@ -36,8 +34,7 @@ public class PortalView extends AbstractView {
 
 	@Override
 	public void DelayedInit() {
-		renderer = new ShapeRenderer();
-		
+
 		portalMesh = SimpleRendererHelper.buildMesh(portalmSrc.getBasicShape());
 	}
 	

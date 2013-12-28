@@ -25,8 +25,6 @@ public class StarView extends AbstractView {
 	
 	private StarModel starmSrc;
 	
-	private ShapeRenderer renderer;
-
 	private Mesh starMesh;
 	
 	public StarView(StarModel starmSrc) {
@@ -36,10 +34,8 @@ public class StarView extends AbstractView {
 
 	@Override
 	public void DelayedInit() {
-		renderer = new ShapeRenderer();
-		
-		starMesh = SimpleRendererHelper.buildMesh(starmSrc.getBasicShape());
 
+		starMesh = SimpleRendererHelper.buildMesh(starmSrc.getBasicShape());
 	}
 	
 	

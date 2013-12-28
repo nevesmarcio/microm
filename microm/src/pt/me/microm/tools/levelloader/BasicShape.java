@@ -151,7 +151,7 @@ public class BasicShape {
 		}
 		
 		
-		
+		if (logger.isDebugEnabled()) logger.debug("new shape - " + this.toString());
 	}	
 		
 	

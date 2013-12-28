@@ -25,8 +25,6 @@ public class SimpleTriggerView extends AbstractView {
 	
 	private SimpleTriggerModel triggermSrc;
 	
-	private ShapeRenderer renderer;
-	
 	private Mesh triggerMesh;
 	
 	public SimpleTriggerView(SimpleTriggerModel triggermSrc) {
@@ -36,10 +34,8 @@ public class SimpleTriggerView extends AbstractView {
 	
 	@Override
 	public void DelayedInit() {
-		renderer = new ShapeRenderer();
 		
 		triggerMesh = SimpleRendererHelper.buildMesh(triggermSrc.getBasicShape());
-		
 	}
 
 	Vector2 pointA = new Vector2();

@@ -15,7 +15,6 @@ import pt.me.microm.view.AbstractView;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Joint;
@@ -27,9 +26,8 @@ public class WorldView extends AbstractView {
 
 	private WorldModel wmSrc;
 	
-	ShapeRenderer renderer;
-	Sprite worldSprite;
-	SpriteBatch batch = new SpriteBatch();
+	private Sprite worldSprite;
+	private SpriteBatch batch = new SpriteBatch();
 	
 	public WorldView(WorldModel wmSrc) {  
 		super(wmSrc, 0);
@@ -39,13 +37,13 @@ public class WorldView extends AbstractView {
 	
 	@Override
 	public void DelayedInit() {
-		renderer = new ShapeRenderer();
-		
+
 		worldSprite = GAME_CONSTANTS.devAtlas.createSprite("bg");
 		
 		worldSprite.setSize(15.0f, 15.0f);
 		worldSprite.setOrigin(0.0f, 0.0f);
 		
+		batch = new SpriteBatch();
 	}
 	
 	
@@ -108,7 +106,6 @@ public class WorldView extends AbstractView {
 
 	@Override
 	public void draw20(ScreenTickEvent e) {
-		draw(e);
 	}
 	
 }

@@ -392,6 +392,19 @@ http://stackoverflow.com/questions/5646221/delaunay-triangulating-the-2d-polygon
 25-12-2013
 # 2 step back refactoring - created a branch in the development repository to store the simplified version of the game. Got rid of a lot of entities and techniques (entities: GridModel, MagnetModel, etc. techniques: GL20, Shaders, etc.)
 
+26-12-2013
+27-12-2013
+# searched for memory leaks on ScreenMenu and fixed them
+# changed all logging strategy to use sl4j and logback
+
+28-12-2013
+# optimized the app to be able to correctly unload all the objects when exiting a level
+# reduced a lot the memory footprint (reusing facilities declared as protected static in the AbstractView)
+# logging optimizations
+# correction of minor bugs on ScreenTickManager and GameTickGenerator classes
+
+
+
 
 
 

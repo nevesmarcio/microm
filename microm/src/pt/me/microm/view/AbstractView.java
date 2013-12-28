@@ -12,39 +12,43 @@ import pt.me.microm.infrastructure.event.IEvent;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
 import pt.me.microm.model.AbstractModel;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Disposable;
-
 
 public abstract class AbstractView implements Disposable, IScreenTick {
 	private static final String TAG = AbstractView.class.getSimpleName();
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
-	private AbstractModel model;
+	// all reusable view facilities can be declared like this renderer
+	protected static final ShapeRenderer renderer = new ShapeRenderer(); 
+	
+	
+	private AbstractModel modelRef;
 	
 	public AbstractView(AbstractModel model) {
 		this(model, 0);
 	}
 	
 	private UUID devID;
-	public AbstractView(AbstractModel model, final int zIndex) {
-		logger.info("ALLOC:" + (devID = UUID.randomUUID()).toString());
+	public AbstractView(AbstractModel modelRef, final int zIndex) {
+		if (logger.isDebugEnabled()) logger.debug("++abstract ctor of {} | allocID: {}", this.getClass().getSimpleName(), (devID=UUID.randomUUID()).toString());
 		
-		this.model = model;
-
-		this.model.addListener(AbstractModel.EventType.ON_MODEL_INSTANTIATED, new IEventListener() {
+		this.modelRef = modelRef;
+		this.modelRef.addListener(AbstractModel.EventType.ON_MODEL_INSTANTIATED, new IEventListener() {
 
 			@Override
 			public void onEvent(IEvent event) {
-				ScreenTickManager.PostRunnable(new Runnable() {
-					@Override
-					public void run() {
+//				ScreenTickManager.PostRunnable(new Runnable() {
+//					@Override
+//					public void run() {
+						if (logger.isDebugEnabled()) logger.debug("..abstract method DelayedInit() about to be called");
 						DelayedInit( ); // Sem o PostRunnable isto iria correr na thread do model
 						// Regista este objecto para ser informado dos screen ticks
 						// Este registo só pode ser efectuado depois do Modelo instanciado 
 						ScreenTickManager.getInstance().addEventListener(AbstractView.this, zIndex);
 
-					}
-				});				
+//					}
+//				});				
 			}
 		});		
 	}
@@ -53,14 +57,17 @@ public abstract class AbstractView implements Disposable, IScreenTick {
 	
 	@Override
 	public void dispose() {
+		if (logger.isDebugEnabled()) logger.debug("--abstract dispose of {} | allocID: {}", this.getClass().getSimpleName(), devID);
+		
+		this.modelRef = null;
 		
 		//Elimina o registo deste objecto para ser informado dos screen ticks
-		ScreenTickManager.getInstance().removeEventListener(this);		
+		ScreenTickManager.getInstance().removeEventListener(this);
 	}
 
 	@Override
 	protected void finalize() throws Throwable {
-		logger.info("GC'ed:"+devID);
+		if (logger.isDebugEnabled()) logger.debug("{} was GC'ed | allocID: {}", this.getClass().getSimpleName(), devID);
 		super.finalize();
 	}	
 	

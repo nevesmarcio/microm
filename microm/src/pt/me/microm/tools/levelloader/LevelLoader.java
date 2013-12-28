@@ -1,6 +1,7 @@
 package pt.me.microm.tools.levelloader;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,7 +19,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import pt.me.microm.GameMicroM;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.collectible.StarModel;
@@ -55,19 +56,24 @@ public class LevelLoader {
 	 * @param board
 	 * @param wm
 	 */
-	private static BoardModel addBoardToWorld(WorldModel wm, BasicShape board, String board_name) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS_A) {
+	private static BoardModel addBoardToWorld(ArrayList<AbstractModel> modelBag, WorldModel wm, BasicShape board, String board_name) {
+		if (GameMicroM.FLAG_DEBUG_POINTS) {
 			DebugModel m;
 			for (Vector2 ap : board.getPointsArray()) {
 				m = DebugModel.getNewInstance(wm, ap.x+board.getCentroid().x, ap.y+board.getCentroid().y);
 				m.setColor(Color.WHITE);
+				modelBag.add(m);
 			}
 			m = DebugModel.getNewInstance(wm, board.getCentroid().x, board.getCentroid().y);
 			m.setColor(Color.BLACK);
+			modelBag.add(m);
 		}		
 
-		BoardModel bm = BoardModel.getNewInstance(wm, board, board_name); 
+		BoardModel bm = BoardModel.getNewInstance(wm, board, board_name);
 		wm.setBoard(bm);
+		
+		modelBag.add(bm);
+		
 		return bm;
 	}
 	
@@ -78,14 +84,19 @@ public class LevelLoader {
 	 * @param dabox_name
 	 * @return
 	 */
-	private static DaBoxModel addDaBoxToWorld(WorldModel wm, BasicShape dabox, String dabox_name) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS_A)
+	private static DaBoxModel addDaBoxToWorld(ArrayList<AbstractModel> modelBag, WorldModel wm, BasicShape dabox, String dabox_name) {
+		if (GameMicroM.FLAG_DEBUG_POINTS) {
+			DebugModel m;
 			for (Vector2 ap : dabox.getPointsArray()) {
-					DebugModel.getNewInstance(wm, ap.x+dabox.getCentroid().x, ap.y+dabox.getCentroid().y);
+					m = DebugModel.getNewInstance(wm, ap.x+dabox.getCentroid().x, ap.y+dabox.getCentroid().y);
+					modelBag.add(m);
 			}
+		}
 		
 		DaBoxModel dbm = DaBoxModel.getNewInstance(wm, dabox, dabox_name); 
 		wm.setPlayer(dbm);
+		
+		modelBag.add(dbm);
 		
 		return dbm;
 	}	
@@ -95,21 +106,26 @@ public class LevelLoader {
 	 * @param spawn
 	 * @param wm
 	 */
-	private static SpawnModel addSpawnToWorld(WorldModel wm, DaBoxModel dbm, BasicShape spawn, String spawn_name) {
+	private static SpawnModel addSpawnToWorld(ArrayList<AbstractModel> modelBag, WorldModel wm, DaBoxModel dbm, BasicShape spawn, String spawn_name) {
 
-		if (GameMicroM.FLAG_DEV_ELEMENTS_A) {
+		if (GameMicroM.FLAG_DEBUG_POINTS) {
 			DebugModel m;
 			for (Vector2 ap : spawn.getPointsArray()) {
 				m = DebugModel.getNewInstance(wm, ap.x+spawn.getCentroid().x, ap.y+spawn.getCentroid().y);
 				m.setColor(Color.BLUE);
+				modelBag.add(m);
 			}
 
 			m = DebugModel.getNewInstance(wm, spawn.getCentroid().x, spawn.getCentroid().y);
 			m.setColor(Color.CYAN);
+			modelBag.add(m);
 		}
 
 		SpawnModel sm = SpawnModel.getNewInstance(wm, dbm, spawn, spawn_name);
 		wm.setSpawnModel(sm);
+		
+		modelBag.add(sm);
+		
 		return sm;
 	}
 
@@ -118,19 +134,23 @@ public class LevelLoader {
 	 * @param goal
 	 * @param wm
 	 */
-	private static GoalModel addGoalToWorld(WorldModel wm, BasicShape goal, String goal_name) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS_A) {
+	private static GoalModel addGoalToWorld(ArrayList<AbstractModel> modelBag, WorldModel wm, BasicShape goal, String goal_name) {
+		if (GameMicroM.FLAG_DEBUG_POINTS) {
 			DebugModel m;
 			for (Vector2 ap : goal.getPointsArray()) {
 				m = DebugModel.getNewInstance(wm, ap.x+goal.getCentroid().x, ap.y+goal.getCentroid().y);
 				m.setColor(Color.GREEN);
+				modelBag.add(m);
 			}
 			m = DebugModel.getNewInstance(wm, goal.getCentroid().x, goal.getCentroid().y);
 			m.setColor(Color.GRAY);
-
+			modelBag.add(m);
 		}
 		
-		return GoalModel.getNewInstance(wm, goal, goal_name); 
+		GoalModel gm = GoalModel.getNewInstance(wm, goal, goal_name);
+		modelBag.add(gm);
+		
+		return gm;
 	}
 	
 	/**
@@ -138,13 +158,19 @@ public class LevelLoader {
 	 * @param ground
 	 * @param wm
 	 */
-	private static GroundModel addGroundToWorld(WorldModel wm, BasicShape ground, String ground_name) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS_A)
+	private static GroundModel addGroundToWorld(ArrayList<AbstractModel> modelBag, WorldModel wm, BasicShape ground, String ground_name) {
+		if (GameMicroM.FLAG_DEBUG_POINTS) {
+			DebugModel m;
 			for (Vector2 ap : ground.getPointsArray()) {
-				DebugModel.getNewInstance(wm, ap.x+ground.getCentroid().x, ap.y+ground.getCentroid().y);
+				m = DebugModel.getNewInstance(wm, ap.x+ground.getCentroid().x, ap.y+ground.getCentroid().y);
+				modelBag.add(m);
 			}
+		}
 		
-		return GroundModel.getNewInstance(wm, ground, ground_name);
+		GroundModel gm = GroundModel.getNewInstance(wm, ground, ground_name);
+		modelBag.add(gm);
+		
+		return gm;
 	}	
 	
 	
@@ -153,15 +179,21 @@ public class LevelLoader {
 	 * @param portal
 	 * @param wm
 	 */
-	private static PortalModel addPortalToWorld(WorldModel wm, BasicShape portal, String portal_name) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS_A) {
+	private static PortalModel addPortalToWorld(ArrayList<AbstractModel> modelBag, WorldModel wm, BasicShape portal, String portal_name) {
+		if (GameMicroM.FLAG_DEBUG_POINTS) {
+			DebugModel m;
 			for (Vector2 ap : portal.getPointsArray()) {
-				DebugModel.getNewInstance(wm, ap.x+portal.getCentroid().x, ap.y+portal.getCentroid().y);
+				m = DebugModel.getNewInstance(wm, ap.x+portal.getCentroid().x, ap.y+portal.getCentroid().y);
+				modelBag.add(m);
 			}
-			DebugModel.getNewInstance(wm, portal.getCentroid().x, portal.getCentroid().y);
+			m = DebugModel.getNewInstance(wm, portal.getCentroid().x, portal.getCentroid().y);
+			modelBag.add(m);
 		}
 
-		return PortalModel.getNewInstance(wm, portal, portal_name);
+		PortalModel pm = PortalModel.getNewInstance(wm, portal, portal_name);
+		modelBag.add(pm);
+		
+		return pm;
 	}
 
 
@@ -171,15 +203,19 @@ public class LevelLoader {
 	 * @param wall
 	 * @param wm
 	 */
-	private static WallModel addWallToWorld(WorldModel wm, BasicShape wall, String wall_name) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS_A)
-		for (Vector2 ap : wall.getPointsArray()) {
-				DebugModel.getNewInstance(wm, ap.x+wall.getCentroid().x, ap.y+wall.getCentroid().y);
+	private static WallModel addWallToWorld(ArrayList<AbstractModel> modelBag, WorldModel wm, BasicShape wall, String wall_name) {
+		if (GameMicroM.FLAG_DEBUG_POINTS) {
+			DebugModel m;
+			for (Vector2 ap : wall.getPointsArray()) {
+				m = DebugModel.getNewInstance(wm, ap.x+wall.getCentroid().x, ap.y+wall.getCentroid().y);
+				modelBag.add(m);
+			}
 		}
 		
+		WallModel wam = WallModel.getNewInstance(wm, wall, wall_name);
+		modelBag.add(wam);
 		
-		return WallModel.getNewInstance(wm, wall, wall_name);
-		
+		return wam;
 	}
 
 	/**
@@ -187,17 +223,20 @@ public class LevelLoader {
 	 * @param star
 	 * @param wm
 	 */
-	private static StarModel addStarToWorld(WorldModel wm, BasicShape star, String star_name) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS_A) {
+	private static StarModel addStarToWorld(ArrayList<AbstractModel> modelBag, WorldModel wm, BasicShape star, String star_name) {
+		if (GameMicroM.FLAG_DEBUG_POINTS) {
 			DebugModel m = DebugModel.getNewInstance(wm, star.getCentroid().x, star.getCentroid().y);
 			m.setColor(Color.WHITE);
+			modelBag.add(m);
 			for (Vector2 ap : star.getPointsArray()) {
-					DebugModel.getNewInstance(wm, ap.x+star.getCentroid().x, ap.y+star.getCentroid().y);
+				m = DebugModel.getNewInstance(wm, ap.x+star.getCentroid().x, ap.y+star.getCentroid().y);
+				modelBag.add(m);
 			}
 		}
+		StarModel sm = StarModel.getNewInstance(wm, star, star_name);
+		modelBag.add(sm);
 		
-		return StarModel.getNewInstance(wm, star, star_name); 
-		
+		return sm;
 	}	
 	
 	/**
@@ -205,36 +244,39 @@ public class LevelLoader {
 	 * @param trigger
 	 * @param wm
 	 */
-	private static SimpleTriggerModel addTriggerToWorld(WorldModel wm, BasicShape trigger, String trigger_name, String script) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS_A)
-		for (Vector2 ap : trigger.getPointsArray()) {
-			DebugModel m = DebugModel.getNewInstance(wm, ap.x+trigger.getCentroid().x, ap.y+trigger.getCentroid().y);
-			m.setColor(Color.PINK);
+	private static SimpleTriggerModel addTriggerToWorld(ArrayList<AbstractModel> modelBag, WorldModel wm, BasicShape trigger, String trigger_name, String script) {
+		if (GameMicroM.FLAG_DEBUG_POINTS) {
+			DebugModel m;
+			for (Vector2 ap : trigger.getPointsArray()) {
+				m = DebugModel.getNewInstance(wm, ap.x+trigger.getCentroid().x, ap.y+trigger.getCentroid().y);
+				m.setColor(Color.PINK);
+				modelBag.add(m);
+			}
 		}
-		
 		SimpleTriggerModel tModel = SimpleTriggerModel.getNewInstance(wm, trigger, trigger_name);
 		tModel.setScript(script);
+		modelBag.add(tModel);
 		return tModel;
 		
 	}
 	
 
 	
-	private static TextModel addTextToWorld(WorldModel wm, BasicShape sh, String text_name, final String content) {
-		if (GameMicroM.FLAG_DEV_ELEMENTS_A)
+	private static TextModel addTextToWorld(ArrayList<AbstractModel> modelBag, WorldModel wm, BasicShape sh, String text_name, final String content) {
+		if (GameMicroM.FLAG_DEBUG_POINTS) {
+			DebugModel m;
 			for (Vector2 ap : sh.getPointsArray()) {
-				DebugModel m = DebugModel.getNewInstance(wm, ap.x+sh.getCentroid().x, ap.y+sh.getCentroid().y);
+				m = DebugModel.getNewInstance(wm, ap.x+sh.getCentroid().x, ap.y+sh.getCentroid().y);
 				m.setColor(Color.PINK);
+				modelBag.add(m);
 			}					
-		
-		return TextModel.getNewInstance(wm, sh, text_name, content);
+		}
+		TextModel tm = TextModel.getNewInstance(wm, sh, text_name, content);
+		modelBag.add(tm);
+		return tm;
 		
 	}
 
-
-	
-	
-	
 	/**
 	 * This function loads a level from a SVG file. It makes a lot of
 	 * assumptions about the elements contained on that SVG. No safeguards are
@@ -246,8 +288,10 @@ public class LevelLoader {
 	 *            The box2d World object
 	 * @return number of assets loaded
 	 */
-	public static int LoadLevel(FileHandle h, WorldModel wm, CameraModel cm) {
+	public static ArrayList<AbstractModel> LoadLevel(FileHandle h, WorldModel wm, CameraModel cm) {
 		int nrElements = 0;
+		ArrayList<AbstractModel> modelBag = new ArrayList<AbstractModel>();
+		
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			//factory.setNamespaceAware(true);
@@ -271,7 +315,6 @@ public class LevelLoader {
 
 				BasicShape s = new BasicShape(d, style, ObjectType.CAMERA);
 
-				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String camera_name = camera.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				
 				// here we configure the camera
@@ -291,11 +334,8 @@ public class LevelLoader {
 				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 
 				BasicShape s = new BasicShape(d, style, ObjectType.BOARD);
-
-				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String board_name = board.item(i).getAttributes().getNamedItem("id").getNodeValue();
-				
-				addBoardToWorld(wm, s, board_name);
+				addBoardToWorld(modelBag, wm, s, board_name);
 				
 				nrElements+=1;
 			}
@@ -311,11 +351,8 @@ public class LevelLoader {
 				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 				
 				BasicShape s = new BasicShape(d, style, ObjectType.DABOX);
-				
-				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String dabox_name = dabox.item(i).getAttributes().getNamedItem("id").getNodeValue();
-				
-				daBoxRef = addDaBoxToWorld(wm, s, dabox_name);
+				daBoxRef = addDaBoxToWorld(modelBag, wm, s, dabox_name);
 				
 				nrElements+=1;
 			}			
@@ -330,11 +367,8 @@ public class LevelLoader {
 				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 				
 				BasicShape s = new BasicShape(d, style, ObjectType.SPAWN);
-
-				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String spawn_name = spawn.item(i).getAttributes().getNamedItem("id").getNodeValue();
-				
-				addSpawnToWorld(wm, daBoxRef, s, spawn_name);
+				addSpawnToWorld(modelBag, wm, daBoxRef, s, spawn_name);
 				
 				nrElements+=1;
 			}
@@ -349,11 +383,8 @@ public class LevelLoader {
 				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 				
 				BasicShape s = new BasicShape(d, style, ObjectType.GOAL);
-
-				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String goal_name = goals.item(i).getAttributes().getNamedItem("id").getNodeValue();
-				
-				addGoalToWorld(wm, s, goal_name);
+				addGoalToWorld(modelBag, wm, s, goal_name);
 				
 				nrElements+=1;
 			}
@@ -368,11 +399,8 @@ public class LevelLoader {
 				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 				
 				BasicShape s = new BasicShape(d, style, ObjectType.GROUND);
-				
-				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String ground_name = grounds.item(i).getAttributes().getNamedItem("id").getNodeValue();
-				
-				addGroundToWorld(wm, s, ground_name);
+				addGroundToWorld(modelBag, wm, s, ground_name);
 				
 				nrElements+=1;
 			}
@@ -388,11 +416,8 @@ public class LevelLoader {
 				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 				
 				BasicShape s = new BasicShape(d, style, ObjectType.PORTAL);
-
-				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String portal_name = portals.item(i).getAttributes().getNamedItem("id").getNodeValue();
-				
-				addPortalToWorld(wm, s, portal_name);
+				addPortalToWorld(modelBag, wm, s, portal_name);
 				
 				nrElements+=1;
 			}
@@ -408,11 +433,8 @@ public class LevelLoader {
 				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 				
 				BasicShape s = new BasicShape(d, style, ObjectType.WALL);
-
-				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String wall_name = walls.item(i).getAttributes().getNamedItem("id").getNodeValue();
-				
-				addWallToWorld(wm, s, wall_name);
+				addWallToWorld(modelBag, wm, s, wall_name);
 				
 				nrElements+=1;
 			}
@@ -428,11 +450,8 @@ public class LevelLoader {
 				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 				
 				BasicShape s = new BasicShape(d, style, ObjectType.STAR);
-
-				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String star_name = stars.item(i).getAttributes().getNamedItem("id").getNodeValue();
-				
-				addStarToWorld(wm, s, star_name);
+				addStarToWorld(modelBag, wm, s, star_name);
 				
 				nrElements+=1;
 			}
@@ -454,7 +473,7 @@ public class LevelLoader {
 				BasicShape sh = new BasicShape("m " + x + "," + y, "", ObjectType.TEXT);
 				if (logger.isInfoEnabled()) logger.info(".:.:.:. " + sh.getCentroid() + " .:.:.:.");
 				
-				addTextToWorld(wm, sh, id, s);
+				addTextToWorld(modelBag, wm, sh, id, s);
 				
 				nrElements+=1;
 			}
@@ -470,20 +489,12 @@ public class LevelLoader {
 				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
 				
 				BasicShape s = new BasicShape(d, style, ObjectType.TRIGGER);
-
-				if (logger.isInfoEnabled()) logger.info(s.toString());
 				String trigger_name = triggers.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				String script = triggers.item(i).getAttributes().getNamedItem("custom-script").getNodeValue();
-				
-				addTriggerToWorld(wm, s, trigger_name, script);
+				addTriggerToWorld(modelBag, wm, s, trigger_name, script);
 				
 				nrElements+=1;
 			}			
-			
-
-				
-			
-
 			
 			if (logger.isInfoEnabled()) logger.info("Finished Loading level: " + h.name());
 		
@@ -500,7 +511,15 @@ public class LevelLoader {
 			if (logger.isErrorEnabled()) logger.error(e.getMessage());
 			e.printStackTrace();
 		}
-		return nrElements;
+		
+		int check = 0;
+		for (AbstractModel am : modelBag) {
+			if (am instanceof DebugModel) check+=1;
+		}
+		// the (-1) is because the camera loading parameters doesn't create a new model
+		if (logger.isDebugEnabled()) logger.debug("size of bag is {}; # of non debug point models is {}; # of debug points model is {}", modelBag.size(), nrElements-1, check);
+		
+		return modelBag;
 	}
 	
 }

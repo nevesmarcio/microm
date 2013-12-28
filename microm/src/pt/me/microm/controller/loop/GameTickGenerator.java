@@ -1,10 +1,11 @@
 package pt.me.microm.controller.loop;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +23,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameTickGenerator implements IProcessRunnable, Disposable {
+	private static int dbg = 0;
 	private static final String TAG = GameTickGenerator.class.getSimpleName();
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
 
@@ -32,19 +34,20 @@ public class GameTickGenerator implements IProcessRunnable, Disposable {
 	protected final Array<Runnable> executedRunnables = new Array<Runnable>();	
 	
 	public synchronized void addEventListener(IGameTick listener) {
-
-		if (logger.isDebugEnabled()) logger.debug("[TickGen-addEventListener-begin]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
+		if (logger.isInfoEnabled()) logger.info("{} is now receiving gametick events", listener);
 		_listeners.add(listener);
 		isTempListenersDirty = true;
-		if (logger.isDebugEnabled()) logger.debug("[TickGen-addEventListener-end]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
 	}
 
 	public synchronized void removeEventListener(IGameTick listener) {
-
-		if (logger.isDebugEnabled()) logger.debug("[TickGen-removeEventListener-begin]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
-		_listeners.remove(listener);
-		isTempListenersDirty = true;
-		if (logger.isDebugEnabled()) logger.debug("[TickGen-removeEventListener-end]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
+		boolean result = false;
+		result = _listeners.remove(listener);
+		if (result) {
+			if (logger.isInfoEnabled()) logger.info("{} is no longer receiving gametick events", listener);
+			isTempListenersDirty = true;
+		} else if (logger.isWarnEnabled())
+			logger.warn("listener {} was not registered", listener);
+		
 	}
 
 	/**
@@ -59,8 +62,7 @@ public class GameTickGenerator implements IProcessRunnable, Disposable {
 			new ArrayList<IGameTick>();							// reutilização da lista de listeners
 	private boolean isTempListenersDirty = true;				// variável de controlo para saber se a lista de listeners mudou
 	private synchronized void fireEvent(long elapsedNanoTime) {
-		if (logger.isDebugEnabled()) logger.debug("[TickGen-fireEvent]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
-		
+		if (logger.isTraceEnabled()) logger.trace("[fireEvent]");
 		event.setElapsedNanoTime(elapsedNanoTime);
 
 		try {
@@ -74,48 +76,60 @@ public class GameTickGenerator implements IProcessRunnable, Disposable {
 			i = temp_listeners.iterator();
 			while (i.hasNext()) {
 				gti = i.next();
-				if (logger.isDebugEnabled()) logger.debug("\t[TickGen]" + gti.getClass().getName());
+				if (logger.isTraceEnabled()) logger.trace("\t[TickGen]" + gti.getClass().getName());
 				
 				gti.handleGameTick(event);
 			}
 		} catch (ConcurrentModificationException ex) {
-			if (logger.isDebugEnabled()) logger.debug("[TickGen-EXCEPTION]: CurrentThreadID: " + Long.toString(Thread.currentThread().getId()));
-			ex.printStackTrace();
+			if (logger.isWarnEnabled()) logger.warn("[EXCEPTION]: ", ex);
 			throw ex;
 		}
+		 
+		// release to allow GC
+		gti = null;
 	}
 
 	private static GameTickGenerator instance = null;
-
 	
 	private class MyThreadFactory implements ThreadFactory  {
 
 		@Override
 		public Thread newThread(Runnable r) {
 			Thread t = new Thread(r);
-			t.setName("_game_tick_generator_" + UUID.randomUUID().toString());
+			
+			SecureRandom random = new SecureRandom();
+			t.setName("_gticker_" + new BigInteger(48, random).toString(32));
+
+			//t.setName("_game_tick_generator_" + UUID.randomUUID().toString());
+			
 			return t;
 			//return Executors.defaultThreadFactory().newThread(r);
 		}
 	}
 	
 	private GameTickGenerator() {
+		if (logger.isInfoEnabled()) logger.info("warming up tick machine...");
 		gameTick = new ScheduledThreadPoolExecutor(1);
 		gameTick.setThreadFactory(new MyThreadFactory());
 		gameTick.scheduleAtFixedRate(new GameCycleTask(), 0, GAME_CONSTANTS.GAME_TICK_MILI, TimeUnit.MILLISECONDS);
-
 	}
 
 	public static GameTickGenerator getInstance() {
 		if (instance == null) {
-			instance = new GameTickGenerator();
-			
 			StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-			logger.info("getInstance called by: " +  stackTraceElements[2].getClassName() + "." + stackTraceElements[2].getMethodName());			
+			if (logger.isInfoEnabled()) logger.info("called by: {}.{}", stackTraceElements[2].getClassName(), stackTraceElements[2].getMethodName());
+			
+			if (dbg>0) throw new RuntimeException("Nope! Not again!");
+			dbg+=1;
+			instance = new GameTickGenerator();
 		}
 		return instance;
 	}
 
+	public synchronized boolean isAvailable() {
+		return instance == null ? false : true;
+	}
+	
 	private ScheduledThreadPoolExecutor gameTick;
 
 	private class GameCycleTask implements Runnable {
@@ -141,13 +155,11 @@ public class GameTickGenerator implements IProcessRunnable, Disposable {
 					executedRunnables.get(i).run(); // calls out to random app code that could do anything ...
 				}				
 				
-				
-				
 			} catch (Exception e) {
-				if (logger.isErrorEnabled()) logger.error("Something fishy is going on here... Ex:" + e.getMessage());
+				if (logger.isErrorEnabled()) logger.error("Something fishy is going on here... Ex:", e);
 			}
 
-			if (logger.isDebugEnabled()) logger.debug("Time's up (miliseconds)!" + elapsedNanoTime / GAME_CONSTANTS.ONE_MILISECOND_TO_NANO);
+			if (logger.isDebugEnabled()) logger.debug("Time's up (miliseconds)! {}", elapsedNanoTime / GAME_CONSTANTS.ONE_MILISECOND_TO_NANO);
 
 			lastTick = thisTick;
 		}
@@ -156,6 +168,8 @@ public class GameTickGenerator implements IProcessRunnable, Disposable {
 
 	@Override
 	public synchronized void dispose() {
+		if (logger.isInfoEnabled()) logger.info("shutting down tick machine...");
+		
 		gameTick.shutdownNow();
 		gameTick.purge();
 //		try {
@@ -173,6 +187,13 @@ public class GameTickGenerator implements IProcessRunnable, Disposable {
 		instance = null;
 
 	}
+	
+	@Override
+	protected void finalize() throws Throwable {
+		if (logger.isInfoEnabled()) logger.info("GC'ed!");
+		super.finalize();
+	}
+	
 
 	/**
 	 * This method allows that external code adds a runnable to be executed on
@@ -183,7 +204,6 @@ public class GameTickGenerator implements IProcessRunnable, Disposable {
 		synchronized (runnables) {
 			runnables.add(runnable);
 		}
-		
 	}
 	
 	/**

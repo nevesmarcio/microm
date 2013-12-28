@@ -1,7 +1,5 @@
 package pt.me.microm.view.dev;
 
-import java.util.Iterator;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,9 +7,7 @@ import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.model.dev.DebugModel;
 import pt.me.microm.view.AbstractView;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.physics.box2d.Fixture;
 
 
 public class DebugView extends AbstractView {
@@ -20,8 +16,6 @@ public class DebugView extends AbstractView {
 	
 	private DebugModel debugmSrc;
 	
-	ShapeRenderer renderer;
-	
 	public DebugView(DebugModel debugmSrc) {
 		super(debugmSrc, 2);
 		this.debugmSrc = debugmSrc;
@@ -29,41 +23,31 @@ public class DebugView extends AbstractView {
 	
 	@Override
 	public void DelayedInit() {
-		renderer = new ShapeRenderer();
+
 	}
 	
-	
-	private Iterator<Fixture> it;
-	private Fixture aux;
 	@Override
 	public void draw(ScreenTickEvent e) {
-		
+
 		renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 		
-		it = debugmSrc.getBody().getFixtureList().iterator(); 
-		while (it.hasNext()){
-			aux = it.next();
+		renderer.identity();
+		renderer.translate(debugmSrc.getPosition().x, debugmSrc.getPosition().y, 0.0f);
 			
-			renderer.identity();
-			renderer.translate(aux.getBody().getPosition().x, aux.getBody().getPosition().y, 0.0f);
-			renderer.rotate(0.0f, 0.0f, 1.0f, (float)Math.toDegrees(aux.getBody().getAngle()));			
-				
-			renderer.begin(ShapeType.FilledCircle);
-				renderer.setColor(debugmSrc.getColor());
-				renderer.filledCircle(0.0f, 0.0f, debugmSrc.getRadius(), 50);
-			renderer.end();
+		renderer.begin(ShapeType.FilledCircle);
+			renderer.setColor(debugmSrc.getColor());
+			renderer.filledCircle(0.0f, 0.0f, debugmSrc.getRadius(), 50);
+		renderer.end();
 
-			renderer.begin(ShapeType.Line);
-				renderer.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-				renderer.line(0.0f, 0.0f, 0.0f, debugmSrc.getRadius());
-			renderer.end();		
+		renderer.begin(ShapeType.Line);
+			renderer.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+			renderer.line(0.0f, 0.0f, 0.0f, debugmSrc.getRadius());
+		renderer.end();
 		
-		}
-
 	}
 	
 	@Override
 	public void draw20(ScreenTickEvent e) {
-		draw(e);
 	}
+	
 }

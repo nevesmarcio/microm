@@ -4,64 +4,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pt.me.microm.controller.loop.event.GameTickEvent;
-import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.base.WorldModel;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.math.Vector2;
 
 
 public class DebugModel extends AbstractModel {
 	private static final String TAG = DebugModel.class.getSimpleName();
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
+	private Vector2 position;
 	private float radius = 0.025f;
 	
 	private Color color = new Color(1.0f,0.0f,0.0f,1.0f);
 	
-	private BodyDef debugBodyDef = new BodyDef();
-	private CircleShape debugShape = new CircleShape();// PolygonShape();
-	private Body debugBody;	
-	
+
 	private DebugModel(final WorldModel wm, final float x, final float y) {
+		this.position = new Vector2(x, y);
 		
-		
-		wm.getWorldPhysicsManager().add(new ICommand() {
-			@Override
-			public Object handler(Object ... a) {
-				debugBodyDef.type = BodyType.StaticBody;
-				debugBodyDef.position.set(x, y);
-
-				debugBodyDef.active = false;
-				
-				debugBody = wm.getWorldPhysicsManager().getPhysicsWorld().createBody(debugBodyDef);
-
-				debugShape.setRadius(radius);
-				/*fixture*/
-				FixtureDef fixDef = new FixtureDef();
-				fixDef.shape = debugShape;
-				fixDef.density = 1.0f;
-				fixDef.friction = 1.0f;
-				fixDef.restitution = 0.75f;
-				debugBody.createFixture(fixDef);
-				
-				debugBody.setUserData(DebugModel.this); // relacionar com o modelo
-				
-				debugBody.setSleepingAllowed(false);
-				
-				// Sinaliza os subscritores de que a construção do modelo terminou.
-				DebugModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
-				
-				return null;
-			}
-		});
-
+		// Sinaliza os subscritores de que a construção do modelo terminou.
+		DebugModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
 	}
 
 	public static DebugModel getNewInstance(WorldModel wm, float x, float y){
@@ -76,6 +41,9 @@ public class DebugModel extends AbstractModel {
 	public float getRadius() {
 		return radius;
 	}
+	public Vector2 getPosition(){
+		return position;
+	}
 
 	public Color getColor() {
 		return color;
@@ -83,13 +51,5 @@ public class DebugModel extends AbstractModel {
 	public void setColor(Color color) {
 		this.color = color;
 	}
-
-
-
-	public Body getBody() {
-		return debugBody;
-	}
-	
-	
 	
 }

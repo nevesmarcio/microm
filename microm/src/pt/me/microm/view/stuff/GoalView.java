@@ -22,8 +22,6 @@ public class GoalView extends AbstractView {
 	
 	private GoalModel goalmSrc;
 
-	private ShapeRenderer renderer;
-	
 	private Mesh goalMesh;	
 	
 	public GoalView(GoalModel goalmSrc) {
@@ -33,7 +31,6 @@ public class GoalView extends AbstractView {
 
 	@Override
 	public void DelayedInit() {
-		renderer = new ShapeRenderer();
 		
 		goalMesh = SimpleRendererHelper.buildMesh(goalmSrc.getBasicShape());
 

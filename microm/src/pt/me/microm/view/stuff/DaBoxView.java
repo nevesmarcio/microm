@@ -15,7 +15,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -27,8 +26,6 @@ public class DaBoxView extends AbstractView {
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	private DaBoxModel daBoxmSrc;
-	
-	private ShapeRenderer renderer;
 	
 	private Mesh daBoxMesh;
 	
@@ -44,7 +41,6 @@ public class DaBoxView extends AbstractView {
 	@Override
 	public void DelayedInit() {
 
-		renderer = new ShapeRenderer();
 		batch = new SpriteBatch();
 		
 		///////////////////////////////
