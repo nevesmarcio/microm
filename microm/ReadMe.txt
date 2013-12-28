@@ -411,18 +411,28 @@ http://stackoverflow.com/questions/5646221/delaunay-triangulating-the-2d-polygon
 
 -------------------------------
 
-<<<<TODO>>>>: depois de triar o que funciona em gl20 e o que não funciona, dado que os métodos draw20 são praticamente todos iguais aos metodos draw10,
-usar o mecanismo do abstractview para reduzir o código (só fazer override aos que são efectivamente diferentes)
+[TODO] 
+28-12-2013
+# o texto neste momento n aparece
+# quando apanho a estrelinha bate uma excepcao
+# interface para destruir um corpo (como o jump) - como resultado de uma colisao p.e.
+# logger com as medias nos ticks
+# definir o que corre em cada thread (GUI vs game)
 
--->isto tudo para a seguir pegar nos meshes/ postprocessing/ gles2.0/ etc...
+23-12-2013
+# http://www.kongregate.com/games/keybol/pretentious-game
 
-[amanhã desenhar 1 widget para navegar nos mundos]
+21-12-2013
+# Start using MAVEN with android projects - it will help not to upload libs and stuff
+
+
+
+
+
+------>> desenhar 1 widget para navegar nos mundos
 
 ------>> O mecanismo de pausa, como pára o render, também pára os efeitos das partículas. No entanto não pára o motor fisico.
 ------>> Podem ser os ScreenTickManager e o GameTickGenerator que orquestram o shutdown de tudo. P.e. podem lançar eventos de shutdown tal como há objectos com eventos de startup para quem os quer subscrever! 
-
-
-
 
 # ver o problema da rotação: a rotação da estrelinha não está a 100%
 
@@ -433,43 +443,26 @@ usar o mecanismo do abstractview para reduzir o código (só fazer override aos 
 --> cada objecto subscreve o trigger e o script associado (com uma tag custom) ::
 pe. trigger :: path_to_script
 
-
-
-[TODO] 
-23-12-2013
-# http://www.kongregate.com/games/keybol/pretentious-game
-
-21-12-2013
-# Start using MAVEN with android projects - it will help not to upload libs and stuff
-
-
-
-
 # Gostava de implementar uma protecção de thread para garantir que determinado código só corre numa thread e outro código noutra.
 
 # Construir o splashscreen!!
 Assumir uma resolução e partir daí, com downscale/ upscale
-
 
 # como faço o level design quando for um horizontal / vertical scroller ?
 
 # counter de vidas e mecanismo de restart no mesmo nivel
 # zona de texto do UI para contar as vidas/ saltar para o menu, etc.
 
-
 # tutorial da relva (usa os tweens ?)
 # particles na destruição
 
 # efeito de paralax
-
 
 # ao fazer "resume" das apps recentes, as texturas ficam todas paridas.
 	
 # use a chipin like feature to raise money for more levels (fundraising web sites:: http://www.squidoo.com/fundraising-websites)
 
 # que coordenadas utilizar aquando a escrita das mensagens no UI? (fisicas? relativas ao tamanho do ecrã? outro?)
-
-
 
 # detectar o level success e apresentar o próximo nível
 
