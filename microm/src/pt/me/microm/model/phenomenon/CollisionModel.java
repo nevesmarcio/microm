@@ -23,7 +23,7 @@ public class CollisionModel extends AbstractModel {
 	private static final String TAG = CollisionModel.class.getSimpleName();
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
-	public Vector2 position;
+	private Vector2 position;
 	
 	private CollisionModel(Vector2 position) {
 		this.position = position;
@@ -42,5 +42,9 @@ public class CollisionModel extends AbstractModel {
 		
 	}
 
+	
+	public Vector2 getPosition() {
+		return position;
+	}
 	
 }

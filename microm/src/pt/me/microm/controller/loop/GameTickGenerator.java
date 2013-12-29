@@ -57,29 +57,34 @@ public class GameTickGenerator implements IProcessRunnable, Disposable {
 	 */
 	private GameTickEvent event = new GameTickEvent(this); 		// reutilização do evento
 	private Iterator<IGameTick> i; 								// reutilização da variável para iteração sobre a lista
+	private boolean print = false;
 	private IGameTick gti; 										// reutilização do GameTickInterface
 	private List<IGameTick> temp_listeners =
 			new ArrayList<IGameTick>();							// reutilização da lista de listeners
 	private boolean isTempListenersDirty = true;				// variável de controlo para saber se a lista de listeners mudou
 	private synchronized void fireEvent(long elapsedNanoTime) {
-		if (logger.isTraceEnabled()) logger.trace("[fireEvent]");
 		event.setElapsedNanoTime(elapsedNanoTime);
 
 		try {
 			/* cria uma copia para iterar */
 			if (isTempListenersDirty) {
+				if (logger.isDebugEnabled()) logger.debug("[diff] _listeners|temp_listeners: " + _listeners.size() + "|" + temp_listeners.size());
 				temp_listeners.clear();
 				temp_listeners.addAll(_listeners);
 				isTempListenersDirty = false;
+				print = true;
 			}
 			
 			i = temp_listeners.iterator();
 			while (i.hasNext()) {
 				gti = i.next();
-				if (logger.isTraceEnabled()) logger.trace("\t[TickGen]" + gti.getClass().getName());
-				
 				gti.handleGameTick(event);
+				
+				if (print) {
+					if (logger.isTraceEnabled()) logger.trace("\t[TickGen]" + gti.getClass().getName());
+				}
 			}
+			print = false;
 		} catch (ConcurrentModificationException ex) {
 			if (logger.isWarnEnabled()) logger.warn("[EXCEPTION]: ", ex);
 			throw ex;

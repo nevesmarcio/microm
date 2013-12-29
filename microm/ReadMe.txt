@@ -403,7 +403,9 @@ http://stackoverflow.com/questions/5646221/delaunay-triangulating-the-2d-polygon
 # logging optimizations
 # correction of minor bugs on ScreenTickManager and GameTickGenerator classes
 
-
+29-12-2013
+# fixed ground, spawn and goal shape rendering positioning
+# fixed a bug on ScreenTick generator - was cleaning too much for GC
 
 
 

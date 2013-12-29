@@ -66,11 +66,9 @@ public class WorldPhysicsManager {
 	 * 
 	 * @param e
 	 */
-	public void add(ICommand e) {
+	private void add(ICommand e) {
 		toAddQueue.add(e);
 	}
-
-	
 
 	
 	/**
@@ -80,11 +78,11 @@ public class WorldPhysicsManager {
 	 * @return
 	 */
 	public Body addBody(BasicShape shape, AbstractModel model) {
-		Vector2[] silhouetteVertex;
+		Body aBody;
 		
+		Vector2[] silhouetteVertex;
 		BodyDef aBodyDef = new BodyDef();
 		ChainShape aShape; // Fronteira do tabuleiro
-		Body aBody;
 
 		silhouetteVertex = shape.getPointsArray();
 		
@@ -103,8 +101,8 @@ public class WorldPhysicsManager {
 		fixDef.density = shape.getType().getDensity();
 		fixDef.friction = shape.getType().getFriction();
 		fixDef.restitution = shape.getType().getRestitution();		
-		aBody.createFixture(fixDef);
 		
+		aBody.createFixture(fixDef);
 		aBody.setUserData(model); // relacionar com o modelo
 		
 		return aBody; // for delegation purposes
@@ -112,11 +110,11 @@ public class WorldPhysicsManager {
 	}
 	
 	public Body addBodyDynamic(BasicShape shape, AbstractModel model) {
+		Body aBody;
+		
 		Vector2[] silhouetteVertex;
-		 
 		BodyDef daBoxBodyDef = new BodyDef();
 		PolygonShape daBoxShape;
-		Body daBoxBody;	
 		
 		// FIXME:: fazer isto sem ser às cegas!
 		// CCW vertices
@@ -135,7 +133,7 @@ public class WorldPhysicsManager {
 		daBoxBodyDef.position.set(shape.getCentroid());
 		daBoxBodyDef.type = shape.getType().getBodyType();
 
-		daBoxBody = physicsWorld.createBody(daBoxBodyDef);
+		aBody = physicsWorld.createBody(daBoxBodyDef);
 
 		/* fixture */
 		FixtureDef fixDef = new FixtureDef();
@@ -144,17 +142,13 @@ public class WorldPhysicsManager {
 		fixDef.friction = shape.getType().getFriction();
 		fixDef.restitution = shape.getType().getRestitution();
 
-		daBoxBody.createFixture(fixDef);
-
-		daBoxBody.setUserData(model); // relacionar com o modelo
-
-		daBoxBody.setSleepingAllowed(true);		
+		aBody.createFixture(fixDef);
+		aBody.setUserData(model); // relacionar com o modelo
+		aBody.setSleepingAllowed(true);		
+		aBody.setBullet(false);
+		aBody.setActive(false);
 		
-		daBoxBody.setBullet(false);
-				
-		daBoxBody.setActive(false);
-		
-		return daBoxBody;
+		return aBody;
 	}
 	
 	

@@ -12,7 +12,6 @@ import pt.me.microm.view.AbstractView;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 
@@ -53,14 +52,15 @@ public class UIMetricsView  extends AbstractView {
 	private String xx = "X--X";
 	@Override
 	public void draw(ScreenTickEvent e) {
-		
-		if (GameMicroM.FLAG_DEV_ELEMENTS_A || true) {
+
+		if (GameMicroM.FLAG_DEV_ELEMENTS_A) {
 			/* renderização dos status fps + ups */
 			long elapsedNanoTime = e.getElapsedNanoTime();
 			
 			batch.setProjectionMatrix(e.getCamera().getUiCamera().combined);
 					
 			fps = (float) (1000.0f / (elapsedNanoTime / (float)GAME_CONSTANTS.ONE_MILISECOND_TO_NANO));
+			//if (logger.isDebugEnabled()) logger.debug("ups: {} | fps: {}",uiSrc.getUps(), fps);
 			
 			batch.begin();
 				font.setColor(Color.RED);	
@@ -78,13 +78,11 @@ public class UIMetricsView  extends AbstractView {
 				
 			batch.end();
 		}
-
 		
 	}
 
 	@Override
 	public void draw20(ScreenTickEvent e) {
-		draw(e);
 		
 	}	
 	

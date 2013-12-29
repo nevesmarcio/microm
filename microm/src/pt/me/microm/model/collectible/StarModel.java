@@ -92,12 +92,13 @@ public class StarModel extends AbstractModel implements IActorBody {
 
 	
 	
+	AbstractModel m;
 	@Override
 	public void beginContactWith(IActorBody oModel) {
 		
 		if (logger.isDebugEnabled()) logger.debug("collision detected");
 
-		CollisionModel.getNewInstance(getPosition());	//oModel.getPosition()
+		m = CollisionModel.getNewInstance(getPosition());	//oModel.getPosition()
 
 //		wm.wmManager.add(new PointerToFunction() {
 //			
@@ -117,6 +118,7 @@ public class StarModel extends AbstractModel implements IActorBody {
 	
 	@Override
 	public void endContactWith(IActorBody oModel) {
+//		if (m!=null) m.dispose();
 		
 	}	
 

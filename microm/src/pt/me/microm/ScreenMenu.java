@@ -386,7 +386,7 @@ public class ScreenMenu implements Screen {
 		Gdx.gl.glClearColor(Color.valueOf(clear_color).r, Color.valueOf(clear_color).g, Color.valueOf(clear_color).b, Color.valueOf(clear_color).a);
 		
 		
-    	if (GameMicroM.FLAG_DEV_ELEMENTS_B)
+    	if (GameMicroM.FLAG_DISPLAY_SCENE2D_DEBUG_LINES)
 			Table.drawDebug(stage); // This is optional, but enables debug lines for tables.
         
         stage.act(delta);

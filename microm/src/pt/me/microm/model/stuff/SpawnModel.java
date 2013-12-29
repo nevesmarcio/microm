@@ -52,16 +52,16 @@ public class SpawnModel extends AbstractModel implements IActorBody {
 			@Override
 			public void onEvent(int type, BaseTween<?> source) {
 
-				wm.getWorldPhysicsManager().add(new ICommand() {
-					
-					@Override
-					public Object handler(Object... a) {
+//				wm.getWorldPhysicsManager().add(new ICommand() {
+//					
+//					@Override
+//					public Object handler(Object... a) {
 
 						dbm.create(spawn.getCentroid());
 						
-						return null;
-					}
-				});
+//						return null;
+//					}
+//				});
 
 			}
 

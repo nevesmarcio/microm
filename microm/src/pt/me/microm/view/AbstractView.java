@@ -30,25 +30,28 @@ public abstract class AbstractView implements Disposable, IScreenTick {
 	}
 	
 	private UUID devID;
+	private String simpleName;
 	public AbstractView(AbstractModel modelRef, final int zIndex) {
-		if (logger.isDebugEnabled()) logger.debug("++abstract ctor of {} | allocID: {}", this.getClass().getSimpleName(), (devID=UUID.randomUUID()).toString());
+		if (logger.isDebugEnabled()) logger.debug("++abstract ctor of {} | allocID: {}", simpleName=this.getClass().getSimpleName(), (devID=UUID.randomUUID()).toString());
 		
 		this.modelRef = modelRef;
 		this.modelRef.addListener(AbstractModel.EventType.ON_MODEL_INSTANTIATED, new IEventListener() {
 
 			@Override
 			public void onEvent(IEvent event) {
-//				ScreenTickManager.PostRunnable(new Runnable() {
-//					@Override
-//					public void run() {
-						if (logger.isDebugEnabled()) logger.debug("..abstract method DelayedInit() about to be called");
-						DelayedInit( ); // Sem o PostRunnable isto iria correr na thread do model
+				// Sem o PostRunnable isto iria correr na thread do model
+				// Assim garante-se que este delayed init corre na thread do GUI
+				ScreenTickManager.PostRunnable(new Runnable() {
+					@Override
+					public void run() {
+						if (logger.isDebugEnabled()) logger.debug("..abstract method {}.DelayedInit() about to be called", simpleName);
+						DelayedInit( ); 
 						// Regista este objecto para ser informado dos screen ticks
 						// Este registo só pode ser efectuado depois do Modelo instanciado 
 						ScreenTickManager.getInstance().addEventListener(AbstractView.this, zIndex);
 
-//					}
-//				});				
+					}
+				});				
 			}
 		});		
 	}
@@ -57,7 +60,7 @@ public abstract class AbstractView implements Disposable, IScreenTick {
 	
 	@Override
 	public void dispose() {
-		if (logger.isDebugEnabled()) logger.debug("--abstract dispose of {} | allocID: {}", this.getClass().getSimpleName(), devID);
+		if (logger.isDebugEnabled()) logger.debug("--abstract dispose of {} | allocID: {}", simpleName, devID);
 		
 		this.modelRef = null;
 		
@@ -67,7 +70,7 @@ public abstract class AbstractView implements Disposable, IScreenTick {
 
 	@Override
 	protected void finalize() throws Throwable {
-		if (logger.isDebugEnabled()) logger.debug("{} was GC'ed | allocID: {}", this.getClass().getSimpleName(), devID);
+		if (logger.isDebugEnabled()) logger.debug("{} was GC'ed | allocID: {}", simpleName, devID);
 		super.finalize();
 	}	
 	

@@ -8,6 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import pt.me.microm.GameMicroM;
 import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.base.WorldModel;
@@ -16,8 +17,10 @@ import pt.me.microm.view.AbstractView;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Joint;
+import com.badlogic.gdx.physics.box2d.WorldManifold;
 
 
 public class WorldView extends AbstractView {
@@ -50,7 +53,6 @@ public class WorldView extends AbstractView {
 	private List<Contact> temp = new ArrayList<Contact>();
 	@Override
 	public void draw(ScreenTickEvent e) {
-
 //FIXME:Uma catreifada dos estouros fora da VM bate aqui 
 //      Em principio este pedaço de código provoca os estouros fora da VM!! (devido ao array estar a ser manipulado sem cópia?)		
 //
@@ -63,7 +65,7 @@ public class WorldView extends AbstractView {
 //		
 //			/* renderização dos contactos */ 
 //			temp.clear();
-//			temp.addAll(wmSrc.getPhysicsWorld().getContactList());
+//			temp.addAll(wmSrc.getWorldPhysicsManager().getPhysicsWorld().getContactList());
 //			for (int i=0; i < temp.size(); i++) {
 //			
 //				Contact aux = temp.get(i);

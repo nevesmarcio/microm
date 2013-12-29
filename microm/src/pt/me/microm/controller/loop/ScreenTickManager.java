@@ -107,11 +107,11 @@ public class ScreenTickManager implements IProcessRunnable, Disposable {
 			i = temp_listeners.entrySet().iterator();
 			while (i.hasNext()) {
 				sti = (ArrayList<IScreenTick>) i.next().getValue();
-				
+
 				for (IScreenTick it : sti) {
 					if (drawGL20) it.draw20(event); else it.draw(event);
 					if (print) {
-						if (logger.isDebugEnabled()) logger.debug(sti.getClass().getName());
+						if (logger.isTraceEnabled()) logger.trace(sti.getClass().getName());
 					}					
 				}
 
@@ -122,8 +122,7 @@ public class ScreenTickManager implements IProcessRunnable, Disposable {
 			throw ex;
 		}
 		
-		// release to allow GC		
-		sti.clear();
+		// release to allow GC
 		sti = null;
 		event.setCamera(null);
 	}

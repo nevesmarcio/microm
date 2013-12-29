@@ -52,7 +52,7 @@ public class CollisionView extends AbstractView {
 				batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 
 				batch.begin();
-					particleEffect.setPosition(collisionmSrc.position.x, collisionmSrc.position.y);
+					particleEffect.setPosition(collisionmSrc.getPosition().x, collisionmSrc.getPosition().y);
 					particleEffect.draw(batch, delta);
 				batch.end();		
 			}
@@ -62,7 +62,6 @@ public class CollisionView extends AbstractView {
 	
 	@Override
 	public void draw20(ScreenTickEvent e) {
-		draw(e);
 	}
 
 }

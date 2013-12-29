@@ -20,6 +20,7 @@ import pt.me.microm.model.base.CameraControllerDrag;
 import pt.me.microm.model.base.CameraControllerStrafe;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
+import pt.me.microm.model.ui.UIMetricsModel;
 import pt.me.microm.model.ui.UIModel;
 import pt.me.microm.model.ui.utils.FlashMessageManagerModel;
 import pt.me.microm.session.PlayerProgress;
@@ -49,6 +50,7 @@ public class ScreenTheJuice implements Screen {
 	private WorldModel worldModel;
 	private CameraModel cameraModel;
 	private UIModel uiModel;
+	private UIMetricsModel uiMetricsModel;
 	private FlashMessageManagerModel flashMessageManagerModel;
 	private ArrayList<AbstractModel> modelBag;
 	
@@ -71,16 +73,18 @@ public class ScreenTheJuice implements Screen {
 		cameraModel = new CameraModel();										// camera model
 		worldModel = new WorldModel();											// world model
 		uiModel = new UIModel(cameraModel, worldModel); 						// constroi o painel informativo?
+		uiMetricsModel = new UIMetricsModel();									// metricas?
 		flashMessageManagerModel = FlashMessageManagerModel.getInstance(); 		// responsavel para apresentacao de flash messages
 		
-		FileHandle h = Gdx.files.internal("data/levels/" + world + "/" + level);
-		modelBag = LevelLoader.LoadLevel(h, worldModel, cameraModel);
-		if (logger.isInfoEnabled()) logger.info("Nr elements loaded: " + modelBag.size());		
-		
+		if (GameMicroM.FLAG_LOAD_LEVEL) {
+			FileHandle h = Gdx.files.internal("data/levels/" + world + "/" + level);
+			modelBag = LevelLoader.LoadLevel(h, worldModel, cameraModel);
+			if (logger.isInfoEnabled()) logger.info("Nr elements loaded: " + modelBag.size());		
+		}
 		worldModel.addListener(WorldModel.EventType.ON_WORLD_COMPLETED, new IEventListener() {
 			@Override
 			public void onEvent(IEvent event) {
-				ScreenTheJuice.this.callback.handler("completed", ScreenTheJuice.this);
+				ScreenTheJuice.this.callback.handler("exit", ScreenTheJuice.this);
 			}
 		});
 		
@@ -182,6 +186,7 @@ public class ScreenTheJuice implements Screen {
 		cameraModel.dispose();
 		worldModel.dispose();
 		uiModel.dispose();
+		uiMetricsModel.dispose();
 		flashMessageManagerModel.dispose();
 		
 		// dispose of modelBag

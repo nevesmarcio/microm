@@ -9,10 +9,16 @@
   </appender>
   
   <logger name="AbstractModel" level="DEBUG"/>
-  <logger name="CameraModel" level="DEBUG"/>
   <logger name="AbstractView" level="DEBUG"/>
+  
+  <logger name="CameraModel" level="DEBUG"/>
   <logger name="CameraView" level="DEBUG"/>
+  
   <logger name="LevelLoader" level="DEBUG"/>
+  
+  <logger name="UIMetricsModel" level="DEBUG"/>
+  <logger name="UIMetricsView" level="DEBUG"/>
+  
 
   <root level="INFO">
     <appender-ref ref="STDOUT" />

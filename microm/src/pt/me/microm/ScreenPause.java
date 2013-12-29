@@ -45,7 +45,7 @@ public class ScreenPause implements Screen {
 //		Gdx.input.setInputProcessor(im);
 		
 		table = new Table();
-		if (GameMicroM.FLAG_DEV_ELEMENTS_B)
+		if (GameMicroM.FLAG_DISPLAY_SCENE2D_DEBUG_LINES)
 			table.debug();
 		table.setFillParent(true);
 		stage.addActor(table);
