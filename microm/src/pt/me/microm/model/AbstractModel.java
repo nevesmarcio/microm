@@ -108,7 +108,7 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	public int addPointOfContactWith(IActorBody oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
-		if (logger.isDebugEnabled()) logger.debug("abstract beginContactWith: " + this.getClass().getName());
+		if (logger.isDebugEnabled()) logger.debug("abstract beginContactWith: {}", this.getClass().getName());
 		
 		int incrementedValue = -1;
 		try {
@@ -128,7 +128,7 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	public int subtractPointOfContactWith(IActorBody oModel) {
 		// put non-specific contact logic @ MyContactListener
 		// implement specific contact logic by overriding this method on a Model
-		if (logger.isDebugEnabled()) logger.debug("abstract endContactWith: " + this.getClass().getName());
+		if (logger.isDebugEnabled()) logger.debug("abstract endContactWith: {}", this.getClass().getName());
 		
 		int decrementedValue = -1;
 		try {

@@ -8,6 +8,7 @@
     </encoder>
   </appender>
   
+  <!-- 
   <logger name="AbstractModel" level="DEBUG"/>
   <logger name="AbstractView" level="DEBUG"/>
   
@@ -18,9 +19,9 @@
   
   <logger name="UIMetricsModel" level="DEBUG"/>
   <logger name="UIMetricsView" level="DEBUG"/>
-  
+   -->
 
-  <root level="INFO">
+  <root level="OFF">
     <appender-ref ref="STDOUT" />
   </root>
 </configuration>

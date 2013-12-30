@@ -406,7 +406,7 @@ http://stackoverflow.com/questions/5646221/delaunay-triangulating-the-2d-polygon
 29-12-2013
 # fixed ground, spawn and goal shape rendering positioning
 # fixed a bug on ScreenTick generator - was cleaning too much for GC
-
+# some drawing optimizations like fps and gps and use Matrix4 set() instead of cpy()
 
 
 

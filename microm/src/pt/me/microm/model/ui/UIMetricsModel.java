@@ -16,7 +16,7 @@ public class UIMetricsModel extends AbstractModel {
 	private static final String TAG = UIMetricsModel.class.getSimpleName();
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
-	private float ups;
+	private int ups;
 
 	public UIMetricsModel() {
 		
@@ -28,16 +28,16 @@ public class UIMetricsModel extends AbstractModel {
 	public void handleGameTick(GameTickEvent e) {
 		float elapsedNanoTime = e.getElapsedNanoTime();
 		
-		setUps((float) (1000.0 / (elapsedNanoTime / GAME_CONSTANTS.ONE_MILISECOND_TO_NANO)));		
+		setUps((int) (1000.0 / (elapsedNanoTime / GAME_CONSTANTS.ONE_MILISECOND_TO_NANO)));		
 		
 	}
 
 	
 	// Updates Per Second (relativo à cadência dos cálculos físicos)
-	public float getUps() {
+	public int getUps() {
 		return ups;
 	}
-	public void setUps(float ups) {
+	public void setUps(int ups) {
 		this.ups = ups;
 	}	
 	

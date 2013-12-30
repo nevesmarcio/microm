@@ -17,7 +17,7 @@ public class DebugModel extends AbstractModel {
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	private Vector2 position;
-	private float radius = 0.025f;
+	private float radius = 0.075f;
 	
 	private Color color = new Color(1.0f,0.0f,0.0f,1.0f);
 	

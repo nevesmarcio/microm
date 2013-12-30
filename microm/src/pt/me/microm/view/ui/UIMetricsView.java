@@ -28,7 +28,7 @@ public class UIMetricsView  extends AbstractView {
 	
 	private boolean direction = true;
 	
-	private float fps;
+	private int fps;
 	
 	private UIMetricsModel uiSrc;
 	
@@ -50,6 +50,8 @@ public class UIMetricsView  extends AbstractView {
 	}
 	
 	private String xx = "X--X";
+	private String FPS = "fps:";
+	private String UPS = "ups:";
 	@Override
 	public void draw(ScreenTickEvent e) {
 
@@ -59,15 +61,17 @@ public class UIMetricsView  extends AbstractView {
 			
 			batch.setProjectionMatrix(e.getCamera().getUiCamera().combined);
 					
-			fps = (float) (1000.0f / (elapsedNanoTime / (float)GAME_CONSTANTS.ONE_MILISECOND_TO_NANO));
+			fps = (int) (1000.0f / (elapsedNanoTime / (float)GAME_CONSTANTS.ONE_MILISECOND_TO_NANO));
 			//if (logger.isDebugEnabled()) logger.debug("ups: {} | fps: {}",uiSrc.getUps(), fps);
 			
 			batch.begin();
 				font.setColor(Color.RED);	
-				font.draw(batch, "fps: " + fps, (int)textPosition1.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition1.y - e.getCamera().getUiCamera().viewportHeight/2);
+				font.draw(batch, FPS, (int)textPosition1.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition1.y - e.getCamera().getUiCamera().viewportHeight/2);
+				font.draw(batch, Integer.toString(fps), 30 + (int)textPosition1.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition1.y - e.getCamera().getUiCamera().viewportHeight/2);
 				
 				font.setColor(Color.BLUE);
-				font.draw(batch, "gameupdate (ups): " + uiSrc.getUps(), (int)textPosition2.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition2.y - e.getCamera().getUiCamera().viewportHeight/2);
+				font.draw(batch, UPS, (int)textPosition2.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition2.y - e.getCamera().getUiCamera().viewportHeight/2);
+				font.draw(batch, Integer.toString(uiSrc.getUps()), 30 + (int)textPosition2.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition2.y - e.getCamera().getUiCamera().viewportHeight/2);
 				
 				// só para demonstrar que a renderização está a ocorrer ao ritmo dos fps's.
 				pulsingFont.setColor(Color.WHITE);
@@ -75,7 +79,6 @@ public class UIMetricsView  extends AbstractView {
 					direction =!direction;
 				pulsingFont.setScale(pulsingFont.getScaleX()+(direction?0.1f:-0.1f));
 				pulsingFont.draw(batch, xx, (int)textPosition3.x - e.getCamera().getUiCamera().viewportWidth/2, (int)textPosition3.y - e.getCamera().getUiCamera().viewportHeight/2);
-				
 			batch.end();
 		}
 		

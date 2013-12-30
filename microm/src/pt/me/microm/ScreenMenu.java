@@ -376,15 +376,18 @@ public class ScreenMenu implements Screen {
 	}
 	
 	
-	private String clear_color = "0606020F";
+	private static final String clear_color = "0606020F";
+	private static final float r = Color.valueOf(clear_color).r;
+	private static final float g = Color.valueOf(clear_color).g;
+	private static final float b = Color.valueOf(clear_color).b;
+	private static final float a = Color.valueOf(clear_color).a;
 	@Override
 	public void render(float delta) {
 		long elapsedNanoTime = (long)(Gdx.graphics.getDeltaTime()*GAME_CONSTANTS.ONE_SECOND_TO_NANO);
 
 		// Clean do gl context
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		Gdx.gl.glClearColor(Color.valueOf(clear_color).r, Color.valueOf(clear_color).g, Color.valueOf(clear_color).b, Color.valueOf(clear_color).a);
-		
+		Gdx.gl.glClearColor(r, g, b, a);
 		
     	if (GameMicroM.FLAG_DISPLAY_SCENE2D_DEBUG_LINES)
 			Table.drawDebug(stage); // This is optional, but enables debug lines for tables.

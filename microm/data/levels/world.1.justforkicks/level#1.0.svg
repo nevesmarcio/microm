@@ -131,9 +131,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.99999999"
-     inkscape:cx="640.02275"
-     inkscape:cy="36.911267"
+     inkscape:zoom="0.70710677"
+     inkscape:cx="760.97207"
+     inkscape:cy="38.552795"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -231,16 +231,9 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:#ffff00;fill-opacity:1;stroke:none"
-       d="m 677.7782,1271.5831 -7.79292,14.488 -4.04586,-15.9456 -16.18701,-2.9344 13.9149,-8.7753 -2.21125,-16.3016 12.64577,10.5221 14.8204,-7.1404 -6.09941,15.2783 11.37075,11.8885 z"
+       d="m 473.7782,1271.5831 -7.79292,14.488 -4.04586,-15.9456 -16.18701,-2.9344 13.9149,-8.7753 -2.21125,-16.3016 12.64577,10.5221 14.8204,-7.1404 -6.09941,15.2783 11.37075,11.8885 z"
        id="star"
        inkscape:connector-curvature="0" />
-    <path
-       style="fill:#803300;fill-opacity:1;stroke:none"
-       d="m 242.5,1196.5229 16.5,0 m 0,0 0,-41.875 -16.5,0 0,41.875"
-       id="trigger_1"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccccc"
-       custom-script="cs.out(&quot;trigger_1&quot;); function add(a,b){return a + '&lt;---&gt;' + b;}; cs.out(&quot;puff&gt;&gt;&gt; &quot; + add(__ACTOR_A, __ACTOR_B)); if (__EVENT_TYPE.indexOf(&quot;ON_COLLISION_BEGIN&quot;) !== -1)  if ((__ACTOR_A.indexOf(&quot;trigger&quot;) !== -1) || (__ACTOR_B.indexOf(&quot;trigger&quot;) !== -1))   cs.m.jump();" />
     <path
        sodipodi:nodetypes="cccccc"
        inkscape:connector-curvature="0"

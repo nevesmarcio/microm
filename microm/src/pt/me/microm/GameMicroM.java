@@ -22,11 +22,11 @@ import com.badlogic.gdx.graphics.GL10;
  */
 public class GameMicroM extends Game/*implements ApplicationListener*/ { // it extends the Game so it can handle Screens
 	// FLAGS
-	public static final boolean FLAG_DEBUG_POINTS = true; 					// show circles around every point loaded from level designer
+	public static final boolean FLAG_DEBUG_POINTS = false; 					// show circles around every point loaded from level designer
 	public static final boolean FLAG_DEV_ELEMENTS_A = true; 				// "pre-compiler" equivalent for branching development-only code (lvl A)
 	public static final boolean FLAG_LOAD_LEVEL = true; 					// do not load the level just display controls and UI
-	public static final boolean FLAG_DISPLAY_SCENE2D_DEBUG_LINES = true;	// do not show scene2d debug lines
-	public static final boolean FLAG_DISPLAY_ACTOR_SHAPES = true;			// mostra o desenho das shapes dos actores: walls, dabox, etc.
+	public static final boolean FLAG_DISPLAY_SCENE2D_DEBUG_LINES = false;	// do not show scene2d debug lines
+	public static final boolean FLAG_DISPLAY_ACTOR_SHAPES = false;			// mostra o desenho das shapes dos actores: walls, dabox, etc.
 	public static final boolean FLAG_DISPLAY_PARTICLES = true;				// liga o desenho de particulas
 	
 	private static final String TAG = GameMicroM.class.getSimpleName();
