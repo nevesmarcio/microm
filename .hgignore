@@ -1,6 +1,0 @@
-syntax: glob
-microm-droid/bin/*
-animated-grass/bin/*
-microm-droid/gen/*
-microm/bin/*
-microm-desktop/bin/*
