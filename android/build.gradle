@@ -5,13 +5,14 @@ android {
     compileSdkVersion 23
     sourceSets {
         main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            aidl.srcDirs = ['src']
-            renderscript.srcDirs = ['src']
-            res.srcDirs = ['res']
-            assets.srcDirs = ['../assets']
-            jniLibs.srcDirs = ['libs']
+//            manifest.srcFile 'AndroidManifest.xml'
+//            java.srcDirs = ['src']
+//            aidl.srcDirs = ['src']
+//            renderscript.srcDirs = ['src']
+//            res.srcDirs = ['res']
+//            assets.srcDirs = ['src/main/assets', '../assets']
+            assets.srcDirs +=  '../assets'
+            jniLibs.srcDirs = ['jniLibs']
         }
 
         instrumentTest.setRoot('tests')
@@ -26,19 +27,19 @@ android {
 // the natives configuration, and extracts them to the proper libs/ folders
 // so they get packed with the APK.
 task copyAndroidNatives() {
-    file("libs/armeabi/").mkdirs();
-    file("libs/armeabi-v7a/").mkdirs();
-    file("libs/arm64-v8a/").mkdirs();
-    file("libs/x86_64/").mkdirs();
-    file("libs/x86/").mkdirs();
+    file("jniLibs/armeabi/").mkdirs();
+    file("jniLibs/armeabi-v7a/").mkdirs();
+    file("jniLibs/arm64-v8a/").mkdirs();
+    file("jniLibs/x86_64/").mkdirs();
+    file("jniLibs/x86/").mkdirs();
 
     configurations.natives.files.each { jar ->
         def outputDir = null
-        if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("libs/arm64-v8a")
-        if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")
-        if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("libs/armeabi")
-        if (jar.name.endsWith("natives-x86_64.jar")) outputDir = file("libs/x86_64")
-        if (jar.name.endsWith("natives-x86.jar")) outputDir = file("libs/x86")
+        if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("jniLibs/arm64-v8a")
+        if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("jniLibs/armeabi-v7a")
+        if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("jniLibs/armeabi")
+        if (jar.name.endsWith("natives-x86_64.jar")) outputDir = file("jniLibs/x86_64")
+        if (jar.name.endsWith("natives-x86.jar")) outputDir = file("jniLibs/x86")
         if (outputDir != null) {
             copy {
                 from zipTree(jar)
@@ -71,7 +72,9 @@ task run(type: Exec) {
 }
 
 dependencies {
+    compile group: 'com.github.tony19', name: 'logback-android-classic', version: '1.0.10-2'
+    compile group: 'com.github.tony19', name: 'logback-android-core', version: '1.0.10-2'
+
 //    compile fileTree(dir: 'libs', include: '*.jar')
     compile files('libs/gdx-backend-android.jar')
-    compile files('libs/logback-android-1.0.10-2.jar')
 }
