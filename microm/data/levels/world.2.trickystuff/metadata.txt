@@ -1,7 +1,0 @@
-world.name = world.2.trickystuff
-
-#level declaration
-level#1.0
-level#1.1
-level#1.2
-level#1.3

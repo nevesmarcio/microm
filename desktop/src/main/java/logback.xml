@@ -1,0 +1,27 @@
+<configuration>
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%12.-12thread] %3.-3level %40.40(%class{40}.%M) %4.-4L - %msg%n</pattern>
+    </encoder>
+  </appender>
+  
+  <!-- 
+  <logger name="AbstractModel" level="DEBUG"/>
+  <logger name="AbstractView" level="DEBUG"/>
+  
+  <logger name="CameraModel" level="DEBUG"/>
+  <logger name="CameraView" level="DEBUG"/>
+  
+  <logger name="LevelLoader" level="DEBUG"/>
+  
+  <logger name="UIMetricsModel" level="DEBUG"/>
+  <logger name="UIMetricsView" level="DEBUG"/>
+   -->
+
+  <root level="OFF">
+    <appender-ref ref="STDOUT" />
+  </root>
+</configuration>
