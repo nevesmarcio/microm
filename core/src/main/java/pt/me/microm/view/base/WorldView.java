@@ -24,35 +24,36 @@ import com.badlogic.gdx.physics.box2d.WorldManifold;
 
 
 public class WorldView extends AbstractView {
-	private static final String TAG = WorldView.class.getSimpleName();
-	private static final Logger logger = LoggerFactory.getLogger(TAG);
+    private static final String TAG = WorldView.class.getSimpleName();
+    private static final Logger logger = LoggerFactory.getLogger(TAG);
 
-	private WorldModel wmSrc;
-	
-	private Sprite worldSprite;
-	private SpriteBatch batch = new SpriteBatch();
-	
-	public WorldView(WorldModel wmSrc) {  
-		super(wmSrc, 0);
-		this.wmSrc = wmSrc;
-		
-	}
-	
-	@Override
-	public void DelayedInit() {
+    private WorldModel wmSrc;
 
-		worldSprite = GAME_CONSTANTS.devAtlas.createSprite("bg");
-		
-		worldSprite.setSize(15.0f, 15.0f);
-		worldSprite.setOrigin(0.0f, 0.0f);
-		
-		batch = new SpriteBatch();
-	}
-	
-	
-	private List<Contact> temp = new ArrayList<Contact>();
-	@Override
-	public void draw(ScreenTickEvent e) {
+    private Sprite worldSprite;
+    private SpriteBatch batch = new SpriteBatch();
+
+    public WorldView(WorldModel wmSrc) {
+        super(wmSrc, 0);
+        this.wmSrc = wmSrc;
+
+    }
+
+    @Override
+    public void DelayedInit() {
+
+        worldSprite = GAME_CONSTANTS.devAtlas.createSprite("bg");
+
+        worldSprite.setSize(15.0f, 15.0f);
+        worldSprite.setOrigin(0.0f, 0.0f);
+
+        batch = new SpriteBatch();
+    }
+
+
+    private List<Contact> temp = new ArrayList<Contact>();
+
+    @Override
+    public void draw(ScreenTickEvent e) {
 //FIXME:Uma catreifada dos estouros fora da VM bate aqui 
 //      Em principio este pedaço de código provoca os estouros fora da VM!! (devido ao array estar a ser manipulado sem cópia?)		
 //
@@ -86,28 +87,28 @@ public class WorldView extends AbstractView {
 //			}		
 //		
 //		}
-		
-		renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
-		/* renderização dos joints */
-		Iterator<Joint> it = wmSrc.getWorldPhysicsManager().getPhysicsWorld().getJoints(); 
-		while (it.hasNext()){
-			Joint aux = it.next();
-			
-			renderer.identity();
-			renderer.translate(aux.getAnchorA().x, aux.getAnchorA().y, 0.0f);
-			
-			renderer.begin(ShapeType.Line);
-				renderer.setColor(1.0f, 0.5f, 0.5f, 1.0f);
-				renderer.line(0.0f, 0.0f, aux.getAnchorB().x-aux.getAnchorA().x, aux.getAnchorB().y-aux.getAnchorA().y);
-			renderer.end();
-		}
-		
+
+        renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+        /* renderização dos joints */
+        Iterator<Joint> it = wmSrc.getWorldPhysicsManager().getPhysicsWorld().getJoints();
+        while (it.hasNext()) {
+            Joint aux = it.next();
+
+            renderer.identity();
+            renderer.translate(aux.getAnchorA().x, aux.getAnchorA().y, 0.0f);
+
+            renderer.begin(ShapeType.Line);
+            renderer.setColor(1.0f, 0.5f, 0.5f, 1.0f);
+            renderer.line(0.0f, 0.0f, aux.getAnchorB().x - aux.getAnchorA().x, aux.getAnchorB().y - aux.getAnchorA().y);
+            renderer.end();
+        }
 
 
-	}
+    }
 
-	@Override
-	public void draw20(ScreenTickEvent e) {
-	}
-	
+    @Override
+    public void draw20(ScreenTickEvent e) {
+        draw(e);
+    }
+
 }

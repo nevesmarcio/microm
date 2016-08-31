@@ -20,65 +20,65 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 
 
 public class PortalView extends AbstractView {
-	private static final String TAG = PortalView.class.getSimpleName();
-	private static final Logger logger = LoggerFactory.getLogger(TAG);
-	
-	private PortalModel portalmSrc;
-	
-	private Mesh portalMesh;
-	
-	public PortalView(PortalModel portalmSrc) {
-		super(portalmSrc);
-		this.portalmSrc = portalmSrc;
-	}
+    private static final String TAG = PortalView.class.getSimpleName();
+    private static final Logger logger = LoggerFactory.getLogger(TAG);
 
-	@Override
-	public void DelayedInit() {
+    private PortalModel portalmSrc;
 
-		portalMesh = SimpleRendererHelper.buildMesh(portalmSrc.getBasicShape());
-	}
-	
-	
-	
-	private Vector2 pointA = new Vector2();
-	private Vector2 pointB = new Vector2();
-	@Override
-	public void draw(ScreenTickEvent e) {
+    private Mesh portalMesh;
 
-		SimpleRendererHelper.drawMesh(e.getCamera(), portalmSrc, portalMesh);
-	    
-	    //DEBUG STYLE 			-- desenha a "Shape" do portal
-		if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
-		    renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
-			
-			Iterator<Fixture> it2 = portalmSrc.getBody().getFixtureList().iterator();
-			
-			while (it2.hasNext()) {
-				Fixture aux = it2.next();
-				
-				renderer.identity();
-				renderer.translate(aux.getBody().getPosition().x, aux.getBody().getPosition().y, 0.0f);
-				renderer.rotate(0.0f, 0.0f, 1.0f, (float)Math.toDegrees(aux.getBody().getAngle()));
-				
-				ChainShape cs = (ChainShape)aux.getShape();
-				
-				renderer.begin(ShapeType.Line);
-					int vCnt = cs.getVertexCount();
-					for (int i = 0; i < vCnt; i++) {
-						cs.getVertex(i, pointA); 
-						cs.getVertex(i==vCnt-1 ? 0 : i + 1, pointB);
-						renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
-					}
-				renderer.end();
-				
-			}
-		}
+    public PortalView(PortalModel portalmSrc) {
+        super(portalmSrc);
+        this.portalmSrc = portalmSrc;
+    }
 
-	}
+    @Override
+    public void DelayedInit() {
 
-	@Override
-	public void draw20(ScreenTickEvent e) {
-		
-	}	
-	
+        portalMesh = SimpleRendererHelper.buildMesh(portalmSrc.getBasicShape());
+    }
+
+
+    private Vector2 pointA = new Vector2();
+    private Vector2 pointB = new Vector2();
+
+    @Override
+    public void draw(ScreenTickEvent e) {
+
+        SimpleRendererHelper.drawMesh(e.getCamera(), portalmSrc, portalMesh);
+
+        //DEBUG STYLE 			-- desenha a "Shape" do portal
+        if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
+            renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+
+            Iterator<Fixture> it2 = portalmSrc.getBody().getFixtureList().iterator();
+
+            while (it2.hasNext()) {
+                Fixture aux = it2.next();
+
+                renderer.identity();
+                renderer.translate(aux.getBody().getPosition().x, aux.getBody().getPosition().y, 0.0f);
+                renderer.rotate(0.0f, 0.0f, 1.0f, (float) Math.toDegrees(aux.getBody().getAngle()));
+
+                ChainShape cs = (ChainShape) aux.getShape();
+
+                renderer.begin(ShapeType.Line);
+                int vCnt = cs.getVertexCount();
+                for (int i = 0; i < vCnt; i++) {
+                    cs.getVertex(i, pointA);
+                    cs.getVertex(i == vCnt - 1 ? 0 : i + 1, pointB);
+                    renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
+                }
+                renderer.end();
+
+            }
+        }
+
+    }
+
+    @Override
+    public void draw20(ScreenTickEvent e) {
+        draw(e);
+    }
+
 }
