@@ -24,17 +24,21 @@ public class SimpleRendererHelper {
                     "uniform mat4 mModelViewMatrix;\n" +
                     "uniform mat4 mProjectionMatrix;\n" +
                     "attribute vec4 a_position; 		\n" +
+                    "attribute vec4 a_color;\n" +
+                    "varying vec4 v_color;\n" +
                     "void main()					\n" +
                     "{								\n" +
+                    "v_color = a_color; \n" +
                     "	gl_Position = mProjectionMatrix * mModelViewMatrix * a_position;\n" +
                     "}								\n";
     private static String fragmentShader =
             "#ifdef GL_ES 								\n" +
                     "precision mediump float;					\n" +
                     "#endif 									\n" +
+                    "varying vec4 v_color;\n" +
                     "void main()								\n" +
                     "{											\n" +
-                    "	gl_FragColor = vec4(0.0,0.0,0.0,1.0);	\n" +
+                    "	gl_FragColor = v_color;	\n" +
                     "}											\n";
     private static ShaderProgram shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
     static {
