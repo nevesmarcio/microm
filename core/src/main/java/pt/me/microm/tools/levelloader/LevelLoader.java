@@ -349,14 +349,14 @@ public class LevelLoader {
 				String d = dabox.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				String style = dabox.item(i).getAttributes().getNamedItem("style").getNodeValue();
 				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
-				
+
 				BasicShape s = new BasicShape(d, style, ObjectType.DABOX);
 				String dabox_name = dabox.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				daBoxRef = addDaBoxToWorld(modelBag, wm, s, dabox_name);
-				
+
 				nrElements+=1;
-			}			
-			
+			}
+
 			// Get Spawn
 			if (logger.isInfoEnabled()) logger.info("Spawn...");
 			expr = xpath.compile("//svg/g/path[contains(@id,'spawn')]");
@@ -365,14 +365,14 @@ public class LevelLoader {
 				String d = spawn.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				String style = spawn.item(i).getAttributes().getNamedItem("style").getNodeValue();
 				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
-				
+
 				BasicShape s = new BasicShape(d, style, ObjectType.SPAWN);
 				String spawn_name = spawn.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				addSpawnToWorld(modelBag, wm, daBoxRef, s, spawn_name);
-				
+
 				nrElements+=1;
 			}
-			
+
 			// Get Goals
 			if (logger.isInfoEnabled()) logger.info("Goals...");
 			expr = xpath.compile("//svg/g/path[contains(@id,'goal')]");
@@ -381,11 +381,11 @@ public class LevelLoader {
 				String d = goals.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				String style = goals.item(i).getAttributes().getNamedItem("style").getNodeValue();
 				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
-				
+
 				BasicShape s = new BasicShape(d, style, ObjectType.GOAL);
 				String goal_name = goals.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				addGoalToWorld(modelBag, wm, s, goal_name);
-				
+
 				nrElements+=1;
 			}
 
@@ -397,11 +397,11 @@ public class LevelLoader {
 				String d = grounds.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				String style = grounds.item(i).getAttributes().getNamedItem("style").getNodeValue();
 				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
-				
+
 				BasicShape s = new BasicShape(d, style, ObjectType.GROUND);
 				String ground_name = grounds.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				addGroundToWorld(modelBag, wm, s, ground_name);
-				
+
 				nrElements+=1;
 			}
 
@@ -414,11 +414,11 @@ public class LevelLoader {
 				String d = portals.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				String style = portals.item(i).getAttributes().getNamedItem("style").getNodeValue();
 				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
-				
+
 				BasicShape s = new BasicShape(d, style, ObjectType.PORTAL);
 				String portal_name = portals.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				addPortalToWorld(modelBag, wm, s, portal_name);
-				
+
 				nrElements+=1;
 			}
 
@@ -431,14 +431,14 @@ public class LevelLoader {
 				String d = walls.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				String style = walls.item(i).getAttributes().getNamedItem("style").getNodeValue();
 				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
-				
+
 				BasicShape s = new BasicShape(d, style, ObjectType.WALL);
 				String wall_name = walls.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				addWallToWorld(modelBag, wm, s, wall_name);
-				
+
 				nrElements+=1;
 			}
-			
+
 			// Get stars
 			if (logger.isInfoEnabled()) logger.info("Stars...");
 			//expr = xpath.compile("//svg/g/path[contains(@id,'portal')]/@d");
@@ -448,15 +448,15 @@ public class LevelLoader {
 				String d = stars.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				String style = stars.item(i).getAttributes().getNamedItem("style").getNodeValue();
 				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
-				
+
 				BasicShape s = new BasicShape(d, style, ObjectType.STAR);
 				String star_name = stars.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				addStarToWorld(modelBag, wm, s, star_name);
-				
+
 				nrElements+=1;
 			}
-			
-			
+
+
 			// Get text
 			if (logger.isInfoEnabled()) logger.info("Text...");
 			expr = xpath.compile("//svg/g/text[contains(@id,'text')]/tspan");
@@ -464,21 +464,21 @@ public class LevelLoader {
 			for (int i = 0; i < text.getLength(); i++) {
 				String id = text.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				if (logger.isInfoEnabled()) logger.info("[" + id + "]");
-				
+
 				String x = text.item(i).getAttributes().getNamedItem("x").getNodeValue();
 				String y = text.item(i).getAttributes().getNamedItem("y").getNodeValue();
 				String s = text.item(i).getTextContent();
-				
+
 				if (logger.isInfoEnabled()) logger.info("[" + id + "] = x: " + x + "; y: " + y + "; ==> '" + s + "'" );
 				BasicShape sh = new BasicShape("m " + x + "," + y, "", ObjectType.TEXT);
 				if (logger.isInfoEnabled()) logger.info(".:.:.:. " + sh.getCentroid() + " .:.:.:.");
-				
+
 				addTextToWorld(modelBag, wm, sh, id, s);
-				
+
 				nrElements+=1;
 			}
-			
-			
+
+
 			// Get triggers
 			if (logger.isInfoEnabled()) logger.info("Triggers...");
 			expr = xpath.compile("//svg/g/path[contains(@id,'trigger')]");
@@ -487,14 +487,14 @@ public class LevelLoader {
 				String d = triggers.item(i).getAttributes().getNamedItem("d").getNodeValue();
 				String style = triggers.item(i).getAttributes().getNamedItem("style").getNodeValue();
 				if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
-				
+
 				BasicShape s = new BasicShape(d, style, ObjectType.TRIGGER);
 				String trigger_name = triggers.item(i).getAttributes().getNamedItem("id").getNodeValue();
 				String script = triggers.item(i).getAttributes().getNamedItem("custom-script").getNodeValue();
 				addTriggerToWorld(modelBag, wm, s, trigger_name, script);
-				
+
 				nrElements+=1;
-			}			
+			}
 			
 			if (logger.isInfoEnabled()) logger.info("Finished Loading level: " + h.name());
 		

@@ -1,11 +1,15 @@
 package pt.me.microm;
 
-import java.util.ArrayList;
-import java.util.UUID;
-
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.input.GestureDetector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import pt.me.microm.api.JsBridgeSingleton;
 import pt.me.microm.controller.MyGestureListener;
 import pt.me.microm.controller.MyInputProcessor;
@@ -16,8 +20,6 @@ import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.event.IEvent;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.base.CameraControllerDrag;
-import pt.me.microm.model.base.CameraControllerStrafe;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.ui.UIMetricsModel;
@@ -26,14 +28,8 @@ import pt.me.microm.model.ui.utils.FlashMessageManagerModel;
 import pt.me.microm.session.PlayerProgress;
 import pt.me.microm.tools.levelloader.LevelLoader;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.input.GestureDetector;
+import java.util.ArrayList;
+import java.util.UUID;
 
 public class ScreenTheJuice implements Screen {
 
@@ -75,11 +71,11 @@ public class ScreenTheJuice implements Screen {
 		uiModel = new UIModel(cameraModel, worldModel); 						// constroi o painel informativo?
 		uiMetricsModel = new UIMetricsModel();									// metricas?
 		flashMessageManagerModel = FlashMessageManagerModel.getInstance(); 		// responsavel para apresentacao de flash messages
-		
+
 		if (GameMicroM.FLAG_LOAD_LEVEL) {
 			FileHandle h = Gdx.files.internal("data/levels/" + world + "/" + level);
 			modelBag = LevelLoader.LoadLevel(h, worldModel, cameraModel);
-			if (logger.isInfoEnabled()) logger.info("Nr elements loaded: " + modelBag.size());		
+			if (logger.isInfoEnabled()) logger.info("Nr elements loaded: " + modelBag.size());
 		}
 		worldModel.addListener(WorldModel.EventType.ON_WORLD_COMPLETED, new IEventListener() {
 			@Override
@@ -139,44 +135,44 @@ public class ScreenTheJuice implements Screen {
     		callback.handler("exit", ScreenTheJuice.this);
     	}
     	
-    	if (Gdx.input.isKeyPressed(Keys.PLUS)) {
+    	if (Gdx.input.isKeyPressed(Keys.P)) {
     		callback.handler("pause", ScreenTheJuice.this);
     	}
-		
-		// Clean do gl context
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		Gdx.gl.glClearColor(r, g, b, a);
+
+        // Clean do gl context
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+        Gdx.gl.glClearColor(r, g, b, a);
 
 		if ((screenTickManager != null) && screenTickManager.isAvailable())	
-			screenTickManager.fireEvent(false, cameraModel, elapsedNanoTime);
+			screenTickManager.fireEvent(true, cameraModel, elapsedNanoTime);
 		else
 			if (logger.isWarnEnabled()) logger.warn("screenTickManager not available");
 	}
 
-	@Override
-	public void resize(int width, int height) {
-		cameraModel.resize(width, height);
-	}
+    @Override
+    public void resize(int width, int height) {
+        cameraModel.resize(width, height);
+    }
 
-	@Override
-	public void show() {
-		if (logger.isDebugEnabled()) logger.debug("-->show()");
-	}
+    @Override
+    public void show() {
+        if (logger.isDebugEnabled()) logger.debug("-->show()");
+    }
 
-	@Override
-	public void hide() {
-		if (logger.isDebugEnabled()) logger.debug("-->hide()");
-	}
+    @Override
+    public void hide() {
+        if (logger.isDebugEnabled()) logger.debug("-->hide()");
+    }
 
-	@Override
-	public void pause() {
-		if (logger.isDebugEnabled()) logger.debug("-->pause()");
-	}
+    @Override
+    public void pause() {
+        if (logger.isDebugEnabled()) logger.debug("-->pause()");
+    }
 
-	@Override
-	public void resume() {
-		if (logger.isDebugEnabled()) logger.debug("-->resume()");
-	}
+    @Override
+    public void resume() {
+        if (logger.isDebugEnabled()) logger.debug("-->resume()");
+    }
 
 	@Override
 	public void dispose() {
@@ -191,12 +187,12 @@ public class ScreenTheJuice implements Screen {
 		uiModel.dispose();
 		uiMetricsModel.dispose();
 		flashMessageManagerModel.dispose();
-		
+
 		// dispose of modelBag
 		if (modelBag != null)
 			for (AbstractModel m : modelBag)
 				m.dispose();
-		
+
 		cs.dispose();
 	}
 

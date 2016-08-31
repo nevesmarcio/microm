@@ -10,7 +10,6 @@ import pt.me.microm.view.AbstractView;
 import pt.me.microm.view.helper.SimpleRendererHelper;
 
 import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
@@ -68,7 +67,7 @@ public class GroundView extends AbstractView {
 
 	@Override
 	public void draw20(ScreenTickEvent e) {
-		
+		draw(e);
 	}	
 	
 }

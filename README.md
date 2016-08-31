@@ -10,6 +10,20 @@ http://www.aurelienribon.com/blog/projects/universal-tween-engine/
 http://code.google.com/p/libgdx-texturepacker-gui/
 
 
+http://www.gamefromscratch.com/page/Game-Engine-guides.aspx
+
+
+2016-08-27
+# Revived the project
+# Introduced Gradle - all the libs on remote repos but libgdx, bodyeditor-loader, box2dlights and tween-engine
+# It is now running desktop and android on Mac where I left it a long time ago
+
+2016-08-28
+# started reading the screen flow code
+
+2016-08-29
+# started migrating to opengl 2.0
+
 [DONE]
 16-01-2013
 # estrutura inicial do projecto +/- estabilizado do ponto de vista da arquitectura

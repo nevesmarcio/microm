@@ -57,6 +57,7 @@ public class TextView extends AbstractView {
 	
 	@Override
 	public void draw20(ScreenTickEvent e) {
+	    draw(e);
 	}
 
 }

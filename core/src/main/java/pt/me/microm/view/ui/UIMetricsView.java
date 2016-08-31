@@ -86,7 +86,7 @@ public class UIMetricsView  extends AbstractView {
 
 	@Override
 	public void draw20(ScreenTickEvent e) {
-		
+		draw(e);
 	}	
 	
 }
