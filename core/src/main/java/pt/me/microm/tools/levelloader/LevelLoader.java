@@ -339,7 +339,7 @@ public class LevelLoader {
 				
 				nrElements+=1;
 			}
-			
+
 			// Get DaBox
 			DaBoxModel daBoxRef = null;
 			if (logger.isInfoEnabled()) logger.info("DaBox...");

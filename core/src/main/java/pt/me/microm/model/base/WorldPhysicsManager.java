@@ -164,7 +164,7 @@ public class WorldPhysicsManager {
 	 * Função a invocar fora do step do motor fisico
 	 */
 	public void update(GameTickEvent e) {
-		float elapsedNanoTime = e.getElapsedNanoTime();
+        float elapsedNanoTime = e.getElapsedNanoTime();
 		
 		if (logger.isDebugEnabled()) logger.debug("[WorldModel timestep]: time elapsed=" + elapsedNanoTime/GAME_CONSTANTS.ONE_SECOND_TO_NANO + "s");
 		

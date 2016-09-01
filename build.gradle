@@ -23,7 +23,7 @@ buildscript {
 allprojects {
     version = '1.0'
     ext {
-        gdxVersion = '1.0.0'
+        gdxVersion = '1.0.1'
     }
 
     repositories {

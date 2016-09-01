@@ -36,8 +36,8 @@ public class SimpleTriggerModel extends AbstractModel implements IActorBody {
 		
 	}
 	
-	public static SimpleTriggerModel getNewInstance(WorldModel wm, BasicShape wall, String name){
-		return new SimpleTriggerModel(wm, wall, name);
+	public static SimpleTriggerModel getNewInstance(WorldModel wm, BasicShape trigger, String name){
+		return new SimpleTriggerModel(wm, trigger, name);
 	}
 
 	
@@ -90,7 +90,7 @@ public class SimpleTriggerModel extends AbstractModel implements IActorBody {
 
 	@Override
 	public void beginContactWith(IActorBody oModel) {
-		if (logger.isDebugEnabled()) logger.debug("da trigger has been hitted!");
+		if (logger.isDebugEnabled()) logger.debug("da trigger has been hit!");
 	}
 	
 	@Override
