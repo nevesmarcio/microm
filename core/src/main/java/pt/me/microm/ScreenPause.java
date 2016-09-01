@@ -2,6 +2,7 @@ package pt.me.microm;
 
 import java.util.UUID;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,16 +90,19 @@ public class ScreenPause implements Screen {
 		logger.info("pause start!");
 		return new ScreenPause(callback);
 	}
-	
+
+
+    private static final String clear_color = "0606020F";
+    private static final float r = Color.valueOf(clear_color).r;
+    private static final float g = Color.valueOf(clear_color).g;
+    private static final float b = Color.valueOf(clear_color).b;
+    private static final float a = Color.valueOf(clear_color).a;
 	@Override
 	public void render(float delta) {
 
-		// Clean do gl context
-		// Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		// Gdx.gl.glClearColor(0.0f, 0.5f, 0.5f, 0.5f); // cyan
-		// Comment the last two lines to make the pause screen an overlay over the game screen
-		
-        Table.drawDebug(stage); // This is optional, but enables debug lines for tables.
+//        // Clean do gl context
+//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+//        Gdx.gl.glClearColor(r, g, b, a);
         
         stage.act(delta);
         stage.draw();

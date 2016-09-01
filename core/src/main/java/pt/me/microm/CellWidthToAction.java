@@ -1,8 +1,8 @@
 package pt.me.microm;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
-import com.esotericsoftware.tablelayout.Cell;
 
 public class CellWidthToAction extends TemporalAction {
 	private Widget widget;

@@ -11,8 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.esotericsoftware.tablelayout.Cell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
@@ -54,7 +52,7 @@ public class ScreenMenu implements Screen {
 		stage = new Stage();
 		
 		menuTable = new Table();
-		menuTable.debugWidget();//table.debug();//
+		menuTable.debug();
 		
 		menuTable.setFillParent(true);
 		menuTable.bottom().right().padBottom(50.0f);//.padRight(120.0f).padBottom(50.0f);
@@ -375,10 +373,7 @@ public class ScreenMenu implements Screen {
 		// Clean do gl context
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		Gdx.gl.glClearColor(r, g, b, a);
-		
-    	if (GameMicroM.FLAG_DISPLAY_SCENE2D_DEBUG_LINES)
-			Table.drawDebug(stage); // This is optional, but enables debug lines for tables.
-        
+
         stage.act(delta);
         stage.draw();
 

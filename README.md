@@ -29,7 +29,7 @@ http://www.gamefromscratch.com/page/Game-Engine-guides.aspx
 # next step is to upgrade libgdx
 
 2016-09-01
-# important code changes to resolve the problems that appeared after upgrading to libgdx 1.0.0
+# upgrading to libgdx 1.0.1 :: important code changes to resolve the problems that appeared 
     1) scene2d.ui - http://www.badlogicgames.com/wordpress/?p=3322
     2) vector3 scl and not mul
     3) changed method signature on Box2D World#getBodies and World#getJoints, pass in an Array to fill
@@ -39,8 +39,13 @@ http://www.gamefromscratch.com/page/Game-Engine-guides.aspx
         https://github.com/libgdx/libgdx
         https://github.com/czyzby/gdx-skins 
         https://github.com/libgdx/libgdx-skins
-    
-    
+# upgrading to libgdx 1.1.0 :: no changes required
+# upgrading to libgdx 1.2.0 :: important code changes to resolve the problems that appeared
+    1) Mostly harmless scene2d.ui package naming changes
+# upgrading to libgdx 1.3.1
+    1) scene2d.ui debugger methods changed
+# upgrading to libgdx 1.4.1
+    1)
 
 [DONE]
 16-01-2013
