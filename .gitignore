@@ -5,3 +5,4 @@
 /core/build/
 /desktop/build/
 /android/build/
+/android/jniLibs/*/*.so
