@@ -44,8 +44,8 @@ http://www.gamefromscratch.com/page/Game-Engine-guides.aspx
     1) Mostly harmless scene2d.ui package naming changes
 # upgrading to libgdx 1.3.1
     1) scene2d.ui debugger methods changed
-# upgrading to libgdx 1.4.1
-    1)
+# upgrading to libgdx 1.4.1 :: no changes required
+
 
 [DONE]
 16-01-2013
