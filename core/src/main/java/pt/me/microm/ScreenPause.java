@@ -2,6 +2,7 @@ package pt.me.microm;
 
 import java.util.UUID;
 
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,8 +52,8 @@ public class ScreenPause implements Screen {
 		stage.addActor(table);
 		// Add widgets to the table here
 		
-		TextureAtlas t = new TextureAtlas(Gdx.files.internal("data/scene2d/uiskin.atlas"), Gdx.files.internal("data/scene2d/"));
-		Skin skin = new Skin(Gdx.files.internal("data/scene2d/uiskin.json"), t);
+		TextureAtlas t = new TextureAtlas(Gdx.files.internal("data/scene2d/skin/uiskin.atlas"), Gdx.files.internal("data/scene2d/skin/"));
+		Skin skin = new Skin(Gdx.files.internal("data/scene2d/skin/uiskin.json"), t);
 		
 		
 		Actor a;
@@ -109,7 +110,7 @@ public class ScreenPause implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		//stage.setViewport(width, height, true);
-		stage.setViewport(800/2, 480/2, true);
+		stage.setViewport(new ExtendViewport(800/2, 480/2));
 	}
 
 	@Override

@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.nio.channels.ReadableByteChannel;
 import java.util.Iterator;
 
+import com.badlogic.gdx.utils.Array;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -200,7 +201,10 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
 	 * method to list objects by name
 	 */
 	public void listBodies() {
-		Iterator<Body> it = wm.getWorldPhysicsManager().getPhysicsWorld().getBodies();
+	    Array<Body> bodies = new Array<Body>();
+        wm.getWorldPhysicsManager().getPhysicsWorld().getBodies(bodies);
+
+        Iterator<Body> it = bodies.iterator();
 		out("start listing...");
 		while (it.hasNext()) {
 			Body b = it.next();
@@ -218,7 +222,10 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
 	 * method to lookup for an object given its name
 	 */
 	public Body findBodyByName(String searchName) {
-		Iterator<Body> it = wm.getWorldPhysicsManager().getPhysicsWorld().getBodies();
+        Array<Body> bodies = new Array<Body>();
+        wm.getWorldPhysicsManager().getPhysicsWorld().getBodies(bodies);
+
+	    Iterator<Body> it = bodies.iterator();
 
 		while (it.hasNext()) {
 			Body b = it.next();

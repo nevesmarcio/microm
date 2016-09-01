@@ -15,7 +15,6 @@ public class Main {
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "seeds-game";
-		cfg.useGL20 = true;
 		cfg.width = 320;//1024;//1280;//1600;//800;// 240 480 480 800
 		cfg.height = 240;//768;//800;//1200;//480;// 320 800 854 1280
 		cfg.vSyncEnabled = true;

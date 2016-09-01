@@ -28,6 +28,20 @@ http://www.gamefromscratch.com/page/Game-Engine-guides.aspx
 # managed to understand the basic concepts of vertex and fragment shaders - game is now opengl 2.0
 # next step is to upgrade libgdx
 
+2016-09-01
+# important code changes to resolve the problems that appeared after upgrading to libgdx 1.0.0
+    1) scene2d.ui - http://www.badlogicgames.com/wordpress/?p=3322
+    2) vector3 scl and not mul
+    3) changed method signature on Box2D World#getBodies and World#getJoints, pass in an Array to fill
+    4) Updated Box2D to the latest trunk. Body#applyXXX methods now take an additional boolean parameter
+    5) Removed tmp() from vector classes - http://www.badlogicgames.com/wordpress/?p=2840
+    6) Had to adopt an up-to-date skin: 
+        https://github.com/libgdx/libgdx
+        https://github.com/czyzby/gdx-skins 
+        https://github.com/libgdx/libgdx-skins
+    
+    
+
 [DONE]
 16-01-2013
 # estrutura inicial do projecto +/- estabilizado do ponto de vista da arquitectura

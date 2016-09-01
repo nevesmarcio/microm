@@ -70,7 +70,7 @@ public class DaBoxModel extends AbstractModel implements IActorBody {
 		float velChange = desiredXvel - vel.x;
 		float impulse = daBoxBody.getMass() * velChange; //disregard time factor
 		
-		daBoxBody.applyLinearImpulse(new Vector2(impulse, 0.0f), daBoxBody.getWorldCenter());
+		daBoxBody.applyLinearImpulse(new Vector2(impulse, 0.0f), daBoxBody.getWorldCenter(), true);
 
 	}
 
@@ -84,8 +84,8 @@ public class DaBoxModel extends AbstractModel implements IActorBody {
 	public void jump() {
 		//FIXME: É necessário escalar as forças mediante o timestep 
 		float force_to_apply = 235f; //N
-		daBoxBody.applyForceToCenter(0.0f, force_to_apply);
-		daBoxBody.applyTorque(10.0f); //N.m
+		daBoxBody.applyForceToCenter(0.0f, force_to_apply, true);
+		daBoxBody.applyTorque(10.0f, true); //N.m
 	}
 
 	// BodyInterface implementation

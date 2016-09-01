@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.badlogic.gdx.utils.Array;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,7 +91,9 @@ public class WorldView extends AbstractView {
 
         renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
         /* renderização dos joints */
-        Iterator<Joint> it = wmSrc.getWorldPhysicsManager().getPhysicsWorld().getJoints();
+        Array<Joint> joints = new Array<Joint>();
+        wmSrc.getWorldPhysicsManager().getPhysicsWorld().getJoints(joints);
+        Iterator<Joint> it = joints.iterator();
         while (it.hasNext()) {
             Joint aux = it.next();
 

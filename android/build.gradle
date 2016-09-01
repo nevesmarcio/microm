@@ -77,5 +77,5 @@ dependencies {
     compile group: 'com.github.tony19', name: 'logback-android-core', version: '1.0.10-2'
 
 //    compile fileTree(dir: 'libs', include: '*.jar')
-    compile files('libs/gdx-backend-android.jar')
+//    compile files('libs/gdx-backend-android.jar')
 }

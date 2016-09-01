@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.esotericsoftware.tablelayout.Cell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,8 +48,8 @@ public class ScreenMenu implements Screen {
 		this.playerProgress = playerProgress;
 		this.callback = callback;
 		
-		TextureAtlas t = new TextureAtlas(Gdx.files.internal("data/scene2d/uiskin.atlas"), Gdx.files.internal("data/scene2d/"));
-		Skin skin = new Skin(Gdx.files.internal("data/scene2d/uiskin.json"), t);		
+		TextureAtlas t = new TextureAtlas(Gdx.files.internal("data/scene2d/skin/uiskin.atlas"), Gdx.files.internal("data/scene2d/skin/"));
+		Skin skin = new Skin(Gdx.files.internal("data/scene2d/skin/uiskin.json"), t);
 		
 		stage = new Stage();
 		
@@ -67,7 +68,7 @@ public class ScreenMenu implements Screen {
 		titleTable = new Table();
 		titleTable.setFillParent(true);
 		titleTable.debug();
-		titleTable.bottom().right().padBottom(150.0f).size(200f, 80f);
+		titleTable.bottom().right().padBottom(150.0f).sizeBy(200f, 80f);
 		//imgTitle.setSize(550f, 80f);
 		titleTable.row().height(80f).width(200f);
 		Stack stkTitle = new Stack();
@@ -95,9 +96,7 @@ public class ScreenMenu implements Screen {
 				sb.append("#: "); sb.append(ScreenMenu.this.playerProgress.getDeathCount());
 				sb.append("\nstageW: "); sb.append(stage.getWidth());
 				sb.append(" stageH: "); sb.append(stage.getHeight());
-				sb.append("\nstageGW: "); sb.append(stage.getGutterWidth()*2);
-				sb.append(" stageGH: "); sb.append(stage.getGutterHeight()*2);
-				
+
 				((Label)b).setText(sb);
 				return false;
 			}
@@ -390,7 +389,7 @@ public class ScreenMenu implements Screen {
 		
 		//stage.setViewport(width, height, true);
 		// fixando o viewport permite que se fique com um sistema de coordenadas independente da resolução
-		stage.setViewport(1280/2, 800/2, true);
+		stage.getViewport().update(width, height, true);
 		
 		imgNorth.setSize(stage.getWidth(), 10f);
 		imgNorth.setPosition(0f, stage.getHeight()-imgNorth.getHeight());

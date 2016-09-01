@@ -191,7 +191,13 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 		return false;
 	}
 
-	@Override
+    @Override
+    public boolean panStop(float x, float y, int pointer, int button) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
 	public boolean zoom(float initialDistance, float distance) {
 		// TODO Auto-generated method stub
 		return false;

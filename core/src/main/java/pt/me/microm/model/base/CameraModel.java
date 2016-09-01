@@ -191,27 +191,27 @@ public class CameraModel extends AbstractModel {
 		if ((flags & CAM_MOVE_LEFT) != 0) {
 			temp = gameCamera.up.cpy();
 			temp.crs(gameCamera.direction); 
-			temp.mul(1.0f*MVSPD);
+			temp.scl(1.0f*MVSPD);
 			
 			gameCamera.translate(temp);
 		}
 		if ((flags & CAM_MOVE_RIGHT) != 0) {
 			temp = gameCamera.up.cpy();
 			temp.crs(gameCamera.direction); 
-			temp.mul(-1.0f*MVSPD);
+			temp.scl(-1.0f*MVSPD);
 			
 			gameCamera.translate(temp);			
 		}		
 		
 		if ((flags & CAM_MOVE_UP) != 0) {
 			temp = gameCamera.up.cpy();
-			temp.mul(1.0f*MVSPD);
+			temp.scl(1.0f*MVSPD);
 			
 			gameCamera.translate(temp);
 		}		
 		if ((flags & CAM_MOVE_DOWN) != 0) {
 			temp = gameCamera.up.cpy();
-			temp.mul(-1.0f*MVSPD);
+			temp.scl(-1.0f*MVSPD);
 			
 			gameCamera.translate(temp);		
 		}		
@@ -219,13 +219,13 @@ public class CameraModel extends AbstractModel {
 		
 		if ((flags & CAM_ZOOM_OUT) != 0) {
 			temp = gameCamera.direction.cpy();
-			temp.mul(-1.0f*MVSPD);
+			temp.scl(-1.0f*MVSPD);
 			
 			gameCamera.translate(temp);
 		}
 		if ((flags & CAM_ZOOM_IN) != 0) {
 			temp = gameCamera.direction.cpy();
-			temp.mul(1.0f*MVSPD);
+			temp.scl(1.0f*MVSPD);
 			
 			gameCamera.translate(temp);
 		}

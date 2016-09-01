@@ -80,7 +80,7 @@ public class CameraControllerDrag extends InputAdapter {
 		if (mode == TransformMode.Rotate) {
 			point.set(cam.getGameCamera().position).sub(lookAt);
 
-			if (point.tmp().nor().dot(yAxis) < 0.9999f) {
+			if (point.cpy().nor().dot(yAxis) < 0.9999f) {
 				xAxis.set(cam.getGameCamera().direction).crs(yAxis).nor();
 				rotMatrix.setToRotation(xAxis, delta.y / 5);
 				point.mul(rotMatrix);

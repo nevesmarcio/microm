@@ -34,9 +34,9 @@ public class DebugView extends AbstractView {
         renderer.identity();
         renderer.translate(debugmSrc.getPosition().x, debugmSrc.getPosition().y, 0.0f);
 
-        renderer.begin(ShapeType.FilledCircle);
+        renderer.begin(ShapeType.Filled);
         renderer.setColor(debugmSrc.getColor());
-        renderer.filledCircle(0.0f, 0.0f, debugmSrc.getRadius(), 50);
+        renderer.circle(0.0f, 0.0f, debugmSrc.getRadius(), 50);
         renderer.end();
 
         renderer.begin(ShapeType.Line);

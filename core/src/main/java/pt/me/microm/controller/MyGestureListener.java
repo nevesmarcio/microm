@@ -7,69 +7,82 @@ import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
 
 public class MyGestureListener implements GestureListener {
-	private static final String TAG = MyGestureListener.class.getSimpleName();
-	private static final Logger logger = LoggerFactory.getLogger(TAG);
-	
-	public MyGestureListener() {
+    private static final String TAG = MyGestureListener.class.getSimpleName();
+    private static final Logger logger = LoggerFactory.getLogger(TAG);
 
-	}
-	
-	@Override
-	public boolean touchDown(float x, float y, int pointer, int button) {
-		logger.debug("touchDown");
-		
-		return false;
-	}
+    public MyGestureListener() {
 
+    }
 
-	@Override
-	public boolean tap(float x, float y, int count, int button) {
-		logger.debug("tap");
-		
-		return false;
-	}
+    @Override
+    public boolean touchDown(float x, float y, int pointer, int button) {
+        if (logger.isDebugEnabled())
+            logger.debug("touchDown");
+
+        return false;
+    }
 
 
-	@Override
-	public boolean longPress(float x, float y) {
-		logger.debug("longPress");
-		
-		return false;
-	}
+    @Override
+    public boolean tap(float x, float y, int count, int button) {
+        if (logger.isDebugEnabled())
+            logger.debug("tap");
+
+        return false;
+    }
 
 
-	@Override
-	public boolean fling(float velocityX, float velocityY, int button) {
-		logger.debug("fling");
-		
-		return false;
-	}
+    @Override
+    public boolean longPress(float x, float y) {
+        if (logger.isDebugEnabled())
+            logger.debug("longPress");
+
+        return false;
+    }
 
 
-	@Override
-	public boolean pan(float x, float y, float deltaX, float deltaY) {
-		logger.debug("pan");
-		
-		return false;
-	}
-	
+    @Override
+    public boolean fling(float velocityX, float velocityY, int button) {
+        if (logger.isDebugEnabled())
+            logger.debug("fling");
 
-	@Override
-	public boolean zoom(float originalDistance, float currentDistance) {
-		logger.debug("zoom");
+        return false;
+    }
 
-		return false;
-	}
 
-	@Override
-	public boolean pinch(Vector2 initialFirstPointer,
-			Vector2 initialSecondPointer, Vector2 firstPointer,
-			Vector2 secondPointer) {
-		logger.debug("pinch");
+    @Override
+    public boolean pan(float x, float y, float deltaX, float deltaY) {
+        if (logger.isDebugEnabled())
+            logger.debug("pan");
 
-		return false;
-	}
+        return false;
+    }
 
+    @Override
+    public boolean panStop(float x, float y, int pointer, int button) {
+        if (logger.isDebugEnabled())
+            logger.debug("panStop");
+
+        return false;
+    }
+
+    @Override
+    public boolean zoom(float originalDistance, float currentDistance) {
+        if (logger.isDebugEnabled())
+            logger.debug("zoom");
+
+        return false;
+    }
+
+    @Override
+    public boolean pinch(Vector2 initialFirstPointer,
+                         Vector2 initialSecondPointer, Vector2 firstPointer,
+                         Vector2 secondPointer) {
+        if (logger.isDebugEnabled())
+            logger.debug("pinch");
+
+        return false;
+    }
 
 
 }

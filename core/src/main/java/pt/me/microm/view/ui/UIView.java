@@ -58,7 +58,7 @@ public class UIView extends AbstractView {
 
                 renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 
-                renderer.begin(ShapeType.Circle);
+                renderer.begin(ShapeType.Line);
                 renderer.identity();
                 renderer.translate(intersection_point.x, intersection_point.y, intersection_point.z);
                 renderer.setColor(Color.RED);
@@ -73,7 +73,7 @@ public class UIView extends AbstractView {
         OrthographicCamera c;
         renderer.setProjectionMatrix((c = e.getCamera().getUiCamera()).combined);
 
-        renderer.begin(ShapeType.Circle);
+        renderer.begin(ShapeType.Line);
         for (int i = 0; i < GAME_CONSTANTS.MAX_TOUCH_POINTS; i++) {
             if (uiSrc.getWorldCoordTestPoint()[i] != null) {
                 renderer.identity();
