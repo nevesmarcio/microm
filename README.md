@@ -24,6 +24,10 @@ http://www.gamefromscratch.com/page/Game-Engine-guides.aspx
 2016-08-29
 # started migrating to opengl 2.0
 
+2016-08-31
+# managed to understand the basic concepts of vertex and fragment shaders - game is now opengl 2.0
+# next step is to upgrade libgdx
+
 [DONE]
 16-01-2013
 # estrutura inicial do projecto +/- estabilizado do ponto de vista da arquitectura
