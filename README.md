@@ -45,7 +45,8 @@ http://www.gamefromscratch.com/page/Game-Engine-guides.aspx
 # upgrading to libgdx 1.3.1
     1) scene2d.ui debugger methods changed
 # upgrading to libgdx 1.4.1 :: no changes required
-
+# upgrading to libgdx 1.5.2 :: no changes required
+# upgraded to java 7 :: no issues - now runs on mac
 
 [DONE]
 16-01-2013
