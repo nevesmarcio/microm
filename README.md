@@ -47,6 +47,9 @@ http://www.gamefromscratch.com/page/Game-Engine-guides.aspx
 # upgrading to libgdx 1.4.1 :: no changes required
 # upgrading to libgdx 1.5.2 :: no changes required
 # upgraded to java 7 :: no issues - now runs on mac
+# upgraded to libgdx 1.5.6 :: important code changes to resolve the problems that appeared
+    1) Mostly harmless package renaming for alignemnt constants
+    2) Font api changes: http://www.badlogicgames.com/wordpress/?p=3658
 
 [DONE]
 16-01-2013

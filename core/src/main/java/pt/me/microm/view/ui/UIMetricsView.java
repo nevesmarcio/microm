@@ -78,7 +78,7 @@ public class UIMetricsView extends AbstractView {
             pulsingFont.setColor(Color.WHITE);
             if (pulsingFont.getScaleX() > 1.5f || pulsingFont.getScaleX() < 0.5f)
                 direction = !direction;
-            pulsingFont.setScale(pulsingFont.getScaleX() + (direction ? 0.1f : -0.1f));
+            pulsingFont.getData().setScale(pulsingFont.getScaleX() + (direction ? 0.1f : -0.1f));
             pulsingFont.draw(batch, xx, (int) textPosition3.x - e.getCamera().getUiCamera().viewportWidth / 2, (int) textPosition3.y - e.getCamera().getUiCamera().viewportHeight / 2);
             batch.end();
         }
