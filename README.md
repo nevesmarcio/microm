@@ -39,18 +39,19 @@ http://www.gamefromscratch.com/page/Game-Engine-guides.aspx
         https://github.com/libgdx/libgdx
         https://github.com/czyzby/gdx-skins 
         https://github.com/libgdx/libgdx-skins
-# upgrading to libgdx 1.1.0 :: no changes required
 # upgrading to libgdx 1.2.0 :: important code changes to resolve the problems that appeared
     1) Mostly harmless scene2d.ui package naming changes
 # upgrading to libgdx 1.3.1
     1) scene2d.ui debugger methods changed
-# upgrading to libgdx 1.4.1 :: no changes required
-# upgrading to libgdx 1.5.2 :: no changes required
 # upgraded to java 7 :: no issues - now runs on mac
+
+2016-09-02
 # upgraded to libgdx 1.5.6 :: important code changes to resolve the problems that appeared
     1) Mostly harmless package renaming for alignemnt constants
     2) Font api changes: http://www.badlogicgames.com/wordpress/?p=3658
-
+# upgraded to libgdx 1.9.4 :: important code changes to resolve the problems that appeared
+    1) Added pinchStop method to GestureListener interface
+    
 [DONE]
 16-01-2013
 # estrutura inicial do projecto +/- estabilizado do ponto de vista da arquitectura

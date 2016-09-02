@@ -84,5 +84,9 @@ public class MyGestureListener implements GestureListener {
         return false;
     }
 
-
+    @Override
+    public void pinchStop() {
+        if (logger.isDebugEnabled())
+            logger.debug("pinchStop");
+    }
 }

@@ -210,7 +210,12 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 		return false;
 	}
 
-	// InputProcessor interface implementation
+    @Override
+    public void pinchStop() {
+        // TODO Auto-generated method stub
+    }
+
+    // InputProcessor interface implementation
 	@Override
 	public boolean keyDown(int keycode) {
 
