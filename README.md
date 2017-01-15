@@ -51,6 +51,13 @@ http://www.gamefromscratch.com/page/Game-Engine-guides.aspx
     2) Font api changes: http://www.badlogicgames.com/wordpress/?p=3658
 # upgraded to libgdx 1.9.4 :: important code changes to resolve the problems that appeared
     1) Added pinchStop method to GestureListener interface
+# new goal - improved svg coordinate system understanding
+    1) should I write my own stuff with this here: http://www.deluge.co/?q=box2d-parsing-inkscape-files-in-java ?
+
+Portals 
+https://blog.applepinegames.com/2d-portals-e293dc41a61e#.b3j0y1ph0
+
+
     
 [DONE]
 16-01-2013
@@ -520,8 +527,3 @@ Assumir uma resolução e partir daí, com downscale/ upscale
 [BUGS]
 # ao fazer rotate o OPENGL parte-se todo. averiguar pq. Para resolver, forçei o layout a landscape na app android
 # A cópia das matrizes ".cpy()" no portalView aloca memoria de embarda...
-
-
-[ideias]
-# sistema de niveis com percentagens e temas tipo o blast the monkey, ou o cut the ropee
-# usar a facilidade de port do libgdx para o browser para fazer hosting de games (network) and bets and stuff

@@ -14,16 +14,17 @@ buildscript {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.3' // version of the android gradle plugin to use
+        classpath 'com.android.tools.build:gradle:2.2.3' // version of the android gradle plugin to use
     }
 }
 
 allprojects {
     version = '1.0'
     ext {
-        gdxVersion = '1.9.4'
+        gdxVersion = '1.9.5'
     }
 
     repositories {
@@ -31,6 +32,7 @@ allprojects {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        jcenter()
     }
 }
 
