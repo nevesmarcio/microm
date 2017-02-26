@@ -1,13 +1,12 @@
 package pt.me.microm.tools.levelloader;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import com.badlogic.gdx.math.Vector2;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.LoggerFactory;
 
-import com.badlogic.gdx.math.Vector2;
+import java.util.logging.Level;
 
 /**
  *
@@ -17,7 +16,7 @@ import com.badlogic.gdx.math.Vector2;
  * @author mneves
  */
 public class BasicShapeTest {
-    private static final Logger log = Logger.getLogger(BasicShapeTest.class.getSimpleName());
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(BasicShapeTest.class.getSimpleName());
 
     private BasicShape basicShape;
 
@@ -47,7 +46,7 @@ public class BasicShapeTest {
                 "fill:#ff6600;fill-opacity:0.71;stroke:none",
                 ObjectType.TEXT);
 
-        if (log.isLoggable(Level.INFO)) log.info("Read color: " + basicShape.getFillColor().toString());
+        log.info("Read color: " + basicShape.getFillColor().toString());
 
         assert (basicShape.getFillColor().r == (float) 0xff / (float) 0xff);
         assert (basicShape.getFillColor().g == (float) 0x66 / (float) 0xff);

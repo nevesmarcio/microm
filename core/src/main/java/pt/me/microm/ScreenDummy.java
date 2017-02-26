@@ -40,7 +40,7 @@ public class ScreenDummy implements Screen {
     }
 
 
-    private static final String clear_color = "1606120F";
+    private static final String clear_color = "F606120F";
     private static final float r = Color.valueOf(clear_color).r;
     private static final float g = Color.valueOf(clear_color).g;
     private static final float b = Color.valueOf(clear_color).b;

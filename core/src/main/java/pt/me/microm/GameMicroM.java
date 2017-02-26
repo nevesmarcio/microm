@@ -68,6 +68,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
                     ((Screen) a[1]).dispose();
 
                     setScreen(null);
+
                 } else if (((String) a[0]).equalsIgnoreCase("play")) {
 
                     ((Screen) a[1]).hide();
@@ -122,10 +123,15 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
             public Object handler(final Object... a) {
                 logger.info("-->> ScreenTheJuice callback called with '{}' command!", (String) a[0]);
 
-                ((Screen) a[1]).hide();
-                ((Screen) a[1]).dispose();
+                if (a!=null && ((String)a[0]).equalsIgnoreCase("pause")) {
+                    pauseGame((Screen)a[1]);
+                } else {
 
-                menu(playerProgress);
+                    ((Screen) a[1]).hide();
+                    ((Screen) a[1]).dispose();
+
+                    menu(playerProgress);
+                }
 //				setScreen(null);
 
 
@@ -136,9 +142,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
 //
 //					menu(playerProgress);					
 //				}
-				if (a!=null && ((String)a[0]).equalsIgnoreCase("pause")) {
-					pauseGame((Screen)a[1]);
-				}
+
 //				if (a!=null && ((String)a[0]).equalsIgnoreCase("completed")) {
 //					
 //					((Screen)a[1]).hide();
@@ -200,7 +204,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
         if (this.getScreen() == null) {
             // Clean do gl context
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-            Gdx.gl.glClearColor(0.090f, 0.090f, 0.090f, 1); // almost white
+            Gdx.gl.glClearColor(0.090f, 0.090f, 0.990f, 1); // almost white
 //			Gdx.app.exit();
         }
     }

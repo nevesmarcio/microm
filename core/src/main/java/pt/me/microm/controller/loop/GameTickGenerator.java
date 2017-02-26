@@ -55,13 +55,12 @@ public class GameTickGenerator implements IProcessRunnable, Disposable {
 	 * the event listeners of the particular event
 	 * @param elapsedNanoTime
 	 */
-	private GameTickEvent event = new GameTickEvent(this); 		// reutilização do evento
-	private Iterator<IGameTick> i; 								// reutilização da variável para iteração sobre a lista
+	private GameTickEvent event = new GameTickEvent(this); 	        // reutilização do evento
+	private Iterator<IGameTick> i; 								            // reutilização da variável para iteração sobre a lista
 	private boolean print = false;
-	private IGameTick gti; 										// reutilização do GameTickInterface
-	private List<IGameTick> temp_listeners =
-			new ArrayList<IGameTick>();							// reutilização da lista de listeners
-	private boolean isTempListenersDirty = true;				// variável de controlo para saber se a lista de listeners mudou
+	private IGameTick gti; 										            // reutilização do GameTickInterface
+	private List<IGameTick> temp_listeners = new ArrayList<IGameTick>();    // reutilização da lista de listeners
+	private boolean isTempListenersDirty = true;				            // variável de controlo para saber se a lista de listeners mudou
 	private synchronized void fireEvent(long elapsedNanoTime) {
 		event.setElapsedNanoTime(elapsedNanoTime);
 

@@ -4,5 +4,5 @@ import pt.me.microm.controller.loop.event.GameTickEvent;
 
 
 public interface IGameTick {
-    public void handleGameTick(GameTickEvent e);
+    void handleGameTick(GameTickEvent e);
 }

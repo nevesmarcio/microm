@@ -3,6 +3,7 @@ package pt.me.microm;
 import java.util.UUID;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,7 +93,7 @@ public class ScreenPause implements Screen {
 	}
 
 
-    private static final String clear_color = "0606020F";
+    private static final String clear_color = "0666020F";
     private static final float r = Color.valueOf(clear_color).r;
     private static final float g = Color.valueOf(clear_color).g;
     private static final float b = Color.valueOf(clear_color).b;
@@ -101,8 +102,8 @@ public class ScreenPause implements Screen {
 	public void render(float delta) {
 
 //        // Clean do gl context
-//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-//        Gdx.gl.glClearColor(r, g, b, a);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+        Gdx.gl.glClearColor(r, g, b, a);
         
         stage.act(delta);
         stage.draw();
@@ -114,7 +115,7 @@ public class ScreenPause implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		//stage.setViewport(width, height, true);
-		stage.setViewport(new ExtendViewport(800/2, 480/2));
+//		stage.setViewport(new ExtendViewport(800/2, 480/2));
 	}
 
 	@Override

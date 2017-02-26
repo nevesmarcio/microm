@@ -13,6 +13,11 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 http://www.gamefromscratch.com/page/Game-Engine-guides.aspx
 
 
+2017-02-19
+Spring boot for dependency management?
+http://mnkartik.github.io/spring-boot/spring-boot-hello-world-standalone-application
+
+
 2016-08-27
 # Revived the project
 # Introduced Gradle - all the libs on remote repos but libgdx, bodyeditor-loader, box2dlights and tween-engine
