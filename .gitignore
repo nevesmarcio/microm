@@ -6,3 +6,6 @@
 /desktop/build/
 /android/build/
 /android/jniLibs/*/*.so
+*.iml
+/*/*.iml
+/batik-example/

@@ -25,5 +25,11 @@ dependencies {
     testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.7'
     testCompile group: 'ch.qos.logback', name: 'logback-core', version: '1.1.7'
 
+    // In theory I would only need the parser, however I'm interested in rasterizing the levels automatically
+    testCompile group: 'org.apache.xmlgraphics', name: 'batik-rasterizer', version: '1.8'
+    testCompile group: 'org.apache.xmlgraphics', name: 'batik-parser', version: '1.8'
+    // https://mvnrepository.com/artifact/com.fasterxml/aalto-xml
+    testCompile group: 'com.fasterxml', name: 'aalto-xml', version: '1.0.0'
+
 
 }
