@@ -2,6 +2,7 @@ package tutorial.asyncio;
 
 import com.badlogic.gdx.Gdx;
 import helper.GameTest;
+import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,16 +18,22 @@ import java.nio.file.Paths;
 import static java.nio.file.StandardOpenOption.*;
 
 public class AsyncIOTest extends GameTest {
-    private static final Logger log = LoggerFactory.getLogger(AsyncIOTest.class.getSimpleName());
+    private static final Logger log = LoggerFactory.getLogger(AsyncIOTest.class);
+
+    private String p;
+
+    @Before
+    public void setUp() throws Exception {
+        log.debug(Gdx.files.getLocalStoragePath());
+        log.debug(Gdx.files.getExternalStoragePath());
+
+        p = Gdx.files.local("test.txt").path();
+    }
 
     @Test
     public void testAsyncWriteWithHandler() throws Exception {
         log.debug("asyncWrite");
 
-        log.debug(Gdx.files.getLocalStoragePath());
-        log.debug(Gdx.files.getExternalStoragePath());
-
-        String p = Gdx.files.local("test.txt").path();
         Path path = Paths.get(p);
         AsynchronousFileChannel afc = AsynchronousFileChannel.open(path, WRITE, CREATE);
         WriteHandler handler = new WriteHandler();
@@ -46,7 +53,7 @@ public class AsyncIOTest extends GameTest {
     public void testAsyncReadWithHandler() throws Exception {
         log.debug("asyncRead");
 
-        Path path = Paths.get("test.txt");
+        Path path = Paths.get(p);
         AsynchronousFileChannel afc = AsynchronousFileChannel.open(path, READ);
         ReadHandler handler = new ReadHandler();
         int fileSize = (int) afc.size();

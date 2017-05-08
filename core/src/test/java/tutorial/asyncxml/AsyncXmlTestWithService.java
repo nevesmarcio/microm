@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.xml.stream.XMLStreamException;
 
-public class AsyncXmlTest2 extends GameTest {
-    private static final Logger log = LoggerFactory.getLogger(AsyncXmlTest2.class.getSimpleName());
+public class AsyncXmlTestWithService extends GameTest {
+    private static final Logger log = LoggerFactory.getLogger(AsyncXmlTestWithService.class);
 
     @Test
     public void testAsyncXMLRead() {
