@@ -17,6 +17,9 @@ import java.nio.file.Paths;
 
 import static java.nio.file.StandardOpenOption.*;
 
+/**
+ * http://niklasschlimm.blogspot.com.es/2012/04/java-7-asynchronous-file-channels-part.html
+ */
 public class AsyncIOTest extends GameTest {
     private static final Logger log = LoggerFactory.getLogger(AsyncIOTest.class);
 

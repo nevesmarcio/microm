@@ -6,25 +6,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tutorial.asyncio.AsyncIOTest;
 
-import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousFileChannel;
 import java.nio.channels.CompletionHandler;
-import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-
-import static java.nio.file.StandardOpenOption.READ;
 
 public class AsyncXmlTestWithServiceAndIO extends GameTest {
     private static final Logger log = LoggerFactory.getLogger(AsyncXmlTestWithServiceAndIO.class);
@@ -38,14 +31,13 @@ public class AsyncXmlTestWithServiceAndIO extends GameTest {
     }
 
     @Test
-    public void testAsyncXMLReadSingleThread() throws IOException, InterruptedException {
-        log.debug("testAsyncXMLReadSingleThread");
+    public void testAsyncXMLReadSingleThreadNonRecursive() throws IOException, InterruptedException {
+        log.debug("testAsyncXMLReadSingleThreadNonRecursive");
 
         final AsyncXmlService asyncXmlService = new AsyncXmlService();
 
         Path path = Paths.get(p);
         AsynchronousFileChannel afc = AsynchronousFileChannel.open(path, new HashSet<StandardOpenOption>(Arrays.asList(StandardOpenOption.READ)),Executors.newSingleThreadExecutor());
-//        AsyncIOTest.ReadHandler handler = new AsyncIOTest.ReadHandler();
         int fileSize = (int) afc.size();
         ByteBuffer dataBuffer = ByteBuffer.allocate(READ_BUFFER_SIZE);
 
@@ -89,15 +81,14 @@ public class AsyncXmlTestWithServiceAndIO extends GameTest {
     }
 
     @Test
-    public void testAsyncXMLReadInneficientThreads() throws IOException, InterruptedException {
-        log.debug("testAsyncXMLReadInneficientThreads");
+    public void testAsyncXMLReadSingleThreadRecursive() throws IOException, InterruptedException {
+        log.debug("testAsyncXMLReadSingleThreadRecursive");
 
         final AsyncXmlService asyncXmlService = new AsyncXmlService();
 
         Path path = Paths.get(p);
-//        AsynchronousFileChannel afc = AsynchronousFileChannel.open(path, READ);
         AsynchronousFileChannel afc = AsynchronousFileChannel.open(path, new HashSet<StandardOpenOption>(Arrays.asList(StandardOpenOption.READ)),Executors.newSingleThreadExecutor());
-//        AsyncIOTest.ReadHandler handler = new AsyncIOTest.ReadHandler();
+
         int fileSize = (int) afc.size();
         ByteBuffer dataBuffer = ByteBuffer.allocate(READ_BUFFER_SIZE);
 
@@ -113,6 +104,13 @@ public class AsyncXmlTestWithServiceAndIO extends GameTest {
                 log.debug("{}, {}", new Object[]{result, attachment.buffer.toString()});
                 if (result!=-1) {
                     attachment.pointer+=result;
+
+                    attachment.buffer.flip(); // flip the buffer for reading
+                    byte[] bytes = new byte[attachment.buffer.remaining()]; // create a byte array the length of the number of bytes written to the buffer
+                    attachment.buffer.get(bytes); // read the bytes that were written
+                    String packet = new String(bytes);
+                    System.out.println(packet);
+
                     attachment.buffer.clear();
 
                     attachment.asyncChannel.read(attachment.buffer, attachment.pointer,attachment, this);
