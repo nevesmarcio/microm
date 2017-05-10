@@ -23,7 +23,7 @@ public class AsyncXmlTestWithServiceAndIO extends GameTest {
     private static final Logger log = LoggerFactory.getLogger(AsyncXmlTestWithServiceAndIO.class);
 
     private String p;
-    private final int READ_BUFFER_SIZE = (int) Math.pow(2, 10); //2^5=32
+    private final int READ_BUFFER_SIZE = (int) Math.pow(2, 12); //2^5=32;2^10=1024;
 
     @Before
     public void setUp() throws Exception {
