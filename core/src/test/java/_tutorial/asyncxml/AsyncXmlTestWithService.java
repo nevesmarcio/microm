@@ -1,6 +1,7 @@
-package tutorial.asyncxml;
+package _tutorial.asyncxml;
 
 import helper.GameTest;
+import marcio.xml.AsyncXmlService;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package tutorial.asyncxml;
+package _tutorial.asyncio;
 
 import com.badlogic.gdx.Gdx;
 import helper.GameTest;
@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import marcio.xml.AsyncXmlService;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -19,8 +20,8 @@ import java.util.HashSet;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 
-public class AsyncXmlTestWithServiceAndIO extends GameTest {
-    private static final Logger log = LoggerFactory.getLogger(AsyncXmlTestWithServiceAndIO.class);
+public class AsyncIOChunkedTest extends GameTest {
+    private static final Logger log = LoggerFactory.getLogger(AsyncIOChunkedTest.class);
 
     private String p;
     private final int READ_BUFFER_SIZE = (int) Math.pow(2, 12); //2^5=32;2^10=1024;

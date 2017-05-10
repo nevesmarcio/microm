@@ -1,4 +1,4 @@
-package tutorial.asyncio;
+package _tutorial.asyncio;
 
 import com.badlogic.gdx.Gdx;
 import helper.GameTest;
@@ -35,7 +35,7 @@ public class AsyncIOTest extends GameTest {
 
     @Test
     public void testAsyncWriteWithHandler() throws Exception {
-        log.debug("asyncWrite");
+        log.debug("testAsyncWriteWithHandler");
 
         Path path = Paths.get(p);
         AsynchronousFileChannel afc = AsynchronousFileChannel.open(path, WRITE, CREATE);
@@ -54,7 +54,7 @@ public class AsyncIOTest extends GameTest {
 
     @Test
     public void testAsyncReadWithHandler() throws Exception {
-        log.debug("asyncRead");
+        log.debug("testAsyncReadWithHandler");
 
         Path path = Paths.get(p);
         AsynchronousFileChannel afc = AsynchronousFileChannel.open(path, READ);

@@ -1,4 +1,4 @@
-package tutorial.rxjava;
+package _tutorial.rxjava;
 
 import helper.GameTest;
 import io.reactivex.*;

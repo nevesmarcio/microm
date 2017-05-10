@@ -1,4 +1,4 @@
-package tutorial.asyncxml;
+package _tutorial.asyncxml;
 
 import com.fasterxml.aalto.AsyncByteArrayFeeder;
 import com.fasterxml.aalto.AsyncXMLInputFactory;
