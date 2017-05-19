@@ -1,4 +1,4 @@
-package _tutorial.asyncio;
+package _tutorial.nio;
 
 import com.badlogic.gdx.Gdx;
 import helper.GameTest;

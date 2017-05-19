@@ -1,4 +1,4 @@
-package _tutorial.asyncxml;
+package marcio.xml;
 
 import helper.GameTest;
 import marcio.xml.AsyncXmlService;
@@ -28,18 +28,21 @@ public class AsyncXmlTestWithService extends GameTest {
 //                    Thread.sleep(3000);
                     String p1 = "<employee style=\"uber\">\n" +
                             "    <id>1</id>\n" +
+                            "    <other>\n" +
+                            "        <coolyn value=\"true\"/>\n" +
+                            "    </other>" +
                             "    <na";
                     timeA = System.nanoTime();
                     log.debug("chunk-1::{}", p1);
                     asyncXmlService.feedInput(p1.getBytes(), 0, p1.getBytes().length);
-                    log.trace("waited: {}µs", new Object[]{(System.nanoTime() - timeA)/1000});
+                    log.info("waited: {}µs", new Object[]{(System.nanoTime() - timeA)/1000});
 
 //                    Thread.sleep(3000);
                     String p2 = "me>Alba</name>    <salary>10";
                     timeA = System.nanoTime();
                     log.debug("chunk-2::{}", p2);
                     asyncXmlService.feedInput(p2.getBytes(), 0, p2.getBytes().length);
-                    log.trace("waited: {}µs", new Object[]{(System.nanoTime() - timeA)/1000});
+                    log.info("waited: {}µs", new Object[]{(System.nanoTime() - timeA)/1000});
 
 //                    Thread.sleep(3000);
                     String p3 = "0</salary>\n" +
@@ -47,7 +50,7 @@ public class AsyncXmlTestWithService extends GameTest {
                     timeA = System.nanoTime();
                     log.debug("chunk-3::{}", p3);
                     asyncXmlService.feedInput(p3.getBytes(), 0, p3.getBytes().length);
-                    log.trace("waited: {}µs", new Object[]{(System.nanoTime() - timeA)/1000});
+                    log.info("waited: {}µs", new Object[]{(System.nanoTime() - timeA)/1000});
 
 //                    Thread.sleep(3000);
                     String p4 = "ght=\"177\"/>\n" +
@@ -56,7 +59,7 @@ public class AsyncXmlTestWithService extends GameTest {
                     timeA = System.nanoTime();
                     log.debug("chunk-4::{}", p4);
                     asyncXmlService.feedInput(p4.getBytes(), 0, p4.getBytes().length);
-                    log.trace("waited: {}µs", new Object[]{(System.nanoTime() - timeA)/1000});
+                    log.info("waited: {}µs", new Object[]{(System.nanoTime() - timeA)/1000});
 
 //                    Thread.sleep(5000);
                     timeA = System.nanoTime();
@@ -65,7 +68,7 @@ public class AsyncXmlTestWithService extends GameTest {
                     log.info("waited: {}µs", new Object[]{(System.nanoTime() - timeA)/1000});
 
 
-                } catch (XMLStreamException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
