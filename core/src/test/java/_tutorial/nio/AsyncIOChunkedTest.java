@@ -35,7 +35,7 @@ public class AsyncIOChunkedTest extends GameTest {
     public void testAsyncXMLReadSingleThreadNonRecursive() throws IOException, InterruptedException {
         log.debug("testAsyncXMLReadSingleThreadNonRecursive");
 
-        final AsyncXmlService asyncXmlService = new AsyncXmlService();
+        final AsyncXmlService asyncXmlService = new AsyncXmlService(null);
 
         Path path = Paths.get(p);
         AsynchronousFileChannel afc = AsynchronousFileChannel.open(path, new HashSet<StandardOpenOption>(Arrays.asList(StandardOpenOption.READ)),Executors.newSingleThreadExecutor());
@@ -85,7 +85,7 @@ public class AsyncIOChunkedTest extends GameTest {
     public void testAsyncXMLReadSingleThreadRecursive() throws IOException, InterruptedException {
         log.debug("testAsyncXMLReadSingleThreadRecursive");
 
-        final AsyncXmlService asyncXmlService = new AsyncXmlService();
+        final AsyncXmlService asyncXmlService = new AsyncXmlService(null);
 
         Path path = Paths.get(p);
         AsynchronousFileChannel afc = AsynchronousFileChannel.open(path, new HashSet<StandardOpenOption>(Arrays.asList(StandardOpenOption.READ)),Executors.newSingleThreadExecutor());

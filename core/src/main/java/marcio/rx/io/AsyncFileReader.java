@@ -4,7 +4,6 @@ import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
 import io.reactivex.FlowableOnSubscribe;
-import io.reactivex.functions.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +25,11 @@ import java.util.concurrent.Executors;
 public class AsyncFileReader {
     private static final Logger log = LoggerFactory.getLogger(AsyncFileReader.class);
 
-    private static final int READ_BUFFER_SIZE = (int) Math.pow(2, 12); //2^5=32;2^10=1024;
+    private static final int READ_BUFFER_SIZE = (int) Math.pow(2, 7); //2^5=32;2^10=1024;
 
+    /**
+     * Returns an Observable that emits chunks of data read
+     */
     public static Flowable<String> read(final String p) throws IOException, InterruptedException {
         log.debug("method init - reading chunks of {}(bytes)", READ_BUFFER_SIZE);
 
@@ -84,6 +86,7 @@ public class AsyncFileReader {
         final Flowable<String> flowable = Flowable.create(new FlowableOnSubscribe<String>() {
             @Override
             public void subscribe(FlowableEmitter<String> e) throws Exception {
+                log.debug("subscription phase");
                 attach.flowableEmitter = e;
                 afc.read(attach.buffer, attach.pointer, attach, ch);
             }

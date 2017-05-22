@@ -16,7 +16,7 @@ public class AsyncXmlTestWithService extends GameTest {
         log.debug("testAsyncXMLRead");
 //        String p = Gdx.files.internal("employee.xml").path();
 
-        final AsyncXmlService asyncXmlService = new AsyncXmlService();
+        final AsyncXmlService asyncXmlService = new AsyncXmlService(null);
 
 
         Thread generator = new Thread(new Runnable() {
