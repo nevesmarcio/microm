@@ -1,3 +1,10 @@
+
+./gradlew :desktop:run --debug-jvm
+./gradlew :core:test --tests _tutorial.aalto.AsyncXmlTest.testAsyncXMLRead --debug-jvm
+
+
+
+
 //todo
 
 
@@ -11,6 +18,9 @@ http://code.google.com/p/libgdx-texturepacker-gui/
 
 
 http://www.gamefromscratch.com/page/Game-Engine-guides.aspx
+
+GAme editor
+http://overlap2d.com/
 
 
 2017-02-19
