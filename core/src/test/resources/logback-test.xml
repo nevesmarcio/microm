@@ -21,6 +21,7 @@
     <logger name="UIMetricsView" level="DEBUG"/>
      -->
     <logger name="marcio.xml.AsyncXmlService" level="OFF"/>
+    <logger name="marcio.rx.io.AsyncFileReader" level="OFF"/>
 
     <root level="DEBUG">
         <appender-ref ref="STDOUT"/>

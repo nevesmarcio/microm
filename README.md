@@ -1,6 +1,6 @@
 
 ./gradlew :desktop:run --debug-jvm
-./gradlew :core:test --tests _tutorial.aalto.AsyncXmlTest.testAsyncXMLRead --debug-jvm
+./gradlew :core:test --tests AsyncXmlTest.testAsyncXMLRead --debug-jvm
 
 
 

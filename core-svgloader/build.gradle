@@ -11,12 +11,12 @@ test {
 }
 
 dependencies {
-    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.0'
-    compile group: 'org.mozilla', name: 'rhino', version: '1.7.7.1'
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.23'
 
-    // core local libs
-    compile fileTree(dir: 'libs', include: '*.jar')
+    // https://mvnrepository.com/artifact/com.fasterxml/aalto-xml
+    compile group: 'com.fasterxml', name: 'aalto-xml', version: '1.0.0'
+    // https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava
+    compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.1.0'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.23'
 
     //test dependencies
     testCompile group: 'junit', name: 'junit', version: '4.12'
@@ -25,4 +25,7 @@ dependencies {
     testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.7'
     testCompile group: 'ch.qos.logback', name: 'logback-core', version: '1.1.7'
 
+    // In theory I would only need the parser, however I'm interested in rasterizing the levels automatically
+    testCompile group: 'org.apache.xmlgraphics', name: 'batik-rasterizer', version: '1.8'
+    testCompile group: 'org.apache.xmlgraphics', name: 'batik-parser', version: '1.8'
 }
