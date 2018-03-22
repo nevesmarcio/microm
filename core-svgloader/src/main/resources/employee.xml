@@ -1,0 +1,11 @@
+<employee xmlns:x="stuff">
+    <id>1</id>
+    <name>Alba</name>
+    <salary>100</salary>
+    <other>
+        <coolyn value="true"/>
+        <x:blah x:value="dummy">
+            meh!
+        </x:blah>
+    </other>
+</employee>
