@@ -1,3 +1,5 @@
+package temp;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -155,7 +157,7 @@ public class ParseSVG {
 	        //System.exit(0);
 
 	}
-	
+
 	
 	public void addPath(Spline s) {
 		// Apply global transform

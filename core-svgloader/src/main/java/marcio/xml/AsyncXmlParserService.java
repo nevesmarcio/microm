@@ -5,13 +5,11 @@ import com.fasterxml.aalto.AsyncXMLInputFactory;
 import com.fasterxml.aalto.AsyncXMLStreamReader;
 import com.fasterxml.aalto.stax.InputFactoryImpl;
 import marcio.xml.codec.XmlNode;
-import marcio.xml.codec.XmlNodeAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
-import java.util.LinkedHashMap;
 import java.util.Stack;
 
 public class AsyncXmlParserService {
@@ -22,6 +20,14 @@ public class AsyncXmlParserService {
 
     private XmlNodeHandler xmlNodeHandler;
 
+    public void setXmlNodeHandler(XmlNodeHandler xmlNodeHandler) {
+        this.xmlNodeHandler = xmlNodeHandler;
+    }
+
+    public AsyncXmlParserService() {
+
+    }
+
     public AsyncXmlParserService(XmlNodeHandler xmlNodeHandler) {
         this.xmlNodeHandler = xmlNodeHandler;
     }
@@ -29,11 +35,9 @@ public class AsyncXmlParserService {
     //region interface1: manual methods
     //---------------------------------------------------------------------------------------
     public void feedInput(byte[] data, int offset, int len) throws XMLStreamException {
-        log.info("feedInput");
         parser.getInputFeeder().feedInput(data, offset, len);
         int event_type;
         while ((event_type= parser.next())!= AsyncXMLStreamReader.EVENT_INCOMPLETE) {
-            log.info("decodeInput");
             decode(event_type);
         }
     }
@@ -85,14 +89,14 @@ public class AsyncXmlParserService {
                     log.debug(">>${},{},{},{},{}", parser.getAttributeType(x),
                             parser.getAttributeLocalName(x), parser.getAttributePrefix(x),
                             parser.getAttributeNamespace(x), parser.getAttributeValue(x));
-                    nodeToAdd.attributes.add(new XmlNodeAttribute(parser.getAttributeLocalName(x), parser.getAttributeValue(x)));
+                    nodeToAdd.attributes.put(parser.getAttributeLocalName(x), parser.getAttributeValue(x));
                 }
                 for (int x = 0; x < parser.getNamespaceCount(); x++) {
                     log.debug(">>$${},{}", parser.getNamespacePrefix(x),
                             parser.getNamespaceURI(x));
                 }
 
-                log.info(">>>>{}", nodeToAdd.toString());
+                log.debug(">>>>{}", nodeToAdd.toString());
                 if (xmlNodeHandler!= null) xmlNodeHandler.handle(nodeToAdd);
 
                 //XmlElementStart elementStart = new XmlElementStart(parser.getLocalName(), parser.getName().getNamespaceURI(), parser.getPrefix());
@@ -119,7 +123,7 @@ public class AsyncXmlParserService {
                         xmlDataNode.text.toString()
                 });
 
-                log.info("<<<<{}", xmlDataNode.toString());
+                log.debug("<<<<{}", xmlDataNode.toString());
 
                 //XmlElementEnd elementEnd = new XmlElementEnd(parser.getLocalName(),
                 //        parser.getName().getNamespaceURI(), parser.getPrefix());

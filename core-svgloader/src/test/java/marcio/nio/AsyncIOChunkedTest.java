@@ -19,7 +19,7 @@ public class AsyncIOChunkedTest {
     @Before
     public void setUp() throws Exception {
         asyncIOChunked = new AsyncIOChunked();
-        p = "src/test/resources/test.svg";
+        p = "src/test/resources/employee.xml";
     }
 
     @Test

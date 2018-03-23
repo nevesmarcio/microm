@@ -20,9 +20,9 @@
     <logger name="UIMetricsModel" level="DEBUG"/>
     <logger name="UIMetricsView" level="DEBUG"/>
      -->
-    <logger name="marcio.xml.AsyncXmlParserService" level="OFF"/>
+    <!--<logger name="marcio.xml.AsyncXmlParserService" level="OFF"/>-->
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

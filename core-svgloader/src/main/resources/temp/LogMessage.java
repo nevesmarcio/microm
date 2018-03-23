@@ -1,3 +1,5 @@
+package temp;
+
 /**
  * TODO Error class-level Javadoc.
  *

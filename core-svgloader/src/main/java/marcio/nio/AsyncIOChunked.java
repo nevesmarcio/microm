@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 public class AsyncIOChunked {
     private static final Logger log = LoggerFactory.getLogger(AsyncIOChunked.class);
 
-    private final int READ_BUFFER_SIZE = (int) Math.pow(2, 12); //2^5=32;2^10=1024;
+    private final int READ_BUFFER_SIZE = (int) Math.pow(2, 5); //2^5=32;2^10=1024;
     private final ExecutorService es = Executors.newSingleThreadExecutor();
 
 

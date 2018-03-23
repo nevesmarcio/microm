@@ -1,3 +1,5 @@
+package temp;
+
 import org.apache.batik.parser.ParseException;
 
 public class LengthHandler implements org.apache.batik.parser.LengthHandler {

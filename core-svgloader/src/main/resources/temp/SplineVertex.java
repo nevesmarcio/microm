@@ -1,3 +1,5 @@
+package temp;
+
 public class SplineVertex {
 	
 	public Vertex cp1;
