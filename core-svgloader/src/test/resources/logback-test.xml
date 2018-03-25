@@ -22,6 +22,9 @@
      -->
     <!--<logger name="marcio.xml.AsyncXmlParserService" level="OFF"/>-->
 
+    <logger name="marcio.batik.custom.MyPathHandler" level="DEBUG"/>
+    <logger name="marcio.batik.custom.MyTransformListHandler" level="DEBUG"/>
+
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>

@@ -21,7 +21,12 @@ public class LevelLoaderTest {
 
     final private AsyncIOChunked asyncIOChunked = new AsyncIOChunked();
     final private AsyncXmlParserService asyncXmlService = new AsyncXmlParserService();
-    final private SvgService svgService = new SvgService();
+    final private SvgService svgService = new SvgService(new IAppendable() {
+        @Override
+        public void append() {
+            log.info("appending...");
+        }
+    });
 
 
 
@@ -29,7 +34,7 @@ public class LevelLoaderTest {
 
     @Before
     public void setUp() throws Exception {
-        p = "src/test/resources/full-level.svg";
+        p = "src/test/resources/one-shape-only.svg";
         asyncXmlService.setXmlNodeHandler(new XmlNodeHandler() {
             @Override
             public void handle(XmlNode xmlNode) {
@@ -44,8 +49,6 @@ public class LevelLoaderTest {
 
         log.info("start test:{}", this.getClass().getSimpleName());
         log.debug("Working dir: {}", Paths.get(".").toAbsolutePath().toString());
-
-
 
         asyncIOChunked.asyncRead(p, new ChunkReadHandler() {
             @Override
