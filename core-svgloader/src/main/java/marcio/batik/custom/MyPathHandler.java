@@ -55,7 +55,7 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void closePath() throws ParseException {
         Coordinate origin = path.get(0);
-        log.debug("closePath (x,y)=('{}','{}'", origin.x, origin.y);
+        log.debug("closePath (x,y)=('{}','{}')", origin.x, origin.y);
         penTip.x = origin.x;
         penTip.y = origin.y;
         path.add(new Coordinate(penTip.x, penTip.y));

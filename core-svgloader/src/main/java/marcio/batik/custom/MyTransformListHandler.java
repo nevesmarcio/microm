@@ -9,12 +9,11 @@ import org.slf4j.LoggerFactory;
 public class MyTransformListHandler implements TransformListHandler {
     private static final Logger log = LoggerFactory.getLogger(MyTransformListHandler.class);
 
-    public AffineTransformation at;
+    public AffineTransformation at = new AffineTransformation();
 
     @Override
     public void startTransformList() throws ParseException {
         log.debug("startTransformList");
-        at = new AffineTransformation();
     }
 
     @Override

@@ -1,5 +1,6 @@
-package marcio;
+package marcio.batik;
 
+import marcio.batik.game1.LoadedActor;
 import marcio.nio.AsyncIOChunked;
 import marcio.nio.ChunkReadHandler;
 import marcio.xml.AsyncXmlParserService;
@@ -15,15 +16,16 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 
-public class SvgAsyncParserTest {
+public class SvgServiceTest {
 
-    private static final Logger log = LoggerFactory.getLogger(SvgAsyncParserTest.class);
+    private static final Logger log = LoggerFactory.getLogger(SvgServiceTest.class);
 
-    private AsyncIOChunked asyncIOChunked;
-    private AsyncXmlParserService asyncXmlService = new AsyncXmlParserService(new XmlNodeHandler() {
+    final private AsyncIOChunked asyncIOChunked = new AsyncIOChunked();
+    final private AsyncXmlParserService asyncXmlService = new AsyncXmlParserService();
+    final private SvgService svgService = new SvgService(new IAppendable() {
         @Override
-        public void handle(XmlNode xmlNode) {
-            System.out.println("\t\t\t>>>Emitting: " + xmlNode.toString());
+        public void append(LoadedActor loadedActor) {
+            log.info("-->appending {}", loadedActor);
         }
     });
 
@@ -31,8 +33,14 @@ public class SvgAsyncParserTest {
 
     @Before
     public void setUp() throws Exception {
-        asyncIOChunked = new AsyncIOChunked();
-        p = "src/test/resources/full-level.svg";
+        p = "src/test/resources/one-shape-only.svg";
+        asyncXmlService.setXmlNodeHandler(new XmlNodeHandler() {
+            @Override
+            public void handle(XmlNode xmlNode) {
+                System.out.println("\t\t\t>>>Emitting: " + xmlNode.toString());
+                svgService.feedInput(xmlNode);
+            }
+        });
     }
 
     @Test

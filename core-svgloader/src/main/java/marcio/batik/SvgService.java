@@ -19,6 +19,11 @@ public class SvgService {
 
     private IAppendable iAppendable;
 
+    /* todo: assess the need to initiatilze the SVG service with a given AffineTransformation, to transform from SVG to the output coordinate system
+     * that can either be done in the SVG service, or the class that implements the IAppendable
+     * probably here is more efficient rather that transforming every point again after the loadedActor is delegated to the game logic
+     * on the other hand, there will be more transformations needed such as convex, concave forms, and that is game dependant
+     * */
     public SvgService(IAppendable iAppendable) {
         this.iAppendable = iAppendable;
     }
@@ -67,8 +72,8 @@ public class SvgService {
                     th.at.transform(src, dest);
                     loadedActor.path.add(dest);
                 }
-                loadedActor.id=id;
-                loadedActor.behaviour=custom_script;
+                loadedActor.id = id;
+                loadedActor.behaviour = custom_script;
 
                 iAppendable.append(loadedActor); // the appendable object characteristics are commented in the interface definition
 
