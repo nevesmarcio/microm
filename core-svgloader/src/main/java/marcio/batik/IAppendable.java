@@ -2,6 +2,8 @@ package marcio.batik;
 
 //todo: think if I want to decode the game object type in the level loader or not - maybe not as the level loader mmight be reused with different games, therefore different concepts
 
+import marcio.batik.game1.LoadedActor;
+
 /**
  * The object type has the following characteristics:
  * Agnostic of the Game
@@ -16,5 +18,5 @@ public interface IAppendable {
      * - a custom script
      */
 
-    void append();
+    void append(LoadedActor loadedActor);
 }

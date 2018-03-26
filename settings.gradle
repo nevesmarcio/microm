@@ -1,2 +1,2 @@
-//include 'desktop', 'android', 'core'
-include 'desktop',  'core', 'core-svgloader'
+include 'desktop', 'android', 'core', 'core-svgloader'
+//include 'desktop',  'core', 'core-svgloader'

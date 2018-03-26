@@ -1,5 +1,6 @@
 package marcio.batik;
 
+import marcio.batik.game1.LoadedActor;
 import marcio.nio.AsyncIOChunked;
 import marcio.nio.ChunkReadHandler;
 import marcio.xml.AsyncXmlParserService;
@@ -23,12 +24,10 @@ public class LevelLoaderTest {
     final private AsyncXmlParserService asyncXmlService = new AsyncXmlParserService();
     final private SvgService svgService = new SvgService(new IAppendable() {
         @Override
-        public void append() {
-            log.info("appending...");
+        public void append(LoadedActor loadedActor) {
+            log.info("-->appending {}", loadedActor);
         }
     });
-
-
 
     private String p;
 

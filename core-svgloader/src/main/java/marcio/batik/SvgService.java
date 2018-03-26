@@ -2,12 +2,16 @@ package marcio.batik;
 
 import marcio.batik.custom.MyPathHandler;
 import marcio.batik.custom.MyTransformListHandler;
+import marcio.batik.game1.LoadedActor;
+import marcio.transform.Coordinate;
 import marcio.xml.codec.XmlNode;
 
 import org.apache.batik.parser.PathParser;
 import org.apache.batik.parser.TransformListParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 
 public class SvgService {
     private static final Logger log = LoggerFactory.getLogger(SvgService.class);
@@ -41,18 +45,32 @@ public class SvgService {
                 //optional
                 String transform = xmlNode.attributes.get("transform");
                 log.info("Processing attribute='{}' with value='{}'", "transform", transform);
-                tlp.parse(transform);
+                if (transform != null) {
+                    tlp.parse(transform);
+                } else {
+                    th.at.setToIdentity();
+                }
 
                 String id = xmlNode.attributes.get("id");
                 log.info("Processing attribute='{}' with value='{}'", "id", id);
-                //todo: parse id
+                //todo: parse id if not null
 
                 String custom_script = xmlNode.attributes.get("custom-script");
                 log.info("Processing attribute='{}' with value='{}'", "custom-script", custom_script);
-                //todo: parse custom-script
+                //todo: parse custom-script if not null
 
                 //todo: call IAppendable (which is still agnostic of the game)
-                iAppendable.append(); // the appendable object characteristics are commented in the interface definition
+                LoadedActor loadedActor = new LoadedActor();
+                loadedActor.path = new ArrayList<>();
+                for (Coordinate src : ph.path) {
+                    Coordinate dest = new Coordinate();
+                    th.at.transform(src, dest);
+                    loadedActor.path.add(dest);
+                }
+                loadedActor.id=id;
+                loadedActor.behaviour=custom_script;
+
+                iAppendable.append(loadedActor); // the appendable object characteristics are commented in the interface definition
 
 
                 break;

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class MyPathHandler implements PathHandler {
     private static final Logger log = LoggerFactory.getLogger(MyPathHandler.class);
 
+    //todo: this should be upgraded to a spline instead
     public ArrayList<Coordinate> path;
 
     private Coordinate penTip = new Coordinate();
@@ -48,6 +49,9 @@ public class MyPathHandler implements PathHandler {
         path.add(new Coordinate(penTip.x, penTip.y));
     }
 
+    /**
+     * Parses a 'Z' or 'z' command.
+     */
     @Override
     public void closePath() throws ParseException {
         Coordinate origin = path.get(0);
