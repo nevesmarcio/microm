@@ -14,7 +14,7 @@
    height="1280"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
    sodipodi:docname="level#1.0.svg">
   <defs
      id="defs4">
@@ -131,17 +131,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70710677"
-     inkscape:cx="760.97207"
-     inkscape:cy="38.552795"
+     inkscape:zoom="1.4142135"
+     inkscape:cx="112.85605"
+     inkscape:cy="-357.42701"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1440"
-     inkscape:window-height="837"
-     inkscape:window-x="1276"
-     inkscape:window-y="-4"
-     inkscape:window-maximized="1" />
+     inkscape:window-width="2300"
+     inkscape:window-height="1206"
+     inkscape:window-x="0"
+     inkscape:window-y="1"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -183,26 +183,26 @@
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
-       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:Arial;-inkscape-font-specification:Arial;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none"
        x="25.817139"
        y="936.08643"
-       id="text2989"
-       sodipodi:linespacing="125%"><tspan
+       id="text2989"><tspan
          sodipodi:role="line"
          id="tspan2991"
          x="25.817139"
-         y="936.08643">Get ready!</tspan></text>
+         y="936.08643"
+         style="font-size:56px;line-height:1.25">Get ready!</tspan></text>
     <text
-       sodipodi:linespacing="125%"
        id="text2993"
        y="936.08643"
        x="1261.2247"
-       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#f2f2f2;fill-opacity:1;stroke:none"
        xml:space="preserve"><tspan
          y="936.08643"
          x="1261.2247"
          id="tspan2995"
-         sodipodi:role="line">Go rescue her!</tspan></text>
+         sodipodi:role="line"
+         style="font-size:56px;line-height:1.25">Go rescue her!</tspan></text>
     <path
        sodipodi:nodetypes="cccc"
        inkscape:connector-curvature="0"
@@ -217,7 +217,7 @@
        sodipodi:nodetypes="cccc" />
     <path
        style="fill:#d40000;stroke:none"
-       d="m 1281.1473,1295.5 0,-2.5 -1280,0 0,2.5"
+       d="M 1245.0849,1324.4914 1281.1473,1293 h -1280 l 31.819806,31.4914 z"
        id="ground_1"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />
@@ -267,19 +267,20 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-size:72px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
        x="65.053757"
        y="75.831741"
-       id="blah_txt3879"
-       sodipodi:linespacing="125%"><tspan
+       id="blah_txt3879"><tspan
          sodipodi:role="line"
          id="tspan3881"
          x="65.053757"
-         y="75.831741">O efeito do blur, tem que ser conseguido</tspan><tspan
+         y="75.831741"
+         style="font-size:72px;line-height:1.25;font-family:sans-serif">O efeito do blur, tem que ser conseguido</tspan><tspan
          sodipodi:role="line"
          x="65.053757"
          y="165.83174"
-         id="tspan3883">no motor do jogo</tspan></text>
+         id="tspan3883"
+         style="font-size:72px;line-height:1.25;font-family:sans-serif">no motor do jogo</tspan></text>
     <path
        inkscape:connector-curvature="0"
        id="wall_3061"
