@@ -2,4 +2,6 @@
 <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
   <path style="opacity: 0.75; fill-opacity: 1; stroke: none; fill: rgb(63, 41, 255);" d="M 286.138 156.426 L 462.915 156.426 L 462.915 311.989 L 286.138 311.989 Z" id="wall_3011" transform="matrix(0.88014, 0.474714, -0.474714, 0.88014, 156.072297, -149.720892)"/>
   <path style="opacity:0.75;fill:#ffd42a;fill-opacity:1;stroke:none" d="M 38.055 158.069 L 214.833 158.069 L 214.832 313.632 L 38.055 313.632" id="wall_3010" transform="matrix(0.868546, -0.495609, 0.495609, 0.868546, -100.268017, 93.670312)"/>
+  <path style="opacity: 0.75; fill-opacity: 1; stroke: none; fill: rgb(255, 40, 62);" d="M 0.0 460.0 L 80.00 460.0 L 80.00 500.0 L 0.0 500.0 Z" id="path-1" transform="matrix(0.999996, -0.002717, 0.002717, 0.999996, -1.306254, 0.06501)"/>
+  <path style="opacity: 0.75; fill-opacity: 1; stroke: none; fill: rgb(255, 40, 62);" d="M 500.0 -80.0 L 540.0 -80.0 L 540.0 0.0 L 500.0 0.0 Z" id="path-2" transform="matrix(0.999996, -0.002717, 0.002717, 0.999996, 0.05364, 1.421654)"/>
 </svg>

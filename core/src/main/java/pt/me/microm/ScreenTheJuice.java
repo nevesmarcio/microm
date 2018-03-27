@@ -20,6 +20,8 @@ import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.event.IEvent;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.base.CameraControllerDrag;
+import pt.me.microm.model.base.CameraControllerStrafe;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.ui.UIMetricsModel;
@@ -111,7 +113,7 @@ public class ScreenTheJuice implements Screen {
 		multiplexer.addProcessor(worldModel);
 		multiplexer.addProcessor(uiModel);
 //		multiplexer.addProcessor(new CameraControllerDrag(cameraModel));
-//		multiplexer.addProcessor(new CameraControllerStrafe(cameraModel));
+		multiplexer.addProcessor(new CameraControllerStrafe(cameraModel));
 
 	}
 	

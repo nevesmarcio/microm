@@ -4,6 +4,7 @@ import marcio.batik.IAppendable;
 import marcio.batik.game1.LoadedActor;
 import marcio.nio.AsyncIOChunked;
 import marcio.nio.ChunkReadHandler;
+import marcio.transform.AffineTransformation;
 import marcio.xml.AsyncXmlParserService;
 import marcio.xml.XmlNodeHandler;
 import marcio.xml.codec.XmlNode;
@@ -21,7 +22,7 @@ public class SvgLoaderTest {
 
     private static final Logger log = LoggerFactory.getLogger(SvgLoaderTest.class);
 
-    private SvgLoader svgLoader = new SvgLoader(new IAppendable() {
+    private SvgLoader svgLoader = new SvgLoader(new AffineTransformation(), new IAppendable() {
         @Override
         public void append(LoadedActor loadedActor) {
             log.info("-->appending {}", loadedActor);
@@ -32,7 +33,7 @@ public class SvgLoaderTest {
 
     @Before
     public void setUp() throws Exception {
-        p = "src/test/resources/full-level.svg";
+        p = "src/test/resources/one-shape-only.svg";
     }
 
     @Test

@@ -4,6 +4,7 @@ import marcio.batik.IAppendable;
 import marcio.batik.SvgService;
 import marcio.nio.AsyncIOChunked;
 import marcio.nio.ChunkReadHandler;
+import marcio.transform.AffineTransformation;
 import marcio.xml.AsyncXmlParserService;
 import marcio.xml.XmlNodeHandler;
 import marcio.xml.codec.XmlNode;
@@ -22,8 +23,8 @@ public class SvgLoader {
     final private AsyncXmlParserService asyncXmlService = new AsyncXmlParserService();
     final private SvgService svgService;
 
-    public SvgLoader(IAppendable loadedActorHandler) {
-        svgService = new SvgService(loadedActorHandler);
+    public SvgLoader(AffineTransformation globalTransformation, IAppendable loadedActorHandler) {
+        svgService = new SvgService(globalTransformation, loadedActorHandler);
 
         asyncXmlService.setXmlNodeHandler(new XmlNodeHandler() {
             @Override

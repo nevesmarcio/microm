@@ -3,6 +3,7 @@ package marcio.batik;
 import marcio.batik.custom.MyPathHandler;
 import marcio.batik.custom.MyTransformListHandler;
 import marcio.batik.game1.LoadedActor;
+import marcio.transform.AffineTransformation;
 import marcio.transform.Coordinate;
 import marcio.xml.codec.XmlNode;
 
@@ -17,14 +18,22 @@ public class SvgService {
     private static final Logger log = LoggerFactory.getLogger(SvgService.class);
 
 
+    private AffineTransformation globalTransformation;
     private IAppendable iAppendable;
 
-    /* todo: assess the need to initiatilze the SVG service with a given AffineTransformation, to transform from SVG to the output coordinate system
-     * that can either be done in the SVG service, or the class that implements the IAppendable
-     * probably here is more efficient rather that transforming every point again after the loadedActor is delegated to the game logic
-     * on the other hand, there will be more transformations needed such as convex, concave forms, and that is game dependant
-     * */
-    public SvgService(IAppendable iAppendable) {
+    /**
+     * SvgService outputs LoadedActors through iAppendable interface
+     * The service receives a globalTransformation parameter of type AffineTransformation to allow the instantiator to determine
+     * a transformation to be applied to every Actor
+     *
+     * todo: the instantiator will need a way to be notified that no further input is to be expected (is this a good thing?)
+     *       we might want the concept of never ending world, therefore the level loading is a feed
+     *
+     * @param globalTransformation
+     * @param iAppendable
+     */
+    public SvgService(AffineTransformation globalTransformation, IAppendable iAppendable) {
+        this.globalTransformation = globalTransformation;
         this.iAppendable = iAppendable;
     }
 
@@ -32,6 +41,12 @@ public class SvgService {
 
         log.info("parsing: {}", xmlNode.toString());
         switch (xmlNode.nodeType) {
+            case "svg":
+                log.info("processing svg element");
+                /* todo: i was thinking about extracting viewbox property for the camera, but that would restrict the level to one camera only, and that is a limitation
+                    we might want to have the camera shifting depending on triggers for example
+                 */
+                break;
             case "path":
 
                 MyPathHandler ph = new MyPathHandler();
@@ -52,9 +67,10 @@ public class SvgService {
                 log.info("Processing attribute='{}' with value='{}'", "transform", transform);
                 if (transform != null) {
                     tlp.parse(transform);
-                } else {
-                    th.at.setToIdentity();
                 }
+
+                //apply the global transformation
+                th.at.compose(globalTransformation);
 
                 String id = xmlNode.attributes.get("id");
                 log.info("Processing attribute='{}' with value='{}'", "id", id);
