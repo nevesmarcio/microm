@@ -80,6 +80,10 @@ public class SvgService {
                 log.info("Processing attribute='{}' with value='{}'", "custom-script", custom_script);
                 //todo: parse custom-script if not null
 
+                String style = xmlNode.attributes.get("style");
+                log.info("Processing attribute='{}' with value='{}'", "style", style);
+                //todo: parse style if not null
+
                 //todo: call IAppendable (which is still agnostic of the game)
                 LoadedActor loadedActor = new LoadedActor();
                 loadedActor.path = new ArrayList<>();
@@ -90,6 +94,7 @@ public class SvgService {
                 }
                 loadedActor.id = id;
                 loadedActor.behaviour = custom_script;
+                loadedActor.style = style;
 
                 iAppendable.append(loadedActor); // the appendable object characteristics are commented in the interface definition
 

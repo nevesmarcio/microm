@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import marcio.transform.Coordinate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -152,10 +153,81 @@ public class BasicShape {
 		
 		
 		if (logger.isDebugEnabled()) logger.debug("new shape - " + this.toString());
-	}	
-		
-	
-	/**
+	}
+
+
+    /**
+     * This constructor builds a shape using the points specified by a SVG 'd'
+     * element
+     * @param d
+     */
+    public BasicShape(ArrayList<Coordinate> d, String style, ObjectType type) {
+        this();
+
+        Pattern pattern;
+        Matcher matcher;
+
+        Vector2 pt;
+        for (int i =0;i<d.size()-1;i++) // beware of too small distance between points
+        {
+            pt=new Vector2((float)d.get(i).x, (float)d.get(i).y);
+            this.points.add(pt);
+        }
+
+        // calc centroid of the shape, considering the minimum rectangle that can be created to inscribe the shape into
+        centroid = inscribedPolygonCenter();
+        rotationPivot = centroid.cpy();
+
+        //coordenadas do objecto definidas em torno do ponto 0.0f, 0.0f -- mais fácil para a renderização e rotações?
+        for (Vector2 v : points) {
+            v.sub(getCentroid());
+        }
+
+        //scaling and Y-invert
+//        float scale = 1.0f/GAME_CONSTANTS.DIPIXELS_PER_METER;
+//        scaleAndYInvertShape(scale);
+
+        this.type = type;
+
+        // calc width and height
+        width = calcWidth();
+        height = calcHeight();
+
+        // converted mesh values init
+        meshValues = new float[points.size()*3];
+        for (int ii = 0; ii < points.size(); ii++) {
+            meshValues[ii*3] = points.get(ii).x;
+            meshValues[ii*3+1] = points.get(ii).y;
+            meshValues[ii*3+2] = 0.0f;
+        }
+
+        // color fill
+        color = new Color();
+        pattern = Pattern.compile("fill:#([0-9a-fA-F]){6};*");
+        matcher = pattern.matcher(style);
+        while (matcher.find()) {
+            String aux = matcher.group();
+            aux = aux.replace("fill:#", "");
+            aux = aux.replace(";", "");
+            color.r = (float)Integer.parseInt(aux.substring(0, 2), 16) / (float)0xFF;
+            color.g = (float)Integer.parseInt(aux.substring(2, 4), 16) / (float)0xFF;
+            color.b = (float)Integer.parseInt(aux.substring(4, 6), 16) / (float)0xFF;
+        }
+        // color fill opacity
+        pattern = Pattern.compile("(?<!fill-)opacity:[01][\\.0-9]*;*"); // positive lookbehind
+        matcher = pattern.matcher(style);
+        while (matcher.find()) {
+            String aux = matcher.group();
+            aux = aux.replace("opacity:", "");
+            aux = aux.replace(";", "");
+            color.a = Float.parseFloat(aux);
+        }
+
+
+        if (logger.isDebugEnabled()) logger.debug("new shape - " + this.toString());
+    }
+
+    /**
 	 * this point is "world" coordinates 
 	 * @return meters
 	 */

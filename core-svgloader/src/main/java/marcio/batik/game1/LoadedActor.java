@@ -8,6 +8,7 @@ public class LoadedActor {
     public ArrayList<Coordinate> path;
     public String id;
     public String behaviour;
+    public String style;
 
     @Override
     public String toString() {
@@ -15,6 +16,7 @@ public class LoadedActor {
                 "path=" + path +
                 ", id='" + id + '\'' +
                 ", behaviour='" + behaviour + '\'' +
+                ", style='" + style + '\'' +
                 '}';
     }
 }
