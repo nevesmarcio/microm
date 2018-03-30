@@ -26,7 +26,6 @@ public class SplineVertex {
         construct(p, cp1, cp2);
     }
 
-
     private void construct(double x, double y, double x1, double y1, double x2, double y2) {
         this.cp1 = new Coordinate(x1, y1);
         this.p = new Coordinate(x, y);
@@ -34,9 +33,9 @@ public class SplineVertex {
     }
 
     private void construct(Coordinate p, Coordinate cp1, Coordinate cp2) {
-        this.cp1 = cp1;
-        this.p = p;
-        this.cp2 = cp2;
+        this.cp1 = new Coordinate(cp1);
+        this.p = new Coordinate(p);
+        this.cp2 = new Coordinate(cp2);
     }
 
     //region accelerator methods

@@ -77,7 +77,8 @@ public class MyPathHandler implements PathHandler {
     public void linetoAbs(float x, float y) throws ParseException {
         log.debug("linetoAbs (x,y)=('{}','{}')", x, y);
         SplineVertex toAdd = path.getLast()
-                .getCopy();
+                .getCopy()
+                .setXYTo(x,y);
 
         path.addVertex(toAdd);
     }

@@ -34,7 +34,7 @@ public class SvgServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        p = "src/test/resources/one-shape-only.svg";
+        p = "src/test/resources/control-shapes.svg";
         asyncXmlService.setXmlNodeHandler(new XmlNodeHandler() {
             @Override
             public void handle(XmlNode xmlNode) {

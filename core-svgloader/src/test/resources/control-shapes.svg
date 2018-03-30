@@ -8,16 +8,16 @@
         id="test_control_svg"
         inkscape:version="0.92.2 5c3e80d, 2017-08-06">
 
-    <!--<path-->
-            <!--style="opacity: 0.75; fill-opacity: 1; stroke: none; fill: rgb(255, 40, 62);"-->
-            <!--d="M 0.0 460.0 L 80.00 460.0 L 80.00 500.0 L 0.0 500.0 Z"-->
-            <!--id="path-1"-->
-            <!--transform="matrix(0.999996, -0.002717, 0.002717, 0.999996, -1.306254, 0.06501)"/>-->
-    <!--<path-->
-            <!--style="opacity: 0.75; fill-opacity: 1; stroke: none; fill: rgb(255, 40, 62);"-->
-            <!--d="M 500.0 -80.0 L 540.0 -80.0 L 540.0 0.0 L 500.0 0.0 Z"-->
-            <!--id="path-2"-->
-            <!--transform="matrix(0.999996, -0.002717, 0.002717, 0.999996, 0.05364, 1.421654)"/>-->
+    <path
+            style="opacity: 0.75; fill-opacity: 1; stroke: none; fill: rgb(255, 40, 62);"
+            d="M 0.0 460.0 L 80.00 460.0 L 80.00 500.0 L 0.0 500.0 Z"
+            id="path-1"
+            transform="matrix(0.999996, -0.002717, 0.002717, 0.999996, -1.306254, 0.06501)"/>
+    <path
+            style="opacity: 0.75; fill-opacity: 1; stroke: none; fill: rgb(255, 40, 62);"
+            d="M 500.0 -80.0 L 540.0 -80.0 L 540.0 0.0 L 500.0 0.0 Z"
+            id="path-2"
+            transform="matrix(0.999996, -0.002717, 0.002717, 0.999996, 0.05364, 1.421654)"/>
 
     <path
             style="opacity:0.75;fill:#ffd42a;fill-opacity:1;stroke:none"

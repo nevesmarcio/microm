@@ -24,6 +24,7 @@
 
     <logger name="marcio.batik.custom.MyPathHandler" level="DEBUG"/>
     <logger name="marcio.batik.custom.MyTransformListHandler" level="DEBUG"/>
+    <logger name="marcio.transform.Spline" level="DEBUG"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

@@ -24,7 +24,7 @@ public class SvgLoaderTest {
 
     private static final Logger log = LoggerFactory.getLogger(SvgLoaderTest.class);
 
-    private CountDownLatch expectedItemsLoaded = new CountDownLatch(4);
+    private CountDownLatch expectedItemsLoaded = new CountDownLatch(7);
     private SvgLoader svgLoader = new SvgLoader(new AffineTransformation(), new IAppendable() {
         @Override
         public void append(LoadedActor loadedActor) {
