@@ -1,15 +1,14 @@
-package temp;
+package marcio.transform;
 
 import java.util.ArrayList;
 
-
-
-
-
-public class Spline  {
+/**
+ * Conceptually a spline is a path
+ */
+public class Spline extends Path {
 	public final String TAG = this.getClass().getSimpleName();
 	
-	public ArrayList<SplineVertex> splineVertices = new ArrayList<SplineVertex>();	
+	public ArrayList<SplineVertex> splineVertices = new ArrayList<SplineVertex>();
 	private ArrayList<SplineVertex> newArray = new ArrayList<SplineVertex> ();
 		
 	public Spline (ArrayList<SplineVertex> v) {
@@ -17,7 +16,7 @@ public class Spline  {
 	}
 	public Spline () {}
 	
-	public void addPoint(SplineVertex v) {
+	public void addVertex(SplineVertex v) {
 		splineVertices.add(v);
 	}
 	
@@ -37,12 +36,12 @@ public class Spline  {
 		 *      x - control point
 		 */    
 		
-		Vertex v1 = midPoint(sp1.p, sp1.cp2);
-		Vertex v2 = midPoint(sp1.cp2, sp2.cp1);
-		Vertex v3 = midPoint(sp2.cp1, sp2.p);
-		
-		Vertex v12 = midPoint(v1, v2);
-		Vertex v23 = midPoint(v2, v3);
+		Coordinate v1 = midPoint(sp1.p, sp1.cp2);
+        Coordinate v2 = midPoint(sp1.cp2, sp2.cp1);
+        Coordinate v3 = midPoint(sp2.cp1, sp2.p);
+
+        Coordinate v12 = midPoint(v1, v2);
+        Coordinate v23 = midPoint(v2, v3);
 		
 		sp1.cp2 = v1;
 		sp2.cp1 = v3;
@@ -50,7 +49,7 @@ public class Spline  {
 		return new SplineVertex(midPoint(v12, v23), v12, v23);
 	}
 	
-	public void refine (float tol) {
+	public void refine (double tol) {
 		boolean complete = false;
 
 		if(tol==0)
@@ -92,9 +91,9 @@ public class Spline  {
 
 	// Complying with the path interface - return 
 	// a list of vertices
-	public ArrayList<Vertex> getVertices () {
+	public ArrayList<Coordinate> getVertices () {
 		
-		ArrayList<Vertex> v = new ArrayList<Vertex>();
+		ArrayList<Coordinate> v = new ArrayList<Coordinate>();
 		for(SplineVertex sp: splineVertices) {
 			v.add(sp.p);
 		}
@@ -102,9 +101,9 @@ public class Spline  {
 		return v;
 	}
 	
-	public ArrayList<Vertex> getPolygon () {
+	public ArrayList<Coordinate> getPolygon () {
 		
-		ArrayList<Vertex> v = getVertices();
+		ArrayList<Coordinate> v = getVertices();
 		
 		if(v.get(0).equals(v.get(v.size()-1)))
 			v.remove(v.size()-1);
@@ -114,16 +113,16 @@ public class Spline  {
 	
 	
 	
-	private Vertex midPoint (Vertex v1, Vertex v2) {
-		return new Vertex((v1.x + v2.x)/2, (v1.y+v2.y)/2);
+	private Coordinate midPoint (Coordinate v1, Coordinate v2) {
+		return new Coordinate((v1.x + v2.x)/2, (v1.y+v2.y)/2);
 	}
 	
-	private float curvature (Vertex v1, Vertex v2, Vertex vc) {
-		Vertex midPoint = midPoint(v1, v2);
+	private double curvature (Coordinate v1, Coordinate v2, Coordinate vc) {
+        Coordinate midPoint = midPoint(v1, v2);
 		return sq(midPoint.x - vc.x) + sq(midPoint.y - vc.y);
 	}
 	
-	private float sq (float f1) {
+	private double sq (double f1) {
 		return f1 * f1;
 	}
 
@@ -136,20 +135,14 @@ public class Spline  {
 	public SplineVertex getFirst() {
 		return splineVertices.get(0);
 	}
-	
-	public void transfrom (AffineTransformation at) {
-		//for(SplineVertex v: splineVertices) {
-		for(int i=0; i< splineVertices.size(); i++) {
-			SplineVertex v = splineVertices.get(i);
-			splineVertices.set(i, v.transform(at));
-		}
-		//v = v.transform(at);
-		//}
-	}
-	
+
+	public SplineVertex getLast() {
+	    return splineVertices.get(splineVertices.size());
+    }
+
 	public String toString () {
 		String s = new String();
-		for(Vertex v: getVertices()) {
+		for(Coordinate v: getVertices()) {
 			s += v.toString()+"\n";
 		}
 		return s;

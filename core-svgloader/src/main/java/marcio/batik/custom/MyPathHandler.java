@@ -1,6 +1,8 @@
 package marcio.batik.custom;
 
 import marcio.transform.Coordinate;
+import marcio.transform.Spline;
+import marcio.transform.SplineVertex;
 import org.apache.batik.parser.ParseException;
 import org.apache.batik.parser.PathHandler;
 import org.slf4j.Logger;
@@ -12,14 +14,12 @@ public class MyPathHandler implements PathHandler {
     private static final Logger log = LoggerFactory.getLogger(MyPathHandler.class);
 
     //todo: this should be upgraded to a spline instead
-    public ArrayList<Coordinate> path;
-
-    private Coordinate penTip = new Coordinate();
+    public Spline path;
 
     @Override
     public void startPath() throws ParseException {
         log.debug("startPath");
-        path = new ArrayList<>();
+        path = new Spline();
     }
 
     @Override
@@ -33,9 +33,8 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void movetoRel(float x, float y) throws ParseException {
         log.debug("movetoRel (x,y)=('{}','{}')", x, y);
-        penTip.x += x;
-        penTip.y += y;
-        path.add(new Coordinate(penTip.x, penTip.y));
+        // 'm' or 'M' commands are always the first commands of a path, therefore no previous vertex
+        path.addVertex(new SplineVertex(x, y));
     }
 
     /**
@@ -44,9 +43,8 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void movetoAbs(float x, float y) throws ParseException {
         log.debug("movetoAbs (x,y)=('{}','{}')", x, y);
-        penTip.x = x;
-        penTip.y = y;
-        path.add(new Coordinate(penTip.x, penTip.y));
+        // 'm' or 'M' commands are always the first commands of a path, therefore no previous vertex
+        path.addVertex(new SplineVertex(x, y));
     }
 
     /**
@@ -54,11 +52,9 @@ public class MyPathHandler implements PathHandler {
      */
     @Override
     public void closePath() throws ParseException {
-        Coordinate origin = path.get(0);
-        log.debug("closePath (x,y)=('{}','{}')", origin.x, origin.y);
-        penTip.x = origin.x;
-        penTip.y = origin.y;
-        path.add(new Coordinate(penTip.x, penTip.y));
+        SplineVertex origin = path.getFirst();
+        log.debug("closePath (x,y)=('{}','{}')", origin.p.x, origin.p.y);
+        path.addVertex(origin);
     }
 
     /**
@@ -67,9 +63,11 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void linetoRel(float x, float y) throws ParseException {
         log.debug("linetoRel (x,y)=('{}','{}')", x, y);
-        penTip.x += x;
-        penTip.y += y;
-        path.add(new Coordinate(penTip.x, penTip.y));
+        SplineVertex toAdd = path.getLast()
+                .getCopy()
+                .offsetXYBy(x, y);
+
+        path.addVertex(toAdd);
     }
 
     /**
@@ -78,9 +76,10 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void linetoAbs(float x, float y) throws ParseException {
         log.debug("linetoAbs (x,y)=('{}','{}')", x, y);
-        penTip.x = x;
-        penTip.y = y;
-        path.add(new Coordinate(penTip.x, penTip.y));
+        SplineVertex toAdd = path.getLast()
+                .getCopy();
+
+        path.addVertex(toAdd);
     }
 
     /**
@@ -89,8 +88,11 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void linetoHorizontalRel(float x) throws ParseException {
         log.debug("linetoHorizontalRel x='{}'", x);
-        penTip.x += x;
-        path.add(new Coordinate(penTip.x, penTip.y));
+        SplineVertex toAdd = path.getLast()
+                .getCopy()
+                .offsetXBy(x);
+
+        path.addVertex(toAdd);
     }
 
     /**
@@ -99,8 +101,11 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void linetoHorizontalAbs(float x) throws ParseException {
         log.debug("linetoHorizontalAbs x='{}'", x);
-        penTip.x = x;
-        path.add(new Coordinate(penTip.x, penTip.y));
+        SplineVertex toAdd = path.getLast()
+                .getCopy()
+                .setXTo(x);
+
+        path.addVertex(toAdd);
     }
 
     /**
@@ -109,8 +114,11 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void linetoVerticalRel(float y) throws ParseException {
         log.debug("linetoVerticalRel y='{}'", y);
-        penTip.y += y;
-        path.add(new Coordinate(penTip.x, penTip.y));
+        SplineVertex toAdd = path.getLast()
+                .getCopy()
+                .offsetYBy(y);
+
+        path.addVertex(toAdd);
     }
 
     /**
@@ -119,8 +127,11 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void linetoVerticalAbs(float y) throws ParseException {
         log.debug("linetoVerticalAbs y='{}'", y);
-        penTip.y = y;
-        path.add(new Coordinate(penTip.x, penTip.y));
+        SplineVertex toAdd = path.getLast()
+                .getCopy()
+                .setYTo(y);
+
+        path.addVertex(toAdd);
     }
 
     /**
@@ -129,7 +140,16 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void curvetoCubicRel(float x1, float y1, float x2, float y2, float x, float y) throws ParseException {
         log.debug("curvetoCubicRel (x1, y1, x2, y2, x, y)=('{}','{}','{}','{}','{}','{}')", x1, y1, x2, y2, x, y);
-        log.warn("not implemented!");
+        // adjust control point of previous point
+        path.getLast().offsetCP2By(x1, y1);
+
+        //Create a new point relative to the last
+        SplineVertex toAdd = new SplineVertex(path.getLast().p);
+        toAdd.offsetPBy(x, y);
+        toAdd.offsetCP1By(x2, y2);
+        toAdd.offsetCP2By(x, y);
+
+        path.addVertex(toAdd);
     }
 
     /**
@@ -138,7 +158,14 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void curvetoCubicAbs(float x1, float y1, float x2, float y2, float x, float y) throws ParseException {
         log.debug("curvetoCubicAbs (x1, y1, x2, y2, x, y)=('{}','{}','{}','{}','{}','{}')", x1, y1, x2, y2, x, y);
-        log.warn("not implemented!");
+        // adjust control point of previous point
+        path.getLast().setCP2To(x1, y1);
+
+        //Create a new point
+        SplineVertex toAdd = new SplineVertex(x, y, x2, y2, x, y);
+
+        path.addVertex(toAdd);
+
     }
 
     /**
@@ -147,7 +174,7 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void curvetoCubicSmoothRel(float x2, float y2, float x, float y) throws ParseException {
         log.debug("curvetoCubicSmoothRel (x2, y2, x, y)=('{}','{}','{}','{}')", x2, y2, x, y);
-        log.warn("not implemented!");
+        log.error("command not implemented!");
     }
 
     /**
@@ -156,7 +183,7 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void curvetoCubicSmoothAbs(float x2, float y2, float x, float y) throws ParseException {
         log.debug("curvetoCubicSmoothAbs (x2, y2, x, y)=('{}','{}','{}','{}')", x2, y2, x, y);
-        log.warn("not implemented!");
+        log.error("command not implemented!");
     }
 
     /**
@@ -165,7 +192,7 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void curvetoQuadraticRel(float x1, float y1, float x, float y) throws ParseException {
         log.debug("curvetoQuadraticRel (x1, y1, x, y)=('{}','{}','{}','{}')", x1, y1, x, y);
-        log.warn("not implemented!");
+        log.error("command not implemented!");
     }
 
     /**
@@ -174,7 +201,7 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void curvetoQuadraticAbs(float x1, float y1, float x, float y) throws ParseException {
         log.debug("curvetoQuadraticAbs (x1, y1, x, y)=('{}','{}','{}','{}')", x1, y1, x, y);
-        log.warn("not implemented!");
+        log.error("command not implemented!");
     }
 
     /**
@@ -183,7 +210,7 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void curvetoQuadraticSmoothRel(float x, float y) throws ParseException {
         log.debug("curvetoQuadraticSmoothRel (x, y)=('{}','{}')", x, y);
-        log.warn("not implemented!");
+        log.error("command not implemented!");
     }
 
     /**
@@ -192,7 +219,7 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void curvetoQuadraticSmoothAbs(float x, float y) throws ParseException {
         log.debug("curvetoQuadraticSmoothAbs (x, y)=('{}','{}')", x, y);
-        log.warn("not implemented!");
+        log.error("command not implemented!");
     }
 
     /**
@@ -201,7 +228,7 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void arcRel(float rx, float ry, float xAxisRotation, boolean largeArcFlag, boolean sweepFlag, float x, float y) throws ParseException {
         log.debug("arcRel (rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y)=('{}','{}','{}','{}','{}','{}','{}')", rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y);
-        log.warn("not implemented!");
+        log.error("command not implemented!");
     }
 
     /**
@@ -210,6 +237,6 @@ public class MyPathHandler implements PathHandler {
     @Override
     public void arcAbs(float rx, float ry, float xAxisRotation, boolean largeArcFlag, boolean sweepFlag, float x, float y) throws ParseException {
         log.debug("arcAbs (rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y)=('{}','{}','{}','{}','{}','{}','{}')", rx, ry, xAxisRotation, largeArcFlag, sweepFlag, x, y);
-        log.warn("not implemented!");
+        log.error("command not implemented!");
     }
 }

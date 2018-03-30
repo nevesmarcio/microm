@@ -21,7 +21,7 @@ public class SvgService {
     private AffineTransformation globalTransformation;
     private IAppendable iAppendable;
 
-    /**
+    /*
      * SvgService outputs LoadedActors through iAppendable interface
      * The service receives a globalTransformation parameter of type AffineTransformation to allow the instantiator to determine
      * a transformation to be applied to every Actor
@@ -85,9 +85,11 @@ public class SvgService {
                 //todo: parse style if not null
 
                 //todo: call IAppendable (which is still agnostic of the game)
+//                //verify this step - count the number of points before and after
+//                ph.path.refine(0.1f);
                 LoadedActor loadedActor = new LoadedActor();
                 loadedActor.path = new ArrayList<>();
-                for (Coordinate src : ph.path) {
+                for (Coordinate src : ph.path.getPolygon()) {
                     Coordinate dest = new Coordinate();
                     th.at.transform(src, dest);
                     loadedActor.path.add(dest);

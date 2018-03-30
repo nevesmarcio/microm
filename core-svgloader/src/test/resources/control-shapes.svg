@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:svg="http://www.w3.org/2000/svg"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+        viewBox="0 0 500 500"
+        version="1.1"
+        id="test_control_svg"
+        inkscape:version="0.92.2 5c3e80d, 2017-08-06">
+
+    <!--<path-->
+            <!--style="opacity: 0.75; fill-opacity: 1; stroke: none; fill: rgb(255, 40, 62);"-->
+            <!--d="M 0.0 460.0 L 80.00 460.0 L 80.00 500.0 L 0.0 500.0 Z"-->
+            <!--id="path-1"-->
+            <!--transform="matrix(0.999996, -0.002717, 0.002717, 0.999996, -1.306254, 0.06501)"/>-->
+    <!--<path-->
+            <!--style="opacity: 0.75; fill-opacity: 1; stroke: none; fill: rgb(255, 40, 62);"-->
+            <!--d="M 500.0 -80.0 L 540.0 -80.0 L 540.0 0.0 L 500.0 0.0 Z"-->
+            <!--id="path-2"-->
+            <!--transform="matrix(0.999996, -0.002717, 0.002717, 0.999996, 0.05364, 1.421654)"/>-->
+
+    <path
+            style="opacity:0.75;fill:#ffd42a;fill-opacity:1;stroke:none"
+            d="M 5.1488244,93.242207 158.68865,5.62944 235.78621,140.74356 82.247248,228.35583"
+            id="shape_open_path"/>
+    <path
+            id="shape_closed_path"
+            d="m 198.44741,183.71367 121.2184,-1.43337 -1.61394,108.36344 -121.21771,1.43336 z"
+            style="opacity:0.75;fill:#88aa00;fill-opacity:1;stroke:none;stroke-width:0.6910668"/>
+
+    <path
+            style="opacity:0.75;fill:#3f29ff;fill-opacity:1;stroke:none"
+            d="m 354.90452,-0.38039919 c 0,0 95.24198,35.39320619 129.02809,85.91055319 -3.78153,60.641006 -57.24767,136.917236 -57.24767,136.917236 L 271.09642,138.52886 Z"
+            id="shape_closed_path_with_controlled_node"/>
+
+    <path
+            id="shape_open_path_with_all_controlled_nodes"
+            d="m 88.765825,384.15988 c -4.15459,-15.95061 26.146485,-60.78203 40.876375,-73.94129 19.17359,-3.82211 72.65732,10.47861 72.65732,10.47861 0,0 40.70518,76.73264 20.68762,86.70177"
+            style="opacity:0.75;fill:#ff6600;fill-opacity:1;stroke:none;stroke-width:0.58445519"/>
+    <path
+            style="opacity:0.75;fill:#aca793;fill-opacity:1;stroke:none;stroke-width:0.35919333"
+            d="m 263.01367,409.44049 c 0,0 -3.34587,-64.01594 6.04597,-82.77374 17.42269,-11.72032 75.77235,-20.59677 75.77235,-20.59677 l 56.75388,69.37763"
+            id="shape_open_path_with_last_uncontrolled_node"/>
+
+</svg>

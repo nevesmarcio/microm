@@ -16,16 +16,20 @@ import org.slf4j.LoggerFactory;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 
 public class SvgLoaderTest {
 
     private static final Logger log = LoggerFactory.getLogger(SvgLoaderTest.class);
 
+    private CountDownLatch expectedItemsLoaded = new CountDownLatch(4);
     private SvgLoader svgLoader = new SvgLoader(new AffineTransformation(), new IAppendable() {
         @Override
         public void append(LoadedActor loadedActor) {
             log.info("-->appending {}", loadedActor);
+            expectedItemsLoaded.countDown();
         }
     });
 
@@ -33,7 +37,7 @@ public class SvgLoaderTest {
 
     @Before
     public void setUp() throws Exception {
-        p = "src/test/resources/one-shape-only.svg";
+        p = "src/test/resources/control-shapes.svg";
     }
 
     @Test
@@ -44,7 +48,7 @@ public class SvgLoaderTest {
 
         svgLoader.loadSvg(p);
 
-        Thread.sleep(2000);
+        expectedItemsLoaded.await(5, TimeUnit.MINUTES);
         log.info("end test:{}", this.getClass().getSimpleName());
 
     }

@@ -56,18 +56,6 @@ public class LevelLoader {
     private LevelLoader() {
     }
 
-    /**
-     * @param board
-     * @param wm
-     */
-    private static BoardModel addBoardToWorld(ArrayList<AbstractModel> modelBag, WorldModel wm, BasicShape board, String board_name) {
-        BoardModel bm = BoardModel.getNewInstance(wm, board, board_name);
-        wm.setBoard(bm);
-
-        modelBag.add(bm);
-
-        return bm;
-    }
 
     /**
      * @param wm
@@ -97,29 +85,6 @@ public class LevelLoader {
         return sm;
     }
 
-    /**
-     * @param star
-     * @param wm
-     */
-    private static StarModel addStarToWorld(ArrayList<AbstractModel> modelBag, WorldModel wm, BasicShape star, String star_name) {
-        StarModel sm = StarModel.getNewInstance(wm, star, star_name);
-        modelBag.add(sm);
-
-        return sm;
-    }
-
-    /**
-     * @param trigger
-     * @param wm
-     */
-    private static SimpleTriggerModel addTriggerToWorld(ArrayList<AbstractModel> modelBag, WorldModel wm, BasicShape trigger, String trigger_name, String script) {
-        SimpleTriggerModel tModel = SimpleTriggerModel.getNewInstance(wm, trigger, trigger_name);
-        tModel.setScript(script);
-        modelBag.add(tModel);
-        return tModel;
-    }
-
-
     private static TextModel addTextToWorld(ArrayList<AbstractModel> modelBag, WorldModel wm, BasicShape sh, String text_name, final String content) {
         TextModel tm = TextModel.getNewInstance(wm, sh, text_name, content);
         modelBag.add(tm);
@@ -146,7 +111,7 @@ public class LevelLoader {
      * @param camWidth The box2d World object
      * @return number of assets loaded
      */
-    public static ArrayList<AbstractModel> LoadLevel(FileHandle h, final WorldModel wm, CameraModel cm) {
+    public static ArrayList<AbstractModel> LoadLevel(FileHandle h, final WorldModel wm, final CameraModel cm) {
 
         final AtomicInteger nrElements = new AtomicInteger(0);
         final ArrayList<AbstractModel> modelBag = new ArrayList<AbstractModel>();
@@ -157,7 +122,16 @@ public class LevelLoader {
 
             @Override
             public void addCamera(LoadedActor loadedActor) {
+                if (logger.isInfoEnabled()) logger.info("type='{}' loadedActor='{}'", "Camera", loadedActor);
 
+                addDebugPoints(loadedActor, wm,Color.GOLD);
+
+                BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.CAMERA);
+
+                // here we configure the camera
+                cm.adjustCamera(s.getWidth(), s.getHeight(), s.getCentroid().x, s.getCentroid().y);
+
+                nrElements.incrementAndGet();
             }
 
             @Override
@@ -244,7 +218,17 @@ public class LevelLoader {
 
             @Override
             public void addStar(LoadedActor loadedActor) {
+                if (logger.isInfoEnabled()) logger.info("type='{}' loadedActor='{}'", "Star", loadedActor);
+
                 addDebugPoints(loadedActor, wm,Color.WHITE);
+
+                BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.STAR);
+
+                StarModel wam = StarModel.getNewInstance(wm, s, loadedActor.id);
+                modelBag.add(wam);
+
+                nrElements.incrementAndGet();
+
             }
 
             @Override
@@ -254,7 +238,17 @@ public class LevelLoader {
 
             @Override
             public void addTrigger(LoadedActor loadedActor) {
+                if (logger.isInfoEnabled()) logger.info("type='{}' loadedActor='{}'", "Trigger", loadedActor);
+
                 addDebugPoints(loadedActor, wm,Color.BROWN);
+
+                BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.TRIGGER);
+
+                SimpleTriggerModel wam = SimpleTriggerModel.getNewInstance(wm, s, loadedActor.id);
+                wam.setScript(loadedActor.behaviour);
+                modelBag.add(wam);
+
+                nrElements.incrementAndGet();
             }
         });
         try {
@@ -280,26 +274,6 @@ public class LevelLoader {
             //expr.evaluate(doc, XPathConstants.STRING);
 
             XPathExpression expr;
-            // Get Camera
-            if (logger.isInfoEnabled()) logger.info("Camera...");
-            expr = xpath.compile("//svg/g/path[contains(@id,'camera')]");
-            NodeList camera = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-            for (int i = 0; i < camera.getLength(); i++) {
-                String d = camera.item(i).getAttributes().getNamedItem("d").getNodeValue();
-                String style = camera.item(i).getAttributes().getNamedItem("style").getNodeValue();
-                if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
-
-                BasicShape s = new BasicShape(d, style, ObjectType.CAMERA);
-
-                String camera_name = camera.item(i).getAttributes().getNamedItem("id").getNodeValue();
-
-                // here we configure the camera
-                cm.adjustCamera(s.getWidth(), s.getHeight(), s.getCentroid().x, s.getCentroid().y);
-
-                nrElements.incrementAndGet();
-            }
-
-
 
 
             // Get DaBox
@@ -335,28 +309,6 @@ public class LevelLoader {
                 nrElements.incrementAndGet();
             }
 
-
-
-
-
-            // Get stars
-            if (logger.isInfoEnabled()) logger.info("Stars...");
-            //expr = xpath.compile("//svg/g/path[contains(@id,'portal')]/@d");
-            expr = xpath.compile("//svg/g/path[contains(@id,'star')]");
-            NodeList stars = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-            for (int i = 0; i < stars.getLength(); i++) {
-                String d = stars.item(i).getAttributes().getNamedItem("d").getNodeValue();
-                String style = stars.item(i).getAttributes().getNamedItem("style").getNodeValue();
-                if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
-
-                BasicShape s = new BasicShape(d, style, ObjectType.STAR);
-                String star_name = stars.item(i).getAttributes().getNamedItem("id").getNodeValue();
-                addStarToWorld(modelBag, wm, s, star_name);
-
-                nrElements.incrementAndGet();
-            }
-
-
             // Get text
             if (logger.isInfoEnabled()) logger.info("Text...");
             expr = xpath.compile("//svg/g/text[contains(@id,'text')]/tspan");
@@ -374,24 +326,6 @@ public class LevelLoader {
                 if (logger.isInfoEnabled()) logger.info(".:.:.:. " + sh.getCentroid() + " .:.:.:.");
 
                 addTextToWorld(modelBag, wm, sh, id, s);
-
-                nrElements.incrementAndGet();
-            }
-
-
-            // Get triggers
-            if (logger.isInfoEnabled()) logger.info("Triggers...");
-            expr = xpath.compile("//svg/g/path[contains(@id,'trigger')]");
-            NodeList triggers = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-            for (int i = 0; i < triggers.getLength(); i++) {
-                String d = triggers.item(i).getAttributes().getNamedItem("d").getNodeValue();
-                String style = triggers.item(i).getAttributes().getNamedItem("style").getNodeValue();
-                if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
-
-                BasicShape s = new BasicShape(d, style, ObjectType.TRIGGER);
-                String trigger_name = triggers.item(i).getAttributes().getNamedItem("id").getNodeValue();
-                String script = triggers.item(i).getAttributes().getNamedItem("custom-script").getNodeValue();
-                addTriggerToWorld(modelBag, wm, s, trigger_name, script);
 
                 nrElements.incrementAndGet();
             }
@@ -424,7 +358,7 @@ public class LevelLoader {
 
         //todo: remove this
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
