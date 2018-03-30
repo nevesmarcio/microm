@@ -86,7 +86,7 @@ public class SvgService {
 
                 //todo: call IAppendable (which is still agnostic of the game)
 //                //verify this step - count the number of points before and after
-//                ph.path.refine(0.1f);
+                ph.path.refine(0.10f);
                 LoadedActor loadedActor = new LoadedActor();
                 loadedActor.path = new ArrayList<>();
                 for (Coordinate src : ph.path.getPolygon()) {

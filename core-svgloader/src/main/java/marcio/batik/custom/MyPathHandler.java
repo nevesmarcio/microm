@@ -54,7 +54,7 @@ public class MyPathHandler implements PathHandler {
     public void closePath() throws ParseException {
         SplineVertex origin = path.getFirst();
         log.debug("closePath (x,y)=('{}','{}')", origin.p.x, origin.p.y);
-        path.addVertex(origin);
+//        path.addVertex(origin);
     }
 
     /**
