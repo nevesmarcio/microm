@@ -23,6 +23,7 @@ task dist(type: Jar) {
 dist.dependsOn classes
 
 dependencies {
+    //logback dependencies
     compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.7'
     compile group: 'ch.qos.logback', name: 'logback-core', version: '1.1.7'
 
