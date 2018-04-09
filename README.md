@@ -2,7 +2,8 @@
 ./gradlew :desktop:run --debug-jvm
 ./gradlew :core:test --tests AsyncXmlTest.testAsyncXMLRead --debug-jvm
 
-
+./gradlew core-svgloader:dependencies --configuration compile
+./gradlew core-svgloader:dependencies --configuration testCompile
 
 
 //todo
