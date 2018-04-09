@@ -20,7 +20,7 @@
     <logger name="UIMetricsModel" level="DEBUG"/>
     <logger name="UIMetricsView" level="DEBUG"/>
      -->
-    <logger name="ScreenDummy" level="DEBUG"/>
+    <!--<logger name="ScreenDummy" level="DEBUG"/>-->
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

@@ -13,8 +13,6 @@ test {
 dependencies {
     //logging
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.7'
-    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.1.7'
     // event driven XML parsing - https://github.com/FasterXML/aalto-xml
     compile group: 'com.fasterxml', name: 'aalto-xml', version: '1.0.0' // not compatible with android runtime - depends on jdk specific libraries
     //batik svg parser - https://xmlgraphics.apache.org/batik/

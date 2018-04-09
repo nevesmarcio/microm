@@ -8,19 +8,17 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.stream.XMLStreamException;
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 
-public class SvgLoaderTest {
+public class LibgdxSvgLoaderTest {
 
-    private static final Logger log = LoggerFactory.getLogger(SvgLoaderTest.class);
+    private static final Logger log = LoggerFactory.getLogger(LibgdxSvgLoaderTest.class);
 
     private CountDownLatch expectedItemsLoaded = new CountDownLatch(7);
-    private SvgLoader svgLoader = new SvgLoader(new AffineTransformation(), new IAppendable() {
+    private LibgdxSvgLoader svgLoader = new LibgdxSvgLoader(new AffineTransformation(), new IAppendable() {
         @Override
         public void append(LoadedActor loadedActor) {
             log.info("-->appending {}", loadedActor);
@@ -36,7 +34,7 @@ public class SvgLoaderTest {
     }
 
     @Test
-    public void testRead() throws IOException, InterruptedException, XMLStreamException {
+    public void testRead() throws Exception {
 
         log.info("start test:{}", this.getClass().getSimpleName());
         log.debug("Working dir: {}", Paths.get(".").toAbsolutePath().toString());

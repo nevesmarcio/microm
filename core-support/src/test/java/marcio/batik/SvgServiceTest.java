@@ -2,10 +2,10 @@ package marcio.batik;
 
 import marcio.batik.game1.LoadedActor;
 import marcio.nio.AsyncIOChunked;
-import marcio.nio.ChunkReadHandler;
+import marcio.nio.IChunkReadHandler;
 import marcio.transform.AffineTransformation;
-import marcio.xml.AsyncXmlParserService;
-import marcio.xml.XmlNodeHandler;
+import marcio.xml.AaltoXmlParserService;
+import marcio.xml.IXmlNodeEmitter;
 import marcio.xml.codec.XmlNode;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +22,7 @@ public class SvgServiceTest {
     private static final Logger log = LoggerFactory.getLogger(SvgServiceTest.class);
 
     final private AsyncIOChunked asyncIOChunked = new AsyncIOChunked();
-    final private AsyncXmlParserService asyncXmlService = new AsyncXmlParserService();
+    final private AaltoXmlParserService asyncXmlService = new AaltoXmlParserService();
     final private SvgService svgService = new SvgService(new AffineTransformation(), new IAppendable() {
         @Override
         public void append(LoadedActor loadedActor) {
@@ -35,9 +35,9 @@ public class SvgServiceTest {
     @Before
     public void setUp() throws Exception {
         p = "src/test/resources/control-shapes.svg";
-        asyncXmlService.setXmlNodeHandler(new XmlNodeHandler() {
+        asyncXmlService.setXmlNodeEmitter(new IXmlNodeEmitter() {
             @Override
-            public void handle(XmlNode xmlNode) {
+            public void emit(XmlNode xmlNode) {
                 System.out.println("\t\t\t>>>Emitting: " + xmlNode.toString());
                 svgService.feedInput(xmlNode);
             }
@@ -50,15 +50,20 @@ public class SvgServiceTest {
         log.info("start test:{}", this.getClass().getSimpleName());
         log.debug("Working dir: {}", Paths.get(".").toAbsolutePath().toString());
 
-        asyncIOChunked.asyncRead(p, new ChunkReadHandler() {
+        asyncIOChunked.asyncRead(p, new IChunkReadHandler() {
             @Override
             public void handle(String chunk) {
                 try {
                     log.info("chunk read - feeding parser>>>");
                     asyncXmlService.feedInput(chunk.getBytes(), 0, chunk.getBytes().length);
-                } catch (XMLStreamException e) {
+                } catch (Exception e) {
                     log.error("Couldn't parse chunk!");
                 }
+            }
+
+            @Override
+            public void noMoreInput() {
+                log.info("no more input>>>");
             }
         });
 

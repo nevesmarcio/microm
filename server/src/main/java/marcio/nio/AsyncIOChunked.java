@@ -24,7 +24,7 @@ public class AsyncIOChunked {
 
 
 
-    public void asyncRead(final String file, final ChunkReadHandler readHandler) throws IOException{
+    public void asyncRead(final String file, final IChunkReadHandler readHandler) throws IOException{
         log.debug("testAsyncXMLReadSingleThreadRecursive");
 
         Path path = Paths.get(file);
@@ -59,6 +59,7 @@ public class AsyncIOChunked {
                     attachment.asyncChannel.read(attachment.buffer, attachment.pointer, attachment, this);
                 } else {
                     log.debug("no further reads");
+                    readHandler.noMoreInput();
                 }
             }
 

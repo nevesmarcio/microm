@@ -1,19 +1,8 @@
 package pt.me.microm.tools.levelloader;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
-import marcio.SvgLoader;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
+import marcio.LibgdxSvgLoader;
 import marcio.batik.game1.LoadedActor;
 import marcio.transform.AffineTransformation;
 import marcio.transform.Coordinate;
@@ -22,26 +11,23 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
 import pt.me.microm.GameMicroM;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.collectible.StarModel;
 import pt.me.microm.model.dev.DebugModel;
-import pt.me.microm.model.stuff.BoardModel;
-import pt.me.microm.model.stuff.DaBoxModel;
-import pt.me.microm.model.stuff.GoalModel;
-import pt.me.microm.model.stuff.GroundModel;
-import pt.me.microm.model.stuff.PortalModel;
-import pt.me.microm.model.stuff.SpawnModel;
-import pt.me.microm.model.stuff.WallModel;
+import pt.me.microm.model.stuff.*;
 import pt.me.microm.model.trigger.SimpleTriggerModel;
 import pt.me.microm.model.ui.TextModel;
 
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This class exposes a static method that allows the reading of a Level from an
@@ -117,7 +103,7 @@ public class LevelLoader {
         final ArrayList<AbstractModel> modelBag = new ArrayList<AbstractModel>();
 
 
-        SvgLoader svgLoader = new SvgLoader(AffineTransformation.scaleInstance(1D / 85.3D, -1D / 85.3D), new AppendToGame1() {
+        LibgdxSvgLoader svgLoader = new LibgdxSvgLoader(AffineTransformation.scaleInstance(1D / 85.3D, -1D / 85.3D), new AppendToGame1() {
 
 
             @Override
@@ -252,8 +238,8 @@ public class LevelLoader {
             }
         });
         try {
-            svgLoader.loadSvg(h.path());
-        } catch (IOException e) {
+            svgLoader.loadSvg(h);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

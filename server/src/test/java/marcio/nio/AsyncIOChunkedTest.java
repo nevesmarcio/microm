@@ -28,10 +28,15 @@ public class AsyncIOChunkedTest {
         log.info("start test:{}", this.getClass().getSimpleName());
         log.debug("Working dir: {}", Paths.get(".").toAbsolutePath().toString());
 
-        asyncIOChunked.asyncRead(p, new ChunkReadHandler() {
+        asyncIOChunked.asyncRead(p, new IChunkReadHandler() {
             @Override
             public void handle(String chunk) {
                 System.out.print(chunk);
+            }
+
+            @Override
+            public void noMoreInput() {
+                System.out.println("No more input!");
             }
         });
 

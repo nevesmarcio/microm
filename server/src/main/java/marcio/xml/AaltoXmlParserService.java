@@ -10,62 +10,29 @@ import org.slf4j.LoggerFactory;
 
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
-import java.util.Stack;
 
-public class AsyncXmlParserService {
-    private static final Logger log = LoggerFactory.getLogger(AsyncXmlParserService.class);
+public class AaltoXmlParserService extends AbstractXmlParserService {
+    private static final Logger log = LoggerFactory.getLogger(AaltoXmlParserService.class);
 
     private AsyncXMLInputFactory XML_INPUT_FACTORY = new InputFactoryImpl(); // sub-class of XMLStreamReader2
     private AsyncXMLStreamReader<AsyncByteArrayFeeder> parser = XML_INPUT_FACTORY.createAsyncForByteArray();
 
-    private XmlNodeHandler xmlNodeHandler;
-
-    public void setXmlNodeHandler(XmlNodeHandler xmlNodeHandler) {
-        this.xmlNodeHandler = xmlNodeHandler;
+    public AaltoXmlParserService() {
     }
 
-    public AsyncXmlParserService() {
-
-    }
-
-    public AsyncXmlParserService(XmlNodeHandler xmlNodeHandler) {
-        this.xmlNodeHandler = xmlNodeHandler;
-    }
-
-    //region interface1: manual methods
-    //---------------------------------------------------------------------------------------
-    public void feedInput(byte[] data, int offset, int len) throws XMLStreamException {
+    @Override
+    public void feedInput(byte[] data, int offset, int len) throws Exception {
         parser.getInputFeeder().feedInput(data, offset, len);
         int event_type;
-        while ((event_type= parser.next())!= AsyncXMLStreamReader.EVENT_INCOMPLETE) {
+        while ((event_type = parser.next()) != AsyncXMLStreamReader.EVENT_INCOMPLETE) {
             decode(event_type);
         }
     }
 
+    @Override
     public void endOfInput() {
         parser.getInputFeeder().endOfInput();
     }
-    //---------------------------------------------------------------------------------------
-    //endregion interface1: manual methods
-
-
-    //region context maintenance
-    //---------------------------------------------------------------------------------------
-    private Stack<XmlNode> xmlElements = new Stack<>();
-
-    private String getCurrentContext() {
-        StringBuilder sb = new StringBuilder();
-        for (XmlNode dn : xmlElements) {
-            sb.append("/");
-            sb.append(dn.nodeType);
-        }
-        if (!(sb.length() > 0)) {
-            sb.append("/");
-        }
-        return sb.toString();
-    }
-    //---------------------------------------------------------------------------------------
-    //endregion context maintenance
 
     private void decode(int type) throws XMLStreamException {
         log.trace(">>>>decode enter");
@@ -97,7 +64,7 @@ public class AsyncXmlParserService {
                 }
 
                 log.debug(">>>>{}", nodeToAdd.toString());
-                if (xmlNodeHandler!= null) xmlNodeHandler.handle(nodeToAdd);
+                if (xmlNodeEmitter != null) xmlNodeEmitter.emit(nodeToAdd);
 
                 //XmlElementStart elementStart = new XmlElementStart(parser.getLocalName(), parser.getName().getNamespaceURI(), parser.getPrefix());
                 //for (int x = 0; x < parser.getAttributeCount(); x++) {
