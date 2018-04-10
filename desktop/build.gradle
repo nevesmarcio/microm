@@ -24,8 +24,8 @@ dist.dependsOn classes
 
 dependencies {
     //logback dependencies
-    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.7'
-    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.1.7'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
 
     // desktop specific local libs
     compile fileTree(dir: 'libs', include: '*.jar')
