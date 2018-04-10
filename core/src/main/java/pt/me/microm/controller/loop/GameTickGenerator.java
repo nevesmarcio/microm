@@ -1,5 +1,15 @@
 package pt.me.microm.controller.loop;
 
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.TimeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pt.me.microm.controller.loop.event.GameTickEvent;
+import pt.me.microm.controller.loop.itf.IGameTick;
+import pt.me.microm.controller.loop.itf.IProcessRunnable;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
+
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -9,18 +19,6 @@ import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import pt.me.microm.controller.loop.event.GameTickEvent;
-import pt.me.microm.controller.loop.itf.IGameTick;
-import pt.me.microm.controller.loop.itf.IProcessRunnable;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
-
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameTickGenerator implements IProcessRunnable, Disposable {
 	private static int dbg = 0;

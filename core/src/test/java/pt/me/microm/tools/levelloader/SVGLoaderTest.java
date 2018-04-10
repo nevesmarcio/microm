@@ -2,12 +2,12 @@ package pt.me.microm.tools.levelloader;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import helper.GameTest;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import helper.GameTest;
 
 import javax.xml.xpath.XPathExpressionException;
 

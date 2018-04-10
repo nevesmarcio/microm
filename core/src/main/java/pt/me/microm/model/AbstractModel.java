@@ -1,13 +1,8 @@
 package pt.me.microm.model;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.UUID;
-
+import com.badlogic.gdx.utils.Disposable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import pt.me.microm.controller.loop.GameTickGenerator;
 import pt.me.microm.controller.loop.itf.IGameTick;
 import pt.me.microm.infrastructure.event.IEvent;
@@ -15,7 +10,10 @@ import pt.me.microm.infrastructure.event.dispatcher.EventDispatcher;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
 import pt.me.microm.view.AbstractView;
 
-import com.badlogic.gdx.utils.Disposable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.UUID;
 
 /*
  * Esta classe abstracta garante que por cada modelo é automaticamente instanciada uma view
@@ -26,7 +24,7 @@ public abstract class AbstractModel extends EventDispatcher implements Disposabl
 	private static final String TAG = AbstractModel.class.getSimpleName();
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
-	public static enum EventType {
+	public enum EventType {
 		ON_MODEL_INSTANTIATED // Event raised when model finishes its instantiation
 	};	
 	

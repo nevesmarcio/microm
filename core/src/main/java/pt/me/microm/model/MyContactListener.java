@@ -1,16 +1,14 @@
 package pt.me.microm.model;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import pt.me.microm.infrastructure.event.CollisionEvent;
-import pt.me.microm.infrastructure.event.dispatcher.EventDispatcher;
-import pt.me.microm.model.trigger.SimpleTriggerModel;
-
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pt.me.microm.infrastructure.event.CollisionEvent;
+import pt.me.microm.infrastructure.event.dispatcher.EventDispatcher;
+import pt.me.microm.model.trigger.SimpleTriggerModel;
 
 /**
  * 
@@ -105,7 +103,7 @@ public class MyContactListener extends EventDispatcher implements ContactListene
 	}	
 
 	
-	public static enum EventType {
+	public enum EventType {
 		ON_COLLISION_BEGIN, // Event raised when 2 objects begin touching each other
 		ON_COLLISION_END	// Event raised when 2 objects end touching each other
 	};		

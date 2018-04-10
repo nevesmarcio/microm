@@ -1,18 +1,17 @@
 package pt.me.microm.model.ui.utils;
 
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
-
-import pt.me.microm.controller.loop.event.GameTickEvent;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.event.SimpleEvent;
-import pt.me.microm.model.AbstractModel;
 import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenManager;
-
 import com.badlogic.gdx.math.Vector2;
+import pt.me.microm.controller.loop.event.GameTickEvent;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.event.SimpleEvent;
+import pt.me.microm.model.AbstractModel;
+
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 
 
 public class FlashMessageManagerModel extends AbstractModel {

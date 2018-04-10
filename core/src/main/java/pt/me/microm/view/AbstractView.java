@@ -1,19 +1,17 @@
 package pt.me.microm.view;
 
 
-import java.util.UUID;
-
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Disposable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import pt.me.microm.controller.loop.ScreenTickManager;
 import pt.me.microm.controller.loop.itf.IScreenTick;
 import pt.me.microm.infrastructure.event.IEvent;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
 import pt.me.microm.model.AbstractModel;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.Disposable;
+import java.util.UUID;
 
 public abstract class AbstractView implements Disposable, IScreenTick {
 	private static final String TAG = AbstractView.class.getSimpleName();

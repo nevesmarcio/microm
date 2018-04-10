@@ -1,18 +1,16 @@
 package pt.me.microm.view.ui;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import pt.me.microm.controller.loop.event.ScreenTickEvent;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.model.ui.TextModel;
-import pt.me.microm.view.AbstractView;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pt.me.microm.controller.loop.event.ScreenTickEvent;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.model.ui.TextModel;
+import pt.me.microm.view.AbstractView;
 
 
 public class TextView extends AbstractView {

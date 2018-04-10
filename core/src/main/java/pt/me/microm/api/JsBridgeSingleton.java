@@ -1,20 +1,15 @@
 package pt.me.microm.api;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.nio.channels.ReadableByteChannel;
-import java.util.Iterator;
-
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import pt.me.microm.GameMicroM;
 import pt.me.microm.controller.loop.GameTickGenerator;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.CollisionEvent;
 import pt.me.microm.infrastructure.event.IEvent;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
@@ -23,8 +18,9 @@ import pt.me.microm.model.MyContactListener;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.stuff.DaBoxModel;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Disposable;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Iterator;
 
 
 /**

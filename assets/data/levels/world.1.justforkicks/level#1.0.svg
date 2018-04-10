@@ -2,20 +2,19 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="1280"
-   height="1280"
-   id="svg2"
-   version="1.1"
-   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
-   sodipodi:docname="level#1.0.svg">
+        xmlns:dc="http://purl.org/dc/elements/1.1/"
+        xmlns:cc="http://creativecommons.org/ns#"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+        width="1280"
+        height="1280"
+        id="svg2"
+        version="1.1"
+        inkscape:version="0.92.2 5c3e80d, 2017-08-06"
+        sodipodi:docname="level#1.0.svg">
   <defs
      id="defs4">
     <linearGradient
@@ -186,21 +185,21 @@
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:Arial;-inkscape-font-specification:Arial;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none"
        x="25.817139"
        y="936.08643"
-       id="text2989"><tspan
+       id="txtholder2989"><tspan
          sodipodi:role="line"
-         id="tspan2991"
+         id="text2989"
          x="25.817139"
          y="936.08643"
          style="font-size:56px;line-height:1.25">Get ready!</tspan></text>
     <text
-       id="text2993"
+       id="txtholder2993"
        y="936.08643"
        x="1261.2247"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:Arial;-inkscape-font-specification:Arial;text-align:end;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#f2f2f2;fill-opacity:1;stroke:none"
        xml:space="preserve"><tspan
          y="936.08643"
          x="1261.2247"
-         id="tspan2995"
+         id="text2993"
          sodipodi:role="line"
          style="font-size:56px;line-height:1.25">Go rescue her!</tspan></text>
     <path

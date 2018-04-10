@@ -1,7 +1,12 @@
 package pt.me.microm.tools.levelloader;
 
-import java.util.*;
-import org.w3c.dom.*;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.util.AbstractList;
+import java.util.Collections;
+import java.util.List;
+import java.util.RandomAccess;
 
 /**
  * Util class that allows a static import to process NodeList with foreach

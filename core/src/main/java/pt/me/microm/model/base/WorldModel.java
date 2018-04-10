@@ -1,23 +1,17 @@
 package pt.me.microm.model.base;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import pt.me.microm.controller.loop.event.GameTickEvent;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.event.SimpleEvent;
-import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.stuff.BoardModel;
-import pt.me.microm.model.stuff.DaBoxModel;
-import pt.me.microm.model.stuff.PortalModel;
-import pt.me.microm.model.stuff.PortalModelManager;
-import pt.me.microm.model.stuff.SpawnModel;
 import aurelienribon.tweenengine.TweenManager;
-
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pt.me.microm.controller.loop.event.GameTickEvent;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.event.SimpleEvent;
+import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.stuff.*;
 
 
 
@@ -31,7 +25,7 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 //	private static WorldModel instance = null;
-	public static enum EventType {
+	public enum EventType {
 		ON_LEVEL_LOADED,		// Event raised when the level is finished loading
 		ON_LIFE_LOST,			// Event raised when the player lose a life
 		ON_COLLECTIBLE_FOUND,	// Event raised when the player founds a collectible item

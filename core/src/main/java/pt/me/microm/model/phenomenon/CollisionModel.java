@@ -1,13 +1,11 @@
 package pt.me.microm.model.phenomenon;
 
+import com.badlogic.gdx.math.Vector2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
-
-import com.badlogic.gdx.math.Vector2;
 
 
 /**

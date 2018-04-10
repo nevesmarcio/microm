@@ -1,14 +1,12 @@
 package pt.me.microm.session;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
-
 import com.badlogic.gdx.Gdx;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 
 public class PlayerProgress {
 

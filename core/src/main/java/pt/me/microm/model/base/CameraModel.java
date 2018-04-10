@@ -1,16 +1,14 @@
 package pt.me.microm.model.base;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import pt.me.microm.controller.loop.event.GameTickEvent;
-import pt.me.microm.infrastructure.event.SimpleEvent;
-import pt.me.microm.model.AbstractModel;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.math.Vector3;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pt.me.microm.controller.loop.event.GameTickEvent;
+import pt.me.microm.infrastructure.event.SimpleEvent;
+import pt.me.microm.model.AbstractModel;
 
 
 public class CameraModel extends AbstractModel {

@@ -1,9 +1,8 @@
 package pt.me.microm.controller;
 
+import com.badlogic.gdx.InputProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.badlogic.gdx.InputProcessor;
 
 public class MyInputProcessor implements InputProcessor {
 	private static final String TAG = MyInputProcessor.class.getSimpleName();

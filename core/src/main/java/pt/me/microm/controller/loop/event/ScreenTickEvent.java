@@ -1,11 +1,10 @@
 package pt.me.microm.controller.loop.event;
 
-import java.util.EventObject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import pt.me.microm.model.base.CameraModel;
+
+import java.util.EventObject;
 
 
 

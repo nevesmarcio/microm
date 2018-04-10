@@ -1,16 +1,5 @@
 package pt.me.microm.view.stuff;
 
-import java.util.Iterator;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import pt.me.microm.GameMicroM;
-import pt.me.microm.controller.loop.event.ScreenTickEvent;
-import pt.me.microm.model.stuff.DaBoxModel;
-import pt.me.microm.view.AbstractView;
-import pt.me.microm.view.helper.SimpleRendererHelper;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -19,6 +8,15 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pt.me.microm.GameMicroM;
+import pt.me.microm.controller.loop.event.ScreenTickEvent;
+import pt.me.microm.model.stuff.DaBoxModel;
+import pt.me.microm.view.AbstractView;
+import pt.me.microm.view.helper.SimpleRendererHelper;
+
+import java.util.Iterator;
 
 
 public class DaBoxView extends AbstractView {

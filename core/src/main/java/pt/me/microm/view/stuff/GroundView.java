@@ -1,19 +1,17 @@
 package pt.me.microm.view.stuff;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import pt.me.microm.GameMicroM;
-import pt.me.microm.controller.loop.event.ScreenTickEvent;
-import pt.me.microm.model.stuff.GroundModel;
-import pt.me.microm.view.AbstractView;
-import pt.me.microm.view.helper.SimpleRendererHelper;
-
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pt.me.microm.GameMicroM;
+import pt.me.microm.controller.loop.event.ScreenTickEvent;
+import pt.me.microm.model.stuff.GroundModel;
+import pt.me.microm.view.AbstractView;
+import pt.me.microm.view.helper.SimpleRendererHelper;
 
 
 public class GroundView extends AbstractView {

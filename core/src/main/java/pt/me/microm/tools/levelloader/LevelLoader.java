@@ -8,9 +8,6 @@ import marcio.transform.AffineTransformation;
 import marcio.transform.Coordinate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 import pt.me.microm.GameMicroM;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.base.CameraModel;
@@ -21,11 +18,6 @@ import pt.me.microm.model.stuff.*;
 import pt.me.microm.model.trigger.SimpleTriggerModel;
 import pt.me.microm.model.ui.TextModel;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -38,45 +30,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class LevelLoader {
     private static final String TAG = LevelLoader.class.getSimpleName();
     private static final Logger logger = LoggerFactory.getLogger(TAG);
-
-    private LevelLoader() {
-    }
-
-
-    /**
-     * @param wm
-     * @param dabox
-     * @param dabox_name
-     * @return
-     */
-    private static DaBoxModel addDaBoxToWorld(ArrayList<AbstractModel> modelBag, WorldModel wm, BasicShape dabox, String dabox_name) {
-        DaBoxModel dbm = DaBoxModel.getNewInstance(wm, dabox, dabox_name);
-        wm.setPlayer(dbm);
-
-        modelBag.add(dbm);
-
-        return dbm;
-    }
-
-    /**
-     * @param spawn
-     * @param wm
-     */
-    private static SpawnModel addSpawnToWorld(ArrayList<AbstractModel> modelBag, WorldModel wm, DaBoxModel dbm, BasicShape spawn, String spawn_name) {
-        SpawnModel sm = SpawnModel.getNewInstance(wm, dbm, spawn, spawn_name);
-        wm.setSpawnModel(sm);
-
-        modelBag.add(sm);
-
-        return sm;
-    }
-
-    private static TextModel addTextToWorld(ArrayList<AbstractModel> modelBag, WorldModel wm, BasicShape sh, String text_name, final String content) {
-        TextModel tm = TextModel.getNewInstance(wm, sh, text_name, content);
-        modelBag.add(tm);
-        return tm;
-
-    }
 
     private static void addDebugPoints(LoadedActor loadedActor, WorldModel wm, Color color){
         if (GameMicroM.FLAG_DEBUG_POINTS) {
@@ -136,12 +89,40 @@ public class LevelLoader {
 
             @Override
             public void addDaBox(LoadedActor loadedActor) {
-                addDebugPoints(loadedActor, wm,Color.WHITE);
+                if (logger.isInfoEnabled()) logger.info("type='{}' loadedActor='{}'", "DaBox", loadedActor);
+
+                addDebugPoints(loadedActor, wm, Color.WHITE);
+
+                BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.DABOX);
+                DaBoxModel dbm = DaBoxModel.getNewInstance(wm, s, loadedActor.id);
+                wm.setPlayer(dbm);
+
+                modelBag.add(dbm);
+
+                nrElements.incrementAndGet();
+
             }
 
             @Override
             public void addSpawn(LoadedActor loadedActor) {
-                addDebugPoints(loadedActor, wm,Color.BLUE);
+                if (logger.isInfoEnabled()) logger.info("type='{}' loadedActor='{}'", "Spawn", loadedActor);
+
+                addDebugPoints(loadedActor, wm, Color.BLUE);
+
+
+                // Get Spawn
+                if (logger.isInfoEnabled()) logger.info("Spawn...");
+
+
+                BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.SPAWN);
+                SpawnModel sm = SpawnModel.getNewInstance(wm, s, loadedActor.id);
+                wm.setSpawnModel(sm);
+
+                modelBag.add(sm);
+
+
+                nrElements.incrementAndGet();
+
             }
 
             @Override
@@ -219,7 +200,26 @@ public class LevelLoader {
 
             @Override
             public void addText(LoadedActor loadedActor) {
-                addDebugPoints(loadedActor, wm,Color.YELLOW);
+                if (logger.isInfoEnabled()) logger.info("type='{}' loadedActor='{}'", "Text", loadedActor);
+
+                addDebugPoints(loadedActor, wm, Color.YELLOW);
+
+                String id = loadedActor.id;
+                if (logger.isInfoEnabled()) logger.info("[" + id + "]");
+
+                double x = loadedActor.path.get(0).x;
+                double y = loadedActor.path.get(0).y;
+                String s = loadedActor.behaviour;
+
+                if (logger.isInfoEnabled()) logger.info("[" + id + "] = x: " + x + "; y: " + y + "; ==> '" + s + "'");
+                BasicShape sh = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.TEXT);
+                if (logger.isInfoEnabled()) logger.info(".:.:.:. " + sh.getCentroid() + " .:.:.:.");
+
+                TextModel tm = TextModel.getNewInstance(wm, sh, id, s);
+                modelBag.add(tm);
+
+                nrElements.incrementAndGet();
+
             }
 
             @Override
@@ -244,94 +244,6 @@ public class LevelLoader {
         }
 
 
-        //////////////
-
-
-
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            //factory.setNamespaceAware(true);
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            //FileHandle h = Gdx.files.internal("data/levels/sample.xml");
-            Document doc = builder.parse(h.read());
-            XPathFactory xPathfactory = XPathFactory.newInstance();
-            XPath xpath = xPathfactory.newXPath();
-            //XPathExpression expr = xpath.compile("//book[author='Neal Stephenson']/title/text()");
-            //expr.evaluate(doc, XPathConstants.STRING);
-
-            XPathExpression expr;
-
-
-            // Get DaBox
-            DaBoxModel daBoxRef = null;
-            if (logger.isInfoEnabled()) logger.info("DaBox...");
-            expr = xpath.compile("//svg/g/path[contains(@id,'daBox')]");
-            NodeList dabox = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-            for (int i = 0; i < dabox.getLength(); i++) {
-                String d = dabox.item(i).getAttributes().getNamedItem("d").getNodeValue();
-                String style = dabox.item(i).getAttributes().getNamedItem("style").getNodeValue();
-                if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
-
-                BasicShape s = new BasicShape(d, style, ObjectType.DABOX);
-                String dabox_name = dabox.item(i).getAttributes().getNamedItem("id").getNodeValue();
-                daBoxRef = addDaBoxToWorld(modelBag, wm, s, dabox_name);
-
-                nrElements.incrementAndGet();
-            }
-
-            // Get Spawn
-            if (logger.isInfoEnabled()) logger.info("Spawn...");
-            expr = xpath.compile("//svg/g/path[contains(@id,'spawn')]");
-            NodeList spawn = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-            for (int i = 0; i < spawn.getLength(); i++) {
-                String d = spawn.item(i).getAttributes().getNamedItem("d").getNodeValue();
-                String style = spawn.item(i).getAttributes().getNamedItem("style").getNodeValue();
-                if (logger.isInfoEnabled()) logger.info("d= " + d + "; style= " + style + ";");
-
-                BasicShape s = new BasicShape(d, style, ObjectType.SPAWN);
-                String spawn_name = spawn.item(i).getAttributes().getNamedItem("id").getNodeValue();
-                addSpawnToWorld(modelBag, wm, daBoxRef, s, spawn_name);
-
-                nrElements.incrementAndGet();
-            }
-
-            // Get text
-            if (logger.isInfoEnabled()) logger.info("Text...");
-            expr = xpath.compile("//svg/g/text[contains(@id,'text')]/tspan");
-            NodeList text = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-            for (int i = 0; i < text.getLength(); i++) {
-                String id = text.item(i).getAttributes().getNamedItem("id").getNodeValue();
-                if (logger.isInfoEnabled()) logger.info("[" + id + "]");
-
-                String x = text.item(i).getAttributes().getNamedItem("x").getNodeValue();
-                String y = text.item(i).getAttributes().getNamedItem("y").getNodeValue();
-                String s = text.item(i).getTextContent();
-
-                if (logger.isInfoEnabled()) logger.info("[" + id + "] = x: " + x + "; y: " + y + "; ==> '" + s + "'");
-                BasicShape sh = new BasicShape("m " + x + "," + y, "", ObjectType.TEXT);
-                if (logger.isInfoEnabled()) logger.info(".:.:.:. " + sh.getCentroid() + " .:.:.:.");
-
-                addTextToWorld(modelBag, wm, sh, id, s);
-
-                nrElements.incrementAndGet();
-            }
-
-            if (logger.isInfoEnabled()) logger.info("Finished Loading level: " + h.name());
-
-        } catch (ParserConfigurationException e) {
-            if (logger.isErrorEnabled()) logger.error(e.getMessage());
-            e.printStackTrace();
-        } catch (SAXException e) {
-            if (logger.isErrorEnabled()) logger.error(e.getMessage());
-            e.printStackTrace();
-        } catch (IOException e) {
-            if (logger.isErrorEnabled()) logger.error(e.getMessage());
-            e.printStackTrace();
-        } catch (XPathExpressionException e) {
-            if (logger.isErrorEnabled()) logger.error(e.getMessage());
-            e.printStackTrace();
-        }
-
         int check = 0;
         for (AbstractModel am : modelBag) {
             if (am instanceof DebugModel) check += 1;
@@ -339,15 +251,6 @@ public class LevelLoader {
         // the (-1) is because the camera loading parameters doesn't create a new model
         if (logger.isDebugEnabled())
             logger.debug("size of bag is {}; # of non debug point models is {}; # of debug points model is {}", modelBag.size(), nrElements.get() - 1, check);
-
-
-
-        //todo: remove this
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
 
         return modelBag;

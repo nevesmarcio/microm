@@ -20,10 +20,11 @@ import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.event.IEvent;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.base.CameraControllerDrag;
 import pt.me.microm.model.base.CameraControllerStrafe;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
+import pt.me.microm.model.stuff.DaBoxModel;
+import pt.me.microm.model.stuff.SpawnModel;
 import pt.me.microm.model.ui.UIMetricsModel;
 import pt.me.microm.model.ui.UIModel;
 import pt.me.microm.model.ui.utils.FlashMessageManagerModel;
@@ -77,6 +78,18 @@ public class ScreenTheJuice implements Screen {
 		if (GameMicroM.FLAG_LOAD_LEVEL) {
 			FileHandle h = Gdx.files.internal("data/levels/" + world + "/" + level);
 			modelBag = LevelLoader.LoadLevel(h, worldModel, cameraModel);
+			// todo: dependency injection here
+            DaBoxModel dbm=null;//dabox injection in spawn
+            SpawnModel spawnModel=null;
+            for (AbstractModel am : modelBag) {
+                if (am instanceof SpawnModel)
+                    spawnModel = (SpawnModel) am;
+                if (am instanceof DaBoxModel)
+                    dbm = (DaBoxModel) am;
+            }
+            spawnModel.setDbm(dbm);
+
+
 			if (logger.isInfoEnabled()) logger.info("Nr elements loaded: " + modelBag.size());
 		}
 		worldModel.addListener(WorldModel.EventType.ON_WORLD_COMPLETED, new IEventListener() {

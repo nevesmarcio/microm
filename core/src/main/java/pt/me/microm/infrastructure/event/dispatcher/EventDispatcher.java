@@ -1,13 +1,12 @@
 package pt.me.microm.infrastructure.event.dispatcher;
 
-import java.util.HashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import pt.me.microm.infrastructure.event.IEvent;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
+
+import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /*
  * Thanks to: http://www.therealjoshua.com/2012/07/android-architecture-part-10-the-activity-revisited/

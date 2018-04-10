@@ -1,23 +1,20 @@
 package pt.me.microm.view.ui;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import pt.me.microm.controller.loop.event.ScreenTickEvent;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.model.ui.UIModel;
-import pt.me.microm.view.AbstractView;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pt.me.microm.controller.loop.event.ScreenTickEvent;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.model.ui.UIModel;
+import pt.me.microm.view.AbstractView;
 
 
 public class UIView extends AbstractView {

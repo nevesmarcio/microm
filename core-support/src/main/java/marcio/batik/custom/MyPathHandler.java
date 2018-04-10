@@ -1,14 +1,11 @@
 package marcio.batik.custom;
 
-import marcio.transform.Coordinate;
 import marcio.transform.Spline;
 import marcio.transform.SplineVertex;
 import org.apache.batik.parser.ParseException;
 import org.apache.batik.parser.PathHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
 
 public class MyPathHandler implements PathHandler {
     private static final Logger log = LoggerFactory.getLogger(MyPathHandler.class);

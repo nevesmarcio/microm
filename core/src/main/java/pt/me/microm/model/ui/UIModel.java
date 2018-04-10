@@ -1,18 +1,6 @@
 package pt.me.microm.model.ui;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import pt.me.microm.controller.loop.event.GameTickEvent;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.event.SimpleEvent;
-import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.base.CameraModel;
-import pt.me.microm.model.base.WorldModel;
-import pt.me.microm.model.ui.utils.FlashMessageManagerModel;
-import pt.me.microm.model.ui.utils.IDataSourceObject;
-
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Intersector;
@@ -27,6 +15,16 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.physics.box2d.joints.MouseJoint;
 import com.badlogic.gdx.physics.box2d.joints.MouseJointDef;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pt.me.microm.controller.loop.event.GameTickEvent;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.infrastructure.event.SimpleEvent;
+import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.base.CameraModel;
+import pt.me.microm.model.base.WorldModel;
+import pt.me.microm.model.ui.utils.FlashMessageManagerModel;
+import pt.me.microm.model.ui.utils.IDataSourceObject;
 
 
 public class UIModel extends AbstractModel implements InputProcessor {

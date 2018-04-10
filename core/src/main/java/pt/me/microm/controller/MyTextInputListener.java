@@ -1,9 +1,8 @@
 package pt.me.microm.controller;
 
+import com.badlogic.gdx.Input.TextInputListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.badlogic.gdx.Input.TextInputListener;
 
 public class MyTextInputListener implements TextInputListener {
 	private static final String TAG = MyTextInputListener.class.getSimpleName();

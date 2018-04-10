@@ -11,8 +11,6 @@ import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URL;
-
 
 public abstract class GameTest {
     private static final Logger log = LoggerFactory.getLogger(GameTest.class.getSimpleName());

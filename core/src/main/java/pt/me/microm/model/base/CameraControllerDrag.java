@@ -17,15 +17,14 @@
 package pt.me.microm.model.base;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CameraControllerDrag extends InputAdapter {
 	private static final String TAG = CameraControllerDrag.class.getSimpleName();

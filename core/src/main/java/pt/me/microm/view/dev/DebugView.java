@@ -1,13 +1,11 @@
 package pt.me.microm.view.dev;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.model.dev.DebugModel;
 import pt.me.microm.view.AbstractView;
-
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 
 public class DebugView extends AbstractView {

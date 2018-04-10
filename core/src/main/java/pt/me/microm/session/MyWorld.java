@@ -1,9 +1,9 @@
 package pt.me.microm.session;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.Collections;
 import java.util.List;
-
-import com.google.gson.annotations.Expose;
 
 /**
  * 

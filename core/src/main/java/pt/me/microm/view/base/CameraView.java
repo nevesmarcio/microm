@@ -2,7 +2,6 @@ package pt.me.microm.view.base;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.view.AbstractView;

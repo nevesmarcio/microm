@@ -1,22 +1,15 @@
 package pt.me.microm.controller.loop;
 
-import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Disposable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import pt.me.microm.controller.loop.event.ScreenTickEvent;
 import pt.me.microm.controller.loop.itf.IProcessRunnable;
 import pt.me.microm.controller.loop.itf.IScreenTick;
 import pt.me.microm.model.base.CameraModel;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Disposable;
+import java.util.*;
 /**
  * documentar esta merda, senão daqui a uns tempos (horas), não percebo bolha do que escrevi
  * 

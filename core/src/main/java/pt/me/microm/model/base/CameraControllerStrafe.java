@@ -1,14 +1,13 @@
 package pt.me.microm.model.base;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
-
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputAdapter;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 public class CameraControllerStrafe extends InputAdapter {
 	private static final String TAG = CameraControllerStrafe.class.getSimpleName();

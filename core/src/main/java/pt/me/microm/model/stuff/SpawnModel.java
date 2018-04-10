@@ -1,11 +1,12 @@
 package pt.me.microm.model.stuff;
 
+import aurelienribon.tweenengine.*;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IActorBody;
@@ -13,14 +14,6 @@ import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.ui.utils.FlashMessageManagerModel;
 import pt.me.microm.model.ui.utils.IDataSourceObject;
 import pt.me.microm.tools.levelloader.BasicShape;
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.Timeline;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.TweenManager;
-
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 
 
 public class SpawnModel extends AbstractModel implements IActorBody {
@@ -33,9 +26,59 @@ public class SpawnModel extends AbstractModel implements IActorBody {
 	private BasicShape spawn;
 	
 	private TweenManager tweenManager = new TweenManager();
-	
-	private int countdown = 5;
-	private SpawnModel(final WorldModel wm, final DaBoxModel dbm, final BasicShape spawn, final String spawn_name) {
+
+    public void setDbm(final DaBoxModel dbm) {
+
+        TweenCallback endCB = new TweenCallback() {
+            @Override
+            public void onEvent(int type, BaseTween<?> source) {
+
+//				wm.getWorldPhysicsManager().add(new ICommand() {
+//
+//					@Override
+//					public Object handler(Object... a) {
+
+                dbm.create(spawn.getCentroid());
+
+//						return null;
+//					}
+//				});
+
+            }
+
+        };
+
+        TweenCallback middleCB = new TweenCallback() {
+            @Override
+            public void onEvent(int type, BaseTween<?> source) {
+                FlashMessageManagerModel.getInstance().addFlashMessage(new IDataSourceObject<String>() {
+
+                    @Override
+                    public void set(String obj) {
+                        // TODO Auto-generated method stub
+
+                    }
+
+                    @Override
+                    public String get() {
+
+                        return Integer.toString(countdown);
+                    }
+                }, spawn.getCentroid().cpy(), 1.0f, true);
+                countdown-=1;
+            }
+        };
+
+        Timeline.createSequence()
+                .beginParallel()
+                .push(Tween.call(middleCB).repeat(countdown-1, 1.0f))
+                .push(Tween.call(endCB).delay(countdown))
+                .end()
+                .start(tweenManager);
+    }
+
+    private int countdown = 5;
+	private SpawnModel(final WorldModel wm, final BasicShape spawn, final String spawn_name) {
 		this.wm = wm;
 		this.spawn = spawn;
 		setName(spawn_name);
@@ -46,59 +89,11 @@ public class SpawnModel extends AbstractModel implements IActorBody {
 
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		SpawnModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
-		
-		
-		TweenCallback endCB = new TweenCallback() {
-			@Override
-			public void onEvent(int type, BaseTween<?> source) {
-
-//				wm.getWorldPhysicsManager().add(new ICommand() {
-//					
-//					@Override
-//					public Object handler(Object... a) {
-
-						dbm.create(spawn.getCentroid());
-						
-//						return null;
-//					}
-//				});
-
-			}
-
-		};
-		
-		TweenCallback middleCB = new TweenCallback() {
-			@Override
-			public void onEvent(int type, BaseTween<?> source) {
-				FlashMessageManagerModel.getInstance().addFlashMessage(new IDataSourceObject<String>() {
-
-					@Override
-					public void set(String obj) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public String get() {
-						
-						return Integer.toString(countdown);
-					}
-				}, spawn.getCentroid().cpy(), 1.0f, true);
-				countdown-=1;
-			}
-		};
-		
-		Timeline.createSequence()
-			.beginParallel()
-				.push(Tween.call(middleCB).repeat(countdown-1, 1.0f))
-				.push(Tween.call(endCB).delay(countdown))
-			.end()
-			.start(tweenManager);
 
 	}
 	
-	public static SpawnModel getNewInstance(WorldModel wm, DaBoxModel dbm, BasicShape spawn, String spawn_name){
-		return new SpawnModel(wm, dbm, spawn, spawn_name);
+	public static SpawnModel getNewInstance(WorldModel wm, BasicShape spawn, String spawn_name){
+		return new SpawnModel(wm, spawn, spawn_name);
 	}
 
 	

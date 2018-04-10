@@ -1,12 +1,13 @@
 package marcio.batik;
 
+import marcio.batik.custom.MyNumberListHandler;
 import marcio.batik.custom.MyPathHandler;
 import marcio.batik.custom.MyTransformListHandler;
 import marcio.batik.game1.LoadedActor;
 import marcio.transform.AffineTransformation;
 import marcio.transform.Coordinate;
 import marcio.xml.codec.XmlNode;
-
+import org.apache.batik.parser.NumberListParser;
 import org.apache.batik.parser.PathParser;
 import org.apache.batik.parser.TransformListParser;
 import org.slf4j.Logger;
@@ -46,6 +47,43 @@ public class SvgService {
                 /* todo: i was thinking about extracting viewbox property for the camera, but that would restrict the level to one camera only, and that is a limitation
                     we might want to have the camera shifting depending on triggers for example
                  */
+                break;
+            case "tspan":
+                MyNumberListHandler nlh = new MyNumberListHandler();
+                NumberListParser nlp = new NumberListParser();
+                nlp.setNumberListHandler(nlh);
+
+                String idd = xmlNode.attributes.get("id");
+                log.info("Processing attribute='{}' with value='{}'", "id", idd);
+                //todo: parse id if not null
+
+                String text = xmlNode.text.toString();
+                log.info("Processing attribute='{}' with value='{}'", "text", text);
+
+                String stylee = xmlNode.attributes.get("style");
+                log.info("Processing attribute='{}' with value='{}'", "style", stylee);
+
+                String x = xmlNode.attributes.get("x");
+                nlp.parse(x);
+                float xx = nlh.value;
+                String y = xmlNode.attributes.get("y");
+                nlp.parse(y);
+                float yy=nlh.value;
+
+                MyTransformListHandler thh = new MyTransformListHandler();
+                //apply the global transformation
+                thh.at.compose(globalTransformation);
+                Coordinate srcc=new Coordinate(xx,yy);
+                Coordinate destt=new Coordinate();
+                thh.at.transform(srcc, destt);
+                LoadedActor loadedActorr = new LoadedActor();
+                loadedActorr.id = idd;
+                loadedActorr.behaviour=text;
+                loadedActorr.style = stylee;
+                loadedActorr.path = new ArrayList<>();
+                loadedActorr.path.add(destt);
+
+                iAppendable.append(loadedActorr);
                 break;
             case "path":
 

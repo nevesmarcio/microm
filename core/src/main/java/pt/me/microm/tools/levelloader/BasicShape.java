@@ -1,18 +1,16 @@
 package pt.me.microm.tools.levelloader;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
+import marcio.transform.Coordinate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import marcio.transform.Coordinate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
-
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
 
 
 /**

@@ -13,6 +13,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.*;
 import java.io.IOException;
+
 import static pt.me.microm.tools.levelloader.XmlUtil.asList;
 
 public class SVGLoader {

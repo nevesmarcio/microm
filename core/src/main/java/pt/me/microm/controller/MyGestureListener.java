@@ -1,10 +1,9 @@
 package pt.me.microm.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MyGestureListener implements GestureListener {
     private static final String TAG = MyGestureListener.class.getSimpleName();

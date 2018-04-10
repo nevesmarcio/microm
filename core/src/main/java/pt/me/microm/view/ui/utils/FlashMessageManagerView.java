@@ -1,11 +1,5 @@
 package pt.me.microm.view.ui.utils;
 
-import pt.me.microm.controller.loop.event.ScreenTickEvent;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
-import pt.me.microm.model.ui.utils.FlashMessage;
-import pt.me.microm.model.ui.utils.FlashMessageManagerModel;
-import pt.me.microm.view.AbstractView;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -13,6 +7,11 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
+import pt.me.microm.controller.loop.event.ScreenTickEvent;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
+import pt.me.microm.model.ui.utils.FlashMessage;
+import pt.me.microm.model.ui.utils.FlashMessageManagerModel;
+import pt.me.microm.view.AbstractView;
 
 public class FlashMessageManagerView extends AbstractView {
 
