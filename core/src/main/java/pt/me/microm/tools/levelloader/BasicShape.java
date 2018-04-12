@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.Vector2;
 import marcio.transform.Coordinate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.me.microm.infrastructure.GAME_CONSTANTS;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,114 +44,6 @@ public class BasicShape {
 	private BasicShape() {
 		points = new ArrayList<Vector2>();
 	}
-
-	/**
-	 * This constructor comes with an adition: it allows to offset the rotation point away from the centroid
-	 * @param d
-	 * @param pivotOffsetFromCentroid
-	 * @param style
-	 * @param type
-	 */
-	public BasicShape(String d, String pivotOffsetFromCentroid, String style, ObjectType type) {
-		this(d, style, type);
-		
-		float scale = 1.0f/GAME_CONSTANTS.DIPIXELS_PER_METER;
-		rotationPivot.x = Float.parseFloat(pivotOffsetFromCentroid.split(",")[0]) * scale;
-		rotationPivot.y = Float.parseFloat(pivotOffsetFromCentroid.split(",")[1]) * scale;
-		rotationPivot.add(getCentroid());
-	}
-
-	/**
-	 * This constructor builds a shape using the points specified by a SVG 'd'
-	 * element
-	 * @param d
-	 */
-	public BasicShape(String d, String style, ObjectType type) {
-		this();
-
-		Pattern pattern;
-		Matcher matcher;
-
-		//pattern = Pattern.compile("[-\\d]+[\\.\\d]*");//Detecta numero a numero (x ou y)
-		pattern = Pattern.compile("[-\\d]+[-\\.\\d,]*");//Detecta coordenada (par x,y)
-		matcher = pattern.matcher(d);
-
-		String s;
-		String [] ssplit;
-		Vector2 pt;
-		int i = 0;
-		while (matcher.find()) {
-			s = matcher.group();
-			if (logger.isDebugEnabled()) logger.debug("val: " + s);
-			ssplit = s.split(",");
-
-			pt = new Vector2();
-			if (i==0) {
-				pt.x = Float.parseFloat(ssplit[0]);
-				pt.y = Float.parseFloat(ssplit[1]);
-			}
-			else {
-				pt.x = Float.parseFloat(ssplit[0]) + this.points.get(i-1).x;
-				pt.y = Float.parseFloat(ssplit[1]) + this.points.get(i-1).y;
-			}
-
-			this.points.add(pt);
-			i+=1;
-		}
-
-		// calc centroid of the shape, considering the minimum rectangle that can be created to inscribe the shape into
-		centroid = inscribedPolygonCenter();
-		rotationPivot = centroid.cpy();
-
-		//coordenadas do objecto definidas em torno do ponto 0.0f, 0.0f -- mais fácil para a renderização e rotações?
-		for (Vector2 v : points) {
-			v.sub(getCentroid());
-		}
-
-		//scaling and Y-invert
-		float scale = 1.0f/GAME_CONSTANTS.DIPIXELS_PER_METER;
-		scaleAndYInvertShape(scale);
-
-		this.type = type;
-
-		// calc width and height
-		width = calcWidth();
-		height = calcHeight();
-
-		// converted mesh values init
-		meshValues = new float[points.size()*3];
-		for (int ii = 0; ii < points.size(); ii++) {
-			meshValues[ii*3] = points.get(ii).x;
-			meshValues[ii*3+1] = points.get(ii).y;
-			meshValues[ii*3+2] = 0.0f;
-		}
-
-		// color fill
-		color = new Color();
-		pattern = Pattern.compile("fill:#([0-9a-fA-F]){6};*");
-		matcher = pattern.matcher(style);
-		while (matcher.find()) {
-			String aux = matcher.group();
-			aux = aux.replace("fill:#", "");
-			aux = aux.replace(";", "");
-			color.r = (float)Integer.parseInt(aux.substring(0, 2), 16) / (float)0xFF;
-			color.g = (float)Integer.parseInt(aux.substring(2, 4), 16) / (float)0xFF;
-			color.b = (float)Integer.parseInt(aux.substring(4, 6), 16) / (float)0xFF;
-		}
-		// color fill opacity
-		pattern = Pattern.compile("(?<!fill-)opacity:[01][\\.0-9]*;*"); // positive lookbehind
-		matcher = pattern.matcher(style);
-		while (matcher.find()) {
-			String aux = matcher.group();
-			aux = aux.replace("opacity:", "");
-			aux = aux.replace(";", "");
-			color.a = Float.parseFloat(aux);
-		}
-
-
-		if (logger.isDebugEnabled()) logger.debug("new shape - " + this.toString());
-	}
-
 
     /**
      * This constructor builds a shape using the points specified by a SVG 'd'
@@ -291,16 +182,6 @@ public class BasicShape {
     	
     	return new Vector2(minX+(maxX-minX)/2, minY+(maxY-minY)/2);
     }
-
-	private void scaleAndYInvertShape(float scale) {
-		// scaling and y-invert
-		for (Vector2 ap : points) {
-			ap.x = ap.x*scale;
-			ap.y = - ap.y*scale;			
-		}
-		getCentroid().x = getCentroid().x*scale;
-		getCentroid().y = -scale * getCentroid().y;
-	}
 
    /**
     * 
