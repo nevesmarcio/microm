@@ -1,28 +1,26 @@
 package marcio.batik;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import helper.GameTest;
 import marcio.batik.game1.LoadedActor;
-import marcio.nio.AsyncIOChunked;
-import marcio.nio.IChunkReadHandler;
 import marcio.transform.AffineTransformation;
-import marcio.xml.AaltoXmlParserService;
 import marcio.xml.IXmlNodeEmitter;
+import marcio.xml.LibgdxXmlParserService;
 import marcio.xml.codec.XmlNode;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.stream.XMLStreamException;
-import java.io.IOException;
 import java.nio.file.Paths;
 
 
-public class SvgServiceTest {
+public class SvgServiceTest extends GameTest {
 
     private static final Logger log = LoggerFactory.getLogger(SvgServiceTest.class);
 
-    final private AsyncIOChunked asyncIOChunked = new AsyncIOChunked();
-    final private AaltoXmlParserService asyncXmlService = new AaltoXmlParserService();
+    final private LibgdxXmlParserService libgdxXmlParserService = new LibgdxXmlParserService();
     final private SvgService svgService = new SvgService(new AffineTransformation(), new IAppendable() {
         @Override
         public void append(LoadedActor loadedActor) {
@@ -30,42 +28,30 @@ public class SvgServiceTest {
         }
     });
 
-    private String p;
+    private FileHandle fileHandle;
 
     @Before
-    public void setUp() throws Exception {
-        p = "src/test/resources/control-shapes.svg";
-        asyncXmlService.setXmlNodeEmitter(new IXmlNodeEmitter() {
+    public void setUp() {
+        fileHandle = Gdx.files.internal("control-shapes.svg");
+
+        libgdxXmlParserService.setXmlNodeEmitter(new IXmlNodeEmitter() {
             @Override
             public void emit(XmlNode xmlNode) {
                 System.out.println("\t\t\t>>>Emitting: " + xmlNode.toString());
                 svgService.feedInput(xmlNode);
             }
         });
+
     }
 
     @Test
-    public void testRead() throws IOException, InterruptedException, XMLStreamException {
+    public void testRead() throws Exception {
 
         log.info("start test:{}", this.getClass().getSimpleName());
         log.debug("Working dir: {}", Paths.get(".").toAbsolutePath().toString());
 
-        asyncIOChunked.asyncRead(p, new IChunkReadHandler() {
-            @Override
-            public void handle(String chunk) {
-                try {
-                    log.info("chunk read - feeding parser>>>");
-                    asyncXmlService.feedInput(chunk.getBytes(), 0, chunk.getBytes().length);
-                } catch (Exception e) {
-                    log.error("Couldn't parse chunk!");
-                }
-            }
-
-            @Override
-            public void noMoreInput() {
-                log.info("no more input>>>");
-            }
-        });
+        final String readContent = fileHandle.readString();
+        libgdxXmlParserService.feedInput(readContent.getBytes(), 0, readContent.getBytes().length);
 
         Thread.sleep(1000);
         log.info("end test:{}", this.getClass().getSimpleName());

@@ -1,5 +1,8 @@
 package marcio;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import helper.GameTest;
 import marcio.batik.IAppendable;
 import marcio.batik.game1.LoadedActor;
 import marcio.transform.AffineTransformation;
@@ -13,7 +16,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 
-public class LibgdxSvgLoaderTest {
+public class LibgdxSvgLoaderTest extends GameTest {
 
     private static final Logger log = LoggerFactory.getLogger(LibgdxSvgLoaderTest.class);
 
@@ -26,11 +29,12 @@ public class LibgdxSvgLoaderTest {
         }
     });
 
-    private String p;
+    private FileHandle fileHandle;
 
     @Before
     public void setUp() throws Exception {
-        p = "src/test/resources/control-shapes.svg";
+//        fileHandle = Gdx.files.internal("src/test/resources/control-shapes.svg");
+        fileHandle = Gdx.files.internal("control-shapes.svg");
     }
 
     @Test
@@ -39,7 +43,7 @@ public class LibgdxSvgLoaderTest {
         log.info("start test:{}", this.getClass().getSimpleName());
         log.debug("Working dir: {}", Paths.get(".").toAbsolutePath().toString());
 
-        svgLoader.loadSvg(p);
+        svgLoader.loadSvg(fileHandle);
 
         expectedItemsLoaded.await(15, TimeUnit.MINUTES);
         log.info("end test:{}", this.getClass().getSimpleName());

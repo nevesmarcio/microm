@@ -4,8 +4,6 @@ sourceCompatibility = 1.7
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 test {
-    systemProperties 'logback.configurationFile': new File(projectDir, 'src/test/resources/logback-test.xml').absolutePath
-
     testLogging.showStandardStreams = true
     testLogging.exceptionFormat = 'full'
 }
@@ -17,6 +15,10 @@ dependencies {
     compile group: 'org.apache.xmlgraphics', name: 'batik-parser', version: '1.9.1' // optimisation opportunity: use only the classes needed from batik
 
     //test dependencies
+    //logback dependencies
+    testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    testCompile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+    //unit testing and mocking dependencies
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile "org.mockito:mockito-core:2.7.11"
 }

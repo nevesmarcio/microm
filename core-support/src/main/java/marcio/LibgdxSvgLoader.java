@@ -31,7 +31,7 @@ public class LibgdxSvgLoader {
 
     public void loadSvg(FileHandle fileHandle) throws Exception {
         final String readContent = fileHandle.readString();
-        libgdxXmlParserService.feedInput(readContent.toString().getBytes(), 0, readContent.toString().getBytes().length);
+        libgdxXmlParserService.feedInput(readContent.getBytes(), 0, readContent.getBytes().length);
 
     }
 
