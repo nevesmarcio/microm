@@ -5,8 +5,17 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Main {
 
+
+public class Main {
+	public static double JAVA_VERSION = getVersion ();
+
+	static double getVersion () {
+		String version = System.getProperty("java.version");
+		int pos = version.indexOf('.');
+		pos = version.indexOf('.', pos+1);
+		return Double.parseDouble (version.substring (0, pos));
+	}
 
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
@@ -19,6 +28,7 @@ public class Main {
 
 		Logger logger = LoggerFactory.getLogger(Main.class.getSimpleName());
 		logger.debug("Hello world.");
+		logger.info("JAVA_VERSION: " + JAVA_VERSION);
 
 		new LwjglApplication(new GameMicroM(), cfg);
 	}

@@ -1,7 +1,3 @@
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.6'
-}
-
 task printJvmVersion {
     def currentJvm = org.gradle.internal.jvm.Jvm.current()
     println '>>' + currentJvm
@@ -13,18 +9,19 @@ buildscript {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
-        jcenter()
         google()
+        jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1' // version of the android gradle plugin to use
+        classpath 'com.android.tools.build:gradle:3.3.2' // version of the android gradle plugin to use
     }
 }
 
 allprojects {
     version = '1.0'
     ext {
-        gdxVersion = '1.9.9-SNAPSHOT'
+//        gdxVersion = '1.9.9'
+        gdxVersion = '1.9.10-SNAPSHOT'
     }
 
     repositories {
@@ -32,8 +29,8 @@ allprojects {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
-        jcenter()
         google()
+        jcenter()
     }
 }
 
