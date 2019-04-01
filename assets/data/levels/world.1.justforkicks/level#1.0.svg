@@ -236,10 +236,10 @@
     <path
        sodipodi:nodetypes="cccccc"
        inkscape:connector-curvature="0"
-       id="trigger_2"
+       id="trigger_1"
        d="m 789.67827,1213.7223 23.09545,0 0,48.794 -23.09545,0 z"
        style="fill:#b3b3b3;fill-opacity:1;stroke:none"
-       custom-script="cs.out(&quot;trigger_2&quot;); function add(a,b){return a + '&lt;---&gt;' + b;}; cs.out(&quot;puff&gt;&gt;&gt; &quot; + add(__ACTOR_A, __ACTOR_B)); if (__EVENT_TYPE.indexOf(&quot;ON_COLLISION_BEGIN&quot;) !== -1)  if ((__ACTOR_A.indexOf(&quot;trigger&quot;) !== -1) || (__ACTOR_B.indexOf(&quot;trigger&quot;) !== -1))   cs.m.jump();" />
+       custom-script="cs.out(&quot;trigger_1&quot;); function add(a,b){return a + '&lt;---&gt;' + b;}; cs.out(&quot;puff&gt;&gt;&gt; &quot; + add(__ACTOR_A, __ACTOR_B)); if (__EVENT_TYPE.indexOf(&quot;ON_COLLISION_BEGIN&quot;) !== -1)  if ((__ACTOR_A.indexOf(&quot;trigger&quot;) !== -1) || (__ACTOR_B.indexOf(&quot;trigger&quot;) !== -1))   cs.m.jump();" />
     <path
        inkscape:connector-curvature="0"
        id="path3045"
