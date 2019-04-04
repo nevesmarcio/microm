@@ -26,7 +26,8 @@ public class GroundModel extends AbstractModel implements IActorBody {
 		this.ground = ground;
 		setName(ground_name);
 
-		groundBody = wm.getWorldPhysicsManager().addBody(ground, this); 
+		//todo: this cannot be added here - it is on a different thread where the game simulation occurs ,therefore prone to create problems
+		groundBody = wm.getWorldPhysicsManager().addBody(ground, this);
 				
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		GroundModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));

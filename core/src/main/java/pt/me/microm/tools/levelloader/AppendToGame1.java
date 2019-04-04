@@ -5,6 +5,10 @@ import marcio.batik.game1.LoadedActor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * This class is bridging the generic loader that emits 'append' events by calling the append method.
+ * The append function will then call the abstract methods which require implementation by the game engine itself.
+ */
 public abstract class AppendToGame1 implements IAppendable {
 
     private static final Logger log = LoggerFactory.getLogger(AppendToGame1.class);

@@ -88,6 +88,8 @@ public class ScreenTheJuice implements Screen {
                     dbm = (DaBoxModel) am;
             }
             spawnModel.setDbm(dbm);
+			worldModel.setPlayer(dbm);
+			worldModel.setSpawnModel(spawnModel);
 
 
 			if (logger.isInfoEnabled()) logger.info("Nr elements loaded: " + modelBag.size());

@@ -23,6 +23,9 @@ http://www.gamefromscratch.com/page/Game-Engine-guides.aspx
 GAme editor
 http://overlap2d.com/
 
+2019.03.02
+PubSub vs Observer design pattern
+https://hackernoon.com/observer-vs-pub-sub-pattern-50d3b27f838c
 
 2017-02-19
 Spring boot for dependency management?

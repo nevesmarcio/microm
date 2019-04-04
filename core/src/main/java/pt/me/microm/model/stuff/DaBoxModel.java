@@ -35,6 +35,7 @@ public class DaBoxModel extends AbstractModel implements IActorBody {
 		this.dabox = dabox; 
 		setName(dabox_name);
 
+		//todo: this cannot be added here - it is on a different thread where the game simulation occurs ,therefore prone to create problems
 		daBoxBody = wm.getWorldPhysicsManager().addBodyDynamic(dabox, this);
 		
 		// Sinaliza os subscritores de que a construção do modelo terminou.

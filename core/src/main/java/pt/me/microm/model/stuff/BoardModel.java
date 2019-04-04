@@ -25,7 +25,8 @@ public class BoardModel extends AbstractModel implements IActorBody {
 		this.wm = wm;
 		this.board = board;
 		setName(board_name);
-		
+
+		//todo: this cannot be added here - it is on a different thread where the game simulation occurs ,therefore prone to create problems
 		playzoneBody = wm.getWorldPhysicsManager().addBody(board, this);
 		
 		// Sinaliza os subscritores de que a construção do modelo terminou.

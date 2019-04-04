@@ -29,9 +29,10 @@ public class PortalModel extends AbstractModel implements IActorBody {
 		this.wm = wm;
 		this.portal = portal;
 		setName(portal_name);
-		
+
+		//todo: this cannot be added here - it is on a different thread where the game simulation occurs ,therefore prone to create problems
 		portalBody = wm.getWorldPhysicsManager().addBody(portal, this);
-		
+
 		wm.addPortal(PortalModel.this);
 		
 		// Sinaliza os subscritores de que a construção do modelo terminou.

@@ -25,9 +25,10 @@ public class GoalModel extends AbstractModel implements IActorBody {
 		this.wm = wm;
 		this.goal = goal;
 		setName(goal_name);
-		
+
+		//todo: this cannot be added here - it is on a different thread where the game simulation occurs ,therefore prone to create problems
 		goalBody = wm.getWorldPhysicsManager().addBody(goal, this);
-		
+
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		GoalModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));		
 

@@ -31,7 +31,7 @@ public class LevelLoader {
     private static final String TAG = LevelLoader.class.getSimpleName();
     private static final Logger logger = LoggerFactory.getLogger(TAG);
 
-    private static void addDebugPoints(LoadedActor loadedActor, WorldModel wm, Color color){
+    private static void addDebugPoints(LoadedActor loadedActor, WorldModel wm, Color color) {
         if (GameMicroM.FLAG_DEBUG_POINTS) {
             DebugModel m;
             for (Coordinate c : loadedActor.path) {
@@ -63,7 +63,7 @@ public class LevelLoader {
             public void addCamera(LoadedActor loadedActor) {
                 if (logger.isInfoEnabled()) logger.info("type='{}' loadedActor='{}'", "Camera", loadedActor);
 
-                addDebugPoints(loadedActor, wm,Color.GOLD);
+                addDebugPoints(loadedActor, wm, Color.GOLD);
 
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.CAMERA);
 
@@ -77,10 +77,9 @@ public class LevelLoader {
             public void addBoard(LoadedActor loadedActor) {
                 if (logger.isInfoEnabled()) logger.info("type='{}' loadedActor='{}'", "Board", loadedActor);
 
-                addDebugPoints(loadedActor, wm,Color.WHITE);
+                addDebugPoints(loadedActor, wm, Color.WHITE);
 
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.BOARD);
-
                 BoardModel wam = BoardModel.getNewInstance(wm, s, loadedActor.id);
                 modelBag.add(wam);
 
@@ -95,12 +94,9 @@ public class LevelLoader {
 
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.DABOX);
                 DaBoxModel dbm = DaBoxModel.getNewInstance(wm, s, loadedActor.id);
-                wm.setPlayer(dbm);
-
                 modelBag.add(dbm);
 
                 nrElements.incrementAndGet();
-
             }
 
             @Override
@@ -109,45 +105,33 @@ public class LevelLoader {
 
                 addDebugPoints(loadedActor, wm, Color.BLUE);
 
-
-                // Get Spawn
-                if (logger.isInfoEnabled()) logger.info("Spawn...");
-
-
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.SPAWN);
                 SpawnModel sm = SpawnModel.getNewInstance(wm, s, loadedActor.id);
-                wm.setSpawnModel(sm);
-
                 modelBag.add(sm);
 
-
                 nrElements.incrementAndGet();
-
             }
 
             @Override
             public void addGoal(LoadedActor loadedActor) {
                 if (logger.isInfoEnabled()) logger.info("type='{}' loadedActor='{}'", "Goal", loadedActor);
 
-                addDebugPoints(loadedActor, wm,Color.GREEN);
+                addDebugPoints(loadedActor, wm, Color.GREEN);
 
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.GOAL);
-
                 GoalModel wam = GoalModel.getNewInstance(wm, s, loadedActor.id);
                 modelBag.add(wam);
 
                 nrElements.incrementAndGet();
-
             }
 
             @Override
             public void addGround(LoadedActor loadedActor) {
                 if (logger.isInfoEnabled()) logger.info("type='{}' loadedActor='{}'", "Ground", loadedActor);
 
-                addDebugPoints(loadedActor, wm,Color.RED);
+                addDebugPoints(loadedActor, wm, Color.RED);
 
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.GROUND);
-
                 GroundModel wam = GroundModel.getNewInstance(wm, s, loadedActor.id);
                 modelBag.add(wam);
 
@@ -158,25 +142,22 @@ public class LevelLoader {
             public void addPortal(LoadedActor loadedActor) {
                 if (logger.isInfoEnabled()) logger.info("type='{}' loadedActor='{}'", "Portal", loadedActor);
 
-                addDebugPoints(loadedActor, wm,Color.WHITE);
+                addDebugPoints(loadedActor, wm, Color.WHITE);
 
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.PORTAL);
-
                 PortalModel wam = PortalModel.getNewInstance(wm, s, loadedActor.id);
                 modelBag.add(wam);
 
                 nrElements.incrementAndGet();
-
             }
 
             @Override
             public void addWall(LoadedActor loadedActor) {
                 if (logger.isInfoEnabled()) logger.info("type='{}' loadedActor='{}'", "Wall", loadedActor);
 
-                addDebugPoints(loadedActor, wm,Color.GRAY);
+                addDebugPoints(loadedActor, wm, Color.GRAY);
 
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.WALL);
-
                 WallModel wam = WallModel.getNewInstance(wm, s, loadedActor.id);
                 modelBag.add(wam);
 
@@ -187,15 +168,13 @@ public class LevelLoader {
             public void addStar(LoadedActor loadedActor) {
                 if (logger.isInfoEnabled()) logger.info("type='{}' loadedActor='{}'", "Star", loadedActor);
 
-                addDebugPoints(loadedActor, wm,Color.WHITE);
+                addDebugPoints(loadedActor, wm, Color.WHITE);
 
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.STAR);
-
                 StarModel wam = StarModel.getNewInstance(wm, s, loadedActor.id);
                 modelBag.add(wam);
 
                 nrElements.incrementAndGet();
-
             }
 
             @Override
@@ -226,7 +205,7 @@ public class LevelLoader {
             public void addTrigger(LoadedActor loadedActor) {
                 if (logger.isInfoEnabled()) logger.info("type='{}' loadedActor='{}'", "Trigger", loadedActor);
 
-                addDebugPoints(loadedActor, wm,Color.BROWN);
+                addDebugPoints(loadedActor, wm, Color.BROWN);
 
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.TRIGGER);
 

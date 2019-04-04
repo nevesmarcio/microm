@@ -13,13 +13,13 @@ import pt.me.microm.tools.levelloader.BasicShape;
  *
  */
 public interface IActorBody {
-	public String getName();
+	String getName();
 	
-	public BasicShape getBasicShape();
-	public Vector2 getPosition();
-	public float getAngle();
+	BasicShape getBasicShape();
+	Vector2 getPosition();
+	float getAngle();
 	
 	//FIXME:: não quero expor o body!! - temporário!
-	public Body getBody();
+	Body getBody();
 	
 }

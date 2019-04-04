@@ -25,7 +25,8 @@ public class WallModel extends AbstractModel implements IActorBody {
 		this.wm = wm;
 		this.wall = wall;
 		setName(wall_name);
-		
+
+		//todo: this cannot be added here - it is on a different thread where the game simulation occurs ,therefore prone to create problems
 		wallBody = wm.getWorldPhysicsManager().addBody(wall, this);
 
 		// Sinaliza os subscritores de que a construção do modelo terminou.
