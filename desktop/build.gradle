@@ -1,6 +1,8 @@
 //apply plugin: "java"
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
 project.ext.mainClassName = "pt.me.microm.Main"
 project.ext.assetsDir = new File("../assets");
 task run(dependsOn: classes, type: JavaExec) {
@@ -35,4 +37,19 @@ dependencies {
 
     // desktop specific local libs
     compile fileTree(dir: 'libs', include: '*.jar')
+}
+
+//create a single Jar with all dependencies: run it - java -jar hello-all-1.0.jar
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+                'Implementation-Version': version,
+                'Main-Class': project.mainClassName
+    }
+    baseName = project.name + '-all'
+    from files(sourceSets.main.output.classesDirs)
+    from files(sourceSets.main.output.resourcesDir)
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from files(project.assetsDir);
+    with jar
 }

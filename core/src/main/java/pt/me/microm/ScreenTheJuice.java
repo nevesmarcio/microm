@@ -126,6 +126,7 @@ public class ScreenTheJuice implements Screen {
 		multiplexer.addProcessor(new GestureDetector(1, 1.0f, 1.0f, 1.0f, myGestureListener));
 		multiplexer.addProcessor(myInputProcessor);
 		multiplexer.addProcessor(worldModel);
+		multiplexer.addProcessor(new GestureDetector(1, 1.0f, 1.0f, 1.0f, worldModel));
 		multiplexer.addProcessor(uiModel);
 //		multiplexer.addProcessor(new CameraControllerDrag(cameraModel));
 		multiplexer.addProcessor(new CameraControllerStrafe(cameraModel));

@@ -1,6 +1,6 @@
 //apply plugin: "java"
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 test {
@@ -12,7 +12,7 @@ dependencies {
     //logging
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     //batik svg parser - https://xmlgraphics.apache.org/batik/
-    compile group: 'org.apache.xmlgraphics', name: 'batik-parser', version: '1.9.1' // optimisation opportunity: use only the classes needed from batik
+//    compile group: 'org.apache.xmlgraphics', name: 'batik-parser', version: '1.9.1' // optimisation opportunity: use only the classes needed from batik
 
     //test dependencies
     //logback dependencies

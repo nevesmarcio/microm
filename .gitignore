@@ -8,4 +8,4 @@
 /android/jniLibs/*/*.so
 *.iml
 /*/*.iml
-/batik-example/
+/PlayerProgress_v1.save

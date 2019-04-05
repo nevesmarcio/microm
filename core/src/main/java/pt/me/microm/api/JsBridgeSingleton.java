@@ -104,7 +104,7 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
                                     }
                                 });
                             } else {
-                                Thread.sleep(500); // This is not optimized, but this way, the thread is interruptible!
+                                Thread.sleep(200); // This is not optimized, but this way, the thread is interruptible!
                             }
                         }
                     } catch (InterruptedException ie) {
