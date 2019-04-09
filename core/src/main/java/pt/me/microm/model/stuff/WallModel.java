@@ -82,7 +82,10 @@ public class WallModel extends AbstractModel implements IActorBody {
 	public Body getBody() {
 		return wallBody;
 	}
+	@Override
+	public void setBody(Body body) {
 
+	}
 
 	private int boxTouchMyTralala = 0;
 	IActorBody box = null;

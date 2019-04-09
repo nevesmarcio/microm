@@ -8,6 +8,8 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.input.GestureDetector;
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.me.microm.api.JsBridgeSingleton;
@@ -17,6 +19,8 @@ import pt.me.microm.controller.loop.GameTickGenerator;
 import pt.me.microm.controller.loop.ScreenTickManager;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
+import pt.me.microm.model.IModelCategory1;
+import pt.me.microm.model.IModelCategory2;
 import pt.me.microm.infrastructure.event.IEvent;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
 import pt.me.microm.model.AbstractModel;
@@ -52,6 +56,7 @@ public class ScreenTheJuice implements Screen {
 	private UIMetricsModel uiMetricsModel;
 	private FlashMessageManagerModel flashMessageManagerModel;
 	private ArrayList<AbstractModel> modelBag;
+	private EventBus modelEventBus;
 	
 	// VIEW RELATED
 	// Todas as views são instanciadas por "reflection"
@@ -68,16 +73,36 @@ public class ScreenTheJuice implements Screen {
 		gameTickGenerator = GameTickGenerator.getInstance(); //responsável pela actualizacao dos modelos
 		screenTickManager = ScreenTickManager.getInstance(); //responsável pela actualizacao das views
 
+		// MODELS EVENTBUS
+		modelEventBus = new EventBus();
+		class Lst {
+//			@Subscribe
+//			void listenA(DebugModelEvent debugModelEvent) {
+//				logger.info("%%%%%-{}", debugModelEvent);
+//			}
+
+			@Subscribe
+			void listenB(IModelCategory1 debugModelEvent) {
+				logger.info("%%%%%-{}", debugModelEvent);
+			}
+
+			@Subscribe
+			void listenC(IModelCategory2 debugModelEvent) {
+				logger.info("%%%%%-{}", debugModelEvent);
+			}
+		}
+		modelEventBus.register(new Lst());
+
 		// MODELS ////////////////////////////////////////////////////////////////
 		cameraModel = new CameraModel();										// camera model
-		worldModel = new WorldModel();											// world model
+		worldModel = new WorldModel(modelEventBus);											// world model
 		uiModel = new UIModel(cameraModel, worldModel); 						// constroi o painel informativo?
 		uiMetricsModel = new UIMetricsModel();									// metricas?
 		flashMessageManagerModel = FlashMessageManagerModel.getInstance(); 		// responsavel para apresentacao de flash messages
 
 		if (GameMicroM.FLAG_LOAD_LEVEL) {
 			FileHandle h = Gdx.files.internal("data/levels/" + world + "/" + level);
-			modelBag = LevelLoader.LoadLevel(h, worldModel, cameraModel);
+			modelBag = LevelLoader.LoadLevel(h, worldModel, cameraModel, modelEventBus);
 			// todo: dependency injection here
             DaBoxModel dbm=null;//dabox injection in spawn
             SpawnModel spawnModel=null;

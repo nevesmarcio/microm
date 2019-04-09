@@ -74,7 +74,10 @@ public class GoalModel extends AbstractModel implements IActorBody {
 	public Body getBody() {
 		return goalBody;
 	}
+	@Override
+	public void setBody(Body body) {
 
+	}
 	
 	// ContactInterface implementation
 	@Override

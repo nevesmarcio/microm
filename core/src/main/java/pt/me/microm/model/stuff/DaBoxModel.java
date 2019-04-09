@@ -108,7 +108,10 @@ public class DaBoxModel extends AbstractModel implements IActorBody {
 	public Body getBody() {
 		return daBoxBody;
 	}
-	
+	@Override
+	public void setBody(Body body) {
+
+	}
 	
 	
 }

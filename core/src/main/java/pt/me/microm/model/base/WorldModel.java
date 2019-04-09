@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
+import com.google.common.eventbus.EventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.me.microm.controller.loop.event.GameTickEvent;
@@ -45,8 +46,8 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 	private Vector2 waypoint;
 
 	
-	public WorldModel() {
-		worldPhysicsManager = new WorldPhysicsManager();
+	public WorldModel(EventBus modelEventBus) {
+		worldPhysicsManager = new WorldPhysicsManager(modelEventBus);
 		portalManager = new PortalModelManager();
 		tweenManager = new TweenManager();
 		

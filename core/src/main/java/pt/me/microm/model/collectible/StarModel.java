@@ -87,7 +87,10 @@ public class StarModel extends AbstractModel implements IActorBody {
 	public Body getBody() {
 		return starBody;
 	}
+	@Override
+	public void setBody(Body body) {
 
+	}
 	
 	
 	AbstractModel m;

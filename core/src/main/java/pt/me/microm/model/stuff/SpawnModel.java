@@ -135,7 +135,10 @@ public class SpawnModel extends AbstractModel implements IActorBody {
 	public Body getBody() {
 		return spawnBody;
 	}
-	
+	@Override
+	public void setBody(Body body) {
+
+	}
 
 	// ContactInterface implementation
 	@Override

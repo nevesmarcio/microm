@@ -2,8 +2,10 @@ package pt.me.microm.model.stuff;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.google.common.eventbus.EventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.me.microm.AbstractModelEvent;
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
@@ -15,27 +17,24 @@ import pt.me.microm.tools.levelloader.BasicShape;
 public class BoardModel extends AbstractModel implements IActorBody {
 	private static final String TAG = BoardModel.class.getSimpleName();
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
-	
+
 	private Body playzoneBody;
-	
-	private WorldModel wm;
+
 	private BasicShape board;
 	
-	private BoardModel(final WorldModel wm, final BasicShape board, final String board_name) {
-		this.wm = wm;
+	private BoardModel(final EventBus modelEventBus, final BasicShape board, final String board_name) {
 		this.board = board;
 		setName(board_name);
 
-		//todo: this cannot be added here - it is on a different thread where the game simulation occurs ,therefore prone to create problems
-		playzoneBody = wm.getWorldPhysicsManager().addBody(board, this);
-		
+		// notify eventBus
+		modelEventBus.post(new BoardModelEvent(this, AbstractModelEvent.OnModelSpawn.class));
+
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		BoardModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
-
 	}
 	
-	public static BoardModel getNewInstance(WorldModel wm, BasicShape board, String board_name){
-		return new BoardModel(wm, board, board_name);
+	public static BoardModel getNewInstance(EventBus modelEventBus, BasicShape board, String board_name){
+		return new BoardModel(modelEventBus, board, board_name);
 	}
 
 	
@@ -64,16 +63,25 @@ public class BoardModel extends AbstractModel implements IActorBody {
 	}
 	@Override
 	public Vector2 getPosition() {
+		if (playzoneBody !=null)
 		return playzoneBody.getPosition();
+		else
+			return new Vector2();
 	}
 	@Override
 	public float getAngle() {
-		return playzoneBody.getAngle(); 
+
+		if (playzoneBody!=null)
+		return playzoneBody.getAngle();
+		else
+			return 0f;
 	}
 	@Override
 	public Body getBody() {
 		return playzoneBody;
 	}
-	
-
+	@Override
+	public void setBody(Body playzoneBody) {
+		this.playzoneBody = playzoneBody;
+	}
 }

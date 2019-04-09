@@ -84,7 +84,10 @@ public class SimpleTriggerModel extends AbstractModel implements IActorBody {
 	public Body getBody() {
 		return triggerBody;
 	}
+	@Override
+	public void setBody(Body body) {
 
+	}
 
 	@Override
 	public void beginContactWith(IActorBody oModel) {

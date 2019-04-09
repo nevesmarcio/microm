@@ -88,7 +88,10 @@ public class PortalModel extends AbstractModel implements IActorBody {
 	public Body getBody() {
 		return portalBody;
 	}
-	
+	@Override
+	public void setBody(Body body) {
+
+	}
 	
 	// ContactInterface implementation
 	private int boxTouchMyTralala = 0;

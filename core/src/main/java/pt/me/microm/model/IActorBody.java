@@ -21,5 +21,6 @@ public interface IActorBody {
 	
 	//FIXME:: não quero expor o body!! - temporário!
 	Body getBody();
+	void setBody(Body body);
 	
 }

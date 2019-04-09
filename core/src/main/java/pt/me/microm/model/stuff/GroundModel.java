@@ -74,7 +74,10 @@ public class GroundModel extends AbstractModel implements IActorBody {
 	public Body getBody() {
 		return groundBody;
 	}
-	
+	@Override
+	public void setBody(Body body) {
+
+	}
 
 
 }

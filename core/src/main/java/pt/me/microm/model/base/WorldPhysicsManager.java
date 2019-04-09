@@ -2,12 +2,16 @@ package pt.me.microm.model.base;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.me.microm.AbstractModelEvent;
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.IActorBody;
 import pt.me.microm.model.MyContactListener;
 import pt.me.microm.tools.levelloader.BasicShape;
 
@@ -41,8 +45,9 @@ public class WorldPhysicsManager {
 	
 	private Queue<ICommand> toAddQueue;
 	
-	
-	public WorldPhysicsManager() {
+	public WorldPhysicsManager(EventBus modelEventBus) {
+		modelEventBus.register(this);
+
 		toAddQueue = new ConcurrentLinkedQueue<ICommand>();
 		
 //		setPauseSim(true);
@@ -52,8 +57,28 @@ public class WorldPhysicsManager {
 	
 		// treshold de velocidade para considerar colisões inelásticas
 		//physicsWorld.setVelocityThreshold(1.0f);//0.001f
+
 	}
-	
+
+	@Subscribe
+	void listenModels(AbstractModelEvent abstractModelEvent) {
+
+		logger.info("subscription in worldPhysiscs Manager: {}, {}", abstractModelEvent.getEventSource().getName(), abstractModelEvent.getEventType().getName());
+
+		IActorBody iActorBody;
+		if (abstractModelEvent.getEventType()== AbstractModelEvent.OnModelSpawn.class){
+			if (abstractModelEvent.getEventSource() instanceof IActorBody) {
+				iActorBody = (IActorBody)abstractModelEvent.getEventSource();
+				iActorBody.setBody(addBody(iActorBody.getBasicShape(), abstractModelEvent.getEventSource()));
+				logger.info("added!!!!!!!!!!!!!!");
+			}
+		}
+
+
+
+//		addBody()
+	}
+
 	/**
 	 * Função que permite o agendamento da manipulação dos objectos fora do step do motor fisico
 	 * 

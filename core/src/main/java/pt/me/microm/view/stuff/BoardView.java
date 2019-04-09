@@ -43,32 +43,33 @@ public class BoardView extends AbstractView {
     public void draw(ScreenTickEvent e) {
 
         SimpleRendererHelper.drawMesh(e.getCamera(), boardmSrc, boardMesh);
+        if (boardmSrc.getBody() != null){
 
-        if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
-            renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+            if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
+                renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 
-            Iterator<Fixture> it = boardmSrc.getBody().getFixtureList().iterator();
-            Fixture aux = null;
-            while (it.hasNext()) {
-                aux = it.next();
+                Iterator<Fixture> it = boardmSrc.getBody().getFixtureList().iterator();
+                Fixture aux = null;
+                while (it.hasNext()) {
+                    aux = it.next();
 
-                renderer.identity();
-                renderer.translate(aux.getBody().getPosition().x, aux.getBody().getPosition().y, 0.0f);
-                renderer.rotate(0.0f, 0.0f, 1.0f, (float) Math.toDegrees(aux.getBody().getAngle()));
+                    renderer.identity();
+                    renderer.translate(aux.getBody().getPosition().x, aux.getBody().getPosition().y, 0.0f);
+                    renderer.rotate(0.0f, 0.0f, 1.0f, (float) Math.toDegrees(aux.getBody().getAngle()));
 
-                ChainShape cs = (ChainShape) aux.getShape();
+                    ChainShape cs = (ChainShape) aux.getShape();
 
-                renderer.begin(ShapeType.Line);
-                int vCnt = cs.getVertexCount();
-                for (int i = 0; i < vCnt; i++) {
-                    cs.getVertex(i, pointA); //pointA.add(portalmSrc.getPortalBody().getPosition());
-                    cs.getVertex(i == vCnt - 1 ? 0 : i + 1, pointB); //pointB.add(portalmSrc.getPortalBody().getPosition());
-                    renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
+                    renderer.begin(ShapeType.Line);
+                    int vCnt = cs.getVertexCount();
+                    for (int i = 0; i < vCnt; i++) {
+                        cs.getVertex(i, pointA); //pointA.add(portalmSrc.getPortalBody().getPosition());
+                        cs.getVertex(i == vCnt - 1 ? 0 : i + 1, pointB); //pointB.add(portalmSrc.getPortalBody().getPosition());
+                        renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
+                    }
+                    renderer.end();
                 }
-                renderer.end();
             }
-        }
-
+    }
     }
 
     @Override
