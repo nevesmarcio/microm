@@ -9,14 +9,14 @@ import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.IActorBody;
+import pt.me.microm.model.IBody;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.ui.utils.FlashMessageManagerModel;
 import pt.me.microm.model.ui.utils.IDataSourceObject;
 import pt.me.microm.tools.levelloader.BasicShape;
 
 
-public class SpawnModel extends AbstractModel implements IActorBody {
+public class SpawnModel extends AbstractModel implements IBody {
 	private static final String TAG = SpawnModel.class.getSimpleName();
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
@@ -142,11 +142,11 @@ public class SpawnModel extends AbstractModel implements IActorBody {
 
 	// ContactInterface implementation
 	@Override
-	public void beginContactWith(IActorBody oModel) {
+	public void beginContactWith(IBody oModel) {
 
 	}
 	@Override
-	public void endContactWith(IActorBody oModel) {
+	public void endContactWith(IBody oModel) {
 		logger.info("Oh nooooooooooooooo! Elvis has left the building!");
 	}
 

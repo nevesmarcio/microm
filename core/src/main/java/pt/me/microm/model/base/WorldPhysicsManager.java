@@ -6,12 +6,13 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.me.microm.AbstractModelEvent;
+import pt.me.microm.model.AbstractModelEvent;
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.IActorBody;
+import pt.me.microm.model.IBodyStatic;
+import pt.me.microm.model.IBodyDynamic;
 import pt.me.microm.model.MyContactListener;
 import pt.me.microm.tools.levelloader.BasicShape;
 
@@ -65,11 +66,20 @@ public class WorldPhysicsManager {
 
 		logger.info("subscription in worldPhysiscs Manager: {}, {}", abstractModelEvent.getEventSource().getName(), abstractModelEvent.getEventType().getName());
 
-		IActorBody iActorBody;
+		Body tmpBody;
 		if (abstractModelEvent.getEventType()== AbstractModelEvent.OnModelSpawn.class){
-			if (abstractModelEvent.getEventSource() instanceof IActorBody) {
-				iActorBody = (IActorBody)abstractModelEvent.getEventSource();
-				iActorBody.setBody(addBody(iActorBody.getBasicShape(), abstractModelEvent.getEventSource()));
+			if (abstractModelEvent.getEventSource() instanceof IBodyStatic) {
+				IBodyStatic iActorBody;
+				iActorBody = (IBodyStatic)abstractModelEvent.getEventSource();
+				tmpBody = addBody(iActorBody.getBasicShape(), abstractModelEvent.getEventSource());
+				iActorBody.setBody(tmpBody);
+				logger.info("added!!!!!!!!!!!!!!");
+			}
+			if (abstractModelEvent.getEventSource() instanceof IBodyDynamic) {
+				IBodyDynamic iActorDynamicBody;
+				iActorDynamicBody = (IBodyDynamic)abstractModelEvent.getEventSource();
+				tmpBody = addBodyDynamic(iActorDynamicBody.getBasicShape(), abstractModelEvent.getEventSource());
+				iActorDynamicBody.setBody(tmpBody);
 				logger.info("added!!!!!!!!!!!!!!");
 			}
 		}

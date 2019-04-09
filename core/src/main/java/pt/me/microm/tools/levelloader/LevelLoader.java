@@ -94,7 +94,7 @@ public class LevelLoader {
                 addDebugPoints(loadedActor, Color.WHITE, modelEventBus);
 
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.DABOX);
-                DaBoxModel dbm = DaBoxModel.getNewInstance(wm, s, loadedActor.id);
+                DaBoxModel dbm = DaBoxModel.getNewInstance(modelEventBus, s, loadedActor.id);
                 modelBag.add(dbm);
 
                 nrElements.incrementAndGet();

@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.me.microm.model.IActorBody;
+import pt.me.microm.model.IBody;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.tools.levelloader.BasicShape;
 
@@ -84,7 +84,7 @@ public class SimpleRendererHelper {
 
 	private static Matrix4 tempProjectionMatrix = new Matrix4();
 	private static Matrix4 tempViewMatrix = new Matrix4();
-	public static void drawMesh(CameraModel camera, IActorBody model, Mesh mesh) {
+	public static void drawMesh(CameraModel camera, IBody model, Mesh mesh) {
 
 		tempProjectionMatrix.set(camera.getGameCamera().projection);
 		tempViewMatrix.set(camera.getGameCamera().view);

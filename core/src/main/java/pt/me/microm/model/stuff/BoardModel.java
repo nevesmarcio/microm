@@ -5,16 +5,15 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.google.common.eventbus.EventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.me.microm.AbstractModelEvent;
+import pt.me.microm.model.AbstractModelEvent;
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.IActorBody;
-import pt.me.microm.model.base.WorldModel;
+import pt.me.microm.model.IBodyStatic;
 import pt.me.microm.tools.levelloader.BasicShape;
 
 
-public class BoardModel extends AbstractModel implements IActorBody {
+public class BoardModel extends AbstractModel implements IBodyStatic {
 	private static final String TAG = BoardModel.class.getSimpleName();
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
 

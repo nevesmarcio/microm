@@ -7,12 +7,12 @@ import org.slf4j.LoggerFactory;
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.IActorBody;
+import pt.me.microm.model.IBody;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.tools.levelloader.BasicShape;
 
 
-public class GoalModel extends AbstractModel implements IActorBody {
+public class GoalModel extends AbstractModel implements IBody {
 	private static final String TAG = GoalModel.class.getSimpleName();
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
@@ -81,13 +81,13 @@ public class GoalModel extends AbstractModel implements IActorBody {
 	
 	// ContactInterface implementation
 	@Override
-	public void beginContactWith(IActorBody oModel) {
+	public void beginContactWith(IBody oModel) {
 		logger.info("Oh yeah! Elvis has entered the building!");
 		wm.dispatchEvent(new SimpleEvent(WorldModel.EventType.ON_WORLD_COMPLETED));
 	}
 	
 	@Override
-	public void endContactWith(IActorBody oModel) {
+	public void endContactWith(IBody oModel) {
 	}
 	
 	

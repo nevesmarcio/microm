@@ -7,12 +7,12 @@ import org.slf4j.LoggerFactory;
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.IActorBody;
+import pt.me.microm.model.IBody;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.tools.levelloader.BasicShape;
 
 
-public class WallModel extends AbstractModel implements IActorBody {
+public class WallModel extends AbstractModel implements IBody {
 	private static final String TAG = WallModel.class.getSimpleName();
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
 
@@ -88,9 +88,9 @@ public class WallModel extends AbstractModel implements IActorBody {
 	}
 
 	private int boxTouchMyTralala = 0;
-	IActorBody box = null;
+	IBody box = null;
 	@Override
-	public void beginContactWith(IActorBody oModel) {
+	public void beginContactWith(IBody oModel) {
 		if (boxTouchMyTralala == 0) 
 			if (logger.isInfoEnabled()) logger.info("daBox hit da wall!");
 		boxTouchMyTralala +=1;
@@ -98,7 +98,7 @@ public class WallModel extends AbstractModel implements IActorBody {
 	}
 	
 	@Override
-	public void endContactWith(IActorBody oModel) {
+	public void endContactWith(IBody oModel) {
 		boxTouchMyTralala -=1;
 		if (boxTouchMyTralala == 0) 
 			if (logger.isInfoEnabled()) logger.info("daBox left the wall!");

@@ -7,12 +7,12 @@ import org.slf4j.LoggerFactory;
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.IActorBody;
+import pt.me.microm.model.IBody;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.tools.levelloader.BasicShape;
 
 
-public class PortalModel extends AbstractModel implements IActorBody {
+public class PortalModel extends AbstractModel implements IBody {
 	private static final String TAG = PortalModel.class.getSimpleName();
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
 
@@ -95,9 +95,9 @@ public class PortalModel extends AbstractModel implements IActorBody {
 	
 	// ContactInterface implementation
 	private int boxTouchMyTralala = 0;
-	IActorBody box = null;
+	IBody box = null;
 	@Override
-	public void beginContactWith(IActorBody oModel) {
+	public void beginContactWith(IBody oModel) {
 		if (boxTouchMyTralala == 0) 
 			if (logger.isDebugEnabled()) logger.info("daBox touched my trálálá!! says: " + this.getName() + ". Should be teleported to: " + this.getName().replace("entry", "exit"));
 		boxTouchMyTralala +=1;
@@ -105,7 +105,7 @@ public class PortalModel extends AbstractModel implements IActorBody {
 	}
 	
 	@Override
-	public void endContactWith(IActorBody oModel) {
+	public void endContactWith(IBody oModel) {
 		boxTouchMyTralala -=1;
 		if (boxTouchMyTralala == 0) 
 			if (logger.isDebugEnabled()) logger.info("daBox left my trálálá!! says: " + this.getName());

@@ -3,25 +3,25 @@ package pt.me.microm.model.stuff;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.google.common.eventbus.EventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.me.microm.model.AbstractModelEvent;
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.IActorBody;
-import pt.me.microm.model.base.WorldModel;
+import pt.me.microm.model.IBodyDynamic;
 import pt.me.microm.tools.levelloader.BasicShape;
 
 
-public class DaBoxModel extends AbstractModel implements IActorBody {
+public class DaBoxModel extends AbstractModel implements IBodyDynamic {
 	private static final String TAG = DaBoxModel.class.getSimpleName();
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
 	private Color color = new Color(0.5f,0.5f,0.5f,0.5f);
-	
-	private Body daBoxBody;	
 
-	public WorldModel wm;
+	private Body daBoxBody;
+
 	private BasicShape dabox;
 	
 	public void create(Vector2 pos) {
@@ -30,21 +30,20 @@ public class DaBoxModel extends AbstractModel implements IActorBody {
 		daBoxBody.setActive(true);		
 	}
 	
-	private DaBoxModel(final WorldModel wm, final BasicShape dabox, final String dabox_name) {
-		this.wm = wm;
+	private DaBoxModel(final EventBus modelEventBus, final BasicShape dabox, final String dabox_name) {
 		this.dabox = dabox; 
 		setName(dabox_name);
 
-		//todo: this cannot be added here - it is on a different thread where the game simulation occurs ,therefore prone to create problems
-		daBoxBody = wm.getWorldPhysicsManager().addBodyDynamic(dabox, this);
-		
+		modelEventBus.post(new DaBoxModelEvent(this, AbstractModelEvent.OnModelSpawn.class));
+
+
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		DaBoxModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));	    				
 		
 	}
 
-	public static DaBoxModel getNewInstance(WorldModel wm, BasicShape dabox, String dabox_name){
-		return new DaBoxModel(wm, dabox, dabox_name);
+	public static DaBoxModel getNewInstance(EventBus modelEventBus, BasicShape dabox, String dabox_name){
+		return new DaBoxModel(modelEventBus, dabox, dabox_name);
 	}
 	
 	@Override
@@ -62,15 +61,17 @@ public class DaBoxModel extends AbstractModel implements IActorBody {
 		
 		// Método da velocidade linear
 		//daBoxBody.setLinearVelocity(4.6f, daBoxBody.getLinearVelocity().y);
-		
-		// Método do impulso
-		Vector2 vel = daBoxBody.getLinearVelocity();
-		float desiredXvel = 4.6f;
-		float velChange = desiredXvel - vel.x;
-		float impulse = daBoxBody.getMass() * velChange; //disregard time factor
-		
-		daBoxBody.applyLinearImpulse(new Vector2(impulse, 0.0f), daBoxBody.getWorldCenter(), true);
 
+		if (daBoxBody!=null) {
+
+			// Método do impulso
+			Vector2 vel = daBoxBody.getLinearVelocity();
+			float desiredXvel = 4.6f;
+			float velChange = desiredXvel - vel.x;
+			float impulse = daBoxBody.getMass() * velChange; //disregard time factor
+
+			daBoxBody.applyLinearImpulse(new Vector2(impulse, 0.0f), daBoxBody.getWorldCenter(), true);
+		}
 	}
 
 	public Color getColor() {
@@ -81,10 +82,12 @@ public class DaBoxModel extends AbstractModel implements IActorBody {
 	}
 
 	public void jump() {
-		//FIXME: É necessário escalar as forças mediante o timestep 
-		float force_to_apply = 235f; //N
-		daBoxBody.applyForceToCenter(0.0f, force_to_apply, true);
-		daBoxBody.applyTorque(10.0f, true); //N.m
+		if (daBoxBody!=null) {
+			//FIXME: É necessário escalar as forças mediante o timestep
+			float force_to_apply = 235f; //N
+			daBoxBody.applyForceToCenter(0.0f, force_to_apply, true);
+			daBoxBody.applyTorque(10.0f, true); //N.m
+		}
 	}
 
 	// BodyInterface implementation
@@ -110,7 +113,7 @@ public class DaBoxModel extends AbstractModel implements IActorBody {
 	}
 	@Override
 	public void setBody(Body body) {
-
+		this.daBoxBody = body;
 	}
 	
 	

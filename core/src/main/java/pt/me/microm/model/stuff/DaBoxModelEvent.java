@@ -1,9 +1,8 @@
 package pt.me.microm.model.stuff;
 
-import pt.me.microm.AbstractModelEvent;
+import pt.me.microm.model.AbstractModelEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IEventType;
-import pt.me.microm.model.IModelCategory1;
 import pt.me.microm.model.IModelCategory2;
 
 public class DaBoxModelEvent extends AbstractModelEvent implements /*IModelCategory1, */IModelCategory2 {

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.AbstractModelEvent;
 import pt.me.microm.model.base.WorldModel;
 
 
@@ -24,7 +25,7 @@ public class DebugModel extends AbstractModel {
         this.position = new Vector2(x, y);
 
         // notify eventBus
-        modelEventBus.post(new DebugModelEvent(this, DebugModelEvent.EventType.ON_DEBUG_MODEL_SPAWN));
+        modelEventBus.post(new DebugModelEvent(this, AbstractModelEvent.OnModelSpawn.class));
 
         // Sinaliza os subscritores de que a construção do modelo terminou.
         DebugModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));

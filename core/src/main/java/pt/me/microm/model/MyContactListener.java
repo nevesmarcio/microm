@@ -29,15 +29,15 @@ public class MyContactListener extends EventDispatcher implements ContactListene
 		if (logger.isDebugEnabled()) logger.debug("[default-contact-handler] : BeginContact => ("+contact.getChildIndexA()+","+contact.getChildIndexB()+") => " + contact.getFixtureA().toString() +" :: "+ contact.getFixtureB() );
 		
 		int a=-1,b=-1;
-		a=((IContact)contact.getFixtureA().getBody().getUserData()).addPointOfContactWith((IActorBody)contact.getFixtureB().getBody().getUserData());
-		b=((IContact)contact.getFixtureB().getBody().getUserData()).addPointOfContactWith((IActorBody)contact.getFixtureA().getBody().getUserData()); 
+		a=((IContact)contact.getFixtureA().getBody().getUserData()).addPointOfContactWith((IBody)contact.getFixtureB().getBody().getUserData());
+		b=((IContact)contact.getFixtureB().getBody().getUserData()).addPointOfContactWith((IBody)contact.getFixtureA().getBody().getUserData());
 		assert(a==b && a!=-1 && b!=-1); // bem, se a!=b ou a==-1 ou b==-1, há gato!
 		
 		//TODO: INVOCAR AQUI A CHAMADA AO MOTOR DE JAVASCRIPT ??
 		if (a==1) {
 			//call to notify specific behavior
-			((IContact)contact.getFixtureA().getBody().getUserData()).beginContactWith((IActorBody)contact.getFixtureB().getBody().getUserData());
-			((IContact)contact.getFixtureB().getBody().getUserData()).beginContactWith((IActorBody)contact.getFixtureA().getBody().getUserData());
+			((IContact)contact.getFixtureA().getBody().getUserData()).beginContactWith((IBody)contact.getFixtureB().getBody().getUserData());
+			((IContact)contact.getFixtureB().getBody().getUserData()).beginContactWith((IBody)contact.getFixtureA().getBody().getUserData());
 
 			//call to notify general behavior
 			CollisionEvent e = new CollisionEvent(EventType.ON_COLLISION_BEGIN);
@@ -46,8 +46,8 @@ public class MyContactListener extends EventDispatcher implements ContactListene
 			if (contact.getFixtureB().getBody().getUserData() instanceof SimpleTriggerModel)
 				e.setScript(((SimpleTriggerModel)contact.getFixtureB().getBody().getUserData()).getScript());				
 
-			e.setA(((IActorBody)contact.getFixtureA().getBody().getUserData()).getName());
-			e.setB(((IActorBody)contact.getFixtureB().getBody().getUserData()).getName());
+			e.setA(((IBody)contact.getFixtureA().getBody().getUserData()).getName());
+			e.setB(((IBody)contact.getFixtureB().getBody().getUserData()).getName());
 			this.dispatchEvent(e);
 
 			if (logger.isDebugEnabled()) logger.debug((IContact)contact.getFixtureA().getBody().getUserData() + " -x- " + (IContact)contact.getFixtureB().getBody().getUserData());
@@ -63,15 +63,15 @@ public class MyContactListener extends EventDispatcher implements ContactListene
 		if (logger.isDebugEnabled()) logger.debug("[default-contact-handler] : EndContact => ("+contact.getChildIndexA()+","+contact.getChildIndexB()+") => " + contact.getFixtureA().toString() +" :: "+ contact.getFixtureB() );
 
 		int a=-1,b=-1;
-		a=((IContact)contact.getFixtureA().getBody().getUserData()).subtractPointOfContactWith((IActorBody)contact.getFixtureB().getBody().getUserData());
-		b=((IContact)contact.getFixtureB().getBody().getUserData()).subtractPointOfContactWith((IActorBody)contact.getFixtureA().getBody().getUserData()); 
+		a=((IContact)contact.getFixtureA().getBody().getUserData()).subtractPointOfContactWith((IBody)contact.getFixtureB().getBody().getUserData());
+		b=((IContact)contact.getFixtureB().getBody().getUserData()).subtractPointOfContactWith((IBody)contact.getFixtureA().getBody().getUserData());
 		assert(a==b && a!=-1 && b!=-1); // bem, se a!=b ou a==-1 ou b==-1, há gato!
 		
 		//TODO: INVOCAR AQUI A CHAMADA AO MOTOR DE JAVASCRIPT ??
 		if (a==0) {
 			//call no notify specific behavior
-			((IContact)contact.getFixtureA().getBody().getUserData()).endContactWith((IActorBody)contact.getFixtureB().getBody().getUserData());
-			((IContact)contact.getFixtureB().getBody().getUserData()).endContactWith((IActorBody)contact.getFixtureA().getBody().getUserData());			
+			((IContact)contact.getFixtureA().getBody().getUserData()).endContactWith((IBody)contact.getFixtureB().getBody().getUserData());
+			((IContact)contact.getFixtureB().getBody().getUserData()).endContactWith((IBody)contact.getFixtureA().getBody().getUserData());
 			
 			//call to notify general behavior
 			CollisionEvent e = new CollisionEvent(EventType.ON_COLLISION_END);
@@ -80,11 +80,11 @@ public class MyContactListener extends EventDispatcher implements ContactListene
 			if (contact.getFixtureB().getBody().getUserData() instanceof SimpleTriggerModel)
 				e.setScript(((SimpleTriggerModel)contact.getFixtureB().getBody().getUserData()).getScript());
 			
-			e.setA(((IActorBody)contact.getFixtureA().getBody().getUserData()).getName());
-			e.setB(((IActorBody)contact.getFixtureB().getBody().getUserData()).getName());
+			e.setA(((IBody)contact.getFixtureA().getBody().getUserData()).getName());
+			e.setB(((IBody)contact.getFixtureB().getBody().getUserData()).getName());
 			this.dispatchEvent(e);
 			
-			if (logger.isDebugEnabled()) logger.debug((IContact)contact.getFixtureA().getBody().getUserData() + " -o- " + (IActorBody)contact.getFixtureB().getBody().getUserData());
+			if (logger.isDebugEnabled()) logger.debug((IContact)contact.getFixtureA().getBody().getUserData() + " -o- " + (IBody)contact.getFixtureB().getBody().getUserData());
 		}
 		
 	

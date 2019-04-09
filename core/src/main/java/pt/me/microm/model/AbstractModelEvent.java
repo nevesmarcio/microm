@@ -1,4 +1,4 @@
-package pt.me.microm;
+package pt.me.microm.model;
 
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IEventType;

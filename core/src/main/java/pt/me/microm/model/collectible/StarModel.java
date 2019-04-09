@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.IActorBody;
+import pt.me.microm.model.IBody;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.phenomenon.CollisionModel;
 import pt.me.microm.tools.levelloader.BasicShape;
 
 
-public class StarModel extends AbstractModel implements IActorBody {
+public class StarModel extends AbstractModel implements IBody {
 	private static final String TAG = StarModel.class.getSimpleName();
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
 	
@@ -95,7 +95,7 @@ public class StarModel extends AbstractModel implements IActorBody {
 	
 	AbstractModel m;
 	@Override
-	public void beginContactWith(IActorBody oModel) {
+	public void beginContactWith(IBody oModel) {
 		
 		if (logger.isDebugEnabled()) logger.debug("collision detected");
 
@@ -118,7 +118,7 @@ public class StarModel extends AbstractModel implements IActorBody {
 
 	
 	@Override
-	public void endContactWith(IActorBody oModel) {
+	public void endContactWith(IBody oModel) {
 //		if (m!=null) m.dispose();
 		
 	}	
