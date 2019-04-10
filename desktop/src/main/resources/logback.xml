@@ -20,10 +20,14 @@
     <logger name="UIMetricsModel" level="DEBUG"/>
     <logger name="UIMetricsView" level="DEBUG"/>
      -->
-    <logger name="ScreenTheJuice" level="INFO"/>
+
+    <logger name="SpawnModel" level="INFO"/>
+    <logger name="SpawnView" level="INFO"/>
+
+<!--    <logger name="ScreenTheJuice" level="INFO"/>-->
     <logger name="WorldPhysicsManager" level="INFO"/>
 
-    <root level="WARN">
+    <root level="ERROR">
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

@@ -61,7 +61,7 @@ public class PortalModel extends AbstractModel implements IBody {
 		if ((boxTouchMyTralala > 0) && (box!=null)) {
 			box.getBody().setTransform(wm.getLinkedPortal(this).getPosition(), box.getBody().getAngle());
 			box = null;
-			wm.setWaypoint(wm.getLinkedPortal(this).getPosition());
+			wm.setWaypoint(wm.getLinkedPortal(this).getBody());
 		}
 		
 	}

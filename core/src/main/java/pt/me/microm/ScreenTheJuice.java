@@ -19,15 +19,16 @@ import pt.me.microm.controller.loop.GameTickGenerator;
 import pt.me.microm.controller.loop.ScreenTickManager;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
-import pt.me.microm.model.IModelCategory1;
-import pt.me.microm.model.IModelCategory2;
 import pt.me.microm.infrastructure.event.IEvent;
 import pt.me.microm.infrastructure.event.listener.IEventListener;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.IModelCategory1;
+import pt.me.microm.model.IModelCategory2;
 import pt.me.microm.model.base.CameraControllerStrafe;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.stuff.DaBoxModel;
+import pt.me.microm.model.stuff.GoalModelEvent;
 import pt.me.microm.model.stuff.SpawnModel;
 import pt.me.microm.model.ui.UIMetricsModel;
 import pt.me.microm.model.ui.UIModel;
@@ -90,6 +91,12 @@ public class ScreenTheJuice implements Screen {
 			void listenC(IModelCategory2 debugModelEvent) {
 				logger.info("%%%%%-{}", debugModelEvent);
 			}
+
+			@Subscribe
+			void listenGoal(GoalModelEvent goalModelEvent) {
+				if (goalModelEvent.getEventType() == GoalModelEvent.OnTouch.class)
+					ScreenTheJuice.this.callback.handler("exit", ScreenTheJuice.this);
+			}
 		}
 		modelEventBus.register(new Lst());
 
@@ -119,14 +126,7 @@ public class ScreenTheJuice implements Screen {
 
 			if (logger.isInfoEnabled()) logger.info("Nr elements loaded: " + modelBag.size());
 		}
-		worldModel.addListener(WorldModel.EventType.ON_WORLD_COMPLETED, new IEventListener() {
-			@Override
-			public void onEvent(IEvent event) {
-				ScreenTheJuice.this.callback.handler("exit", ScreenTheJuice.this);
-			}
-		});
-		
-		
+
 		// VIEWS  ///////////////////////////////////////////////////////////////
 		// Todas as views são instanciadas por "reflection"
 

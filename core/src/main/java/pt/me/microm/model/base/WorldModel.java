@@ -5,13 +5,16 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.AbstractModelEvent;
 import pt.me.microm.model.stuff.*;
 
 
@@ -24,15 +27,6 @@ import pt.me.microm.model.stuff.*;
 public class WorldModel extends AbstractModel implements GestureListener, InputProcessor {
 	private static final String TAG = WorldModel.class.getSimpleName();
 	private static final Logger logger = LoggerFactory.getLogger(TAG);
-	
-//	private static WorldModel instance = null;
-	public enum EventType {
-		ON_LEVEL_LOADED,		// Event raised when the level is finished loading
-		ON_LIFE_LOST,			// Event raised when the player lose a life
-		ON_COLLECTIBLE_FOUND,	// Event raised when the player founds a collectible item
-		ON_WORLD_COMPLETED	 	// Event raised when the player successfully completes this world
-		
-	};
 
 	// inner workings 
 	private WorldPhysicsManager worldPhysicsManager;
@@ -43,17 +37,28 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 	private BoardModel board;
 	private SpawnModel spawnModel;
 	private DaBoxModel player;
-	private Vector2 waypoint;
+	private Body waypoint;
 
 	
 	public WorldModel(EventBus modelEventBus) {
 		worldPhysicsManager = new WorldPhysicsManager(modelEventBus);
 		portalManager = new PortalModelManager();
 		tweenManager = new TweenManager();
-		
+
+		modelEventBus.register(this);
+
 		// Sinaliza os subscritores de que a construção do modelo terminou.
 		this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
 	}
+
+	@Subscribe
+	public void listenSpawn(SpawnModelEvent spawnModelEvent) {
+		if (spawnModelEvent.getEventType() == AbstractModelEvent.OnCreate.class) {
+			SpawnModel spawnModel = (SpawnModel) spawnModelEvent.getEventSource();
+			setWaypoint(spawnModel.getBody());// todo: this has to go to WorldModel listening
+		}
+	}
+
 
 	@Override
 	public void handleGameTick(GameTickEvent e) {
@@ -101,11 +106,11 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 	}
 	
 
-	public Vector2 getWaypoint() {
+	public Body getWaypoint() {
 		return waypoint;
 	}
 
-	public void setWaypoint(Vector2 waypoint) {
+	public void setWaypoint(Body waypoint) {
 		this.waypoint = waypoint;
 	}
 

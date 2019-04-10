@@ -54,7 +54,7 @@ public class WallModel extends AbstractModel implements IBody {
 
 		// Corre a lógica de teleportação
 		if ((boxTouchMyTralala > 0) && (box!=null)) {
-			box.getBody().setTransform(wm.getWaypoint(), box.getBody().getAngle());
+			box.getBody().setTransform(wm.getWaypoint().getPosition(), box.getBody().getAngle());
 			box = null;
 		}
 

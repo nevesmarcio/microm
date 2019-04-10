@@ -1,14 +1,11 @@
 package pt.me.microm.model;
 
-import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.IEventType;
-
 /**
  * All modelEvents derive from this abstract class - this allows models to subscribe to eventbus by this type
  */
 public abstract class AbstractModelEvent {
 
-    public interface OnModelSpawn extends IEventType {
+    public interface OnCreate extends IEventType {
     }
 
     AbstractModel eventSource;

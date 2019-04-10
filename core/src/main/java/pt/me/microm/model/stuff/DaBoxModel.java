@@ -6,10 +6,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.google.common.eventbus.EventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.me.microm.model.AbstractModelEvent;
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.AbstractModelEvent;
 import pt.me.microm.model.IBodyDynamic;
 import pt.me.microm.tools.levelloader.BasicShape;
 
@@ -34,7 +34,7 @@ public class DaBoxModel extends AbstractModel implements IBodyDynamic {
 		this.dabox = dabox; 
 		setName(dabox_name);
 
-		modelEventBus.post(new DaBoxModelEvent(this, AbstractModelEvent.OnModelSpawn.class));
+		modelEventBus.post(new DaBoxModelEvent(this, AbstractModelEvent.OnCreate.class));
 
 
 		// Sinaliza os subscritores de que a construção do modelo terminou.

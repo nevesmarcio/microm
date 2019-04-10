@@ -1,7 +1,7 @@
 package pt.me.microm.model.dev;
 
-import pt.me.microm.model.AbstractModelEvent;
 import pt.me.microm.model.AbstractModel;
+import pt.me.microm.model.AbstractModelEvent;
 import pt.me.microm.model.IEventType;
 import pt.me.microm.model.IModelCategory2;
 

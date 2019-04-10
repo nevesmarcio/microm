@@ -107,7 +107,7 @@ public class LevelLoader {
                 addDebugPoints(loadedActor, Color.BLUE, modelEventBus);
 
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.SPAWN);
-                SpawnModel sm = SpawnModel.getNewInstance(wm, s, loadedActor.id);
+                SpawnModel sm = SpawnModel.getNewInstance(modelEventBus, s, loadedActor.id);
                 modelBag.add(sm);
 
                 nrElements.incrementAndGet();
@@ -120,7 +120,7 @@ public class LevelLoader {
                 addDebugPoints(loadedActor, Color.GREEN, modelEventBus);
 
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.GOAL);
-                GoalModel wam = GoalModel.getNewInstance(wm, s, loadedActor.id);
+                GoalModel wam = GoalModel.getNewInstance(modelEventBus, s, loadedActor.id);
                 modelBag.add(wam);
 
                 nrElements.incrementAndGet();
