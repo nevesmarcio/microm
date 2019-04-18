@@ -10,7 +10,6 @@ import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.model.*;
-import pt.me.microm.model.stuff.PortalModelEvent;
 import pt.me.microm.tools.levelloader.BasicShape;
 
 import java.util.Iterator;
