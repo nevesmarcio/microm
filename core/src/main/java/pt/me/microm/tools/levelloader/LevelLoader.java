@@ -172,7 +172,7 @@ public class LevelLoader {
                 addDebugPoints(loadedActor, Color.WHITE, modelEventBus);
 
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.STAR);
-                StarModel wam = StarModel.getNewInstance(wm, s, loadedActor.id);
+                StarModel wam = StarModel.getNewInstance(modelEventBus, s, loadedActor.id);
                 modelBag.add(wam);
 
                 nrElements.incrementAndGet();
