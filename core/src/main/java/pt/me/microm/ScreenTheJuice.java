@@ -107,7 +107,7 @@ public class ScreenTheJuice implements Screen {
 
 		if (GameMicroM.FLAG_LOAD_LEVEL) {
 			FileHandle h = Gdx.files.internal("data/levels/" + world + "/" + level);
-			modelBag = LevelLoader.LoadLevel(h, worldModel, cameraModel, modelEventBus);
+			modelBag = LevelLoader.LoadLevel(h, cameraModel, modelEventBus);
 			// todo: dependency injection here
             DaBoxModel dbm=null;//dabox injection in spawn
             SpawnModel spawnModel=null;

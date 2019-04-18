@@ -51,7 +51,7 @@ public class LevelLoader {
      * @param camWidth The box2d World object
      * @return number of assets loaded
      */
-    public static ArrayList<AbstractModel> LoadLevel(FileHandle h, final WorldModel wm, final CameraModel cm, final EventBus modelEventBus) {
+    public static ArrayList<AbstractModel> LoadLevel(FileHandle h, final CameraModel cm, final EventBus modelEventBus) {
 
         final AtomicInteger nrElements = new AtomicInteger(0);
         final ArrayList<AbstractModel> modelBag = new ArrayList<AbstractModel>();
@@ -195,7 +195,7 @@ public class LevelLoader {
                 BasicShape sh = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.TEXT);
                 if (logger.isInfoEnabled()) logger.info(".:.:.:. " + sh.getCentroid() + " .:.:.:.");
 
-                TextModel tm = TextModel.getNewInstance(wm, sh, id, s);
+                TextModel tm = TextModel.getNewInstance(modelEventBus, sh, id, s);
                 modelBag.add(tm);
 
                 nrElements.incrementAndGet();
