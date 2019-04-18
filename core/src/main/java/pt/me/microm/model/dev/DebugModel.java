@@ -24,7 +24,7 @@ public class DebugModel extends AbstractModel {
         this.position = new Vector2(x, y);
 
         // notify eventBus
-        modelEventBus.post(new DebugModelEvent(this, AbstractModelEvent.OnCreate.class));
+        modelEventBus.post(new DebugModelEvent(this, DebugModelEvent.OnCreate.class));
 
         // Sinaliza os subscritores de que a construção do modelo terminou.
         DebugModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));

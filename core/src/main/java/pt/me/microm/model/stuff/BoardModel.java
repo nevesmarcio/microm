@@ -26,7 +26,7 @@ public class BoardModel extends AbstractModel implements IBodyStatic {
         setName(board_name);
 
         // notify eventBus
-        modelEventBus.post(new BoardModelEvent(this, AbstractModelEvent.OnCreate.class));
+        modelEventBus.post(new BoardModelEvent(this, BoardModelEvent.OnCreate.class));
 
         // Sinaliza os subscritores de que a construção do modelo terminou.
         BoardModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));

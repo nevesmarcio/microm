@@ -28,9 +28,7 @@ public class GoalView extends AbstractView {
 
     @Override
     public void DelayedInit() {
-
         goalMesh = SimpleRendererHelper.buildMesh(goalmSrc.getBasicShape());
-
     }
 
     private Vector2 pointA = new Vector2();

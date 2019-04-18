@@ -34,7 +34,7 @@ public class DaBoxModel extends AbstractModel implements IBodyDynamic {
 		this.dabox = dabox; 
 		setName(dabox_name);
 
-		modelEventBus.post(new DaBoxModelEvent(this, AbstractModelEvent.OnCreate.class));
+		modelEventBus.post(new DaBoxModelEvent(this, DaBoxModelEvent.OnCreate.class));
 
 
 		// Sinaliza os subscritores de que a construção do modelo terminou.

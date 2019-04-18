@@ -85,7 +85,7 @@ public class SpawnModel extends AbstractModel implements IBodyStatic {
         setName(spawn_name);
 
         // notify eventBus
-        modelEventBus.post(new BoardModelEvent(this, AbstractModelEvent.OnCreate.class));
+        modelEventBus.post(new SpawnModelEvent(this, SpawnModelEvent.OnCreate.class));
 
         // Sinaliza os subscritores de que a construção do modelo terminou.
         SpawnModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));

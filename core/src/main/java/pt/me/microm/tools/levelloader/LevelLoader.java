@@ -133,7 +133,7 @@ public class LevelLoader {
                 addDebugPoints(loadedActor, Color.RED, modelEventBus);
 
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.GROUND);
-                GroundModel wam = GroundModel.getNewInstance(wm, s, loadedActor.id);
+                GroundModel wam = GroundModel.getNewInstance(modelEventBus, s, loadedActor.id);
                 modelBag.add(wam);
 
                 nrElements.incrementAndGet();
@@ -159,7 +159,7 @@ public class LevelLoader {
                 addDebugPoints(loadedActor, Color.GRAY, modelEventBus);
 
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.WALL);
-                WallModel wam = WallModel.getNewInstance(wm, s, loadedActor.id);
+                WallModel wam = WallModel.getNewInstance(modelEventBus, s, loadedActor.id);
                 modelBag.add(wam);
 
                 nrElements.incrementAndGet();

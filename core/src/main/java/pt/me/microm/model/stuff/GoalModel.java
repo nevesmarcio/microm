@@ -31,7 +31,7 @@ public class GoalModel extends AbstractModel implements IBodyStatic {
         setName(goal_name);
 
         // notify eventBus
-        modelEventBus.post(new GoalModelEvent(this, AbstractModelEvent.OnCreate.class));
+        modelEventBus.post(new GoalModelEvent(this, GoalModelEvent.OnCreate.class));
 
         // Sinaliza os subscritores de que a construção do modelo terminou.
         GoalModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));

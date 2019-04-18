@@ -21,8 +21,8 @@
     <logger name="UIMetricsView" level="DEBUG"/>
      -->
 
-    <logger name="SpawnModel" level="INFO"/>
-    <logger name="SpawnView" level="INFO"/>
+    <logger name="WallModel" level="INFO"/>
+    <logger name="WallView" level="INFO"/>
 
 <!--    <logger name="ScreenTheJuice" level="INFO"/>-->
     <logger name="WorldPhysicsManager" level="INFO"/>

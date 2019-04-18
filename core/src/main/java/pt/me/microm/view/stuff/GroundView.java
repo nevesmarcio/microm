@@ -41,27 +41,28 @@ public class GroundView extends AbstractView {
 
 
         SimpleRendererHelper.drawMesh(e.getCamera(), groundmSrc, groundMesh);
+        if (groundmSrc.getBody() != null) {
 
-        if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
-            renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+            if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
+                renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 
-            Fixture fix = (groundmSrc.getBody().getFixtureList()).get(0);
-            ChainShape cs = (ChainShape) fix.getShape();
+                Fixture fix = (groundmSrc.getBody().getFixtureList()).get(0);
+                ChainShape cs = (ChainShape) fix.getShape();
 
-            renderer.identity();
-            renderer.translate(groundmSrc.getBody().getPosition().x, groundmSrc.getBody().getPosition().y, 0.0f);
-            renderer.rotate(0.0f, 0.0f, 1.0f, (float) Math.toDegrees(groundmSrc.getBody().getAngle()));
+                renderer.identity();
+                renderer.translate(groundmSrc.getBody().getPosition().x, groundmSrc.getBody().getPosition().y, 0.0f);
+                renderer.rotate(0.0f, 0.0f, 1.0f, (float) Math.toDegrees(groundmSrc.getBody().getAngle()));
 
-            renderer.begin(ShapeType.Line);
-            int vCnt = cs.getVertexCount();
-            for (int i = 0; i < vCnt; i++) {
-                cs.getVertex(i, pointA);
-                cs.getVertex(i == vCnt - 1 ? 0 : i + 1, pointB);
-                renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
+                renderer.begin(ShapeType.Line);
+                int vCnt = cs.getVertexCount();
+                for (int i = 0; i < vCnt; i++) {
+                    cs.getVertex(i, pointA);
+                    cs.getVertex(i == vCnt - 1 ? 0 : i + 1, pointB);
+                    renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
+                }
+                renderer.end();
             }
-            renderer.end();
         }
-
     }
 
     @Override

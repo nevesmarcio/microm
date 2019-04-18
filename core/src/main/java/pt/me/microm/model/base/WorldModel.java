@@ -15,6 +15,7 @@ import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.AbstractModelEvent;
+import pt.me.microm.model.IBody;
 import pt.me.microm.model.stuff.*;
 
 
@@ -37,7 +38,7 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 	private BoardModel board;
 	private SpawnModel spawnModel;
 	private DaBoxModel player;
-	private Body waypoint;
+	private IBody waypoint;
 
 	
 	public WorldModel(EventBus modelEventBus) {
@@ -53,9 +54,16 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 
 	@Subscribe
 	public void listenSpawn(SpawnModelEvent spawnModelEvent) {
-		if (spawnModelEvent.getEventType() == AbstractModelEvent.OnCreate.class) {
+		if (spawnModelEvent.getEventType() == SpawnModelEvent.OnCreate.class) {
 			SpawnModel spawnModel = (SpawnModel) spawnModelEvent.getEventSource();
-			setWaypoint(spawnModel.getBody());// todo: this has to go to WorldModel listening
+			setWaypoint(spawnModel);// todo: this has to go to WorldModel listening
+		}
+	}
+
+	@Subscribe
+	public void listenWallContact(WallModelEvent wallModelEvent) {
+		if (wallModelEvent.getEventType() == WallModelEvent.OnTouch.class) {
+			player.getBody().setTransform(getWaypoint().getPosition(), player.getBody().getAngle());
 		}
 	}
 
@@ -106,11 +114,11 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 	}
 	
 
-	public Body getWaypoint() {
+	public IBody getWaypoint() {
 		return waypoint;
 	}
 
-	public void setWaypoint(Body waypoint) {
+	public void setWaypoint(IBody waypoint) {
 		this.waypoint = waypoint;
 	}
 
