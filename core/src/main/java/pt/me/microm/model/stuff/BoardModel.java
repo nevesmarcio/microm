@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.event.SimpleEvent;
 import pt.me.microm.model.AbstractModel;
-import pt.me.microm.model.AbstractModelEvent;
 import pt.me.microm.model.IBodyStatic;
 import pt.me.microm.tools.levelloader.BasicShape;
 

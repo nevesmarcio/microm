@@ -19,8 +19,6 @@ import pt.me.microm.controller.loop.GameTickGenerator;
 import pt.me.microm.controller.loop.ScreenTickManager;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
-import pt.me.microm.infrastructure.event.IEvent;
-import pt.me.microm.infrastructure.event.listener.IEventListener;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.IModelCategory1;
 import pt.me.microm.model.IModelCategory2;
