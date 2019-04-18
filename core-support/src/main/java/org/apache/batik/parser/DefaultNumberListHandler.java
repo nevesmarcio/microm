@@ -19,8 +19,7 @@
 package org.apache.batik.parser;
 
 /**
- *
- * @author  tonny@kiyut.com
+ * @author tonny@kiyut.com
  * @version $Id: DefaultNumberListHandler.java 1733416 2016-03-03 07:07:13Z gadams $
  */
 public class DefaultNumberListHandler implements NumberListHandler {
@@ -28,7 +27,7 @@ public class DefaultNumberListHandler implements NumberListHandler {
      * The only instance of this class.
      */
     public static final NumberListHandler INSTANCE
-        = new DefaultNumberListHandler();
+            = new DefaultNumberListHandler();
 
     /**
      * This class does not need to be instantiated.

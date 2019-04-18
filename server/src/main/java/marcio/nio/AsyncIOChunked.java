@@ -23,14 +23,13 @@ public class AsyncIOChunked {
     private final ExecutorService es = Executors.newSingleThreadExecutor();
 
 
-
-    public void asyncRead(final String file, final IChunkReadHandler readHandler) throws IOException{
+    public void asyncRead(final String file, final IChunkReadHandler readHandler) throws IOException {
         log.debug("testAsyncXMLReadSingleThreadRecursive");
 
         Path path = Paths.get(file);
         AsynchronousFileChannel afc = AsynchronousFileChannel.open(path, new HashSet<StandardOpenOption>(Arrays.asList(StandardOpenOption.READ)), es);
         int fileSize = (int) afc.size();
-        log.debug("Reading file in Path='{}', Size={}bytes. Will read it in {} chunks.", path.toAbsolutePath().toString(),fileSize, (float) Files.size(path) / (float) READ_BUFFER_SIZE);
+        log.debug("Reading file in Path='{}', Size={}bytes. Will read it in {} chunks.", path.toAbsolutePath().toString(), fileSize, (float) Files.size(path) / (float) READ_BUFFER_SIZE);
 
         ByteBuffer dataBuffer = ByteBuffer.allocate(READ_BUFFER_SIZE);
 

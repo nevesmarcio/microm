@@ -13,54 +13,54 @@ import pt.me.microm.view.AbstractView;
 
 
 public class CollisionView extends AbstractView {
-	private static final String TAG = CollisionView.class.getSimpleName();
-	private static final Logger logger = LoggerFactory.getLogger(TAG);
-	
-	private SpriteBatch batch;
+    private static final String TAG = CollisionView.class.getSimpleName();
+    private static final Logger logger = LoggerFactory.getLogger(TAG);
 
-	private CollisionModel collisionmSrc;
-	
-	public ParticleEffect particleEffect;
-	
-	public CollisionView(CollisionModel collisionmSrc) {
-		super(collisionmSrc, 100);
-		this.collisionmSrc = collisionmSrc;
-		
-	}
+    private SpriteBatch batch;
 
-	@Override
-	public void DelayedInit() {
-		 batch = new SpriteBatch();
+    private CollisionModel collisionmSrc;
 
-		 particleEffect = new ParticleEffect();
-		 particleEffect.load(Gdx.files.internal("data/particles/collision.p"), Gdx.files.internal("data/particles"));
-		 particleEffect.start();
-	}
-	
+    public ParticleEffect particleEffect;
 
-	@Override
-	public void draw(ScreenTickEvent e) {
-		long elapsedNanoTime = e.getElapsedNanoTime();
-		
-		if (GameMicroM.FLAG_DISPLAY_PARTICLES) {
-			if (particleEffect != null) {
-			
-				// renderização das particles
-				float delta = Gdx.graphics.getDeltaTime();
-				batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+    public CollisionView(CollisionModel collisionmSrc) {
+        super(collisionmSrc, 100);
+        this.collisionmSrc = collisionmSrc;
 
-				batch.begin();
-					particleEffect.setPosition(collisionmSrc.getPosition().x, collisionmSrc.getPosition().y);
-					particleEffect.draw(batch, delta);
-				batch.end();		
-			}
-		}
-		
-	}
-	
-	@Override
-	public void draw20(ScreenTickEvent e) {
-	    draw(e);
-	}
+    }
+
+    @Override
+    public void DelayedInit() {
+        batch = new SpriteBatch();
+
+        particleEffect = new ParticleEffect();
+        particleEffect.load(Gdx.files.internal("data/particles/collision.p"), Gdx.files.internal("data/particles"));
+        particleEffect.start();
+    }
+
+
+    @Override
+    public void draw(ScreenTickEvent e) {
+        long elapsedNanoTime = e.getElapsedNanoTime();
+
+        if (GameMicroM.FLAG_DISPLAY_PARTICLES) {
+            if (particleEffect != null) {
+
+                // renderização das particles
+                float delta = Gdx.graphics.getDeltaTime();
+                batch.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+
+                batch.begin();
+                particleEffect.setPosition(collisionmSrc.getPosition().x, collisionmSrc.getPosition().y);
+                particleEffect.draw(batch, delta);
+                batch.end();
+            }
+        }
+
+    }
+
+    @Override
+    public void draw20(ScreenTickEvent e) {
+        draw(e);
+    }
 
 }

@@ -13,80 +13,84 @@ import pt.me.microm.tools.levelloader.BasicShape;
 
 
 public class GroundModel extends AbstractModel implements IBodyStatic {
-	private static final String TAG = GroundModel.class.getSimpleName();
-	private static final Logger logger = LoggerFactory.getLogger(TAG);
-	
-	private Body groundBody;
+    private static final String TAG = GroundModel.class.getSimpleName();
+    private static final Logger logger = LoggerFactory.getLogger(TAG);
 
-	private BasicShape ground;
+    private Body groundBody;
 
-	private EventBus modelEventBus;
-	
-	private GroundModel(final EventBus modelEventBus, final BasicShape ground, final String ground_name) {
-		this.modelEventBus = modelEventBus;
-		this.ground = ground;
-		setName(ground_name);
+    private BasicShape ground;
 
-		// notify eventBus
-		modelEventBus.post(new GroundModelEvent(this, GroundModelEvent.OnCreate.class));
+    private EventBus modelEventBus;
 
-		// Sinaliza os subscritores de que a construção do modelo terminou.
-		GroundModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
-	
-	}
-	
-	public static GroundModel getNewInstance(EventBus modelEventBus, BasicShape ground, String ground_name){
-		return new GroundModel(modelEventBus, ground, ground_name);
-	}
+    private GroundModel(final EventBus modelEventBus, final BasicShape ground, final String ground_name) {
+        this.modelEventBus = modelEventBus;
+        this.ground = ground;
+        setName(ground_name);
 
-	
-	@Override
-	public void handleGameTick(GameTickEvent e) {
-		long elapsedNanoTime = e.getElapsedNanoTime();
-		
-		if (groundBody != null)
-			if (logger.isDebugEnabled())
-				logger.debug("[Physics-room]: Pos.x:" + String.format("%.2f", groundBody.getPosition().x)
-						+ " Pos.y:" + String.format("%.2f", groundBody.getPosition().y) 
-						+ " Angle:" + String.format("%.2f", groundBody.getAngle())
-						+ " Mass:" + getBody().getMass()
-						+ " Type:" + getBody().getType());			
-	}
+        // notify eventBus
+        modelEventBus.post(new GroundModelEvent(this, GroundModelEvent.OnCreate.class));
 
-	
-	// BodyInterface implementation
-	@Override
-	public String getName() {
-		return super.getName();
-	}
-	@Override
-	public BasicShape getBasicShape() {
-		return ground;
-	}
-	@Override
-	public Vector2 getPosition() {
-		if (groundBody!=null)
-		return groundBody.getPosition();
-		else
-			return new Vector2();
-	}
-	@Override
-	public float getAngle() {
-		if (groundBody!=null) {
-			return groundBody.getAngle();
-		}
-		else
-			return 0f;
-	}
-	@Override
-	public Body getBody() {
-		return groundBody;
-	}
-	@Override
-	public void setBody(Body body) {
-		this.groundBody=body;
+        // Sinaliza os subscritores de que a construção do modelo terminou.
+        GroundModel.this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
 
-	}
+    }
+
+    public static GroundModel getNewInstance(EventBus modelEventBus, BasicShape ground, String ground_name) {
+        return new GroundModel(modelEventBus, ground, ground_name);
+    }
+
+
+    @Override
+    public void handleGameTick(GameTickEvent e) {
+        long elapsedNanoTime = e.getElapsedNanoTime();
+
+        if (groundBody != null)
+            if (logger.isDebugEnabled())
+                logger.debug("[Physics-room]: Pos.x:" + String.format("%.2f", groundBody.getPosition().x)
+                        + " Pos.y:" + String.format("%.2f", groundBody.getPosition().y)
+                        + " Angle:" + String.format("%.2f", groundBody.getAngle())
+                        + " Mass:" + getBody().getMass()
+                        + " Type:" + getBody().getType());
+    }
+
+
+    // BodyInterface implementation
+    @Override
+    public String getName() {
+        return super.getName();
+    }
+
+    @Override
+    public BasicShape getBasicShape() {
+        return ground;
+    }
+
+    @Override
+    public Vector2 getPosition() {
+        if (groundBody != null)
+            return groundBody.getPosition();
+        else
+            return new Vector2();
+    }
+
+    @Override
+    public float getAngle() {
+        if (groundBody != null) {
+            return groundBody.getAngle();
+        } else
+            return 0f;
+    }
+
+    @Override
+    public Body getBody() {
+        return groundBody;
+    }
+
+    @Override
+    public void setBody(Body body) {
+        this.groundBody = body;
+
+    }
 
 
 }

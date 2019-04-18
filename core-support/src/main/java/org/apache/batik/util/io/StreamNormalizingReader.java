@@ -58,6 +58,7 @@ public class StreamNormalizingReader extends NormalizingReader {
     /**
      * Creates a new NormalizingReader. The encoding is assumed to be
      * ISO-8859-1.
+     *
      * @param is The input stream to decode.
      */
     public StreamNormalizingReader(InputStream is) throws IOException {
@@ -66,12 +67,13 @@ public class StreamNormalizingReader extends NormalizingReader {
 
     /**
      * Creates a new NormalizingReader.
-     * @param is The input stream to decode.
+     *
+     * @param is  The input stream to decode.
      * @param enc The standard encoding name. A null encoding means
-     * ISO-8859-1.
+     *            ISO-8859-1.
      */
     public StreamNormalizingReader(InputStream is, String enc)
-        throws IOException {
+            throws IOException {
         if (enc == null) {
             enc = "ISO-8859-1";
         }
@@ -80,6 +82,7 @@ public class StreamNormalizingReader extends NormalizingReader {
 
     /**
      * Creates a new NormalizingReader.
+     *
      * @param r The reader to wrap.
      */
     public StreamNormalizingReader(Reader r) throws IOException {
@@ -111,19 +114,19 @@ public class StreamNormalizingReader extends NormalizingReader {
         }
         result = charDecoder.readChar();
         switch (result) {
-        case 13:
-            column = 0;
-            line++;
-            int c = charDecoder.readChar();
-            if (c == 10) {
+            case 13:
+                column = 0;
+                line++;
+                int c = charDecoder.readChar();
+                if (c == 10) {
+                    return 10;
+                }
+                nextChar = c;
                 return 10;
-            }
-            nextChar = c;
-            return 10;
 
-        case 10:
-            column = 0;
-            line++;
+            case 10:
+                column = 0;
+                line++;
         }
         return result;
     }
@@ -154,9 +157,9 @@ public class StreamNormalizingReader extends NormalizingReader {
      * Creates the CharDecoder mapped with the given encoding name.
      */
     protected CharDecoder createCharDecoder(InputStream is, String enc)
-        throws IOException {
+            throws IOException {
         CharDecoderFactory cdf =
-            (CharDecoderFactory)charDecoderFactories.get(enc.toUpperCase());
+                (CharDecoderFactory) charDecoderFactories.get(enc.toUpperCase());
         if (cdf != null) {
             return cdf.createCharDecoder(is);
         }
@@ -171,6 +174,7 @@ public class StreamNormalizingReader extends NormalizingReader {
      * The CharDecoder factories map.
      */
     protected static final Map charDecoderFactories = new HashMap(11);
+
     static {
         CharDecoderFactory cdf = new ASCIIDecoderFactory();
         charDecoderFactories.put("ASCII", cdf);
@@ -191,9 +195,9 @@ public class StreamNormalizingReader extends NormalizingReader {
      * To create an ASCIIDecoder.
      */
     protected static class ASCIIDecoderFactory
-        implements CharDecoderFactory {
+            implements CharDecoderFactory {
         public CharDecoder createCharDecoder(InputStream is)
-            throws IOException {
+                throws IOException {
             return new ASCIIDecoder(is);
         }
     }
@@ -202,9 +206,9 @@ public class StreamNormalizingReader extends NormalizingReader {
      * To create an ISO_8859_1Decoder.
      */
     protected static class ISO_8859_1DecoderFactory
-        implements CharDecoderFactory {
+            implements CharDecoderFactory {
         public CharDecoder createCharDecoder(InputStream is)
-            throws IOException {
+                throws IOException {
             return new ISO_8859_1Decoder(is);
         }
     }
@@ -213,9 +217,9 @@ public class StreamNormalizingReader extends NormalizingReader {
      * To create a UTF8Decoder.
      */
     protected static class UTF8DecoderFactory
-        implements CharDecoderFactory {
+            implements CharDecoderFactory {
         public CharDecoder createCharDecoder(InputStream is)
-            throws IOException {
+                throws IOException {
             return new UTF8Decoder(is);
         }
     }
@@ -224,9 +228,9 @@ public class StreamNormalizingReader extends NormalizingReader {
      * To create a UTF16Decoder.
      */
     protected static class UTF16DecoderFactory
-        implements CharDecoderFactory {
+            implements CharDecoderFactory {
         public CharDecoder createCharDecoder(InputStream is)
-            throws IOException {
+                throws IOException {
             return new UTF16Decoder(is);
         }
     }

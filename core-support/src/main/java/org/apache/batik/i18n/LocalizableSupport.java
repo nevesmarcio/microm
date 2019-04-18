@@ -51,19 +51,19 @@ import java.util.*;
  * </pre>
  * The algorithm for the Locale lookup in a LocalizableSupport object is:
  * <ul>
- *   <li>
- *     if a Locale has been set by a call to setLocale(), use this Locale,
- *     else,
- *   <li/>
- *   <li>
- *     if a Locale has been set by a call to the setDefaultLocale() method
- *     of a LocalizableSupport object in the current LocaleGroup, use this
- *     Locale, else,
- *   </li>
- *   <li>
- *     use the object returned by Locale.getDefault() (and set by
- *     Locale.setDefault()).
- *   <li/>
+ * <li>
+ * if a Locale has been set by a call to setLocale(), use this Locale,
+ * else,
+ * <li/>
+ * <li>
+ * if a Locale has been set by a call to the setDefaultLocale() method
+ * of a LocalizableSupport object in the current LocaleGroup, use this
+ * Locale, else,
+ * </li>
+ * <li>
+ * use the object returned by Locale.getDefault() (and set by
+ * Locale.setDefault()).
+ * <li/>
  * </ul>
  * This offers the possibility to have a different Locale for each object,
  * a Locale for a group of object and/or a Locale for the JVM instance.
@@ -132,13 +132,14 @@ public class LocalizableSupport implements Localizable {
      * Same as LocalizableSupport(s, null).
      */
     public LocalizableSupport(String s) {
-        this(s, (ClassLoader)null);
+        this(s, (ClassLoader) null);
     }
 
     /**
      * Creates a new Localizable object.
      * The resource bundle class name is required allows the use of custom
      * classes of resource bundles.
+     *
      * @param s  must be the name of the class to use to get the appropriate
      *           resource bundle given the current locale.
      * @param cl is the classloader used to create the resource bundle,
@@ -204,7 +205,7 @@ public class LocalizableSupport implements Localizable {
 
     /**
      * Implements {@link
-     * Localizable#formatMessage(String,Object[])}.
+     * Localizable#formatMessage(String, Object[])}.
      */
     public String formatMessage(String key, Object[] args) {
         return MessageFormat.format(getString(key), args);
@@ -247,9 +248,9 @@ public class LocalizableSupport implements Localizable {
     }
 
     protected ResourceBundle lookupResourceBundle(String bundle,
-                                                  Class theClass){
+                                                  Class theClass) {
         ClassLoader cl = classLoader;
-        ResourceBundle rb=null;
+        ResourceBundle rb = null;
         if (cl != null) {
             try {
                 rb = ResourceBundle.getBundle(bundle, usedLocale, cl);
@@ -276,14 +277,14 @@ public class LocalizableSupport implements Localizable {
 
     protected ResourceBundle getResourceBundle(int i) {
         setUsedLocale();
-        ResourceBundle rb=null;
+        ResourceBundle rb = null;
         if (cls == null) {
             // Old behavour
             if (resourceBundles.size() == 0) {
                 rb = lookupResourceBundle(bundleName, null);
                 resourceBundles.add(rb);
             }
-            return (ResourceBundle)resourceBundles.get(0);
+            return (ResourceBundle) resourceBundles.get(0);
         }
 
         while (i >= resourceBundles.size()) {
@@ -297,14 +298,15 @@ public class LocalizableSupport implements Localizable {
             String bundle = (cl.getPackage().getName() + "." + bundleName);
             resourceBundles.add(lookupResourceBundle(bundle, cl));
         }
-        return (ResourceBundle)resourceBundles.get(i);
+        return (ResourceBundle) resourceBundles.get(i);
     }
 
     /**
+     *
      */
     public String getString(String key) throws MissingResourceException {
         setUsedLocale();
-        for (int i=0; hasNextResourceBundle(i); i++) {
+        for (int i = 0; hasNextResourceBundle(i); i++) {
             ResourceBundle rb = getResourceBundle(i);
             if (rb == null) continue;
             try {
@@ -313,35 +315,36 @@ public class LocalizableSupport implements Localizable {
             } catch (MissingResourceException mre) {
             }
         }
-        String classStr = (cls != null)?cls.toString():bundleName;
+        String classStr = (cls != null) ? cls.toString() : bundleName;
         throw new MissingResourceException("Unable to find resource: " + key,
-                                           classStr, key);
+                classStr, key);
     }
 
     /**
      * Returns the integer mapped with the given string
+     *
      * @param key a key of the resource bundle
      * @throws MissingResourceException if key is not the name of a resource
      */
     public int getInteger(String key)
-        throws MissingResourceException {
+            throws MissingResourceException {
         String i = getString(key);
-        
+
         try {
             return Integer.parseInt(i);
         } catch (NumberFormatException e) {
             throw new MissingResourceException
-                ("Malformed integer", bundleName, key);
+                    ("Malformed integer", bundleName, key);
         }
     }
 
     public int getCharacter(String key)
-        throws MissingResourceException {
+            throws MissingResourceException {
         String s = getString(key);
-        
-        if(s == null || s.length() == 0){
+
+        if (s == null || s.length() == 0) {
             throw new MissingResourceException
-                ("Malformed character", bundleName, key);
+                    ("Malformed character", bundleName, key);
         }
 
         return s.charAt(0);

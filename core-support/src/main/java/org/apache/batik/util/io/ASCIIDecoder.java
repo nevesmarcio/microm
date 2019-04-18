@@ -29,7 +29,7 @@ import java.io.InputStream;
  * @version $Id: ASCIIDecoder.java 1733416 2016-03-03 07:07:13Z gadams $
  */
 public class ASCIIDecoder extends AbstractCharDecoder {
-    
+
     /**
      * Creates a new ASCIIDecoder.
      */
@@ -39,6 +39,7 @@ public class ASCIIDecoder extends AbstractCharDecoder {
 
     /**
      * Reads the next character.
+     *
      * @return a character or END_OF_STREAM.
      */
     public int readChar() throws IOException {

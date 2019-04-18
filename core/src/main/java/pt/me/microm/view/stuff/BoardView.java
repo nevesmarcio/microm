@@ -43,7 +43,7 @@ public class BoardView extends AbstractView {
     public void draw(ScreenTickEvent e) {
 
         SimpleRendererHelper.drawMesh(e.getCamera(), boardmSrc, boardMesh);
-        if (boardmSrc.getBody() != null){
+        if (boardmSrc.getBody() != null) {
 
             if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
                 renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
@@ -69,7 +69,7 @@ public class BoardView extends AbstractView {
                     renderer.end();
                 }
             }
-    }
+        }
     }
 
     @Override

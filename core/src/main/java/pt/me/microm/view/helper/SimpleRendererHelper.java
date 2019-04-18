@@ -43,6 +43,7 @@ public class SimpleRendererHelper {
                     "	gl_FragColor = v_color;	\n" +
                     "}											\n";
     private static ShaderProgram shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
+
     static {
         if (shaderProgram.isCompiled() == false) {
             if (logger.isErrorEnabled()) logger.error("ShaderError: {}", new Object[]{shaderProgram.getLog()});
@@ -50,44 +51,45 @@ public class SimpleRendererHelper {
         }
     }
 
-	public static Mesh buildMesh(BasicShape shape) {
-	    Mesh newMesh;
-		
-		float[] vertexes;
-		short[] indexes;
-		int nr_points = shape.getPointsArray().length;
-		vertexes = new float[nr_points*4];
+    public static Mesh buildMesh(BasicShape shape) {
+        Mesh newMesh;
 
-		indexes = new short[nr_points];
-		
-		for (int i = 0; i < nr_points; i++) {
-			indexes[i] = (short)i;
-			
-			vertexes[i*4] = shape.getPointsArray()[i].x;
-			vertexes[i*4+1] = shape.getPointsArray()[i].y;
-			vertexes[i*4+2] = 0.0f;
-			vertexes[i*4+3] = Color.toFloatBits(shape.getFillColor().r,
-												shape.getFillColor().g,
-												shape.getFillColor().b,
-												shape.getFillColor().a);
-		}
+        float[] vertexes;
+        short[] indexes;
+        int nr_points = shape.getPointsArray().length;
+        vertexes = new float[nr_points * 4];
 
-		newMesh = new Mesh(true, nr_points, nr_points, 
+        indexes = new short[nr_points];
+
+        for (int i = 0; i < nr_points; i++) {
+            indexes[i] = (short) i;
+
+            vertexes[i * 4] = shape.getPointsArray()[i].x;
+            vertexes[i * 4 + 1] = shape.getPointsArray()[i].y;
+            vertexes[i * 4 + 2] = 0.0f;
+            vertexes[i * 4 + 3] = Color.toFloatBits(shape.getFillColor().r,
+                    shape.getFillColor().g,
+                    shape.getFillColor().b,
+                    shape.getFillColor().a);
+        }
+
+        newMesh = new Mesh(true, nr_points, nr_points,
                 new VertexAttribute(Usage.Position, 3, "a_position"),
                 new VertexAttribute(Usage.ColorPacked, 4, "a_color"));
 
-		newMesh.setVertices(vertexes);
-		newMesh.setIndices(indexes);
-		
-		return newMesh;
-	}
+        newMesh.setVertices(vertexes);
+        newMesh.setIndices(indexes);
 
-	private static Matrix4 tempProjectionMatrix = new Matrix4();
-	private static Matrix4 tempViewMatrix = new Matrix4();
-	public static void drawMesh(CameraModel camera, IBody model, Mesh mesh) {
+        return newMesh;
+    }
 
-		tempProjectionMatrix.set(camera.getGameCamera().projection);
-		tempViewMatrix.set(camera.getGameCamera().view);
+    private static Matrix4 tempProjectionMatrix = new Matrix4();
+    private static Matrix4 tempViewMatrix = new Matrix4();
+
+    public static void drawMesh(CameraModel camera, IBody model, Mesh mesh) {
+
+        tempProjectionMatrix.set(camera.getGameCamera().projection);
+        tempViewMatrix.set(camera.getGameCamera().view);
 
         shaderProgram.begin();
         shaderProgram.setUniformMatrix("mProjectionMatrix", tempProjectionMatrix
@@ -100,6 +102,6 @@ public class SimpleRendererHelper {
         }
         shaderProgram.end();
 
-	}
+    }
 
 }

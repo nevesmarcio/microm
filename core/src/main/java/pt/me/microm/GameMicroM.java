@@ -123,8 +123,8 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
             public Object handler(final Object... a) {
                 logger.info("-->> ScreenTheJuice callback called with '{}' command!", (String) a[0]);
 
-                if (a!=null && ((String)a[0]).equalsIgnoreCase("pause")) {
-                    pauseGame((Screen)a[1]);
+                if (a != null && ((String) a[0]).equalsIgnoreCase("pause")) {
+                    pauseGame((Screen) a[1]);
                 } else {
 
                     ((Screen) a[1]).hide();

@@ -90,8 +90,6 @@ public class WorldPhysicsManager {
     }
 
 
-
-
     /**
      * Função que permite o agendamento da manipulação dos objectos fora do step do motor fisico
      *

@@ -23,7 +23,7 @@ public class XmlNode {
     @Override
     public String toString() {
         StringBuilder attributesBuilder = new StringBuilder("[");
-        for (Map.Entry<String, String> xmlNodeAttribute: attributes.entrySet()) {
+        for (Map.Entry<String, String> xmlNodeAttribute : attributes.entrySet()) {
             attributesBuilder.append("XmlNodeAttribute{")
                     .append("name='")
                     .append(xmlNodeAttribute.getKey())
@@ -34,7 +34,7 @@ public class XmlNode {
                     .append('}')
                     .append(",");
         }
-        attributesBuilder.replace(attributesBuilder.length()-1,attributesBuilder.length()-1,"]");
+        attributesBuilder.replace(attributesBuilder.length() - 1, attributesBuilder.length() - 1, "]");
 
         return "XmlNode{" +
                 "context='" + context + '\'' +

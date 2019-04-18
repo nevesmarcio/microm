@@ -42,7 +42,7 @@ public abstract class AbstractParser implements Parser {
      * The default resource bundle base name.
      */
     public static final String BUNDLE_CLASSNAME =
-        "org.apache.batik.parser.resources.Messages";
+            "org.apache.batik.parser.resources.Messages";
 
     /**
      * The error handler.
@@ -53,8 +53,8 @@ public abstract class AbstractParser implements Parser {
      * The localizable support.
      */
     protected LocalizableSupport localizableSupport =
-        new LocalizableSupport(BUNDLE_CLASSNAME,
-                               AbstractParser.class.getClassLoader());
+            new LocalizableSupport(BUNDLE_CLASSNAME,
+                    AbstractParser.class.getClassLoader());
 
     /**
      * The normalizing reader.
@@ -89,10 +89,10 @@ public abstract class AbstractParser implements Parser {
 
     /**
      * Implements {@link
-     * org.apache.batik.i18n.Localizable#formatMessage(String,Object[])}.
+     * org.apache.batik.i18n.Localizable#formatMessage(String, Object[])}.
      */
     public String formatMessage(String key, Object[] args)
-        throws MissingResourceException {
+            throws MissingResourceException {
         return localizableSupport.formatMessage(key, args);
     }
 
@@ -106,6 +106,7 @@ public abstract class AbstractParser implements Parser {
      * <p>Applications may register a new or different handler in the
      * middle of a parse, and the parser must begin using the new
      * handler immediately.</p>
+     *
      * @param handler The error handler.
      */
     public void setErrorHandler(ErrorHandler handler) {
@@ -121,8 +122,8 @@ public abstract class AbstractParser implements Parser {
             doParse();
         } catch (IOException e) {
             errorHandler.error
-                (new ParseException
-                 (createErrorMessage("io.exception", null), e));
+                    (new ParseException
+                            (createErrorMessage("io.exception", null), e));
         }
     }
 
@@ -136,8 +137,8 @@ public abstract class AbstractParser implements Parser {
             doParse();
         } catch (IOException e) {
             errorHandler.error
-                (new ParseException
-                 (createErrorMessage("io.exception", null), e));
+                    (new ParseException
+                            (createErrorMessage("io.exception", null), e));
         }
     }
 
@@ -150,8 +151,8 @@ public abstract class AbstractParser implements Parser {
             doParse();
         } catch (IOException e) {
             errorHandler.error
-                (new ParseException
-                 (createErrorMessage("io.exception", null), e));
+                    (new ParseException
+                            (createErrorMessage("io.exception", null), e));
         }
     }
 
@@ -160,18 +161,19 @@ public abstract class AbstractParser implements Parser {
      * has initialized itself.
      */
     protected abstract void doParse()
-        throws ParseException, IOException;
+            throws ParseException, IOException;
 
     /**
      * Signals an error to the error handler.
-     * @param key The message key in the resource bundle.
+     *
+     * @param key  The message key in the resource bundle.
      * @param args The message arguments.
      */
     protected void reportError(String key, Object[] args)
-        throws ParseException {
+            throws ParseException {
         errorHandler.error(new ParseException(createErrorMessage(key, args),
-                                              reader.getLine(),
-                                              reader.getColumn()));
+                reader.getLine(),
+                reader.getColumn()));
     }
 
     /**
@@ -179,12 +181,12 @@ public abstract class AbstractParser implements Parser {
      * Just a wrapper for reportError().
      *
      * @param expectedChar what caller expected
-     * @param currentChar what caller found
+     * @param currentChar  what caller found
      */
-    protected void reportCharacterExpectedError( char expectedChar, int currentChar ){
+    protected void reportCharacterExpectedError(char expectedChar, int currentChar) {
         reportError("character.expected",
-                    new Object[] { new Character( expectedChar ),
-                                   new Integer( currentChar ) });
+                new Object[]{Character.valueOf(expectedChar),
+                        Integer.valueOf(currentChar)});
 
     }
 
@@ -194,15 +196,16 @@ public abstract class AbstractParser implements Parser {
      *
      * @param currentChar what the caller found and didnt expect
      */
-    protected void reportUnexpectedCharacterError( int currentChar ){
+    protected void reportUnexpectedCharacterError(int currentChar) {
         reportError("character.unexpected",
-                    new Object[] { new Integer( currentChar ) });
+                new Object[]{Integer.valueOf(currentChar)});
 
     }
 
     /**
      * Returns a localized error message.
-     * @param key The message key in the resource bundle.
+     *
+     * @param key  The message key in the resource bundle.
      * @param args The message arguments.
      */
     protected String createErrorMessage(String key, Object[] args) {
@@ -215,6 +218,7 @@ public abstract class AbstractParser implements Parser {
 
     /**
      * Returns the resource bundle base name.
+     *
      * @return BUNDLE_CLASSNAME.
      */
     protected String getBundleClassName() {
@@ -225,14 +229,14 @@ public abstract class AbstractParser implements Parser {
      * Skips the whitespaces in the current reader.
      */
     protected void skipSpaces() throws IOException {
-        for (;;) {
+        for (; ; ) {
             switch (current) {
-            default:
-                return;
-            case 0x20:
-            case 0x09:
-            case 0x0D:
-            case 0x0A:
+                default:
+                    return;
+                case 0x20:
+                case 0x09:
+                case 0x0D:
+                case 0x0A:
             }
             current = reader.read();
         }
@@ -242,26 +246,28 @@ public abstract class AbstractParser implements Parser {
      * Skips the whitespaces and an optional comma.
      */
     protected void skipCommaSpaces() throws IOException {
-        wsp1: for (;;) {
+        wsp1:
+        for (; ; ) {
             switch (current) {
-            default:
-                break wsp1;
-            case 0x20:
-            case 0x9:
-            case 0xD:
-            case 0xA:
-            }
-            current = reader.read();
-        }
-        if (current == ',') {
-            wsp2: for (;;) {
-                switch (current = reader.read()) {
                 default:
-                    break wsp2;
+                    break wsp1;
                 case 0x20:
                 case 0x9:
                 case 0xD:
                 case 0xA:
+            }
+            current = reader.read();
+        }
+        if (current == ',') {
+            wsp2:
+            for (; ; ) {
+                switch (current = reader.read()) {
+                    default:
+                        break wsp2;
+                    case 0x20:
+                    case 0x9:
+                    case 0xD:
+                    case 0xA:
                 }
             }
         }

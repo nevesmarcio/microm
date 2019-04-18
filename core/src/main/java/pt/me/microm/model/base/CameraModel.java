@@ -32,7 +32,7 @@ public class CameraModel extends AbstractModel {
 
     public static CameraModel getInstance() {
         if (SINGLE_INSTANCE == null) {
-            synchronized(CameraModel.class) {
+            synchronized (CameraModel.class) {
                 SINGLE_INSTANCE = new CameraModel();
             }
         }

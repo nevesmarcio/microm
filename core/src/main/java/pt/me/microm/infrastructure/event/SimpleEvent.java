@@ -9,28 +9,27 @@ package pt.me.microm.infrastructure.event;
 
 public class SimpleEvent implements IEvent {
 
-	protected Object source;
-	private Enum<?> type;
+    protected Object source;
+    private Enum<?> type;
 
-	@Override
-	public Object getSource() {
-		return source;
-	}
-	@Override
-	public void setSource(Object source) {
-		this.source = source;
-	}
-	
-	@Override
-	public Enum<?> getType() {
-		return type;
-	}
+    @Override
+    public Object getSource() {
+        return source;
+    }
 
-	public SimpleEvent(Enum<?> type) {
-		this.type = type;
-	}
+    @Override
+    public void setSource(Object source) {
+        this.source = source;
+    }
 
+    @Override
+    public Enum<?> getType() {
+        return type;
+    }
 
+    public SimpleEvent(Enum<?> type) {
+        this.type = type;
+    }
 
 
 }

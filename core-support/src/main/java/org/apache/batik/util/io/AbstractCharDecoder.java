@@ -56,6 +56,7 @@ public abstract class AbstractCharDecoder implements CharDecoder {
 
     /**
      * Creates a new CharDecoder object.
+     *
      * @param is The stream to read.
      */
     protected AbstractCharDecoder(InputStream is) {
@@ -81,21 +82,23 @@ public abstract class AbstractCharDecoder implements CharDecoder {
     /**
      * To throws an exception when the input stream contains an
      * invalid character.
+     *
      * @param encoding The encoding name.
      */
     protected void charError(String encoding) throws IOException {
         throw new IOException
-            (Messages.formatMessage("invalid.char",
-                                    new Object[] { encoding }));
+                (Messages.formatMessage("invalid.char",
+                        new Object[]{encoding}));
     }
 
     /**
      * To throws an exception when the end of stream was unexpected.
+     *
      * @param encoding The encoding name.
      */
     protected void endOfStreamError(String encoding) throws IOException {
         throw new IOException
-            (Messages.formatMessage("end.of.stream",
-                                    new Object[] { encoding }));
+                (Messages.formatMessage("end.of.stream",
+                        new Object[]{encoding}));
     }
 }

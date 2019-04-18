@@ -30,7 +30,7 @@ public class DefaultTransformListHandler implements TransformListHandler {
      * The only instance of this class.
      */
     public static final TransformListHandler INSTANCE
-        = new DefaultTransformListHandler();
+            = new DefaultTransformListHandler();
 
     /**
      * This class does not need to be instantiated.
@@ -46,10 +46,10 @@ public class DefaultTransformListHandler implements TransformListHandler {
 
     /**
      * Implements {@link
-     * TransformListHandler#matrix(float,float,float,float,float,float)}.
+     * TransformListHandler#matrix(float, float, float, float, float, float)}.
      */
     public void matrix(float a, float b, float c, float d, float e, float f)
-        throws ParseException {
+            throws ParseException {
     }
 
     /**
@@ -59,7 +59,7 @@ public class DefaultTransformListHandler implements TransformListHandler {
     }
 
     /**
-     * Implements {@link TransformListHandler#rotate(float,float,float)}.
+     * Implements {@link TransformListHandler#rotate(float, float, float)}.
      */
     public void rotate(float theta, float cx, float cy) throws ParseException {
     }
@@ -71,7 +71,7 @@ public class DefaultTransformListHandler implements TransformListHandler {
     }
 
     /**
-     * Implements {@link TransformListHandler#translate(float,float)}.
+     * Implements {@link TransformListHandler#translate(float, float)}.
      */
     public void translate(float tx, float ty) throws ParseException {
     }
@@ -83,7 +83,7 @@ public class DefaultTransformListHandler implements TransformListHandler {
     }
 
     /**
-     * Implements {@link TransformListHandler#scale(float,float)}.
+     * Implements {@link TransformListHandler#scale(float, float)}.
      */
     public void scale(float sx, float sy) throws ParseException {
     }

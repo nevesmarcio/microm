@@ -43,7 +43,7 @@ public class UIView extends AbstractView {
     @Override
     public void draw(ScreenTickEvent e) {
 
-		/* RED : intersecção calculada pelo RAY */
+        /* RED : intersecção calculada pelo RAY */
         for (int i = 0; i < GAME_CONSTANTS.MAX_TOUCH_POINTS; i++) {
 
             if (uiSrc.getWindowCoordTestPoint()[i] != null) {
@@ -64,9 +64,9 @@ public class UIView extends AbstractView {
                 renderer.end();
             }
         }
-	
-		
-		/* GREEN : renderização do local onde o rato está a apontar - 2D */
+
+
+        /* GREEN : renderização do local onde o rato está a apontar - 2D */
         OrthographicCamera c;
         renderer.setProjectionMatrix((c = e.getCamera().getUiCamera()).combined);
 

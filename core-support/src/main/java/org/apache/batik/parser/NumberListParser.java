@@ -24,7 +24,7 @@ import java.io.IOException;
  * This class implements an event-based parser for the SVG Number
  * list values.
  *
- * @author  tonny@kiyut.com
+ * @author tonny@kiyut.com
  * @version $Id: NumberListParser.java 1733416 2016-03-03 07:07:13Z gadams $
  */
 public class NumberListParser extends NumberParser {
@@ -34,7 +34,9 @@ public class NumberListParser extends NumberParser {
     protected NumberListHandler numberListHandler;
 
 
-    /** Creates a new instance of NumberListParser */
+    /**
+     * Creates a new instance of NumberListParser
+     */
     public NumberListParser() {
         numberListHandler = DefaultNumberListHandler.INSTANCE;
     }
@@ -48,6 +50,7 @@ public class NumberListParser extends NumberParser {
      * <p>Applications may register a new or different handler in the
      * middle of a parse, and the parser must begin using the new
      * handler immediately.</p>
+     *
      * @param handler The number list handler.
      */
     public void setNumberListHandler(NumberListHandler handler) {
@@ -71,7 +74,7 @@ public class NumberListParser extends NumberParser {
         skipSpaces();
 
         try {
-            for (;;) {
+            for (; ; ) {
                 numberListHandler.startNumber();
                 float f = parseFloat();
                 numberListHandler.numberValue(f);
@@ -82,7 +85,7 @@ public class NumberListParser extends NumberParser {
                 }
             }
         } catch (NumberFormatException e) {
-            reportUnexpectedCharacterError( current );
+            reportUnexpectedCharacterError(current);
         }
         numberListHandler.endNumberList();
     }

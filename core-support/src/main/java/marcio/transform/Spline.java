@@ -110,7 +110,7 @@ public class Spline extends Path {
         ArrayList<Coordinate> v = getVertices();
 
 
-        log.debug("eucledean dist between first and last points is: {}", v.get(0).distance(v.get(v.size()-1)));
+        log.debug("eucledean dist between first and last points is: {}", v.get(0).distance(v.get(v.size() - 1)));
         if (v.get(0).equals(v.get(v.size() - 1))) {
             log.debug("removed last point of the polygon");
             v.remove(v.size() - 1);

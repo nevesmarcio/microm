@@ -37,7 +37,7 @@ public class StringNormalizingReader extends NormalizingReader {
      * The length of the string.
      */
     protected int length;
-    
+
     /**
      * The index of the next character.
      */
@@ -55,6 +55,7 @@ public class StringNormalizingReader extends NormalizingReader {
 
     /**
      * Creates a new StringNormalizingReader.
+     *
      * @param s The string to read.
      */
     public StringNormalizingReader(String s) {
@@ -71,18 +72,18 @@ public class StringNormalizingReader extends NormalizingReader {
         int result = (length == next) ? -1 : string.charAt(next++);
         if (result <= 13) {
             switch (result) {
-            case 13:
-                column = 0;
-                line++;
-                int c = (length == next) ? -1 : string.charAt(next);
-                if (c == 10) {
-                    next++;
-                }
-                return 10;
-                
-            case 10:
-                column = 0;
-                line++;
+                case 13:
+                    column = 0;
+                    line++;
+                    int c = (length == next) ? -1 : string.charAt(next);
+                    if (c == 10) {
+                        next++;
+                    }
+                    return 10;
+
+                case 10:
+                    column = 0;
+                    line++;
             }
         }
         return result;

@@ -12,6 +12,6 @@ import pt.me.microm.infrastructure.event.IEvent;
 
 public interface IEventListener {
 
-	void onEvent(IEvent event);
+    void onEvent(IEvent event);
 
 }

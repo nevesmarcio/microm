@@ -20,7 +20,7 @@ package org.apache.batik.parser;
 
 /**
  * This interface must be implemented and then registred as the error handler
- * in order to be notified of parsing errors. 
+ * in order to be notified of parsing errors.
  *
  * @author <a href="mailto:stephane@hillion.org">Stephane Hillion</a>
  * @version $Id: ErrorHandler.java 1733416 2016-03-03 07:07:13Z gadams $

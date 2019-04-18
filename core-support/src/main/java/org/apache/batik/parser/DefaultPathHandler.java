@@ -30,7 +30,7 @@ public class DefaultPathHandler implements PathHandler {
      * The only instance of this class.
      */
     public static final PathHandler INSTANCE
-        = new DefaultPathHandler();
+            = new DefaultPathHandler();
 
     /**
      * This class does not need to be instantiated.
@@ -51,13 +51,13 @@ public class DefaultPathHandler implements PathHandler {
     }
 
     /**
-     * Implements {@link PathHandler#movetoRel(float,float)}.
+     * Implements {@link PathHandler#movetoRel(float, float)}.
      */
     public void movetoRel(float x, float y) throws ParseException {
     }
 
     /**
-     * Implements {@link PathHandler#movetoAbs(float,float)}.
+     * Implements {@link PathHandler#movetoAbs(float, float)}.
      */
     public void movetoAbs(float x, float y) throws ParseException {
     }
@@ -69,13 +69,13 @@ public class DefaultPathHandler implements PathHandler {
     }
 
     /**
-     * Implements {@link PathHandler#linetoRel(float,float)}.
+     * Implements {@link PathHandler#linetoRel(float, float)}.
      */
     public void linetoRel(float x, float y) throws ParseException {
     }
 
     /**
-     * Implements {@link PathHandler#linetoAbs(float,float)}.
+     * Implements {@link PathHandler#linetoAbs(float, float)}.
      */
     public void linetoAbs(float x, float y) throws ParseException {
     }
@@ -106,7 +106,7 @@ public class DefaultPathHandler implements PathHandler {
 
     /**
      * Implements {@link
-     * PathHandler#curvetoCubicRel(float,float,float,float,float,float)}.
+     * PathHandler#curvetoCubicRel(float, float, float, float, float, float)}.
      */
     public void curvetoCubicRel(float x1, float y1,
                                 float x2, float y2,
@@ -115,7 +115,7 @@ public class DefaultPathHandler implements PathHandler {
 
     /**
      * Implements {@link
-     * PathHandler#curvetoCubicAbs(float,float,float,float,float,float)}.
+     * PathHandler#curvetoCubicAbs(float, float, float, float, float, float)}.
      */
     public void curvetoCubicAbs(float x1, float y1,
                                 float x2, float y2,
@@ -124,7 +124,7 @@ public class DefaultPathHandler implements PathHandler {
 
     /**
      * Implements {@link
-     * PathHandler#curvetoCubicSmoothRel(float,float,float,float)}.
+     * PathHandler#curvetoCubicSmoothRel(float, float, float, float)}.
      */
     public void curvetoCubicSmoothRel(float x2, float y2,
                                       float x, float y) throws ParseException {
@@ -132,7 +132,7 @@ public class DefaultPathHandler implements PathHandler {
 
     /**
      * Implements {@link
-     * PathHandler#curvetoCubicSmoothAbs(float,float,float,float)}.
+     * PathHandler#curvetoCubicSmoothAbs(float, float, float, float)}.
      */
     public void curvetoCubicSmoothAbs(float x2, float y2,
                                       float x, float y) throws ParseException {
@@ -140,7 +140,7 @@ public class DefaultPathHandler implements PathHandler {
 
     /**
      * Implements {@link
-     * PathHandler#curvetoQuadraticRel(float,float,float,float)}.
+     * PathHandler#curvetoQuadraticRel(float, float, float, float)}.
      */
     public void curvetoQuadraticRel(float x1, float y1,
                                     float x, float y) throws ParseException {
@@ -148,29 +148,29 @@ public class DefaultPathHandler implements PathHandler {
 
     /**
      * Implements {@link
-     * PathHandler#curvetoQuadraticAbs(float,float,float,float)}.
+     * PathHandler#curvetoQuadraticAbs(float, float, float, float)}.
      */
     public void curvetoQuadraticAbs(float x1, float y1,
                                     float x, float y) throws ParseException {
     }
 
     /**
-     * Implements {@link PathHandler#curvetoQuadraticSmoothRel(float,float)}.
+     * Implements {@link PathHandler#curvetoQuadraticSmoothRel(float, float)}.
      */
     public void curvetoQuadraticSmoothRel(float x, float y)
-        throws ParseException {
+            throws ParseException {
     }
 
     /**
-     * Implements {@link PathHandler#curvetoQuadraticSmoothAbs(float,float)}.
+     * Implements {@link PathHandler#curvetoQuadraticSmoothAbs(float, float)}.
      */
     public void curvetoQuadraticSmoothAbs(float x, float y)
-        throws ParseException {
+            throws ParseException {
     }
 
     /**
      * Implements {@link
-     * PathHandler#arcRel(float,float,float,boolean,boolean,float,float)}.
+     * PathHandler#arcRel(float, float, float, boolean, boolean, float, float)}.
      */
     public void arcRel(float rx, float ry,
                        float xAxisRotation,
@@ -180,7 +180,7 @@ public class DefaultPathHandler implements PathHandler {
 
     /**
      * Implements {@link
-     * PathHandler#arcAbs(float,float,float,boolean,boolean,float,float)}.
+     * PathHandler#arcAbs(float, float, float, boolean, boolean, float, float)}.
      */
     public void arcAbs(float rx, float ry,
                        float xAxisRotation,

@@ -7,9 +7,14 @@ import pt.me.microm.model.IModelCategory2;
 
 public class DaBoxModelEvent extends AbstractModelEvent implements /*IModelCategory1, */IModelCategory2 {
 
-    public interface OnDaBoxModelAHappened extends IEventType {}
-    public interface OnDaBoxModelBHappened extends IEventType {}
-    public interface OnDaBoxModelCHappened extends IEventType {}
+    public interface OnDaBoxModelAHappened extends IEventType {
+    }
+
+    public interface OnDaBoxModelBHappened extends IEventType {
+    }
+
+    public interface OnDaBoxModelCHappened extends IEventType {
+    }
 
     public DaBoxModelEvent(AbstractModel eventSource, Class<? extends IEventType> eventType) {
         super(eventSource, eventType);

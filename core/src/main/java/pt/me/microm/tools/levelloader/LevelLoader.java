@@ -1,7 +1,6 @@
 package pt.me.microm.tools.levelloader;
 
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.google.common.eventbus.EventBus;
 import marcio.LibgdxSvgLoader;
@@ -13,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import pt.me.microm.GameMicroM;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.base.CameraModel;
-import pt.me.microm.model.base.WorldModel;
 import pt.me.microm.model.collectible.StarModel;
 import pt.me.microm.model.dev.DebugModel;
 import pt.me.microm.model.stuff.*;
@@ -48,8 +46,8 @@ public class LevelLoader {
      * assumptions about the elements contained on that SVG. No safeguards are
      * implemented... yet...
      *
-     * @param h        The handle to the SVG file that represents a level
-     * @param camWidth The box2d World object
+     * @param h             The handle to the SVG file that represents a level
+     * @param modelEventBus The EventBus of the game
      * @return number of assets loaded
      */
     public static ArrayList<AbstractModel> LoadLevel(FileHandle h, final EventBus modelEventBus) {

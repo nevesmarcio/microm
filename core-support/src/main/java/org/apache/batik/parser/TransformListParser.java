@@ -50,6 +50,7 @@ public class TransformListParser extends NumberParser {
      * <p>Applications may register a new or different handler in the
      * middle of a parse, and the parser must begin using the new
      * handler immediately.</p>
+     *
      * @param handler The transform handler.
      */
     public void setTransformListHandler(TransformListHandler handler) {
@@ -69,44 +70,45 @@ public class TransformListParser extends NumberParser {
     protected void doParse() throws ParseException, IOException {
         transformListHandler.startTransformList();
 
-        loop: for (;;) {
+        loop:
+        for (; ; ) {
             try {
                 current = reader.read();
                 switch (current) {
-                case 0xD:
-                case 0xA:
-                case 0x20:
-                case 0x9:
-                case ',':
-                    break;
-                case 'm':
-                    parseMatrix();
-                    break;
-                case 'r':
-                    parseRotate();
-                    break;
-                case 't':
-                    parseTranslate();
-                    break;
-                case 's':
-                    current = reader.read();
-                    switch (current) {
-                    case 'c':
-                        parseScale();
+                    case 0xD:
+                    case 0xA:
+                    case 0x20:
+                    case 0x9:
+                    case ',':
                         break;
-                    case 'k':
-                        parseSkew();
+                    case 'm':
+                        parseMatrix();
                         break;
+                    case 'r':
+                        parseRotate();
+                        break;
+                    case 't':
+                        parseTranslate();
+                        break;
+                    case 's':
+                        current = reader.read();
+                        switch (current) {
+                            case 'c':
+                                parseScale();
+                                break;
+                            case 'k':
+                                parseSkew();
+                                break;
+                            default:
+                                reportUnexpectedCharacterError(current);
+                                skipTransform();
+                        }
+                        break;
+                    case -1:
+                        break loop;
                     default:
-                        reportUnexpectedCharacterError( current );
+                        reportUnexpectedCharacterError(current);
                         skipTransform();
-                    }
-                    break;
-                case -1:
-                    break loop;
-                default:
-                    reportUnexpectedCharacterError( current );
-                    skipTransform();
                 }
             } catch (ParseException e) {
                 errorHandler.error(e);
@@ -116,7 +118,7 @@ public class TransformListParser extends NumberParser {
         skipSpaces();
         if (current != -1) {
             reportError("end.of.stream.expected",
-                        new Object[] { new Integer(current) });
+                    new Object[]{Integer.valueOf(current)});
         }
 
         transformListHandler.endTransformList();
@@ -130,38 +132,38 @@ public class TransformListParser extends NumberParser {
 
         // Parse 'atrix wsp? ( wsp?'
         if (current != 'a') {
-            reportCharacterExpectedError('a', current );
+            reportCharacterExpectedError('a', current);
             skipTransform();
             return;
         }
         current = reader.read();
         if (current != 't') {
-            reportCharacterExpectedError('t', current );
+            reportCharacterExpectedError('t', current);
             skipTransform();
             return;
         }
         current = reader.read();
         if (current != 'r') {
-            reportCharacterExpectedError('r', current );
+            reportCharacterExpectedError('r', current);
             skipTransform();
             return;
         }
         current = reader.read();
         if (current != 'i') {
-            reportCharacterExpectedError('i', current );
+            reportCharacterExpectedError('i', current);
             skipTransform();
             return;
         }
         current = reader.read();
         if (current != 'x') {
-            reportCharacterExpectedError('x', current );
+            reportCharacterExpectedError('x', current);
             skipTransform();
             return;
         }
         current = reader.read();
         skipSpaces();
         if (current != '(') {
-            reportCharacterExpectedError('(', current );
+            reportCharacterExpectedError('(', current);
             skipTransform();
             return;
         }
@@ -182,7 +184,7 @@ public class TransformListParser extends NumberParser {
 
         skipSpaces();
         if (current != ')') {
-            reportCharacterExpectedError(')', current );
+            reportCharacterExpectedError(')', current);
             skipTransform();
             return;
         }
@@ -198,31 +200,31 @@ public class TransformListParser extends NumberParser {
 
         // Parse 'otate wsp? ( wsp?'
         if (current != 'o') {
-            reportCharacterExpectedError('o', current );
+            reportCharacterExpectedError('o', current);
             skipTransform();
             return;
         }
         current = reader.read();
         if (current != 't') {
-            reportCharacterExpectedError('t', current );
+            reportCharacterExpectedError('t', current);
             skipTransform();
             return;
         }
         current = reader.read();
         if (current != 'a') {
-            reportCharacterExpectedError('a', current );
+            reportCharacterExpectedError('a', current);
             skipTransform();
             return;
         }
         current = reader.read();
         if (current != 't') {
-            reportCharacterExpectedError('t', current );
+            reportCharacterExpectedError('t', current);
             skipTransform();
             return;
         }
         current = reader.read();
         if (current != 'e') {
-            reportCharacterExpectedError('e', current );
+            reportCharacterExpectedError('e', current);
             skipTransform();
             return;
         }
@@ -230,7 +232,7 @@ public class TransformListParser extends NumberParser {
         skipSpaces();
 
         if (current != '(') {
-            reportCharacterExpectedError('(', current );
+            reportCharacterExpectedError('(', current);
             skipTransform();
             return;
         }
@@ -241,12 +243,12 @@ public class TransformListParser extends NumberParser {
         skipSpaces();
 
         switch (current) {
-        case ')':
-            transformListHandler.rotate(theta);
-            return;
-        case ',':
-            current = reader.read();
-            skipSpaces();
+            case ')':
+                transformListHandler.rotate(theta);
+                return;
+            case ',':
+                current = reader.read();
+                skipSpaces();
         }
 
         float cx = parseFloat();
@@ -255,7 +257,7 @@ public class TransformListParser extends NumberParser {
 
         skipSpaces();
         if (current != ')') {
-            reportCharacterExpectedError(')', current );
+            reportCharacterExpectedError(')', current);
             skipTransform();
             return;
         }
@@ -272,56 +274,56 @@ public class TransformListParser extends NumberParser {
 
         // Parse 'ranslate wsp? ( wsp?'
         if (current != 'r') {
-            reportCharacterExpectedError('r', current );
+            reportCharacterExpectedError('r', current);
             skipTransform();
             return;
         }
         current = reader.read();
         if (current != 'a') {
-            reportCharacterExpectedError('a', current );
+            reportCharacterExpectedError('a', current);
             skipTransform();
             return;
         }
         current = reader.read();
         if (current != 'n') {
-            reportCharacterExpectedError('n', current );
+            reportCharacterExpectedError('n', current);
             skipTransform();
             return;
         }
         current = reader.read();
         if (current != 's') {
-            reportCharacterExpectedError('s', current );
+            reportCharacterExpectedError('s', current);
             skipTransform();
             return;
         }
         current = reader.read();
         if (current != 'l') {
-            reportCharacterExpectedError('l', current );
+            reportCharacterExpectedError('l', current);
             skipTransform();
             return;
         }
         current = reader.read();
         if (current != 'a') {
-            reportCharacterExpectedError('a', current );
+            reportCharacterExpectedError('a', current);
             skipTransform();
             return;
         }
         current = reader.read();
         if (current != 't') {
-            reportCharacterExpectedError('t', current );
+            reportCharacterExpectedError('t', current);
             skipTransform();
             return;
         }
         current = reader.read();
         if (current != 'e') {
-            reportCharacterExpectedError('e', current );
+            reportCharacterExpectedError('e', current);
             skipTransform();
             return;
         }
         current = reader.read();
         skipSpaces();
         if (current != '(') {
-            reportCharacterExpectedError('(', current );
+            reportCharacterExpectedError('(', current);
             skipTransform();
             return;
         }
@@ -332,19 +334,19 @@ public class TransformListParser extends NumberParser {
         skipSpaces();
 
         switch (current) {
-        case ')':
-            transformListHandler.translate(tx);
-            return;
-        case ',':
-            current = reader.read();
-            skipSpaces();
+            case ')':
+                transformListHandler.translate(tx);
+                return;
+            case ',':
+                current = reader.read();
+                skipSpaces();
         }
 
         float ty = parseFloat();
 
         skipSpaces();
         if (current != ')') {
-            reportCharacterExpectedError(')', current );
+            reportCharacterExpectedError(')', current);
             skipTransform();
             return;
         }
@@ -360,26 +362,26 @@ public class TransformListParser extends NumberParser {
 
         // Parse 'ale wsp? ( wsp?'
         if (current != 'a') {
-            reportCharacterExpectedError('a', current );
+            reportCharacterExpectedError('a', current);
             skipTransform();
             return;
         }
         current = reader.read();
         if (current != 'l') {
-            reportCharacterExpectedError('l', current );
+            reportCharacterExpectedError('l', current);
             skipTransform();
             return;
         }
         current = reader.read();
         if (current != 'e') {
-            reportCharacterExpectedError('e', current );
+            reportCharacterExpectedError('e', current);
             skipTransform();
             return;
         }
         current = reader.read();
         skipSpaces();
         if (current != '(') {
-            reportCharacterExpectedError('(', current );
+            reportCharacterExpectedError('(', current);
             skipTransform();
             return;
         }
@@ -390,19 +392,19 @@ public class TransformListParser extends NumberParser {
         skipSpaces();
 
         switch (current) {
-        case ')':
-            transformListHandler.scale(sx);
-            return;
-        case ',':
-            current = reader.read();
-            skipSpaces();
+            case ')':
+                transformListHandler.scale(sx);
+                return;
+            case ',':
+                current = reader.read();
+                skipSpaces();
         }
 
         float sy = parseFloat();
 
         skipSpaces();
         if (current != ')') {
-            reportCharacterExpectedError(')', current );
+            reportCharacterExpectedError(')', current);
             skipTransform();
             return;
         }
@@ -418,13 +420,13 @@ public class TransformListParser extends NumberParser {
 
         // Parse 'ew[XY] wsp? ( wsp?'
         if (current != 'e') {
-            reportCharacterExpectedError('e', current );
+            reportCharacterExpectedError('e', current);
             skipTransform();
             return;
         }
         current = reader.read();
         if (current != 'w') {
-            reportCharacterExpectedError('w', current );
+            reportCharacterExpectedError('w', current);
             skipTransform();
             return;
         }
@@ -432,20 +434,20 @@ public class TransformListParser extends NumberParser {
 
         boolean skewX = false;
         switch (current) {
-        case 'X':
-            skewX = true;
-            // fall through
-        case 'Y':
-            break;
-        default:
-            reportCharacterExpectedError('X', current );
-            skipTransform();
-            return;
+            case 'X':
+                skewX = true;
+                // fall through
+            case 'Y':
+                break;
+            default:
+                reportCharacterExpectedError('X', current);
+                skipTransform();
+                return;
         }
         current = reader.read();
         skipSpaces();
         if (current != '(') {
-            reportCharacterExpectedError('(', current );
+            reportCharacterExpectedError('(', current);
             skipTransform();
             return;
         }
@@ -456,7 +458,7 @@ public class TransformListParser extends NumberParser {
 
         skipSpaces();
         if (current != ')') {
-            reportCharacterExpectedError(')', current );
+            reportCharacterExpectedError(')', current);
             skipTransform();
             return;
         }
@@ -472,15 +474,16 @@ public class TransformListParser extends NumberParser {
      * Skips characters in the given reader until a ')' is encountered.
      */
     protected void skipTransform() throws IOException {
-        loop: for (;;) {
+        loop:
+        for (; ; ) {
             current = reader.read();
             switch (current) {
-            case ')':
-                break loop;
-            default:
-                if (current == -1) {
+                case ')':
                     break loop;
-                }
+                default:
+                    if (current == -1) {
+                        break loop;
+                    }
             }
         }
     }

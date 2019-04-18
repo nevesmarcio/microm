@@ -33,9 +33,10 @@ public abstract class NormalizingReader extends Reader {
 
     /**
      * Read characters into a portion of an array.
-     * @param cbuf  Destination buffer
-     * @param off   Offset at which to start writing characters
-     * @param len   Maximum number of characters to read
+     *
+     * @param cbuf Destination buffer
+     * @param off  Offset at which to start writing characters
+     * @param len  Maximum number of characters to read
      * @return The number of characters read, or -1 if the end of the
      * stream has been reached
      */
@@ -50,7 +51,7 @@ public abstract class NormalizingReader extends Reader {
         }
         int result = 0;
         do {
-            cbuf[result + off] = (char)c;
+            cbuf[result + off] = (char) c;
             result++;
             c = read();
         } while (c != -1 && result < len);

@@ -35,7 +35,8 @@ public class GenericDecoder implements CharDecoder {
 
     /**
      * Creates a new GenericDecoder.
-     * @param is The input stream to decode.
+     *
+     * @param is  The input stream to decode.
      * @param enc The Java encoding name.
      */
     public GenericDecoder(InputStream is, String enc) throws IOException {
@@ -45,6 +46,7 @@ public class GenericDecoder implements CharDecoder {
 
     /**
      * Creates a new GenericDecoder.
+     *
      * @param r The reader to use.
      */
     public GenericDecoder(Reader r) {
@@ -56,6 +58,7 @@ public class GenericDecoder implements CharDecoder {
 
     /**
      * Reads the next character.
+     *
      * @return a character or END_OF_STREAM.
      */
     public int readChar() throws IOException {

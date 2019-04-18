@@ -56,7 +56,7 @@ public class WallModel extends AbstractModel implements IBodyStatic {
 
         // Corre a lógica de teleportação
         if ((boxTouchMyTralala > 0) && (box != null)) {
-            modelEventBus.post(new WallModelEvent(this,WallModelEvent.OnTouch.class));
+            modelEventBus.post(new WallModelEvent(this, WallModelEvent.OnTouch.class));
             box = null;
         }
 

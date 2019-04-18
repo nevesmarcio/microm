@@ -95,7 +95,7 @@ public class JsBridgeSingleton implements IEventListener, Disposable {
                                 s = stdin.readLine();
                                 if (s.equals("exit"))
                                     break;
-                                final Integer in = new Integer(i);
+                                final Integer in = Integer.valueOf(i);
                                 GameTickGenerator.PostRunnable(new Runnable() {
                                     @Override
                                     public void run() {

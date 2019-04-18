@@ -68,17 +68,17 @@ public class SvgService {
                 float xx = nlh.value;
                 String y = xmlNode.attributes.get("y");
                 nlp.parse(y);
-                float yy=nlh.value;
+                float yy = nlh.value;
 
                 MyTransformListHandler thh = new MyTransformListHandler();
                 //apply the global transformation
                 thh.at.compose(globalTransformation);
-                Coordinate srcc=new Coordinate(xx,yy);
-                Coordinate destt=new Coordinate();
+                Coordinate srcc = new Coordinate(xx, yy);
+                Coordinate destt = new Coordinate();
                 thh.at.transform(srcc, destt);
                 LoadedActor loadedActorr = new LoadedActor();
                 loadedActorr.id = idd;
-                loadedActorr.behaviour=text;
+                loadedActorr.behaviour = text;
                 loadedActorr.style = stylee;
                 loadedActorr.path = new ArrayList<>();
                 loadedActorr.path.add(destt);

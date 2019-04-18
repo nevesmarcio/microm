@@ -41,13 +41,13 @@ public class Messages {
      * The error messages bundle class name.
      */
     protected static final String RESOURCES =
-        "org.apache.batik.util.io.Messages";
+            "org.apache.batik.util.io.Messages";
 
     /**
      * The localizable support for the error messages.
      */
     protected static LocalizableSupport localizableSupport =
-        new LocalizableSupport(RESOURCES, Messages.class.getClassLoader());
+            new LocalizableSupport(RESOURCES, Messages.class.getClassLoader());
 
 
     /**
@@ -66,10 +66,10 @@ public class Messages {
 
     /**
      * Implements {@link
-     * org.apache.batik.i18n.Localizable#formatMessage(String,Object[])}.
+     * org.apache.batik.i18n.Localizable#formatMessage(String, Object[])}.
      */
     public static String formatMessage(String key, Object[] args)
-        throws MissingResourceException {
+            throws MissingResourceException {
         return localizableSupport.formatMessage(key, args);
     }
 }

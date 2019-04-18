@@ -9,51 +9,57 @@ package pt.me.microm.infrastructure.event;
 
 public class CollisionEvent implements IEvent {
 
-	protected Object source;
-	private Enum<?> type;
+    protected Object source;
+    private Enum<?> type;
 
-	@Override
-	public Object getSource() {
-		return source;
-	}
-	@Override
-	public void setSource(Object source) {
-		this.source = source;
-	}
-	
-	@Override
-	public Enum<?> getType() {
-		return type;
-	}
+    @Override
+    public Object getSource() {
+        return source;
+    }
 
-	public CollisionEvent(Enum<?> type) {
-		this.type = type;
-	}
+    @Override
+    public void setSource(Object source) {
+        this.source = source;
+    }
+
+    @Override
+    public Enum<?> getType() {
+        return type;
+    }
+
+    public CollisionEvent(Enum<?> type) {
+        this.type = type;
+    }
 
 
-	private String a,b;
-	public String getA() {
-		return a;
-	}
-	public void setA(String a) {
-		this.a = a;
-	}
+    private String a, b;
 
-	public String getB() {
-		return b;
-	}
-	public void setB(String b) {
-		this.b = b;
-	}
-	
+    public String getA() {
+        return a;
+    }
 
-	private String script;
-	public String getScript() {
-		return script;
-	}
-	public void setScript(String script) {
-		this.script = script;
-	}
-	
-	
+    public void setA(String a) {
+        this.a = a;
+    }
+
+    public String getB() {
+        return b;
+    }
+
+    public void setB(String b) {
+        this.b = b;
+    }
+
+
+    private String script;
+
+    public String getScript() {
+        return script;
+    }
+
+    public void setScript(String script) {
+        this.script = script;
+    }
+
+
 }

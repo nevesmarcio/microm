@@ -28,7 +28,7 @@ import java.io.IOException;
  * @version $Id: CharDecoder.java 1733416 2016-03-03 07:07:13Z gadams $
  */
 public interface CharDecoder {
-    
+
     /**
      * This constant represents the end of stream character.
      */
@@ -36,6 +36,7 @@ public interface CharDecoder {
 
     /**
      * Reads the next character.
+     *
      * @return a character or END_OF_STREAM.
      */
     int readChar() throws IOException;

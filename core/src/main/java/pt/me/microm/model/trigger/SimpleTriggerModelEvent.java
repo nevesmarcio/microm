@@ -7,7 +7,8 @@ import pt.me.microm.model.IModelCategory1;
 
 public class SimpleTriggerModelEvent extends AbstractModelEvent implements IModelCategory1/*, IModelCategory2*/ {
 
-    public interface OnTouch extends IEventType {}
+    public interface OnTouch extends IEventType {
+    }
 
     public SimpleTriggerModelEvent(AbstractModel eventSource, Class<? extends IEventType> eventType) {
         super(eventSource, eventType);

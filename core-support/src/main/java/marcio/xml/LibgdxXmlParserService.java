@@ -40,12 +40,12 @@ public class LibgdxXmlParserService extends AbstractXmlParserService {
             super.attribute(name, value);
 
             value = value.replace("&quot;", "\"");
-            value = value.replace("&apos;","'");
-            value = value.replace("&lt;","<");
+            value = value.replace("&apos;", "'");
+            value = value.replace("&lt;", "<");
             value = value.replace("&gt;", ">");
-            value = value.replace("&amp;","&");
+            value = value.replace("&amp;", "&");
 
-            xmlElements.peek().attributes.put(name,value);
+            xmlElements.peek().attributes.put(name, value);
         }
 
         @Override

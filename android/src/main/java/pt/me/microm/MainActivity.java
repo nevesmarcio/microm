@@ -10,12 +10,12 @@ public class MainActivity extends AndroidApplication {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
-        
-		Logger logger = LoggerFactory.getLogger(MainActivity.class.getSimpleName());
-		logger.debug("Hello world.");
-        
+
+        Logger logger = LoggerFactory.getLogger(MainActivity.class.getSimpleName());
+        logger.debug("Hello world.");
+
         initialize(new GameMicroM(), cfg);
     }
 }

@@ -8,11 +8,14 @@ public interface IBody {
     String getName();
 
     BasicShape getBasicShape();
+
     Vector2 getPosition();
+
     float getAngle();
 
     //FIXME:: não quero expor o body!! - temporário!
     Body getBody();
+
     void setBody(Body body);
 
 }

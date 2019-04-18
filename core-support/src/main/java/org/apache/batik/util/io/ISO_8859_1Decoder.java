@@ -29,7 +29,7 @@ import java.io.InputStream;
  * @version $Id: ISO_8859_1Decoder.java 1733416 2016-03-03 07:07:13Z gadams $
  */
 public class ISO_8859_1Decoder extends AbstractCharDecoder {
-    
+
     /**
      * Creates a new ISO_8859_1Decoder.
      */
@@ -39,6 +39,7 @@ public class ISO_8859_1Decoder extends AbstractCharDecoder {
 
     /**
      * Reads the next character.
+     *
      * @return a character or END_OF_STREAM.
      */
     public int readChar() throws IOException {

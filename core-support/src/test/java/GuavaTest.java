@@ -61,7 +61,7 @@ public class GuavaTest {
     }
 
 
-    public class DeadEventProcessor{
+    public class DeadEventProcessor {
         @Subscribe
         public void handleDeadEvent(DeadEvent deadEvent) {
             log.info("event is dead:{}", deadEvent);

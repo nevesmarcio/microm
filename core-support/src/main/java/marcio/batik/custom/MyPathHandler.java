@@ -75,7 +75,7 @@ public class MyPathHandler implements PathHandler {
         log.debug("linetoAbs (x,y)=('{}','{}')", x, y);
         SplineVertex toAdd = path.getLast()
                 .getCopy()
-                .setXYTo(x,y);
+                .setXYTo(x, y);
 
         path.addVertex(toAdd);
     }

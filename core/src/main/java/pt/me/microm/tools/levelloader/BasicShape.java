@@ -15,39 +15,38 @@ import java.util.regex.Pattern;
 /**
  * BasicShape is an object that is initialized with an SVG "d" string.
  * It decodes this string and translates the shape to a more workable coordinate system and units: box2d coordinate system and meters
- * 
+ * <p>
  * Adopted convention to define the shapes:
- *  # calculate the minimum rectangle that can be considered to inscribe the shape into
- *  # calculate the centroid of this rectangle
- *  # all the points that represent the shape are defined around this centroid (centroid is considered 0,0 coordinate)
- *  # the position of the shape is considered to be this centroid coordinate  
- * 
- * 
+ * # calculate the minimum rectangle that can be considered to inscribe the shape into
+ * # calculate the centroid of this rectangle
+ * # all the points that represent the shape are defined around this centroid (centroid is considered 0,0 coordinate)
+ * # the position of the shape is considered to be this centroid coordinate
+ *
  * @author mneves
- * 
  */
 public class BasicShape {
-	private static final String TAG = BasicShape.class.getSimpleName();
-	private static final Logger logger = LoggerFactory.getLogger(TAG);
-	
-	private ArrayList<Vector2> points;
-	private float[] meshValues;
-	private ObjectType type;
-	private Vector2 centroid;
-	private Vector2 rotationPivot;
+    private static final String TAG = BasicShape.class.getSimpleName();
+    private static final Logger logger = LoggerFactory.getLogger(TAG);
 
-	private Color color;
-	
-	private float width;
-	private float height;
-	
-	private BasicShape() {
-		points = new ArrayList<Vector2>();
-	}
+    private ArrayList<Vector2> points;
+    private float[] meshValues;
+    private ObjectType type;
+    private Vector2 centroid;
+    private Vector2 rotationPivot;
+
+    private Color color;
+
+    private float width;
+    private float height;
+
+    private BasicShape() {
+        points = new ArrayList<Vector2>();
+    }
 
     /**
      * This constructor builds a shape using the points specified by a SVG 'd'
      * element
+     *
      * @param d
      */
     public BasicShape(ArrayList<Coordinate> d, String style, ObjectType type) {
@@ -57,9 +56,9 @@ public class BasicShape {
         Matcher matcher;
 
         Vector2 pt;
-        for (int i =0;i<d.size();i++) // beware of too small distance between points
+        for (int i = 0; i < d.size(); i++) // beware of too small distance between points
         {
-            pt=new Vector2((float)d.get(i).x, (float)d.get(i).y);
+            pt = new Vector2((float) d.get(i).x, (float) d.get(i).y);
             this.points.add(pt);
         }
 
@@ -83,11 +82,11 @@ public class BasicShape {
         height = calcHeight();
 
         // converted mesh values init
-        meshValues = new float[points.size()*3];
+        meshValues = new float[points.size() * 3];
         for (int ii = 0; ii < points.size(); ii++) {
-            meshValues[ii*3] = points.get(ii).x;
-            meshValues[ii*3+1] = points.get(ii).y;
-            meshValues[ii*3+2] = 0.0f;
+            meshValues[ii * 3] = points.get(ii).x;
+            meshValues[ii * 3 + 1] = points.get(ii).y;
+            meshValues[ii * 3 + 2] = 0.0f;
         }
 
         // color fill
@@ -98,9 +97,9 @@ public class BasicShape {
             String aux = matcher.group();
             aux = aux.replace("fill:#", "");
             aux = aux.replace(";", "");
-            color.r = (float)Integer.parseInt(aux.substring(0, 2), 16) / (float)0xFF;
-            color.g = (float)Integer.parseInt(aux.substring(2, 4), 16) / (float)0xFF;
-            color.b = (float)Integer.parseInt(aux.substring(4, 6), 16) / (float)0xFF;
+            color.r = (float) Integer.parseInt(aux.substring(0, 2), 16) / (float) 0xFF;
+            color.g = (float) Integer.parseInt(aux.substring(2, 4), 16) / (float) 0xFF;
+            color.b = (float) Integer.parseInt(aux.substring(4, 6), 16) / (float) 0xFF;
         }
         // color fill opacity
         pattern = Pattern.compile("(?<!fill-)opacity:[01][\\.0-9]*;*"); // positive lookbehind
@@ -117,99 +116,98 @@ public class BasicShape {
     }
 
     /**
-	 * this point is "world" coordinates 
-	 * @return meters
-	 */
-	public Vector2 getCentroid() {
-		return centroid;
-	}
-	public Vector2 getRotationPivot() {
-		return rotationPivot;
-	}
-	
-	public ObjectType getType() {
-		return type;
-	}
-
-	/**
-	 * 
-	 * @return the width of the minimal rectangle in meters
-	 */
-	public float getWidth() {
-		return width;
-	}
-	/**
-	 * 
-	 * @return the height of the minimal rectangle in meters
-	 */
-	public float getHeight() {
-		return height;
-	}
-    
-	/**
-	 * these points are "local" coordinates (centroid = [0.0, 0.0] )
-	 * @return meters
-	 */
-	public Vector2[] getPointsArray() {
-		return Collections.unmodifiableList(points).toArray(new Vector2[] {});
-	}
-	
-	public Color getFillColor() {
-		return color;
-	}
-	
-	public float[] getMeshValues() {
-		return meshValues;
-	}
-	
-	/////////////// Auxiliar functions /////////////////// 
-    
-    /**
-	 * 
-	 * @return the center of the smallest rectangle that can be used to inscribe
-	 *         the polygon into
-	 */
-    private Vector2 inscribedPolygonCenter() {
-    	Float minX = null, maxX = null;
-    	Float minY = null, maxY = null;
-    	
-    	for (Vector2 point : points) {
-			if ((minX == null) || (point.x < minX)) minX = point.x;
-			if ((maxX == null) || (point.x > maxX)) maxX = point.x;
-			if ((minY == null) || (point.y < minY)) minY = point.y;
-			if ((maxY == null) || (point.y > maxY)) maxY = point.y;			
-		}
-    	
-    	return new Vector2(minX+(maxX-minX)/2, minY+(maxY-minY)/2);
+     * this point is "world" coordinates
+     *
+     * @return meters
+     */
+    public Vector2 getCentroid() {
+        return centroid;
     }
 
-   /**
-    * 
-    * @return the width of the smallest rectangle that can be used to inscribe the polygon into
-    */
-    private float calcWidth() {
-    	Float minX = null, maxX = null;
-    	
-    	for (Vector2 point : points) {
-			if ((minX == null) || (point.x < minX)) minX = point.x;
-			if ((maxX == null) || (point.x > maxX)) maxX = point.x;
-		}
-    	return maxX - minX;
-   }
-    
+    public Vector2 getRotationPivot() {
+        return rotationPivot;
+    }
+
+    public ObjectType getType() {
+        return type;
+    }
+
     /**
-     * 
+     * @return the width of the minimal rectangle in meters
+     */
+    public float getWidth() {
+        return width;
+    }
+
+    /**
+     * @return the height of the minimal rectangle in meters
+     */
+    public float getHeight() {
+        return height;
+    }
+
+    /**
+     * these points are "local" coordinates (centroid = [0.0, 0.0] )
+     *
+     * @return meters
+     */
+    public Vector2[] getPointsArray() {
+        return Collections.unmodifiableList(points).toArray(new Vector2[]{});
+    }
+
+    public Color getFillColor() {
+        return color;
+    }
+
+    public float[] getMeshValues() {
+        return meshValues;
+    }
+
+    /////////////// Auxiliar functions ///////////////////
+
+    /**
+     * @return the center of the smallest rectangle that can be used to inscribe
+     * the polygon into
+     */
+    private Vector2 inscribedPolygonCenter() {
+        Float minX = null, maxX = null;
+        Float minY = null, maxY = null;
+
+        for (Vector2 point : points) {
+            if ((minX == null) || (point.x < minX)) minX = point.x;
+            if ((maxX == null) || (point.x > maxX)) maxX = point.x;
+            if ((minY == null) || (point.y < minY)) minY = point.y;
+            if ((maxY == null) || (point.y > maxY)) maxY = point.y;
+        }
+
+        return new Vector2(minX + (maxX - minX) / 2, minY + (maxY - minY) / 2);
+    }
+
+    /**
+     * @return the width of the smallest rectangle that can be used to inscribe the polygon into
+     */
+    private float calcWidth() {
+        Float minX = null, maxX = null;
+
+        for (Vector2 point : points) {
+            if ((minX == null) || (point.x < minX)) minX = point.x;
+            if ((maxX == null) || (point.x > maxX)) maxX = point.x;
+        }
+        return maxX - minX;
+    }
+
+    /**
      * @return the height of the smallest rectangle that can be used to inscribe the polygon into
      */
     private float calcHeight() {
-    	Float minY = null, maxY = null;
-    	
-    	for (Vector2 point : points) {
-			if ((minY == null) || (point.y < minY)) minY = point.y;
-			if ((maxY == null) || (point.y > maxY)) maxY = point.y;			
-		}
-    	return maxY - minY;
-    }	
-	
-	
+        Float minY = null, maxY = null;
+
+        for (Vector2 point : points) {
+            if ((minY == null) || (point.y < minY)) minY = point.y;
+            if ((maxY == null) || (point.y > maxY)) maxY = point.y;
+        }
+        return maxY - minY;
+    }
+
+
 }

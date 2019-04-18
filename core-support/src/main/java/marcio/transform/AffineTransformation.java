@@ -55,9 +55,7 @@ package marcio.transform;//import com.vividsolutions.jts.geom.*;
  *
  * @author Martin Davis
  */
-public class AffineTransformation
-
-{
+public class AffineTransformation {
 
     /**
      * Creates a transformation for a reflection about the

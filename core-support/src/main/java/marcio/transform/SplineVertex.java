@@ -89,40 +89,40 @@ public class SplineVertex {
         return this;
     }
 
-    public SplineVertex offsetPBy(double x, double y){
-        this.p.x+=x;
-        this.p.y+=y;
-        return  this;
+    public SplineVertex offsetPBy(double x, double y) {
+        this.p.x += x;
+        this.p.y += y;
+        return this;
     }
 
-    public SplineVertex offsetCP1By(double x, double y){
-        this.cp1.x+=x;
-        this.cp1.y+=y;
-        return  this;
+    public SplineVertex offsetCP1By(double x, double y) {
+        this.cp1.x += x;
+        this.cp1.y += y;
+        return this;
     }
 
-    public SplineVertex offsetCP2By(double x, double y){
-        this.cp2.x+=x;
-        this.cp2.y+=y;
-        return  this;
+    public SplineVertex offsetCP2By(double x, double y) {
+        this.cp2.x += x;
+        this.cp2.y += y;
+        return this;
     }
 
-    public SplineVertex setPTo(double x, double y){
-        this.p.x=x;
-        this.p.y=y;
-        return  this;
+    public SplineVertex setPTo(double x, double y) {
+        this.p.x = x;
+        this.p.y = y;
+        return this;
     }
 
-    public SplineVertex setCP1To(double x, double y){
-        this.cp1.x=x;
-        this.cp1.y=y;
-        return  this;
+    public SplineVertex setCP1To(double x, double y) {
+        this.cp1.x = x;
+        this.cp1.y = y;
+        return this;
     }
 
-    public SplineVertex setCP2To(double x, double y){
-        this.cp2.x=x;
-        this.cp2.y=y;
-        return  this;
+    public SplineVertex setCP2To(double x, double y) {
+        this.cp2.x = x;
+        this.cp2.y = y;
+        return this;
     }
 
     public SplineVertex getCopy() {

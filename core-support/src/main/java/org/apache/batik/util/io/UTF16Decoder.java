@@ -34,10 +34,11 @@ public class UTF16Decoder extends AbstractCharDecoder {
      * Whether the stream's byte-order is big-endian.
      */
     protected boolean bigEndian;
-    
+
     /**
      * Creates a new UTF16Decoder.
      * It is assumed that the byte-order mark is present.
+     *
      * @param is The stream to decode.
      */
     public UTF16Decoder(InputStream is) throws IOException {
@@ -53,21 +54,22 @@ public class UTF16Decoder extends AbstractCharDecoder {
         }
         int m = (((b1 & 0xff) << 8) | (b2 & 0xff));
         switch (m) {
-        case 0xfeff:
-            bigEndian = true;
-            break;
-        case 0xfffe:
-            break;
-        default:
-            charError("UTF-16");
+            case 0xfeff:
+                bigEndian = true;
+                break;
+            case 0xfffe:
+                break;
+            default:
+                charError("UTF-16");
         }
     }
 
     /**
      * Creates a new UTF16Decoder.
-     * @param is The stream to decode. 
+     *
+     * @param is The stream to decode.
      * @param be Whether or not the given stream's byte-order is
-     * big-endian.
+     *           big-endian.
      */
     public UTF16Decoder(InputStream is, boolean be) {
         super(is);
@@ -76,6 +78,7 @@ public class UTF16Decoder extends AbstractCharDecoder {
 
     /**
      * Reads the next character.
+     *
      * @return a character or END_OF_STREAM.
      */
     public int readChar() throws IOException {
@@ -94,8 +97,8 @@ public class UTF16Decoder extends AbstractCharDecoder {
         }
         byte b2 = buffer[position++];
         int c = (bigEndian)
-            ? (((b1 & 0xff) << 8) | (b2 & 0xff))
-            : (((b2 & 0xff) << 8) | (b1 & 0xff));
+                ? (((b1 & 0xff) << 8) | (b2 & 0xff))
+                : (((b2 & 0xff) << 8) | (b1 & 0xff));
         if (c == 0xfffe) {
             charError("UTF-16");
         }

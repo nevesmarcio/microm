@@ -49,6 +49,7 @@ public interface Parser extends Localizable {
      * <p>Applications may register a new or different handler in the
      * middle of a parse, and the parser must begin using the new
      * handler immediately.</p>
+     *
      * @param handler The error handler.
      */
     void setErrorHandler(ErrorHandler handler);
