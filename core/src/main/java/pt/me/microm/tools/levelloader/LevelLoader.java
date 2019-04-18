@@ -210,7 +210,7 @@ public class LevelLoader {
 
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.TRIGGER);
 
-                SimpleTriggerModel wam = SimpleTriggerModel.getNewInstance(wm, s, loadedActor.id);
+                SimpleTriggerModel wam = SimpleTriggerModel.getNewInstance(modelEventBus, s, loadedActor.id);
                 wam.setScript(loadedActor.behaviour);
                 modelBag.add(wam);
 
