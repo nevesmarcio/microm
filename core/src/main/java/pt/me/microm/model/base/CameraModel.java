@@ -27,7 +27,19 @@ public class CameraModel extends AbstractModel {
 //	private float windowWidth = screenWidth;
 //	private float windowHeight = screenHeight;
 
-    public CameraModel() {
+
+    private static CameraModel SINGLE_INSTANCE = null;
+
+    public static CameraModel getInstance() {
+        if (SINGLE_INSTANCE == null) {
+            synchronized(CameraModel.class) {
+                SINGLE_INSTANCE = new CameraModel();
+            }
+        }
+        return SINGLE_INSTANCE;
+    }
+
+    private CameraModel() {
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
 

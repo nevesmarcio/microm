@@ -99,7 +99,7 @@ public class ScreenTheJuice implements Screen {
 		modelEventBus.register(new Lst());
 
 		// MODELS ////////////////////////////////////////////////////////////////
-		cameraModel = new CameraModel();										// camera model
+		cameraModel = CameraModel.getInstance();										// camera model
 		worldModel = new WorldModel(modelEventBus);											// world model
 		uiModel = new UIModel(cameraModel, worldModel); 						// constroi o painel informativo?
 		uiMetricsModel = new UIMetricsModel();									// metricas?
@@ -107,7 +107,7 @@ public class ScreenTheJuice implements Screen {
 
 		if (GameMicroM.FLAG_LOAD_LEVEL) {
 			FileHandle h = Gdx.files.internal("data/levels/" + world + "/" + level);
-			modelBag = LevelLoader.LoadLevel(h, cameraModel, modelEventBus);
+			modelBag = LevelLoader.LoadLevel(h, modelEventBus);
 			// todo: dependency injection here
             DaBoxModel dbm=null;//dabox injection in spawn
             SpawnModel spawnModel=null;

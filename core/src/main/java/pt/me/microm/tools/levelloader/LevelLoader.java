@@ -1,6 +1,7 @@
 package pt.me.microm.tools.levelloader;
 
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.google.common.eventbus.EventBus;
 import marcio.LibgdxSvgLoader;
@@ -51,7 +52,7 @@ public class LevelLoader {
      * @param camWidth The box2d World object
      * @return number of assets loaded
      */
-    public static ArrayList<AbstractModel> LoadLevel(FileHandle h, final CameraModel cm, final EventBus modelEventBus) {
+    public static ArrayList<AbstractModel> LoadLevel(FileHandle h, final EventBus modelEventBus) {
 
         final AtomicInteger nrElements = new AtomicInteger(0);
         final ArrayList<AbstractModel> modelBag = new ArrayList<AbstractModel>();
@@ -69,7 +70,7 @@ public class LevelLoader {
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.CAMERA);
 
                 // here we configure the camera
-                cm.adjustCamera(s.getWidth(), s.getHeight(), s.getCentroid().x, s.getCentroid().y);
+                CameraModel.getInstance().adjustCamera(s.getWidth(), s.getHeight(), s.getCentroid().x, s.getCentroid().y);
 
                 nrElements.incrementAndGet();
             }
