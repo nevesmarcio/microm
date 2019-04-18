@@ -44,30 +44,32 @@ public class PortalView extends AbstractView {
 
         SimpleRendererHelper.drawMesh(e.getCamera(), portalmSrc, portalMesh);
 
-        //DEBUG STYLE 			-- desenha a "Shape" do portal
-        if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
-            renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
+        if (portalmSrc.getBody() != null) {
+            //DEBUG STYLE 			-- desenha a "Shape" do portal
+            if (GameMicroM.FLAG_DISPLAY_ACTOR_SHAPES) {
+                renderer.setProjectionMatrix(e.getCamera().getGameCamera().combined);
 
-            Iterator<Fixture> it2 = portalmSrc.getBody().getFixtureList().iterator();
+                Iterator<Fixture> it2 = portalmSrc.getBody().getFixtureList().iterator();
 
-            while (it2.hasNext()) {
-                Fixture aux = it2.next();
+                while (it2.hasNext()) {
+                    Fixture aux = it2.next();
 
-                renderer.identity();
-                renderer.translate(aux.getBody().getPosition().x, aux.getBody().getPosition().y, 0.0f);
-                renderer.rotate(0.0f, 0.0f, 1.0f, (float) Math.toDegrees(aux.getBody().getAngle()));
+                    renderer.identity();
+                    renderer.translate(aux.getBody().getPosition().x, aux.getBody().getPosition().y, 0.0f);
+                    renderer.rotate(0.0f, 0.0f, 1.0f, (float) Math.toDegrees(aux.getBody().getAngle()));
 
-                ChainShape cs = (ChainShape) aux.getShape();
+                    ChainShape cs = (ChainShape) aux.getShape();
 
-                renderer.begin(ShapeType.Line);
-                int vCnt = cs.getVertexCount();
-                for (int i = 0; i < vCnt; i++) {
-                    cs.getVertex(i, pointA);
-                    cs.getVertex(i == vCnt - 1 ? 0 : i + 1, pointB);
-                    renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
+                    renderer.begin(ShapeType.Line);
+                    int vCnt = cs.getVertexCount();
+                    for (int i = 0; i < vCnt; i++) {
+                        cs.getVertex(i, pointA);
+                        cs.getVertex(i == vCnt - 1 ? 0 : i + 1, pointB);
+                        renderer.line(pointA.x, pointA.y, pointB.x, pointB.y);
+                    }
+                    renderer.end();
+
                 }
-                renderer.end();
-
             }
         }
 

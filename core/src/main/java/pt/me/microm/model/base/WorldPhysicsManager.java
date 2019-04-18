@@ -10,6 +10,7 @@ import pt.me.microm.controller.loop.event.GameTickEvent;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.infrastructure.ICommand;
 import pt.me.microm.model.*;
+import pt.me.microm.model.stuff.PortalModelEvent;
 import pt.me.microm.tools.levelloader.BasicShape;
 
 import java.util.Iterator;
@@ -88,6 +89,9 @@ public class WorldPhysicsManager {
 
 
     }
+
+
+
 
     /**
      * Função que permite o agendamento da manipulação dos objectos fora do step do motor fisico

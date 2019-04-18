@@ -53,7 +53,7 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 	}
 
 	@Subscribe
-	public void listenSpawn(SpawnModelEvent spawnModelEvent) {
+	public void listenSpawnEvents(SpawnModelEvent spawnModelEvent) {
 		if (spawnModelEvent.getEventType() == SpawnModelEvent.OnCreate.class) {
 			SpawnModel spawnModel = (SpawnModel) spawnModelEvent.getEventSource();
 			setWaypoint(spawnModel);// todo: this has to go to WorldModel listening
@@ -61,10 +61,22 @@ public class WorldModel extends AbstractModel implements GestureListener, InputP
 	}
 
 	@Subscribe
-	public void listenWallContact(WallModelEvent wallModelEvent) {
+	public void listenWallEvents(WallModelEvent wallModelEvent) {
 		if (wallModelEvent.getEventType() == WallModelEvent.OnTouch.class) {
 			player.getBody().setTransform(getWaypoint().getPosition(), player.getBody().getAngle());
 		}
+	}
+
+	@Subscribe
+	void listenPortalEvents(PortalModelEvent portalModelEvent) {
+		if (portalModelEvent.getEventType() == PortalModelEvent.OnCreate.class) {
+			addPortal((PortalModel) portalModelEvent.getEventSource());
+		}
+		if (portalModelEvent.getEventType() == PortalModelEvent.OnTouch.class) {
+			player.getBody().setTransform(getLinkedPortal((PortalModel) portalModelEvent.getEventSource()).getPosition(), player.getBody().getAngle());
+			setWaypoint(getLinkedPortal((PortalModel) portalModelEvent.getEventSource()));
+		}
+
 	}
 
 

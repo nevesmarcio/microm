@@ -146,7 +146,7 @@ public class LevelLoader {
                 addDebugPoints(loadedActor, Color.WHITE, modelEventBus);
 
                 BasicShape s = new BasicShape(loadedActor.path, loadedActor.style, ObjectType.PORTAL);
-                PortalModel wam = PortalModel.getNewInstance(wm, s, loadedActor.id);
+                PortalModel wam = PortalModel.getNewInstance(modelEventBus, s, loadedActor.id);
                 modelBag.add(wam);
 
                 nrElements.incrementAndGet();
