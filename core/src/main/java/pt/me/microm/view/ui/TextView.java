@@ -45,7 +45,7 @@ public class TextView extends AbstractView {
 
         t.idt();
         t.translate(textmSrc.getBasicShape().getCentroid().x, textmSrc.getBasicShape().getCentroid().y, 0.0f);
-        t.scl(1f / GAME_CONSTANTS.DIPIXELS_PER_METER);
+        t.scl(GAME_CONSTANTS.SVG_TO_WORLD_RACIO);
         batch.setTransformMatrix(t);
 
         batch.begin();

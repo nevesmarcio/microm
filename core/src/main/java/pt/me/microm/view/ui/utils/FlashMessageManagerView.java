@@ -52,7 +52,7 @@ public class FlashMessageManagerView extends AbstractView {
 
                 t.idt();
                 t.translate(fm.position.x, fm.position.y, 0.0f);
-                t.scl(fm.scale / GAME_CONSTANTS.DIPIXELS_PER_METER);
+                t.scl(fm.scale * GAME_CONSTANTS.SVG_TO_WORLD_RACIO);
 
                 batch.setTransformMatrix(t);
 

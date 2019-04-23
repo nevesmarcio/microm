@@ -10,6 +10,7 @@ import marcio.transform.Coordinate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.me.microm.GameMicroM;
+import pt.me.microm.infrastructure.GAME_CONSTANTS;
 import pt.me.microm.model.AbstractModel;
 import pt.me.microm.model.base.CameraModel;
 import pt.me.microm.model.collectible.StarModel;
@@ -56,7 +57,7 @@ public class LevelLoader {
         final ArrayList<AbstractModel> modelBag = new ArrayList<AbstractModel>();
 
 
-        LibgdxSvgLoader svgLoader = new LibgdxSvgLoader(AffineTransformation.scaleInstance(1D / 85.3D, -1D / 85.3D), new AppendToGame1() {
+        LibgdxSvgLoader svgLoader = new LibgdxSvgLoader(AffineTransformation.scaleInstance(GAME_CONSTANTS.SVG_TO_WORLD_RACIO, -GAME_CONSTANTS.SVG_TO_WORLD_RACIO), new AppendToGame1() {
 
 
             @Override

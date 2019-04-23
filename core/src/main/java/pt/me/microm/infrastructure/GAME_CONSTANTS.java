@@ -10,7 +10,7 @@ public class GAME_CONSTANTS {
 
     public static final int GAME_TICK_MILI = 16;//32
 
-    public static final float DIPIXELS_PER_METER = 85.3f;    // device independent pixels per meter:: these pixels are the ones used on editor
+    public static final float SVG_TO_WORLD_RACIO = 1/85.3f;    // device independent pixels per meter:: these pixels are the ones used on editor
     // then, the camera has to scale accordingly, but that's another story
 
     public static final int MAX_TOUCH_POINTS = 5;

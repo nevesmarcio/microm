@@ -23,10 +23,8 @@ public class CameraModel extends AbstractModel {
     private Viewport gameViewport;
 
     private final float fovy;
-    private float theta;
-    private float phi;
     private Vector3 camCenter;
-    private float camRadius;
+    private float camDistance;
 
     private static CameraModel SINGLE_INSTANCE = null;
 
@@ -45,84 +43,47 @@ public class CameraModel extends AbstractModel {
 
 
         //## UI CAMERA STUFF
-        uiCamera = new OrthographicCamera(screenWidth, screenHeight);
+        uiCamera = new OrthographicCamera(screenWidth/ screenHeight, 1);
 
         uiViewport = new FitViewport(screenWidth, screenHeight, uiCamera);
 
         //## GAME CAMERA STUFF
-        fovy = 67; // mudando o fov, muda imenso a distância da camera ao viewport - calculo em camRadius
-        gameCamera = new PerspectiveCamera(fovy, screenWidth/screenHeight , 1 );
+        fovy = 67; // mudando o fov, muda imenso a distância da camera ao viewport - calculo em camDistance
+        gameCamera = new PerspectiveCamera(fovy, screenWidth / screenHeight, 1);
 
         gameViewport = new FitViewport(screenWidth, screenHeight, gameCamera);
 
         gameCamera.near = 0.1f; //10cm
         gameCamera.far = 2000f;//2km
 
-        adjustCameraToDefaultPosition();
+//        adjustCameraToDefaultPosition();
 
         // Sinaliza os subscritores de que a construção do modelo terminou.
         this.dispatchEvent(new SimpleEvent(AbstractModel.EventType.ON_MODEL_INSTANTIATED));
     }
 
 
+    /**
+     * these are world units!!
+     * @param windowWidth
+     * @param windowHeight
+     * @param positionX
+     * @param positionY
+     */
     public void adjustCamera(float windowWidth, float windowHeight, float positionX, float positionY) {
-
-        // calculo dos tamanhos que pervalecem atendendo aos aspect racios
-        float screen_ratio = (float) gameCamera.viewportWidth / (float) gameCamera.viewportHeight;
-        float camera_ratio = windowWidth / windowHeight;
-
-        float real_w;
-        float real_h;
-
-        if ((camera_ratio >= 1.0) && screen_ratio < camera_ratio) { // FIT WIDTH
-            real_w = windowWidth;
-            real_h = windowWidth / screen_ratio;
-
-        } else {                                                    // FIT HEIGHT
-            real_w = windowHeight * screen_ratio;
-            real_h = windowHeight;
-        }
-        // a partir de agora o que interessa é o real_w e o real_h
-
-
-        // calculo da posição da camera atendendo ao tamanho da window a representar e ao fovy
-        theta = 0;
-        phi = (float) Math.PI / 2;
-
+        // calculo da posição da camera atendendo ao tamanho do board e ao fovy
         camCenter = new Vector3(positionX, positionY, 0.0f);
 
-        camRadius = (float) ((real_h / 2f) / Math.tan(Math.toRadians(fovy / 2f)));  // tendo em conta o fov, a que distância está a camara do "near clipping plan" - viewport
+        camDistance = windowHeight / (2.0f * (float) Math.tan(Math.toRadians(fovy / 2.0f)));
 
-        gameCamera.position.set(camCenter.x + (float) (camRadius * Math.cos(theta) * Math.cos(phi)),
-                camCenter.y + (float) (camRadius * Math.sin(theta) * Math.cos(phi)),
-                camCenter.z + (float) (camRadius * Math.sin(phi)));
-
-        gameCamera.lookAt(camCenter.x, camCenter.y, camCenter.z);
-
-        gameCamera.update();
-
-    }
-
-
-    private void adjustCameraToDefaultPosition() {
-        // calculo da posição da camera atendendo ao tamanho da window a representar e ao fovy
-        theta = 0;
-        phi = (float) Math.PI / 2;
-
-        camCenter = new Vector3(0.0f, 0.0f, 0.0f);
-
-        camRadius = (float) ((Gdx.graphics.getHeight() / 2f) / Math.tan(Math.toRadians(fovy / 2f)));  // tendo em conta o fov, a que distância está a camara do "near clipping plan" - viewport
-
-        gameCamera.position.set(camCenter.x + (float) (camRadius * Math.cos(theta) * Math.cos(phi)),
-                camCenter.y + (float) (camRadius * Math.sin(theta) * Math.cos(phi)),
-                camCenter.z + (float) (camRadius * Math.sin(phi)));
+        gameCamera.translate(camCenter);
+        gameCamera.translate(0f,0f, camDistance);
 
         gameCamera.lookAt(camCenter.x, camCenter.y, camCenter.z);
 
         gameCamera.update();
 
     }
-
 
     /**
      * @param width  the canvas width
