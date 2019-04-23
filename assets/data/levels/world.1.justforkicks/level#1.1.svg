@@ -2,18 +2,19 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-        xmlns:dc="http://purl.org/dc/elements/1.1/"
-        xmlns:cc="http://creativecommons.org/ns#"
-        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-        width="744.09448819"
-        height="1052.3622047"
-        id="svg2"
-        version="1.1"
-        inkscape:version="0.48.2 r9819"
-        sodipodi:docname="level#1.1.svg">
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1280"
+   height="1280"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
+   sodipodi:docname="level#1.1.svg">
   <defs
      id="defs4">
     <inkscape:path-effect
@@ -109,15 +110,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.5"
-     inkscape:cx="-554.55635"
+     inkscape:cx="-898.55635"
      inkscape:cy="269.31947"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1229"
-     inkscape:window-height="831"
-     inkscape:window-x="1811"
-     inkscape:window-y="40"
+     inkscape:window-width="1470"
+     inkscape:window-height="895"
+     inkscape:window-x="456"
+     inkscape:window-y="239"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
@@ -157,31 +158,30 @@
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
-       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER'"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none"
        x="-1338.1829"
        y="91.300659"
-       id="text2989"
-       sodipodi:linespacing="125%"><tspan
+       id="text2989"><tspan
          sodipodi:role="line"
          id="tspan2991"
          x="-1338.1829"
-         y="91.300659">Each portal takes you closer to her.</tspan></text>
+         y="91.300659"
+         style="font-size:56px;line-height:1.25">Each portal takes you closer to her.</tspan></text>
     <text
-       sodipodi:linespacing="125%"
        id="text2993"
        y="505.23975"
        x="-132.14243"
-       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER'"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none"
        xml:space="preserve"><tspan
          y="505.23975"
          x="-132.14243"
          id="tspan2995"
          sodipodi:role="line"
-         style="text-align:end;text-anchor:end">Ouch!</tspan><tspan
+         style="font-size:56px;line-height:1.25;text-align:end;text-anchor:end">Ouch!</tspan><tspan
          y="575.23975"
          x="-132.14243"
          sodipodi:role="line"
-         style="text-align:end;text-anchor:end"
+         style="font-size:56px;line-height:1.25;text-align:end;text-anchor:end"
          id="tspan3567">Dont worry, the last portal is your checkpoint</tspan></text>
     <path
        sodipodi:nodetypes="cccc"
@@ -230,20 +230,21 @@
        d="m -757,1221.3622 70,0 0,70 -70,0 z"
        style="fill:#800000;fill-opacity:1;stroke:none" />
     <text
-       sodipodi:linespacing="125%"
        id="text3588"
        y="951.30066"
        x="-1338.1829"
-       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER'"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none"
        xml:space="preserve"><tspan
          y="951.30066"
          x="-1338.1829"
          id="tspan3590"
-         sodipodi:role="line">Ok then, dont hit any walls! </tspan><tspan
+         sodipodi:role="line"
+         style="font-size:56px;line-height:1.25">Ok then, dont hit any walls! </tspan><tspan
          y="1021.3007"
          x="-1338.1829"
          sodipodi:role="line"
-         id="tspan4524">Remember: Touch to jump!</tspan></text>
+         id="tspan4524"
+         style="font-size:56px;line-height:1.25">Remember: Touch to jump!</tspan></text>
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:10.21000004;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="path4502"
@@ -256,28 +257,28 @@
        inkscape:connector-curvature="0" />
     <text
        xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;font-family:Sans"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#ffffff"
        x="-732"
        y="704.36218"
-       id="text4508"
-       sodipodi:linespacing="125%"><tspan
+       id="text4508"><tspan
          sodipodi:role="line"
          id="tspan4510"
          x="-732"
-         y="704.36218">esta caixota sobe</tspan><tspan
+         y="704.36218"
+         style="font-size:40px;line-height:1.25;font-family:sans-serif">esta caixota sobe</tspan><tspan
          sodipodi:role="line"
          x="-732"
          y="754.36218"
-         id="tspan4514">ao bater no trigger</tspan></text>
+         id="tspan4514"
+         style="font-size:40px;line-height:1.25;font-family:sans-serif">ao bater no trigger</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER'"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none"
        x="-164.14246"
        y="635.23975"
-       id="text4516"
-       sodipodi:linespacing="125%"><tspan
+       id="text4516"><tspan
          id="tspan4520"
-         style="text-align:end;text-anchor:end"
+         style="font-size:56px;line-height:1.25;text-align:end;text-anchor:end"
          sodipodi:role="line"
          x="-164.14246"
          y="635.23975">Woahhh! Was that luck ? Or are you Korean?</tspan></text>

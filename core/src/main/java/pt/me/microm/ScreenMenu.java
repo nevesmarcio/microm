@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.me.microm.infrastructure.GAME_CONSTANTS;
@@ -50,7 +51,7 @@ public class ScreenMenu implements Screen {
         TextureAtlas t = new TextureAtlas(Gdx.files.internal("data/scene2d/skin/uiskin.atlas"), Gdx.files.internal("data/scene2d/skin/"));
         Skin skin = new Skin(Gdx.files.internal("data/scene2d/skin/uiskin.json"), t);
 
-        stage = new Stage();
+        stage = new Stage(new FitViewport(400, 240)); // or screenviewport()
 
         menuTable = new Table();
         menuTable.debug();

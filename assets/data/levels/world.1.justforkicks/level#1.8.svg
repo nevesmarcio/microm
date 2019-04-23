@@ -2,18 +2,19 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-        xmlns:dc="http://purl.org/dc/elements/1.1/"
-        xmlns:cc="http://creativecommons.org/ns#"
-        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-        width="744.09448819"
-        height="1052.3622047"
-        id="svg2"
-        version="1.1"
-        inkscape:version="0.48.2 r9819"
-        sodipodi:docname="level0.svg">
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
+   sodipodi:docname="level#1.8.svg">
   <defs
      id="defs4">
     <inkscape:path-effect
@@ -95,15 +96,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.5"
-     inkscape:cx="-606.77208"
+     inkscape:cx="-950.77208"
      inkscape:cy="285.25587"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1538"
-     inkscape:window-height="1178"
-     inkscape:window-x="54"
-     inkscape:window-y="-8"
+     inkscape:window-width="2560"
+     inkscape:window-height="1343"
+     inkscape:window-x="0"
+     inkscape:window-y="1"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
@@ -143,26 +144,26 @@
        id="board" />
     <text
        xml:space="preserve"
-       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER'"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none"
        x="-1338.1829"
        y="511.30066"
-       id="text2989"
-       sodipodi:linespacing="125%"><tspan
+       id="text2989"><tspan
          sodipodi:role="line"
          id="tspan2991"
          x="-1338.1829"
-         y="511.30066">Get ready</tspan></text>
+         y="511.30066"
+         style="font-size:56px;line-height:1.25">Get ready</tspan></text>
     <text
-       sodipodi:linespacing="125%"
        id="text2993"
        y="505.23975"
        x="-213.73618"
-       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER'"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:'8BIT WONDER';-inkscape-font-specification:'8BIT WONDER';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none"
        xml:space="preserve"><tspan
          y="505.23975"
          x="-213.73618"
          id="tspan2995"
-         sodipodi:role="line">GO</tspan></text>
+         sodipodi:role="line"
+         style="font-size:56px;line-height:1.25">GO</tspan></text>
     <rect
        style="fill:#008080;fill-opacity:1;stroke:none"
        id="rect2998"

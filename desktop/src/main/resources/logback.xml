@@ -27,7 +27,7 @@
 <!--    <logger name="ScreenTheJuice" level="INFO"/>-->
     <logger name="WorldPhysicsManager" level="INFO"/>
 
-    <root level="ERROR">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

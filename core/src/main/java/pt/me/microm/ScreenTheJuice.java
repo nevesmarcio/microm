@@ -174,7 +174,7 @@ public class ScreenTheJuice implements Screen {
         long elapsedNanoTime = (long) (Gdx.graphics.getDeltaTime() * GAME_CONSTANTS.ONE_SECOND_TO_NANO);
 
         // use your own criterion here
-        if (Gdx.input.isKeyPressed(Keys.BACKSPACE) || Gdx.input.isKeyPressed(Keys.BACK)) {
+        if (Gdx.input.isKeyPressed(Keys.BACKSPACE)) {
             callback.handler("exit", ScreenTheJuice.this);
         }
 

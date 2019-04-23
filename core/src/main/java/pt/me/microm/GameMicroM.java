@@ -179,7 +179,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
     public void render() {
 
         //FIXME: need to find a strategy to bind the keys to the screens - like this they are shared across all screens
-        if (Gdx.input.isKeyPressed(Keys.I) || Gdx.input.isKeyPressed(Keys.BACK))
+        if (Gdx.input.isKeyPressed(Keys.I))
             playerProgress.setDeathCount(playerProgress.getDeathCount() + 1);
 
 

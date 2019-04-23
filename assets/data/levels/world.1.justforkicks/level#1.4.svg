@@ -2,18 +2,19 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-        xmlns:dc="http://purl.org/dc/elements/1.1/"
-        xmlns:cc="http://creativecommons.org/ns#"
-        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-        xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-        width="744.09448819"
-        height="1052.3622047"
-        id="svg2"
-        version="1.1"
-        inkscape:version="0.48.2 r9819"
-        sodipodi:docname="level#1.4.svg">
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
+   sodipodi:docname="level#1.4.svg">
   <defs
      id="defs4">
     <inkscape:path-effect
@@ -95,15 +96,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.5"
-     inkscape:cx="-648.77208"
+     inkscape:cx="-992.77208"
      inkscape:cy="335.25587"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1618"
-     inkscape:window-height="1028"
-     inkscape:window-x="54"
-     inkscape:window-y="-8"
+     inkscape:window-width="2560"
+     inkscape:window-height="1343"
+     inkscape:window-x="0"
+     inkscape:window-y="1"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
@@ -153,15 +154,15 @@
        inkscape:export-ydpi="90" />
     <text
        xml:space="preserve"
-       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;line-height:0%;font-family:Arial;-inkscape-font-specification:'Arial Bold';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none"
        x="-1207.3301"
        y="-29.551453"
-       id="text2989"
-       sodipodi:linespacing="125%"><tspan
+       id="text2989"><tspan
          sodipodi:role="line"
          id="tspan2991"
          x="-1207.3301"
-         y="-29.551453">Ok, no more trivial stuff</tspan></text>
+         y="-29.551453"
+         style="font-size:56px;line-height:1.25">Ok, no more trivial stuff</tspan></text>
     <path
        style="fill:#008080;fill-opacity:1;stroke:none"
        d="m -1156.1473,245.29792 51,0 0,51 -51,0 z"
@@ -236,15 +237,15 @@
        style="fill:#800000;fill-opacity:1;stroke:none" />
     <text
        xml:space="preserve"
-       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:Arial;-inkscape-font-specification:Arial;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none"
        x="-1207.3301"
        y="830.44861"
-       id="text4207"
-       sodipodi:linespacing="125%"><tspan
+       id="text4207"><tspan
          sodipodi:role="line"
          x="-1207.3301"
          y="830.44861"
-         id="tspan4211">What's this?</tspan></text>
+         id="tspan4211"
+         style="font-size:56px;line-height:1.25">What's this?</tspan></text>
     <g
        id="g3330"
        transform="matrix(0.53043214,0,0,0.53043214,-548.95534,114.87343)">
@@ -334,19 +335,20 @@
        style="fill:#ff6600;fill-opacity:1;stroke:none" />
     <text
        xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#ffffff;font-family:Arial;-inkscape-font-specification:Arial;font-stretch:normal;font-variant:normal"
-       x="-1194.5313"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:#ffffff"
+       x="-1194.5312"
        y="895.4696"
-       id="text4508"
-       sodipodi:linespacing="125%"><tspan
+       id="text4508"><tspan
          sodipodi:role="line"
-         x="-1194.5313"
+         x="-1194.5312"
          y="895.4696"
-         id="tspan4514">não é preciso fazer nada para passar este stage</tspan><tspan
+         id="tspan4514"
+         style="font-size:40px;line-height:1.25">não é preciso fazer nada para passar este stage</tspan><tspan
          sodipodi:role="line"
-         x="-1194.5313"
+         x="-1194.5312"
          y="945.4696"
-         id="tspan3491">os objectos são repelidos</tspan></text>
+         id="tspan3491"
+         style="font-size:40px;line-height:1.25">os objectos são repelidos</tspan></text>
     <path
        style="fill:#ff6600;fill-opacity:1;stroke:none"
        d="m -687.1473,996.298 38.57143,0 0,36 -38.57143,0 z"
@@ -393,16 +395,16 @@
        id="magnet_3489"
        inkscape:connector-curvature="0" />
     <text
-       sodipodi:linespacing="125%"
        id="text3501"
        y="846.44861"
        x="-465.33008"
-       style="font-size:56px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:Arial;-inkscape-font-specification:Arial;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#f2f2f2;fill-opacity:1;stroke:none"
        xml:space="preserve"><tspan
          id="tspan3503"
          y="846.44861"
          x="-465.33008"
-         sodipodi:role="line">&gt;&gt; WTF moment!!</tspan></text>
+         sodipodi:role="line"
+         style="font-size:56px;line-height:1.25">&gt;&gt; WTF moment!!</tspan></text>
     <path
        inkscape:connector-curvature="0"
        id="magnet_3113"

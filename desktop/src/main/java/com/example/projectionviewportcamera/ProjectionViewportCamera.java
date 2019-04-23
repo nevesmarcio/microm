@@ -13,6 +13,10 @@ import com.badlogic.gdx.math.Matrix4;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class ProjectionViewportCamera implements ApplicationListener {
 
     private static final String TAG = ProjectionViewportCamera.class.getSimpleName();
@@ -115,14 +119,44 @@ public class ProjectionViewportCamera implements ApplicationListener {
 
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
-        buildCam(w, h);
+        camera = new PerspectiveCamera(FOV_Y, (w / h), 1);
+        adjustCam(camera, w, h);
+
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Scanner in = new Scanner(System.in);
+        executor.submit(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    String s = in.nextLine();
+                    logger.info(">>{}", s);
+                    String[] splitResult;
+                    splitResult = s.split(":");
+                    Gdx.app.postRunnable(new Runnable() {
+                        @Override
+                        public void run() {
+                            logger.info("submitted");
+                            camera.fieldOfView = Float.valueOf(splitResult[0]);
+                            camera.viewportWidth = Float.valueOf(splitResult[1]);
+                            camera.viewportHeight = Float.valueOf(splitResult[2]);
+                            camera.update();
+                            logger.info("updated");
+                        }
+                    });
+                }
+            }
+        });
+
     }
 
-    private void buildCam(float w, float h) {
-        camera = new PerspectiveCamera(FOV_Y, 2f * (w / h), 2f);
-        camera.near=0.01f;
-        camera.far=1000f;
-        camera.translate(0f,5f,5f);
+    private void adjustCam(Camera cam, float w, float h) {
+        camera.fieldOfView = FOV_Y;
+        camera.viewportWidth = (w / h);
+        camera.viewportHeight = 1;
+        camera.near = 0.01f;
+        camera.far = 1000f;
+        camera.position.set(0f, 0f, 3.85f);
         camera.lookAt(0f, 0f, 0f);
         camera.update();
     }
@@ -140,8 +174,10 @@ public class ProjectionViewportCamera implements ApplicationListener {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(0, 0, 0, 0);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT| GL20.GL_DEPTH_BUFFER_BIT);
+        Gdx.gl20.glEnable(GL20.GL_DEPTH_TEST);
+
+        Gdx.gl.glClearColor(0, 0, 20, 0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
 
         modelBatch.begin(camera);
@@ -162,7 +198,7 @@ public class ProjectionViewportCamera implements ApplicationListener {
 
     @Override
     public void resize(int width, int height) {
-        buildCam(width, height);
+        adjustCam(camera, width, height);
     }
 
     @Override

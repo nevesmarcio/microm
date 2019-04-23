@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.me.microm.controller.loop.event.GameTickEvent;
@@ -16,17 +18,15 @@ public class CameraModel extends AbstractModel {
     private static final Logger logger = LoggerFactory.getLogger(TAG);
 
     private OrthographicCamera uiCamera;    // camera dedicada ao UI
+    private Viewport uiViewport;
     private PerspectiveCamera gameCamera;    // game camera
+    private Viewport gameViewport;
 
     private final float fovy;
     private float theta;
     private float phi;
     private Vector3 camCenter;
     private float camRadius;
-
-//	private float windowWidth = screenWidth;
-//	private float windowHeight = screenHeight;
-
 
     private static CameraModel SINGLE_INSTANCE = null;
 
@@ -40,16 +40,20 @@ public class CameraModel extends AbstractModel {
     }
 
     private CameraModel() {
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
+        float screenWidth = Gdx.graphics.getWidth(); // logical pixel
+        float screenHeight = Gdx.graphics.getHeight(); // logical pixel
 
 
         //## UI CAMERA STUFF
         uiCamera = new OrthographicCamera(screenWidth, screenHeight);
 
+        uiViewport = new FitViewport(screenWidth, screenHeight, uiCamera);
+
         //## GAME CAMERA STUFF
         fovy = 67; // mudando o fov, muda imenso a distância da camera ao viewport - calculo em camRadius
-        gameCamera = new PerspectiveCamera(fovy, 1, screenHeight / screenWidth);
+        gameCamera = new PerspectiveCamera(fovy, screenWidth/screenHeight , 1 );
+
+        gameViewport = new FitViewport(screenWidth, screenHeight, gameCamera);
 
         gameCamera.near = 0.1f; //10cm
         gameCamera.far = 2000f;//2km
@@ -124,16 +128,12 @@ public class CameraModel extends AbstractModel {
      * @param width  the canvas width
      * @param height the canvas height
      */
-    public void resize(float width, float height) {
-        //## UI CAMERA STUFF
-        uiCamera.viewportWidth = width;
-        uiCamera.viewportHeight = height;
-        uiCamera.update();
 
-        //## GAME CAMERA STUFF
-        gameCamera.viewportWidth = 1;
-        gameCamera.viewportHeight = height / width;
-        gameCamera.update();
+    public void resize(int width, int height) {
+
+        uiViewport.update(width, height);
+
+        gameViewport.update(width, height);
 
     }
 
@@ -342,16 +342,5 @@ public class CameraModel extends AbstractModel {
     public void stopZoomIn() {
         flags &= ~CAM_ZOOM_IN;
     }
-
-
-//	@Override
-//	public Body getBody() {
-//		return null;
-//	}
-//
-//	@Override
-//	public Vector2 getPosition() {
-//		return null;
-//	}	
 
 }
