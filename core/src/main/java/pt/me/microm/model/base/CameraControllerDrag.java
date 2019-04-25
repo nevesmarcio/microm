@@ -3,6 +3,7 @@ package pt.me.microm.model.base;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Plane;
 import com.badlogic.gdx.math.Vector2;
@@ -76,7 +77,7 @@ public class CameraControllerDrag extends InputAdapter {
             cam.getGameCamera().lookAt(lookAt.x, lookAt.y, lookAt.z);
         }
         if (mode == TransformMode.Zoom) {
-            cam.getGameCamera().fieldOfView -= -delta.y / 10;
+            ((PerspectiveCamera)cam.getGameCamera()).fieldOfView -= -delta.y / 10;
         }
         if (mode == TransformMode.Translate) {
             tCurr.set(x, y);
@@ -90,7 +91,7 @@ public class CameraControllerDrag extends InputAdapter {
 
     @Override
     public boolean scrolled(int amount) {
-        cam.getGameCamera().fieldOfView -= -amount * Gdx.graphics.getDeltaTime() * 100;
+        ((PerspectiveCamera)cam.getGameCamera()).fieldOfView -= -amount * Gdx.graphics.getDeltaTime() * 100;
         cam.getGameCamera().update();
 
         return true;

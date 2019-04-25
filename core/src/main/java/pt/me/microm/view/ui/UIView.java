@@ -1,8 +1,8 @@
 package pt.me.microm.view.ui;
 
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Intersector;
@@ -67,7 +67,7 @@ public class UIView extends AbstractView {
 
 
         /* GREEN : renderização do local onde o rato está a apontar - 2D */
-        OrthographicCamera c;
+        Camera c;
         renderer.setProjectionMatrix((c = e.getCamera().getUiCamera()).combined);
 
         renderer.begin(ShapeType.Line);

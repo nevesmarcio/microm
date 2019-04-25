@@ -57,7 +57,7 @@ public class LevelLoader {
         final ArrayList<AbstractModel> modelBag = new ArrayList<AbstractModel>();
 
 
-        LibgdxSvgLoader svgLoader = new LibgdxSvgLoader(AffineTransformation.scaleInstance(GAME_CONSTANTS.SVG_TO_WORLD_RACIO, -GAME_CONSTANTS.SVG_TO_WORLD_RACIO), new AppendToGame1() {
+        LibgdxSvgLoader svgLoader = new LibgdxSvgLoader(AffineTransformation.scaleInstance(GAME_CONSTANTS.SVG_TO_WORLD_RATIO, -GAME_CONSTANTS.SVG_TO_WORLD_RATIO), new AppendToGame1() {
 
 
             @Override

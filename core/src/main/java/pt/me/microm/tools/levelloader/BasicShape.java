@@ -72,7 +72,7 @@ public class BasicShape {
         }
 
         //scaling and Y-invert
-//        float scale = 1.0f/GAME_CONSTANTS.SVG_TO_WORLD_RACIO;
+//        float scale = 1.0f/GAME_CONSTANTS.SVG_TO_WORLD_RATIO;
 //        scaleAndYInvertShape(scale);
 
         this.type = type;
