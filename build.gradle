@@ -13,15 +13,15 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2' // version of the android gradle plugin to use
+        classpath 'com.android.tools.build:gradle:3.4.0' // version of the android gradle plugin to use
     }
 }
 
 allprojects {
     version = '1.0'
     ext {
-//        gdxVersion = '1.9.9'
-        gdxVersion = '1.9.10-SNAPSHOT'
+        gdxVersion = '1.9.10'
+//        gdxVersion = '1.9.11-SNAPSHOT'
     }
 
     repositories {
