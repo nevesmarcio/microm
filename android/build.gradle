@@ -1,8 +1,8 @@
 //apply plugin: "android"
 
 android {
-    buildToolsVersion "29-rc2"
-    compileSdkVersion 27
+    buildToolsVersion "29.0.1"
+    compileSdkVersion 28
     sourceSets {
         main {
 //            manifest.srcFile 'AndroidManifest.xml'
@@ -20,7 +20,7 @@ android {
     defaultConfig {
         applicationId "pt.me.microm"
         minSdkVersion 27
-        targetSdkVersion 27
+        targetSdkVersion 28
     }
 
     compileOptions {
