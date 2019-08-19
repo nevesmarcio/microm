@@ -41,7 +41,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
     @Override
     public void create() {
         devID = UUID.randomUUID();
-
+        Gdx.app.log("MyTAG", "MyTAG1");
         try {
             playerProgress = PlayerProgress.Load();
         } catch (Exception e) {
@@ -122,6 +122,7 @@ public class GameMicroM extends Game/*implements ApplicationListener*/ { // it e
             @Override
             public Object handler(final Object... a) {
                 logger.info("-->> ScreenTheJuice callback called with '{}' command!", (String) a[0]);
+
 
                 if (a != null && ((String) a[0]).equalsIgnoreCase("pause")) {
                     pauseGame((Screen) a[1]);

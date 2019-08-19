@@ -13,7 +13,7 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     //batik svg parser - https://xmlgraphics.apache.org/batik/
 //    compile group: 'org.apache.xmlgraphics', name: 'batik-parser', version: '1.9.1' // optimisation opportunity: use only the classes needed from batik
-    compile 'com.google.guava:guava:27.1-jre'
+    compile 'com.google.guava:guava:28.0-android' // Im using the `-android` to be compatible with 1.7 (ios didn't seem to work with `-jre`)
 
     //test dependencies
     //logback dependencies

@@ -13,15 +13,19 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.0' // version of the android gradle plugin to use
+        classpath 'com.android.tools.build:gradle:3.4.1' // version of the android gradle plugin to use
+        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.7'
+//        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.8-SNAPSHOT'
     }
 }
 
 allprojects {
     version = '1.0'
     ext {
-        gdxVersion = '1.9.10'
-//        gdxVersion = '1.9.11-SNAPSHOT'
+//        gdxVersion = '1.9.10'
+        gdxVersion = '1.9.11-SNAPSHOT'
+//        roboVMVersion = '2.3.7'
+        roboVMVersion = '2.3.8-SNAPSHOT'
     }
 
     repositories {
@@ -117,4 +121,18 @@ project(":android") {
     }
 }
 
+project(":ios") {
+    apply plugin: "java-library"
+    apply plugin: "robovm"
 
+
+    dependencies {
+        implementation project(":core")
+        api "com.mobidevelop.robovm:robovm-rt:$roboVMVersion"
+        api "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
+        api "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
+        api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-ios"
+
+    }
+}

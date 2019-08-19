@@ -7,6 +7,7 @@
 /desktop/build/
 /android/build/
 /android/jniLibs/*/*.so
+/ios/build/
 *.iml
 /*/*.iml
 /PlayerProgress_v1.save

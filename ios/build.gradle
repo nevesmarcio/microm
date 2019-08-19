@@ -1,0 +1,19 @@
+sourceSets.main.java.srcDirs = [ "src/" ]
+
+sourceCompatibility = '1.8'
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+ext {
+	mainClassName = "com.mygdx.game.IOSLauncher"
+}
+
+launchIPhoneSimulator.dependsOn build
+launchIPadSimulator.dependsOn build
+launchIOSDevice.dependsOn build
+createIPA.dependsOn build
+
+robovm {
+	archs = "thumbv7:arm64"
+}
+//tutorial how to run ios apps
+//https://medium.com/@bschulte19e/deploying-your-libgdx-game-to-ios-in-2019-8d3796410d82
