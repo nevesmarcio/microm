@@ -1,4 +1,4 @@
-Kotlin & Korge
+Kotlin & Korge - a new framework to explore?
 https://libktx.github.io/
 https://github.com/libktx/ktx
 https://badlogicgames.com/forum/viewtopic.php?f=11&t=28820
