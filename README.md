@@ -1,3 +1,10 @@
+Kotlin & Korge
+https://libktx.github.io/
+https://github.com/libktx/ktx
+https://badlogicgames.com/forum/viewtopic.php?f=11&t=28820
+https://korlibs.soywiz.com/korge/
+https://github.com/TobseF/HitKlack
+
 
 ./gradlew :desktop:run --debug-jvm
 ./gradlew :core:test --tests AsyncXmlTest.testAsyncXMLRead --debug-jvm
